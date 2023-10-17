@@ -1,0 +1,69 @@
+{
+  "main": {
+    "welcome": "Премиальная недвижимость для жизни и инвестиций в Дубае",
+    "form_investing_title": "Начните инвестировать в недвижимость прямо сейчас.",
+    "form_investing_subtitle": "Мы поможем подобрать объект, который идеально подойдет для ваших целей."
+  },
+  "site": {
+    "meta": "meta",
+    "trust": "trust",
+    "get_object": "Подобрать обьект",
+    "search_title": "Поиск",
+    "apartment_title": "Квартиры",
+    "villas_title": "Виллы",
+    "see_more": "Смотреть еще",
+    "more": "Подробнее",
+    "news_title": "Новости",
+    "site_number_phone": "+971 5 886 95492",
+    "site_address": "Arenco tower 1806, Dubai Internet City, Dubai, UAE",
+    "catalogs": "Каталог объектов",
+    "main_page_title": "Главная",
+    "select_map_title": "На карте",
+    "objects": "объекты",
+    "residential_complex": "ЖК",
+    "share_title": "Поделиться",
+    "in_map_title": "На карте",
+    "interest_for_you_title": "Так же вас может заинтересовать:"
+  },
+  "form": {
+    "selected": "Выбрать",
+    "empty": "Пусто",
+    "consultant_description": "Оставьте заявку и получите бесплатную консультацию"
+  },
+  "about": {
+    "title": "META TRUST REAL ESTATE BROCKERS LLC",
+    "first_desc": "<strong>META TRUST REAL ESTATE BROCKERS LLC</strong> — компания по недвижимости, основанная в Дубае, ОАЭ, с 2022 года. Продажа, аренда и управление жилой и коммерческой недвижимостью.",
+    "sec_desc": "Наши специализированные консультанты по недвижимости охватывают\nвсе районы Дубая и хорошо осведомлены о новинках рынка; их основная задача – помочь покупателям найти недвижимость в соответствии с их требованиями и бюджетом, а также помочь арендодателям продать или сдать в аренду свою недвижимость. Мы заботимся о том, чтобы обе стороны заключили выгодные соглашения, поскольку мы стремимся укреплять прочные, долгосрочные отношения с нашими клиентами, предоставляя наши безупречные услуги с профессионализмом."
+  },
+  "news": {
+    "more_news_title": "все новости",
+    "news_page_title": "Новости о недвижимости",
+    "news_recommend_title": "Вас могут заинтересовать"
+  },
+  "footer": {
+    "about_us_title": "О нас",
+    "catalog_apartment_title": "Каталог недвижимости",
+    "faq_title": "FAQ",
+    "get_object_title": "Подобрать объект",
+    "contact_title": "Контакты"
+  },
+  "object": {
+    "sign_up_view": "записаться на просмотр",
+    "layout_title": "Планировка"
+  },
+  "characters": {
+    "price": "цена",
+    "square": "площадь",
+    "resident_complex": "жилой комплекс",
+    "area": "район"
+  },
+  "feedback": {
+    "feedback_title": "Связаться с продавцом",
+    "company_title": "Компания",
+    "contact_view_title": "Контактное лицо",
+    "know_language_title": "Владеет языками",
+    "order_call_title": "Подобрать объект"
+  }
+}
+
+

@@ -1,0 +1,29 @@
+@import "_var"
+@import "_mixins"
+
+
+.ui_button_arrow
+  width: auto
+  height: auto
+  background-color: transparent
+  border: none
+  display: flex
+  align-items: center
+  justify-content: center
+  text-transform: uppercase
+  font-size: $size-20
+  font-weight: $size-400
+
+  span
+    display: inline-block
+    margin-inline-end: $size-15
+
+  .arrow_icon
+    width: 28px
+    height: 7px
+
+    display: block
+    position: relative
+    top: 0.5px
+    @include background-image-set-full(cover, center, '/images/icons/arrow-right.svg')
+

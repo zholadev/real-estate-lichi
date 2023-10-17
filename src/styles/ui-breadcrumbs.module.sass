@@ -1,0 +1,36 @@
+@import "_var"
+@import "_mixins"
+
+.ui_breadcrumbs
+  width: auto
+
+  display: flex
+  align-items: center
+  flex-direction: row
+  margin-bottom: 30px
+
+  position: relative
+  z-index: 1
+
+  &.ui_breadcrumbs__light
+    .bread_item
+
+      color: $default-light
+
+  .bread_item
+    width: auto
+    font-size: $size-16
+    color: $text-primary-gray
+    text-transform: uppercase
+    display: flex
+    flex-direction: row
+    align-items: center
+    margin-inline-end: 10px
+
+    @media screen and (max-width: 768px)
+      font-size: $size-12
+
+    .item_slash
+      margin-inline-end: 5px
+
+

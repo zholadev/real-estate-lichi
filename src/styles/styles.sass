@@ -1,0 +1,37 @@
+@import "_var"
+@import "_mixins"
+
+.button-children-icon
+  width: auto
+  display: flex
+  align-items: center
+
+  span
+    display: inline-block
+    margin-inline-end: $p-size-20
+
+  img
+    width: 24px
+    height: 24px
+
+p
+  font-size: $size-16
+  line-height: 24.4px
+  +sm
+    font-size: $size-14
+    line-height: 21px
+
+.leaflet-control-attribution
+  display: none
+
+.customIcon
+  height: 40px
+  width: 40px
+  background-color: #212121
+  border-radius: 20px
+  text-align: center
+  color: white
+
+
+.customIcon span
+  line-height: 40px

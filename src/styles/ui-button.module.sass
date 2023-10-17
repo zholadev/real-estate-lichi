@@ -1,0 +1,81 @@
+@import "_var"
+@import "_mixins"
+
+.ui_button
+  width: auto
+  height: 66px
+  background-color: $default-black
+  color: $default-light
+  line-height: 28px
+  font-size: $size-20
+  text-transform: uppercase
+  cursor: pointer
+  display: flex
+  align-items: center
+  justify-content: center
+  border-radius: 3px
+  user-select: none
+  padding: 0 30px
+  overflow: hidden
+  position: relative
+  transition: background-color .2s ease
+
+  @media screen and (max-width: 768px)
+    height: 66px
+
+  +sm
+    width: 100%
+
+  span
+    position: relative
+    z-index: 2
+
+  &::before
+    display: block
+    position: absolute
+    content: ''
+    width: 40%
+    height: calc(100% + 20px)
+    left: 0
+    top: 0
+    z-index: 1
+    transform: translateX(-100%)
+    background: linear-gradient(99.28deg, rgba(255, 255, 255, 0) 7.52%, rgba(255, 255, 255, 0.094) 41.55%, rgba(255, 255, 255, 0.162) 51.83%, rgba(255, 255, 255, 0) 83.48%)
+
+  @media (hover: hover)
+    &:hover
+      background-color: rgba(22, 24, 29, 0.88)
+      &::before
+        transform: translateX(-100%)
+        animation: buttonSlideIn 1.5s cubic-bezier(0.4, 0, 0, 1)
+
+  &.ui_button_secondary
+    background-color: rgba(22, 24, 29, 0.88)
+
+  &.ui_button_secondary_dark
+    background-color: rgba(22, 24, 29, 1)
+    color: rgba(255, 255, 255, 1)
+
+  &.ui_button_outline
+    background: rgba(255, 255, 255, 0.1)
+    color: rgba(23, 23, 23, 1)
+    border: 1px solid rgba(23, 23, 23, 1)
+    position: relative
+    z-index: 2
+
+  &.ui_button_outline_light
+    background-color: $default-light
+    color: $default-black
+
+
+@keyframes buttonSlideIn
+  from
+    transform: translateX(-100%)
+  to
+    transform: translateX(500%) skew(-25deg)
+
+@keyframes buttonSlideOut
+  from
+    transform: translateX(-510%) skew(-25deg)
+  to
+    transform: translateX(0)
