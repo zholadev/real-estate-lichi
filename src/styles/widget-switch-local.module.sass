@@ -1,0 +1,29 @@
+@import "_var"
+@import "_mixins"
+
+
+.switch_lang_toggle
+  width: auto
+  display: flex
+  align-items: center
+
+  &.switch_lang_toggle__light
+    .lang
+      color: rgba(255, 255, 255, 0.8)
+
+      &.lang_active
+        color: $default-light
+
+  .lang
+    margin-inline-end: $p-size-5
+    text-transform: uppercase
+    line-height: 22.4px
+    font-size: $size-16
+    color: $text-color-opacity
+    cursor: pointer
+
+    &:last-of-type
+      margin-inline-end: 0
+
+    &.lang_active
+      color: $default-black

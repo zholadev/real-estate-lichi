@@ -1,0 +1,78 @@
+@import "_var"
+@import "_mixins"
+
+
+.ui_catalog_card
+  width: 100%
+  padding: 40px
+
+  display: flex
+  flex-direction: row
+  align-items: center
+
+  @media screen and (max-width: 576px)
+    flex-direction: column
+    padding: 0
+    margin-bottom: $p-size-30
+
+    .card_photo
+      margin-inline-end: 0 !important
+      max-width: 100% !important
+
+    .card_info
+      width: 100% !important
+
+  .card_photo
+    width: 100%
+    max-width: 364px
+    border-radius: 7px
+
+    margin-inline-end: 40px
+
+  .card_info
+    width: calc(100% - 40px)
+
+    .title
+      font-weight: $size-500
+      margin-bottom: 20px
+
+    .price
+      font-size: $size-20
+      font-weight: $size-600
+      margin-bottom: 40px
+
+    .short_info
+      width: 100%
+      height: auto
+      margin-bottom: 35px
+
+      .info
+        font-size: $size-16
+        display: flex
+        justify-content: space-between
+        align-items: center
+        font-weight: $size-500
+        margin-bottom: 20px
+
+        .key
+          color: $text-primary-gray
+
+        .value
+          color: rgba(0, 0, 0, 1)
+          text-align: right
+
+    .action_info
+      width: 100%
+      display: flex
+      justify-content: space-between
+      align-items: center
+
+      .tags
+        @media screen and (max-width: 576px)
+          margin-bottom: $p-size-30
+
+      @media screen and (max-width: 576px)
+        flex-direction: column
+        align-items: flex-start
+
+

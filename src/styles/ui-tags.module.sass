@@ -1,0 +1,36 @@
+@import "_var"
+@import "_mixins"
+
+.tags_list
+  display: flex
+  flex-direction: row
+  align-items: center
+  color: rgba(22, 24, 29, 1)
+  font-size: $size-11
+  text-transform: uppercase
+  flex-wrap: wrap
+
+  .tag_item
+    //border-right: 1px solid $text-primary-gray
+    margin-bottom: $p-size-5
+    padding-inline-end: 8px
+    position: relative
+
+    &:after
+      content: ''
+      width: 1px
+      height: 100%
+      display: block
+      background-color: $text-primary-gray
+      margin: 0 4px
+      position: absolute
+      right: 0
+      top: 0
+
+
+    &:last-of-type
+      border-right: none
+
+    &:first-of-type
+      padding-left: 0
+

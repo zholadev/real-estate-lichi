@@ -1,0 +1,23 @@
+@mixin background-image-set-full($size, $position, $url)
+  background-repeat: no-repeat
+  background-position: $position
+  background-size: $size
+  background-image: url($url)
+
+@mixin content-hide
+  display: none
+  visibility: hidden
+  opacity: 0
+
+@mixin content-show
+  display: initial !important
+  visibility: visible !important
+  opacity: 1 !important
+
+=sm
+  @media screen and (max-width: 576px)
+    @content
+
+=md_sm
+  @media screen and (max-width: 768px)
+    @content

@@ -1,0 +1,126 @@
+@import "_var"
+@import "_mixins"
+
+.footer
+  width: 100%
+  border-top: 1px solid rgba(116, 116, 116, 1)
+  padding: 50px 0 70px 0
+  margin-top: 96px
+
+.footer_content
+  width: 100%
+  max-width: 1270px
+  margin: 0 auto
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: flex-start
+
+  @media screen and (max-width: 768px)
+    flex-direction: column
+
+  @media screen and (max-width: 1024px)
+    padding: 0 16px
+
+  .footer_top_content
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    width: 100%
+    align-items: flex-start
+
+    @media screen and (max-width: 768px)
+      margin-bottom: $p-size-30
+      width: 100%
+
+    .top_content
+      width: 50%
+
+.footer_page_list
+  width: auto
+  height: auto
+
+  &.footer_page_list_icon
+    margin-bottom: 60px
+    display: block
+
+    @media screen and (max-width: 768px)
+      margin-bottom: $p-size-30
+
+  .page_list_item
+    color: rgba(116, 116, 116, 1)
+    font-size: $size-16
+    margin-bottom: $size-16
+    cursor: pointer
+
+    &.page_list_item_icon
+      display: flex
+      flex-direction: row
+      align-items: center
+
+  .icon
+    width: 14px
+    height: 14px
+    display: block
+    margin-inline-end: 10px
+
+    &.phone
+      @include background-image-set-full(cover, center, '/images/icons/phone.svg')
+
+    &.map_pin
+      @include background-image-set-full(cover, center, '/images/icons/map-pin.svg')
+
+.footer_media_list
+  width: auto
+  height: auto
+  display: flex
+  align-items: center
+
+  +md_sm
+    justify-content: center
+
+  .media_item
+    display: flex
+    justify-content: center
+    align-items: center
+    margin-inline-end: 10px
+
+    &:last-of-type
+      margin-inline-end: 0
+
+    .icon
+      width: 45px
+      height: 45px
+      display: flex
+      justify-content: center
+      align-items: center
+
+      .vk_icon
+        width: 26.05px
+        height: 16.28px
+        @include background-image-set-full(cover, center, '/images/icons/media/vk_icon.svg')
+
+      .play_icon
+        width: 17.7px
+        height: 17.31px
+        @include background-image-set-full(cover, center, '/images/icons/media/play_icon.svg')
+
+      .insta_icon
+        width: 20.13px
+        height: 20.13px
+        @include background-image-set-full(cover, center, '/images/icons/media/insta_icon.svg')
+
+      .tiktok_icon
+        width: 18.95px
+        height: 20.13px
+        @include background-image-set-full(cover, center, '/images/icons/media/tiktok_icon.svg')
+
+      .pinterest_icon
+        width: 17.42px
+        height: 22.05px
+        @include background-image-set-full(cover, center, '/images/icons/media/pinterest_icon.svg')
+
+      .telegram_icon
+        width: 21.32px
+        height: 17.76px
+        @include background-image-set-full(cover, center, '/images/icons/media/telegram_icon.svg')

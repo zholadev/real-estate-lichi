@@ -1,0 +1,193 @@
+@import "_var"
+@import "_mixins"
+
+
+.navbar_submenu
+  width: 100%
+  height: 100vh
+  position: fixed
+  top: 0
+  left: 0
+  overflow-x: hidden
+  overflow-y: auto
+
+  z-index: 1000
+  background-color: $default-black
+  color: $default-light
+  padding: 0 16px
+
+  opacity: 0
+  visibility: hidden
+  transform: translateY(-100%)
+
+  transition: transform .4s ease, opacity .5s ease
+  will-change: transform, opacity
+
+  &.navbar_submenu__active
+    opacity: 1
+    visibility: visible
+    transform: translateY(0)
+
+  .navbar_bg
+    position: absolute
+    width: 100%
+    height: 100%
+
+    .bg_img
+      @include background-image-set-full(cover, center, '/images/widget/navbar-submenu-bg.png')
+      position: absolute
+      width: 100%
+      height: 100%
+
+    .bg_overlay
+      position: absolute
+      width: 100%
+      height: 100%
+      background-color: rgba(0, 0, 0, .8)
+
+  .navbar_content
+    width: 100%
+    max-width: 1480px
+    margin: 40px auto
+
+    +sm
+      margin: 10px auto
+
+  .menu_closed
+    width: 26px
+    height: 26px
+    display: block
+
+    @include background-image-set-full(26px, center, '/images/icons/close-icon.svg')
+    filter: invert(100%)
+
+    position: absolute
+    top: 53px
+    right: 123.03px
+
+    +sm
+      top: 17px
+      right: 16px
+
+  .top_content
+    margin-bottom: 130px
+
+    +md_sm
+      margin-bottom: $p-size-50
+
+  .menu_content
+    width: auto
+    height: auto
+
+    margin-bottom: 130px
+
+    +md_sm
+      margin-bottom: $p-size-40
+
+    .menu_list
+      font-size: $size-40
+      line-height: 48px
+      width: auto
+      position: relative
+
+      +md_sm
+        font-size: $size-20
+        line-height: 24px
+
+      .list_item
+        cursor: pointer
+        position: relative
+        margin-bottom: $p-size-40
+        z-index: 1
+        width: max-content
+
+        @media (hover: hover)
+          &:hover
+            + .img_preview
+              opacity: 1
+              transform: translateY(0)
+              visibility: visible
+
+        .title
+          position: relative
+          z-index: 10
+          transition: all .3s ease
+
+      //@media (hover: hover)
+      //  &:hover
+      //    font-weight: $size-500
+
+      .img_preview_box
+      //position: relative
+
+      .img_preview
+        position: absolute
+        top: -18px
+        left: 457px
+        opacity: 0
+        transform: translateY(50px)
+        visibility: hidden
+        transition: transform .5s ease
+
+        .preview_overlay
+          position: absolute
+          width: 100%
+          height: 100%
+          background-color: rgba(8, 14, 20, 0.48)
+
+        img
+          border-radius: 5px
+
+  .page_content
+    width: auto
+    margin-bottom: 130px
+
+    +md_sm
+      margin-bottom: $p-size-40
+
+    .menu_list
+      font-size: $size-30
+      line-height: 42px
+      color: rgba(255, 255, 255, 0.8)
+
+      +md_sm
+        font-size: $size-15
+        line-height: 21px
+
+      .list_item
+        margin-bottom: $p-size-30
+
+  .footer_content
+    width: 100%
+    display: flex
+    align-items: center
+    justify-content: space-between
+    color: $default-light
+
+    +md_sm
+      flex-direction: column-reverse
+      position: absolute
+      left: 16px
+      bottom: 50px
+      align-items: flex-start
+
+    button
+      i
+        filter: invert(100%)
+
+      span
+        color: $default-light
+
+    .action_content
+      display: grid
+      grid-template-columns: 1fr 1fr
+      grid-gap: $p-size-30
+      align-items: center
+
+      +md_sm
+        grid-template-columns: 1fr
+        grid-gap: $p-size-10
+        margin-bottom: $p-size-40
+
+
+

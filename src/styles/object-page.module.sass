@@ -1,0 +1,269 @@
+@import "_var"
+@import "_mixins"
+
+
+.object_page_preview
+  width: 100%
+  height: auto
+
+  display: flex
+  flex-direction: row
+
+  margin-bottom: 60px
+
+  +sm
+    flex-direction: column
+
+  .title_sm
+    text-align: center
+    @include content-hide
+    font-size: $size-20 !important
+    margin-bottom: $p-size-30
+
+    +sm
+      @include content-show
+
+  .preview_gallery
+    width: calc(50% - 40px)
+    margin-inline-end: 40px
+
+    img
+      border-radius: 4px
+
+    +sm
+      width: 100%
+      margin-inline-end: 0
+      margin-bottom: $p-size-35
+
+  .preview_head_info
+    width: 50%
+
+    +sm
+      width: 100%
+
+    .title
+      margin-bottom: 40px
+
+      +sm
+        @include content-hide
+
+    .preview_head_characters
+      width: auto
+      margin-bottom: 110px
+
+      .characters_item
+        display: flex
+        align-items: center
+        flex-direction: row
+        justify-content: space-between
+        font-size: $size-20
+        line-height: $size-28
+        margin-bottom: 15px
+
+        +sm
+          font-size: $size-16
+
+        .key
+          margin-inline-end: 15px
+          color: $text-color-opacity
+
+.object_description
+  width: 100%
+  height: auto
+  display: grid
+  grid-template-columns: 1fr 1fr
+  grid-gap: 60px
+  margin-bottom: $p-size-50
+
+  +sm
+    grid-template-columns: 1fr
+
+  .info
+    line-height: 22.4px
+
+    h2
+      margin-bottom: 30px
+      font-weight: $size-500
+      line-height: 56px
+
+    p
+      font-size: $size-16
+      margin-bottom: 20px
+
+    .subtitle
+      font-size: $size-16
+      font-weight: $size-500
+      margin-bottom: 20px
+
+    .info_list
+      list-style: inside
+      margin-bottom: 20px
+
+  .feedback
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.2)
+    box-shadow: 0px 2px 30px 0px rgba(0, 0, 0, 0.06)
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.03)
+    border-radius: 15px
+    padding: $p-size-40
+    font-size: $size-16
+
+    +sm
+      padding: 16px
+
+    .title
+      margin-bottom: $p-size-30
+      font-size: $size-24
+
+      +sm
+        padding-top: $p-size-20
+        text-align: center
+        font-size: $size-20
+
+
+    .feedback_info
+      width: 100%
+      display: grid
+      grid-template-columns: 1fr 2fr
+      grid-gap: $p-size-30
+
+      +sm
+        grid-template-columns: 1fr
+
+    .board
+      .board_info_list
+        .list_item
+          margin-bottom: $p-size-30
+
+          .key
+            color: $text-color-opacity
+            font-size: $size-15
+            margin-bottom: $p-size-15
+
+          .value
+            font-size: $size-20
+            font-weight: $size-500
+
+          .value_bold
+            font-weight: $size-600
+
+      .board_media_list
+        width: 100%
+        display: flex
+        align-items: center
+        flex-direction: row
+        margin-bottom: $p-size-30
+
+        .list_item
+          margin-inline-end: $p-size-20
+
+          .icon
+            width: 31px
+            height: 31px
+            display: block
+            cursor: pointer
+
+            &.phone_icon
+              @include background-image-set-full(31px, center, '/images/icons/media/phone_icon.svg')
+
+            &.whatsapp_icon
+              @include background-image-set-full(31px, center, '/images/icons/media/whattsapp_icon.svg')
+
+            &.telegram_icon
+              @include background-image-set-full(31px, center, '/images/icons/media/telegram_icon.svg')
+
+.object_layout
+  width: 100%
+  height: auto
+  margin-bottom: $p-size-120
+
+  @media screen and (max-width: 768px)
+    margin-bottom: $p-size-60
+
+  h2
+    font-weight: $size-500
+    margin-bottom: 73px
+
+  .layout_board_info
+    display: grid
+    grid-template-columns: 1fr 1fr
+    align-items: center
+    grid-gap: $p-size-30
+
+    +sm
+      grid-template-columns: 1fr
+
+    .info
+      .info_subtitle
+        margin-bottom: $p-size-25
+        font-size: $size-20
+        font-weight: $size-600
+        display: inline-block
+
+      .board_info_list
+        .list_item
+          font-size: $size-20
+          line-height: $size-28
+
+.object_map_place
+  width: 100%
+  height: auto
+  margin-bottom: $p-size-120
+
+  @media screen and (max-width: 768px)
+    margin-bottom: $p-size-60
+
+  h2
+    margin-bottom: $p-size-60
+
+  .map_board_interaction
+    width: auto
+
+    .map_action
+      .map_tab_list
+        color: $text-color-opacity
+        font-size: $size-16
+        text-transform: uppercase
+        line-height: 19.2px
+        margin-bottom: $p-size-20
+        display: flex
+        align-items: center
+        flex-direction: row
+        flex-wrap: wrap
+
+        .list_item
+          cursor: pointer
+          margin-inline-end: $p-size-20
+
+          &.active
+            color: $default-black
+            font-weight: $size-500
+
+    .map_info
+      width: auto
+      display: grid
+      grid-template-columns: 1fr 1fr
+      grid-gap: $p-size-80
+
+      +sm
+        grid-template-columns: 1fr
+
+      .map_info_list
+        .list_item
+          border-bottom: 1px solid rgba(22, 24, 29, 0.3)
+          padding-bottom: $p-size-20
+          margin-bottom: $p-size-20
+          display: flex
+          align-items: center
+          flex-direction: row
+          font-size: $size-20
+          line-height: 24px
+
+          .dot_shape
+            width: 13px
+            height: 13px
+            display: block
+            border-radius: 50%
+            background-color: $color-secondary
+            margin-inline-end: $p-size-10
+
+

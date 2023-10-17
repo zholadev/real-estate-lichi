@@ -1,0 +1,57 @@
+@import "_var"
+@import "_mixins"
+
+.page_top_content
+  font-size: $size-20
+  margin-bottom: $p-size-120
+
+  @media screen and (max-width: 768px)
+    font-size: $size-14
+    line-height: 21px
+    margin-bottom: $p-size-60
+
+  span
+    display: inline-block
+    line-height: 35px
+
+    @media screen and (max-width: 768px)
+      line-height: 21px
+
+  .left_content
+    width: 100%
+    display: flex
+    margin-bottom: $p-size-60
+
+    @media screen and (max-width: 768px)
+      margin-bottom: $p-size-20
+
+    span
+      max-width: 754px
+
+  .right_content
+    display: flex
+    justify-content: flex-end
+    margin-bottom: $p-size-60
+
+    @media screen and (max-width: 768px)
+      margin-bottom: $p-size-20
+
+    span
+      max-width: 1012px
+
+.about_faq
+  width: 100%
+
+  .faq_info
+    margin-bottom: $p-size-50
+
+    .top_info
+      margin-bottom: $p-size-50
+      p
+        font-size: $size-16
+        line-height: 22.4px
+        margin-bottom: $p-size-20
+
+    .img
+      border-radius: $p-size-5
+      margin-bottom: $p-size-50

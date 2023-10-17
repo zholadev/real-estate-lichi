@@ -1,0 +1,75 @@
+@import "_var"
+@import "_mixins"
+
+.news_page_info
+  width: 100%
+  height: auto
+
+  .title
+    margin-bottom: 10px
+    font-weight: $size-500
+    line-height: 56px
+
+  .date
+    color: $text-primary-gray
+    font-size: $size-14
+
+  img
+    margin-bottom: 20px
+
+    @media screen and (max-width: 768px)
+      margin-bottom: $p-size-30
+
+  .news_detail_info
+    width: 100%
+    display: grid
+    grid-template-columns: 1fr 1fr
+    grid-gap: 20px
+    margin-top: 30px
+    margin-bottom: 40px
+
+    @media screen and (max-width: 768px)
+      grid-template-columns: 1fr
+      margin-bottom: $p-size-40
+
+    .text_content
+      h4
+        font-weight: $size-500
+        line-height: 28px
+
+      p
+        line-height: 24px
+        font-size: $size-16
+        margin-bottom: 20px
+
+    .text_divide
+      width: 100%
+      height: 1px
+      background-color: rgba(115, 116, 119, 1)
+      margin: 28px 0 42px 0
+
+  .share_place
+    width: 100%
+    height: auto
+    display: flex
+    justify-content: flex-end
+    align-items: center
+    color: $text-color-opacity
+    cursor: pointer
+    text-transform: uppercase
+
+    margin-bottom: 120px
+
+    .share_text
+      margin-inline-end: 18px
+
+    .share_icon
+      position: relative
+      top: -3px
+      width: 19px
+      height: 26px
+      display: block
+
+      @include background-image-set-full(cover, center, '/images/icons/share_icon.svg')
+
+
