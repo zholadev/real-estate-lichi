@@ -4,8 +4,7 @@ import {Logo} from "@/shared/uikit/logo";
 import {IMG} from "@/shared/constants/constants";
 import Link from "next/link";
 import {ButtonArrow} from "@/shared/uikit/button";
-import {SwitchLocalization} from "@/widgets/switch/localication";
-import {PhoneLink} from "@/shared/uikit/links";
+import {PhoneAction} from "@/shared/site";
 
 
 /**
@@ -43,60 +42,60 @@ function NavbarSubmenu(props) {
 
     return (
         <div className={`${styles['navbar_submenu']} ${active ? styles['navbar_submenu__active'] : ''}`}>
-            {/*<div className={styles['navbar_bg']}>*/}
-            {/*    <div className={styles['bg_img']}></div>*/}
-            {/*    <div className={styles['bg_overlay']}></div>*/}
-            {/*</div>*/}
+            <div className={styles['navbar_bg']}>
+                <div className={styles['bg_img']}/>
+            </div>
             <i className={styles['menu_closed']} onClick={toggle}/>
 
             <div className={styles['navbar_content']}>
-                <div className={styles['top_content']}>
-                    <Logo theme={'light'}/>
-                </div>
+                <div className={styles['main_content']}>
+                    <div className={styles['top_content']}>
+                        <Logo theme={'light'} onClick={toggle}/>
+                    </div>
 
-                <div className={styles['menu_content']}>
-                    <ul className={styles['menu_list']}>
-                        {
-                            menuList.map((item, id) => {
-                                return (
-                                    <div key={id} onClick={toggle}>
-                                        <li className={styles['list_item']}>
-                                            <Link href={item.url}>
-                                                <div className={styles['title']}>{item.title}</div>
-                                            </Link>
+                    <div className={styles['menu_content']}>
+                        <ul className={styles['menu_list']}>
+                            {
+                                menuList.map((item, id) => {
+                                    return (
+                                        <div key={id} onClick={toggle}>
+                                            <li className={styles['list_item']}>
+                                                <Link href={item.url}>
+                                                    <div className={styles['title']}>{item.title}</div>
+                                                </Link>
 
-                                        </li>
-                                        <div className={styles['img_preview']}>
-                                            <div className={styles['preview_overlay']}></div>
-                                            <img src={item.img} alt=""/>
+                                            </li>
+                                            <div className={styles['img_preview']}>
+                                                <div className={styles['preview_overlay']}></div>
+                                                <img src={item.img} alt=""/>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                )
-                            })
-                        }
-                    </ul>
-                </div>
+                                    )
+                                })
+                            }
+                        </ul>
+                    </div>
 
-
-                <div className={styles['page_content']}>
-                    <ul className={styles['menu_list']}>
-                        <li className={styles['list_item']} onClick={toggle}>
-                            <Link href={'/about'}>
-                                О нас
-                            </Link>
-                        </li>
-                        <li className={styles['list_item']} onClick={toggle}>
-                            <Link href={'/faq'}>
-                                FAQ
-                            </Link>
-                        </li>
-                        <li className={styles['list_item']} onClick={toggle}>
-                            <Link href={'/news'}>
-                                Новости
-                            </Link>
-                        </li>
-                    </ul>
+                    <div className={styles['page_content']}>
+                        <ul className={styles['menu_list']}>
+                            <li className={styles['list_item']} onClick={toggle}>
+                                <Link href={'/about'}>
+                                    О нас
+                                </Link>
+                            </li>
+                            <li className={styles['list_item']} onClick={toggle}>
+                                <Link href={'/faq'}>
+                                    FAQ
+                                </Link>
+                            </li>
+                            <li className={styles['list_item']} onClick={toggle}>
+                                <Link href={'/news'}>
+                                    Новости
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div className={styles['footer_content']}>
@@ -107,8 +106,13 @@ function NavbarSubmenu(props) {
                     />
 
                     <div className={styles['action_content']} onClick={toggle}>
-                        <PhoneLink theme={"light"} i18n={i18n}/>
-                        <SwitchLocalization theme={"light"}/>
+                        <PhoneAction
+                            i18n={i18n}
+                            themePhone={'light'}
+                            themeLocal={'light'}
+                            phoneOnClick={toggle}
+                            localOnClick={toggle}
+                        />
                     </div>
                 </div>
             </div>

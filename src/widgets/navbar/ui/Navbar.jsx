@@ -8,6 +8,7 @@ import Link from "next/link";
 import {PortalProvider} from "@/shared/portals";
 import {NavbarSubmenu} from "@/widgets/submenu";
 import {PhoneLink} from "@/shared/uikit/links";
+import {PhoneAction} from "@/shared/site";
 
 /**
  * @author Zholaman Zhumanov
@@ -31,10 +32,7 @@ function Navbar(props) {
                 <div className={`${styles['navbar_content']} container_lg`}>
                     <Logo onClick={toggleNavbarHandle}/>
 
-                    <div className={styles['navbar_action']}>
-                        <PhoneLink i18n={i18n} type={'secondary'}/>
-                        <SwitchLocalization hideContent/>
-                    </div>
+                    <PhoneAction i18n={i18n} type={'secondary'} hideContent/>
                 </div>
             </navbar>
             <PortalProvider>

@@ -18,9 +18,8 @@
 
 .navbar_action
   width: auto
-  display: grid
-  grid-template-columns: 1fr 1fr
-  grid-gap: $p-size-30
+  display: flex
+  flex-direction: row
   align-items: center
 
   @media screen and (max-width: 768px)
@@ -40,8 +39,6 @@
     @media screen and (max-width: 768px)
       span
         @include content-hide
-
-
 
   &.navbar_phone__light
     color: rgba(255, 255, 255, 0.6)
