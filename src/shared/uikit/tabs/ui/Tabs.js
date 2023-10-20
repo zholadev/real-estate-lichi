@@ -1,7 +1,8 @@
 'use client'
 
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import styles from "@/styles/ui-tabs.module.sass";
+import {MotionTextUnderLine} from "@/shared/uikit/motion";
 
 /**
  * @author Zholaman Zhumanov
@@ -37,14 +38,18 @@ function Tabs(props) {
                             }}
                             tabIndex={id}
                             key={id}
-                            className={tab === tabItem?.["value"] ? styles['active'] : ''}
                         >
-                            {tabItem?.["title"]}
+                            <span>
+                                {tabItem?.["title"]}
+                                <MotionTextUnderLine
+                                    current={tab}
+                                    id={tabItem?.["value"]}
+                                />
+                            </span>
                         </button>
                     )
                 })
             }
-
         </div>
     );
 }
