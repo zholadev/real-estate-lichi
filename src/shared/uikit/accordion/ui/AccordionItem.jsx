@@ -24,7 +24,7 @@ function AccordionItem(props) {
         } catch (error) {
             console.log(`page: accordionItem, event: getHeightHandle, error: ${error}`)
         }
-    }, [active, contentTab])
+    }, [active, contentTab, heightItemRef, content, mediaMdQuery])
 
     return (
         contentTab ?
@@ -43,7 +43,9 @@ function AccordionItem(props) {
                     </div>
                 </div>
                 :
-                <div className={`${styles['accordion_item']} ${active ? styles['active'] : ''}`}>
+                <div className={`${styles['accordion_item']}`}
+                     onClick={onClick}
+                >
                     <div className={styles['header']}>
                         <span className={active ? styles['title_active'] : ''}>{title}</span>
                         {active ? <i className={styles['icon_active']}></i> :

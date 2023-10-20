@@ -19,7 +19,7 @@ function MapController(props) {
     const {width, height = 700} = props
 
     return (
-        <div className={styles['map_controller']}>
+        <div className={styles['map_controller']} style={{width: "100%", height: height}}>
             <MapContainer
                 zoomControl={false}
                 scrollWheelZoom={false}
