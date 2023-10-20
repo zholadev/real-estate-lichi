@@ -24,7 +24,7 @@ function AccordionItem(props) {
         } catch (error) {
             console.log(`page: accordionItem, event: getHeightHandle, error: ${error}`)
         }
-    }, [active, contentTab])
+    }, [active, contentTab, heightItemRef, content, mediaMdQuery])
 
     return (
         contentTab ?

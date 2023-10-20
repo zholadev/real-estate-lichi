@@ -3,6 +3,7 @@
 import React, {useState} from 'react';
 import AccordionItem from "./AccordionItem";
 import styles from '@/styles/ui-accordion.module.sass'
+import {useMediaMaxState} from "@/shared/hooks";
 
 /**
  * @author Zholaman Zhumanov
@@ -13,6 +14,8 @@ import styles from '@/styles/ui-accordion.module.sass'
  */
 function Accordion(props) {
     const {data, contentTab, isSingle, openAll} = props
+
+    const mediaMdQuery = useMediaMaxState({screenSize: 768})
 
     const [selectItem, setSelectItem] = useState(contentTab ? [0] : [])
 
