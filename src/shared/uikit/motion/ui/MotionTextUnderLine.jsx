@@ -25,6 +25,7 @@ function MotionTextUnderLine(props) {
                 bottom: "-4.1px",
                 left: 0,
                 display: "block",
+                borderRadius: '5px',
                 backgroundColor: "rgba(22, 24, 29, 1)",
                 ...style
             }}

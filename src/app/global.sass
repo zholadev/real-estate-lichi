@@ -1,4 +1,5 @@
 @import "variables"
+@import "../styles/_mixins"
 
 *
   margin: 0
@@ -22,10 +23,27 @@ html, body
 h1
   font-size: var(--size-48) !important
   font-weight: var(--size-400)
+  line-height: 58px
+
+  +md_sm
+    font-size: var(--size-34) !important
+    line-height: 38px
+
+  +sm
+    font-size: var(--size-24) !important
+    line-height: 28px !important
 
 h2
   font-size: var(--size-40) !important
   font-weight: var(--size-400)
+  line-height: 56px
+
+  +md_sm
+    font-size: var(--size-32) !important
+
+  +sm
+    font-size: var(--size-20) !important
+    line-height: 28px !important
 
 h3
   font-size: var(--size-36) !important
