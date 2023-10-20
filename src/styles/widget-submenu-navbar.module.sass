@@ -14,7 +14,6 @@
   z-index: 1000
   background-color: $default-black
   color: $default-light
-  padding: 0 16px
 
   opacity: 0
   visibility: hidden
@@ -34,7 +33,7 @@
     height: 100%
 
     .bg_img
-      @include background-image-set-full(cover, center, '/images/widget/navbar-submenu-bg.png')
+      @include background-image-set-full(cover, center, '/images/widget/navbar-submenu-sm.jpg')
       position: absolute
       width: 100%
       height: 100%
@@ -45,10 +44,15 @@
       height: 100%
       background-color: rgba(0, 0, 0, .8)
 
+  .main_content
+    position: relative
+    z-index: 10
+
   .navbar_content
     width: 100%
     max-width: 1480px
     margin: 40px auto
+    padding: 0 16px
 
     +sm
       margin: 10px auto
@@ -64,6 +68,8 @@
     position: absolute
     top: 53px
     right: 123.03px
+
+    z-index: 20
 
     +sm
       top: 17px
@@ -163,13 +169,16 @@
     align-items: center
     justify-content: space-between
     color: $default-light
+    position: relative
+    z-index: 10
 
     +md_sm
       flex-direction: column-reverse
+      align-items: flex-start
       position: absolute
       left: 16px
       bottom: 50px
-      align-items: flex-start
+
 
     button
       i
@@ -179,14 +188,8 @@
         color: $default-light
 
     .action_content
-      display: grid
-      grid-template-columns: 1fr 1fr
-      grid-gap: $p-size-30
-      align-items: center
-
+    
       +md_sm
-        grid-template-columns: 1fr
-        grid-gap: $p-size-10
         margin-bottom: $p-size-40
 
 
