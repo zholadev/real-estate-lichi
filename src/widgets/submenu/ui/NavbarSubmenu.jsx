@@ -50,7 +50,7 @@ function NavbarSubmenu(props) {
             <div className={styles['navbar_content']}>
                 <div className={styles['main_content']}>
                     <div className={styles['top_content']}>
-                        <Logo theme={'light'} onClick={toggle}/>
+                        <Logo theme={'light'} onClick={toggle} type={'secondary'}/>
                     </div>
 
                     <div className={styles['menu_content']}>

@@ -49,7 +49,7 @@ function Footer(props) {
             <div className={styles['footer_content']}>
                 <div className={styles['footer_top_content']}>
                     <div className={styles['top_content']}>
-                        <Logo/>
+                        <Logo type={'secondary'}/>
                     </div>
                     <div className={styles['top_content']}>
                         <FooterPageList i18n={i18n} footerPageListData={footerPageListData}/>
