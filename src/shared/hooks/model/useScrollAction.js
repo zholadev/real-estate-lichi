@@ -14,15 +14,15 @@ function useScrollAction({position}) {
 
     useEffect(() => {
         const scrollDown = () => {
-            // try {
-                if (window.scrollY > position) {
+            try {
+                if (document.body.scrollTop > position) {
                     setScroll(true)
                 } else {
                     setScroll(false)
                 }
-            // } catch (error) {
-            //     console.log(`page: useScrollAction, event: useScrollAction, error: ${error}`)
-            // }
+            } catch (error) {
+                console.log(`page: useScrollAction, event: useScrollAction, error: ${error}`)
+            }
         }
 
         scrollDown()
