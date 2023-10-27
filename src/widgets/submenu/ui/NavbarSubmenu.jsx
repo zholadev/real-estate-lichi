@@ -19,7 +19,7 @@ import NavbarMenuItem from "@/widgets/submenu/ui/NavbarMenuItem";
  * @constructor
  */
 function NavbarSubmenu(props) {
-    const {i18n, active, toggleAnimate, toggleMenu, animateTrigger, showSubmenuHandle, hideSubmenuHandle} = props
+    const {i18n, active, toggleAnimate, toggleMenu, animateTrigger, showSubmenuHandle, hideSubmenuHandle, fullWidth} = props
 
     const listMenuRef = useRef(null);
     const listPageRef = useRef(null)
@@ -36,7 +36,8 @@ function NavbarSubmenu(props) {
             {
                 y: 0,
                 opacity: 1,
-                duration: .2,
+                duration: .3,
+                stagger: .1,
                 ease: "power2.inOut",
                 onComplete: () => setMenuMotion(true)
             }
@@ -50,7 +51,8 @@ function NavbarSubmenu(props) {
             {
                 y: 0,
                 opacity: 1,
-                duration: .2,
+                duration: .3,
+                stagger: .1,
                 ease: "power2.inOut",
                 onComplete: () => setBottomActionMotion(true)
             }
@@ -64,7 +66,8 @@ function NavbarSubmenu(props) {
             {
                 y: 0,
                 opacity: 1,
-                duration: .2,
+                duration: .3,
+                stagger: .1,
                 ease: "power2.inOut"
             }
         );
@@ -150,7 +153,7 @@ function NavbarSubmenu(props) {
     }, [])
 
     return (
-        <div className={`${styles['navbar_submenu']} ${active ? styles['navbar_submenu__active'] : ''}`}>
+        <div className={`${styles['navbar_submenu']} ${fullWidth  ? styles['submenu_full_wd'] : ''} ${active ? styles['navbar_submenu__active'] : ''}`}>
             {/*<i className={styles['menu_closed']} onClick={toggleAnimate}/>*/}
 
             <div className={styles['navbar_content']}>

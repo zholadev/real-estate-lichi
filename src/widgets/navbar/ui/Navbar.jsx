@@ -8,6 +8,7 @@ import {PortalProvider} from "@/shared/portals";
 import {NavbarSubmenu} from "@/widgets/submenu";
 import {PhoneAction} from "@/shared/site";
 import {useScrollAction} from "@/shared/hooks";
+import {useRouter, usePathname} from "next/navigation";
 
 // TODO: refac
 
@@ -20,6 +21,10 @@ import {useScrollAction} from "@/shared/hooks";
  */
 function Navbar(props) {
     const {i18n} = props
+
+    const pathname = usePathname()
+
+    console.log(pathname)
 
     const scrollBottom = useScrollAction({"position": 20})
 
@@ -41,8 +46,8 @@ function Navbar(props) {
 
     return (
         <>
-            <navbar className={`${styles['navbar']} ${scrollBottom ? styles['navbar_fill'] : ''}`}>
-                <div className={`${styles['navbar_content']} container_md`}>
+            <navbar className={`${styles['navbar']} ${pathname === '/catalog/apartment' ? styles['navbar_full_wd'] : ''} ${scrollBottom ? styles['navbar_fill'] : ''}`}>
+                <div className={`${styles['navbar_content']} ${pathname === '/catalog/apartment' ? 'container_lg' : 'container_md'}`}>
                     <Logo
                         onClick={() => {
                             toggleLogoAnimateTrigger()
@@ -58,6 +63,7 @@ function Navbar(props) {
             </navbar>
             <PortalProvider>
                 <NavbarSubmenu
+                    fullWidth={pathname === '/catalog/apartment' || pathname === '/catalog/object'}
                     i18n={i18n}
                     active={toggleNavbar}
                     animateTrigger={animateTrigger}
