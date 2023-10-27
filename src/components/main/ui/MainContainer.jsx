@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import styles from '@/styles/main.module.sass'
 import MainPreview from "./MainPreview";
@@ -6,6 +8,7 @@ import MainApartment from "./MainApartment";
 import MainAboutUs from "@/components/main/ui/MainAboutUs";
 import MainConsultation from "@/components/main/ui/MainConsultation";
 import MainNewsContent from "@/components/main/ui/MainNewsContent";
+import {useWindowScroll} from "@uidotdev/usehooks";
 
 /**
  * @author Zholaman Zhumanov
@@ -16,6 +19,10 @@ import MainNewsContent from "@/components/main/ui/MainNewsContent";
  */
 function MainContainer(props) {
     const {i18n} = props
+    const [{y}] = useWindowScroll();
+
+    console.log(y)
+
     return (
         <div className={`${styles['main']} container_md`}>
             <MainPreview i18n={i18n}/>

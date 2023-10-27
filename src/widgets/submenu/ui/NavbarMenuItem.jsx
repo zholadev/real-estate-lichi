@@ -21,33 +21,33 @@ function NavbarMenuItem(props) {
     const handleMouseEnter = (e) => {
         const rect = imgPreviewRef.current.getBoundingClientRect();
 
-        gsap.to(imgPreviewRef.current, {
-            x: e.clientX - imgPreviewRef.current.getBoundingClientRect().left,
-            y: e.clientY - imgPreviewRef.current.getBoundingClientRect().top,
-            duration: 0.3,
-            stagger: .3,
-            // ease: "power2.out"
-        });
+        // gsap.to(imgPreviewRef.current, {
+        //     x: e.clientX - imgPreviewRef.current.getBoundingClientRect().left,
+        //     y: e.clientY - imgPreviewRef.current.getBoundingClientRect().top,
+        //     duration: 0.3,
+        //     stagger: .3,
+        //     // ease: "power2.out"
+        // });
 
-        gsap.to(textPreviewRef.current, {
-            fontWeight: 500,
-            duration: .1,
-        })
+        // gsap.to(textPreviewRef.current, {
+        //     fontWeight: 500,
+        //     duration: .1,
+        // })
     };
 
     const handleMouseLeave = () => {
-        gsap.to(imgPreviewRef.current, {
-            x: 0,
-            y: 0,
-            duration: 0.3,
-            stagger: .1,
-            // ease: "power2.out"
-        });
+        // gsap.to(imgPreviewRef.current, {
+        //     x: 0,
+        //     y: 0,
+        //     duration: 0.3,
+        //     stagger: .1,
+        //     // ease: "power2.out"
+        // });
 
-        gsap.to(textPreviewRef.current, {
-            fontWeight: 400,
-            duration: .1,
-        })
+        // gsap.to(textPreviewRef.current, {
+        //     fontWeight: 400,
+        //     duration: .1,
+        // })
     };
 
     return (
