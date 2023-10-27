@@ -14,22 +14,22 @@ function useScrollAction({position}) {
 
     useEffect(() => {
         const scrollDown = () => {
-            try {
+            // try {
                 if (window.scrollY > position) {
                     setScroll(true)
                 } else {
                     setScroll(false)
                 }
-            } catch (error) {
-                console.log(`page: useScrollAction, event: useScrollAction, error: ${error}`)
-            }
+            // } catch (error) {
+            //     console.log(`page: useScrollAction, event: useScrollAction, error: ${error}`)
+            // }
         }
 
         scrollDown()
-        window.addEventListener('scroll', scrollDown)
+        window.addEventListener('scroll', scrollDown, true)
 
         return () => {
-            window.removeEventListener('scroll', scrollDown)
+            window.removeEventListener('scroll', scrollDown, true)
             setScroll(false)
         }
     }, [position])

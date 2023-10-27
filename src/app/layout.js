@@ -8,6 +8,9 @@ import {Navbar} from "@/widgets/navbar";
 import {getDictionary} from "@/dictionaries";
 import {Footer} from "@/widgets/footer";
 import NextTopLoader from "nextjs-toploader";
+import dynamic from "next/dynamic";
+
+// const Navbar = dynamic(() => import('@/widgets/navbar/ui/Navbar'), {ssr: false})
 
 export const metadata = {
     title: 'META TRAST-DUBAI',
