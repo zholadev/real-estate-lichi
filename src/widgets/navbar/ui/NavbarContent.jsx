@@ -33,7 +33,10 @@ function NavbarContent(props) {
 
     const toggleAnimateTrigger = () => {
         setAnimateTrigger(!animateTrigger)
-        console.log(window.scrollY)
+
+        if (scrollBottom) {
+            navbarDefaultMotion()
+        }
     }
 
     const toggleLogoAnimateTrigger = () => {
@@ -66,10 +69,7 @@ function NavbarContent(props) {
     }
 
     const navbarDefaultMotion = () => {
-        gsap.fromTo(scrollNavbar.current,
-            {
-                top: mediaSmQuery ? 0 : 0
-            },
+        gsap.to(scrollNavbar.current,
             {
                 top: mediaSmQuery ? 0 : 40,
                 duration: .2,
@@ -99,12 +99,9 @@ function NavbarContent(props) {
     }
 
     useEffect(() => {
-        if (animateTrigger) {
-            navbarDefaultMotionTrigger()
-            return
-        }
+        if (animateTrigger) return
 
-        if (scrollBottom && !animateTrigger) {
+        if (scrollBottom) {
             navbarFillMotion()
         } else {
             navbarDefaultMotion()
