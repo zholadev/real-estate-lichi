@@ -22,9 +22,12 @@ function NewsCard(props) {
 
     return (
         <div className={styles['news_card']}>
-            <Link href={`/news/settings`}>
-                <img src={imgs[Math.floor(Math.random() * 2)]} alt="" onClick={() => router.push('/news/settings')}/>
-            </Link>
+            <div className={styles['img']}>
+                <Link href={`/news/settings`}>
+                    <img src={imgs[Math.floor(Math.random() * 2)]} alt=""
+                         onClick={() => router.push('/news/settings')}/>
+                </Link>
+            </div>
 
             <div className={styles['card_info']}>
                 <Link href={`/news/settings`}>

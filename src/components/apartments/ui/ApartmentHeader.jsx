@@ -3,7 +3,7 @@ import styles from '@/styles/apartments-page.module.sass'
 import {Video} from "@/shared/uikit/video";
 import {Breadcrumbs} from "@/shared/breadcrumbs";
 import {Button} from "@/shared/uikit/button";
-import {ICON} from "@/shared/constants/constants";
+import {ICON, IMG} from "@/shared/constants/constants";
 
 /**
  * @author Zholaman Zhumanov
@@ -17,9 +17,8 @@ function ApartmentHeader(props) {
 
     return (
         <div className={styles['apartment_header']}>
-
             <div className={styles['video_box']}>
-                <Video src={videoSrc}/>
+                <Video src={videoSrc} poster={IMG.posterDubaiApartmentPage['src']}/>
             </div>
 
             <div className={styles['overlay_box']}>
@@ -36,9 +35,9 @@ function ApartmentHeader(props) {
 
             <div className={'container_lg h-100'}>
                 <div className={styles['info_box']}>
-                   <div className={styles['breadcrumbs_box']}>
-                       <Breadcrumbs i18n={i18n} page={'apartment'} theme={'light'}/>
-                   </div>
+                    <div className={styles['breadcrumbs_box']}>
+                        <Breadcrumbs i18n={i18n} page={'apartment'} theme={'light'}/>
+                    </div>
                     <div className={styles['box']}>
                         <div className={styles['info']}>
                             <h1>{title}</h1>

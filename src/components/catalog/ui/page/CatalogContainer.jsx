@@ -1,11 +1,10 @@
 'use client'
 
-import dynamic from "next/dynamic";
 import {Tabs} from "@/shared/uikit/tabs";
 import React, {useMemo, useState} from 'react';
 import {CatalogProducts, Filter} from "@/components/catalog";
-
-const MapController = dynamic(() => import('@/widgets/map/ui/MapController'), {ssr: false})
+import styles from '@/styles/catalog-products.module.sass'
+import CatalogMapProducts from "@/components/catalog/ui/mapProducts/CatalogMapProducts";
 
 /**
  * @author Zholaman Zhumanov
@@ -48,25 +47,41 @@ function CatalogContainer(props) {
     }
 
     return (
-        <div>
-            <Tabs i18n={i18n} tabData={tabData} onClick={setTypeCatalog}/>
+        <div className={styles['catalog_products_list']}>
+            <div className={'container_md'}>
+                <Tabs i18n={i18n} tabData={tabData} onClick={setTypeCatalog}/>
+            </div>
             {
                 typeCatalog === 'complex' ?
                     <>
-                        <Filter i18n={i18n} onClick={toggleView}/>
+                        <div className={'container_md'}>
+                            <Filter typeCatalog={typeContent} i18n={i18n} onClick={toggleView}/>
+                        </div>
                         {
                             typeContent === 'map' ?
-                                <MapController/> :
-                                <CatalogProducts redirectTo={'apartment'} i18n={i18n}/>
+                                <div className={'container_md_pn'}>
+                                    <CatalogMapProducts/>
+                                </div>
+                                :
+                                <div className={'container_md'}>
+                                    <CatalogProducts redirectTo={'apartment'} i18n={i18n}/>
+                                </div>
                         }
                     </>
                     :
                     <>
-                        <Filter i18n={i18n} onClick={toggleView}/>
+                        <div className={'container_md'}>
+                            <Filter typeCatalog={typeContent} i18n={i18n} onClick={toggleView}/>
+                        </div>
                         {
                             typeContent === 'map' ?
-                                <MapController/> :
-                                <CatalogProducts redirectTo={'object'} i18n={i18n}/>
+                                <div className={'container_md_pn'}>
+                                    <CatalogMapProducts/>
+                                </div>
+                                :
+                                <div className={'container_md'}>
+                                    <CatalogProducts redirectTo={'object'} i18n={i18n}/>
+                                </div>
                         }
                     </>
             }

@@ -22,7 +22,6 @@ function ButtonArrow(props) {
         }
     }
 
-
     return (
         url ?
             <Link href={url}>

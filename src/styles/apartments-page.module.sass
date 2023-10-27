@@ -192,7 +192,7 @@
 
     p
       margin-bottom: $p-size-20
-      font-size: $size-20
+      font-size: $size-16
       line-height: 24px
 
       +sm
@@ -228,8 +228,18 @@
     .swiper_line
       width: 100%
       max-width: 1110px
-      background-color: #737477
+      background-color: #9a9a9a
       height: 2px
+      position: relative
+
+      .line_progress
+        position: absolute
+        top: 0
+        left: 0
+        height: 2px
+        background-color: $default-black
+        transition: width .4s ease
+        will-change: width
 
     .swiper_fraction
       display: flex

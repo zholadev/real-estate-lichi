@@ -17,7 +17,7 @@ import MainNewsContent from "@/components/main/ui/MainNewsContent";
 function MainContainer(props) {
     const {i18n} = props
     return (
-        <div className={`${styles['main']} container_lg`}>
+        <div className={`${styles['main']} container_md`}>
             <MainPreview i18n={i18n}/>
             <MainFormInvesting i18n={i18n}/>
             <MainApartment i18n={i18n} title={i18n?.["site"]?.["apartment_title"]} col={3}/>

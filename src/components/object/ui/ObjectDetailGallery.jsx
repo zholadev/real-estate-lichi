@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import 'swiper/css';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {Thumbs, FreeMode} from 'swiper/modules';
+import {Thumbs, FreeMode, Autoplay, Navigation, Pagination} from 'swiper/modules';
 import {IMG} from "@/shared/constants/constants";
 import styles from '@/styles/object-page.module.sass'
 
@@ -26,7 +26,11 @@ function ObjectDetailGallery(props) {
                 slidesPerView={1}
                 loop={true}
                 thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
-                modules={[Thumbs, FreeMode]}
+                modules={[Thumbs, FreeMode, Autoplay]}
+                autoplay={{
+                    pauseOnMouseEnter: true,
+                    delay: 3000
+                }}
                 className="preview-gallery-swiper-main"
             >
                 <SwiperSlide>
@@ -47,17 +51,18 @@ function ObjectDetailGallery(props) {
                 <SwiperSlide>
                     <img src={IMG.templateSwiperImg['src']}/>
                 </SwiperSlide>
-
             </Swiper>
             <Swiper
                 onSwiper={setThumbsSwiper}
                 loop={true}
                 spaceBetween={10}
-                slidesPerView={5}
+                slidesPerView={4.5}
                 freeMode={true}
                 watchSlidesProgress={true}
-                modules={[Thumbs, FreeMode]}
-                className="mySwiper"
+                modules={[Thumbs, FreeMode, Navigation, Pagination]}
+                pagination={true}
+                navigation={true}
+                className="preview-gallery-swiper-thumbs"
             >
                 <SwiperSlide>
                     <img src={IMG.templateSwiperImg['src']}/>

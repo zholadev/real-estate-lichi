@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from "@/styles/main.module.sass";
+import Link from "next/link";
 
 /**
  * @author Zholaman Zhumanov
@@ -15,11 +16,18 @@ function TagListSecondary(props) {
         <div className={'container_md'}>
             <ul className={styles['main_bottom_list']} style={style}>
                 {
-                    listTags.map((cityItem) => {
+                    listTags.map((cityItem, cityId) => {
                         return (
-                            <li className={styles['list_item']} key={cityItem.id}>
-                                {cityItem.title}
-                            </li>
+                            cityItem?.link ?
+                                <Link href={cityItem?.link} key={cityItem.id}>
+                                    <li className={styles['list_item']}>
+                                        {cityItem.title}
+                                    </li>
+                                </Link>
+                                :
+                                <li className={styles['list_item']} key={cityItem.id}>
+                                    {cityItem.title}
+                                </li>
                         )
                     })
                 }

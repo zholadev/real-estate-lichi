@@ -14,7 +14,7 @@ import {SidebarContainer} from "@/widgets/sidebar";
  * @constructor
  */
 function Filter(props) {
-    const {filterData, i18n, onClick} = props
+    const {filterData, i18n, onClick, typeCatalog} = props
 
     const [toggleFilter, setToggleFilter] = useState(false)
 
@@ -32,7 +32,7 @@ function Filter(props) {
                 <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
                 <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
                 <Button title={i18n?.["site"]?.["search_title"]}/>
-                <Button type={'outline'} title={i18n?.["site"]?.["select_map_title"]} onClick={onClick}/>
+                <Button type={'outline'} title={typeCatalog === 'map' ? 'Список' : i18n?.["site"]?.["select_map_title"]} onClick={onClick}/>
             </div>
 
             <div className={styles['filter_sm_action']} onClick={toggleFilterHandle}>
@@ -47,7 +47,7 @@ function Filter(props) {
                 <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
                 <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
                 <Button title={i18n?.["site"]?.["search_title"]}/>
-                <Button type={'outline'} title={i18n?.["site"]?.["select_map_title"]} onClick={onClick}/>
+                <Button type={'outline'} title={typeCatalog === 'map' ? 'Список' : i18n?.["site"]?.["select_map_title"]} onClick={onClick}/>
             </div>
 
             <PortalProvider>
@@ -60,7 +60,7 @@ function Filter(props) {
                         <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
                         <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
                         <Button title={i18n?.["site"]?.["search_title"]}/>
-                        <Button type={'outline'} title={i18n?.["site"]?.["select_map_title"]} onClick={onClick}/>
+                        <Button type={'outline'} title={typeCatalog === 'map' ? 'Список' : i18n?.["site"]?.["select_map_title"]} onClick={onClick}/>
                     </div>
                 </SidebarContainer>
             </PortalProvider>

@@ -25,7 +25,7 @@ function Breadcrumbs(props) {
                     {
                         "id": 1,
                         "name": i18n?.["site"]?.["catalogs"],
-                        "redirect": "/catalog",
+                        "redirect": false,
                         "slash": true
                     },
                 ],
@@ -39,7 +39,7 @@ function Breadcrumbs(props) {
                     {
                         "id": 1,
                         "name": i18n?.["site"]?.["news_title"],
-                        "redirect": "/news",
+                        "redirect": false,
                         "slash": true
                     },
                 ],

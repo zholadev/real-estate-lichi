@@ -4,8 +4,18 @@
   width: 100%
   height: auto
 
+  @media (hover: hover)
+    &:hover
+      img
+        transform: scale(1.02)
+
   .card_photo
     margin-bottom: 15px
+    overflow: hidden
+
+    img
+      transition: transform .4s ease
+      will-change: transform
 
   .card_info
     .title
