@@ -36,8 +36,7 @@ function NavbarSubmenu(props) {
             {
                 y: 0,
                 opacity: 1,
-                duration: .3,
-                stagger: .1,
+                duration: .2,
                 ease: "power2.inOut",
                 onComplete: () => setMenuMotion(true)
             }
@@ -51,8 +50,7 @@ function NavbarSubmenu(props) {
             {
                 y: 0,
                 opacity: 1,
-                duration: .3,
-                stagger: .1,
+                duration: .2,
                 ease: "power2.inOut",
                 onComplete: () => setBottomActionMotion(true)
             }
@@ -66,8 +64,7 @@ function NavbarSubmenu(props) {
             {
                 y: 0,
                 opacity: 1,
-                duration: .3,
-                stagger: .1,
+                duration: .2,
                 ease: "power2.inOut"
             }
         );
