@@ -24,8 +24,6 @@ function Navbar(props) {
 
     const pathname = usePathname()
 
-    console.log(pathname)
-
     const scrollBottom = useScrollAction({"position": 20})
 
     const [toggleNavbar, setToggleNavbar] = useState(false)
@@ -47,7 +45,7 @@ function Navbar(props) {
     return (
         <>
             <navbar className={`${styles['navbar']} ${pathname === '/catalog/apartment' ? styles['navbar_full_wd'] : ''} ${scrollBottom ? styles['navbar_fill'] : ''}`}>
-                <div className={`${styles['navbar_content']} ${pathname === '/catalog/apartment' ? 'container_lg' : 'container_md'}`}>
+                <div className={`${styles['navbar_content']} ${pathname === '/catalog/apartment' || pathname === '/catalog/object' || pathname === '/about' || pathname === '/faq' ? 'container_lg' : 'container_md'}`}>
                     <Logo
                         onClick={() => {
                             toggleLogoAnimateTrigger()
@@ -58,12 +56,17 @@ function Navbar(props) {
                         active={animateLogoTrigger}
                         theme={toggleNavbar ? "light" : ''}
                     />
-                    {toggleNavbar ?  <i className={stylesSecondary['menu_closed']} onClick={toggleAnimateTrigger}/> : <PhoneAction i18n={i18n} type={'secondary'} hideContent/>}
+                    {toggleNavbar ?
+                        <i className={stylesSecondary['menu_closed']} onClick={() => {
+                            toggleAnimateTrigger()
+                            setAnimateLogoTrigger(false)
+                        }}/>
+                        : <PhoneAction i18n={i18n} type={'secondary'} hideContent/>}
                 </div>
             </navbar>
             <PortalProvider>
                 <NavbarSubmenu
-                    fullWidth={pathname === '/catalog/apartment' || pathname === '/catalog/object'}
+                    fullWidth={pathname === '/catalog/apartment' || pathname === '/catalog/object' || pathname === '/about' || pathname === '/faq'}
                     i18n={i18n}
                     active={toggleNavbar}
                     animateTrigger={animateTrigger}

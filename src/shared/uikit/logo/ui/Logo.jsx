@@ -263,7 +263,7 @@ function Logo(props) {
         } else {
             setTimeout(() => {
                 motionReverseAnimate()
-            }, 900)
+            }, 400)
         }
     }, [motionIsOn]);
 
