@@ -24,7 +24,7 @@
       @include content-show
 
   .preview_gallery
-    width: calc(50% - 40px)
+    width: calc(60% - 40px)
     margin-inline-end: 40px
 
     img
@@ -36,28 +36,29 @@
       margin-bottom: $p-size-35
 
   .preview_head_info
-    width: 50%
+    width: 40%
 
     +sm
       width: 100%
 
     .title
       margin-bottom: 40px
+      font-size: $size-30 !important
 
       +sm
         @include content-hide
 
     .preview_head_characters
       width: auto
-      margin-bottom: 110px
+      margin-bottom: 80px
 
       .characters_item
         display: flex
         align-items: center
         flex-direction: row
         justify-content: space-between
-        font-size: $size-20
-        line-height: $size-28
+        font-size: $size-18
+        line-height: $size-24
         margin-bottom: 15px
 
         +sm
@@ -233,16 +234,19 @@
         .list_item
           cursor: pointer
           margin-inline-end: $p-size-20
+          transition: font-weight .4s ease
+
+          span
+            position: relative
 
           &.active
             color: $default-black
-            font-weight: $size-500
 
     .map_info
       width: auto
       display: grid
       grid-template-columns: 1fr 1fr
-      grid-gap: $p-size-80
+      grid-gap: $p-size-40
 
       +sm
         grid-template-columns: 1fr

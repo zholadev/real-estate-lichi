@@ -26,7 +26,7 @@
       border-top: 1px solid $text-color-opacity
 
     &.active
-      height: 100%
+      height: min-content
 
     .header
       cursor: pointer
@@ -55,18 +55,11 @@
 
     .content
       width: 100%
-      padding: $p-size-50 0
-      height: 0
-      opacity: 0
-      visibility: hidden
-      transition: height .2s ease
-      will-change: height
       overflow: hidden
       line-height: 30px
 
-      &.active
-        opacity: 1
-        visibility: visible
+      .content_section
+        padding: 50px 0
 
   .content_tab_box
     position: relative
@@ -79,10 +72,34 @@
       width: 100%
       height: auto
       //visibility: hidden
+      overflow: hidden
       transition: opacity .5s ease
       will-change: opacity
 
       &.active
         opacity: 1
         visibility: visible
+
+  .accordion_icon
+    width: 30px
+    height: 30px
+    display: flex
+    justify-content: center
+    align-items: center
+    position: relative
+
+    .icon_v
+      width: 22px
+      height: 1px
+      background-color: #16181D
+      opacity: .6
+      position: absolute
+
+    .icon_h
+      width: 22px
+      height: 1px
+      background-color: #16181D
+
+      opacity: .6
+      transform: rotate(90deg)
 

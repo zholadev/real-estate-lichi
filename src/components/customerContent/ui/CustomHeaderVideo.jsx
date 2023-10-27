@@ -10,7 +10,7 @@ function CustomHeaderVideo(props) {
 
     return (
         <div className={styles['header_video']}>
-            <div className={'container_lg'}>
+            <div className={'container_md'}>
                 <Breadcrumbs i18n={i18n} page={page}/>
             </div>
 

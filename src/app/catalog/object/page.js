@@ -42,7 +42,7 @@ export default async function Page(props) {
     const i18n = await getDictionary('ru')
 
     return (
-        <div className={'container_lg page_top_size'}>
+        <div className={'container_md page_top_size'}>
             <Breadcrumbs i18n={i18n} page={'apartment'}/>
             <ObjectDetailPreview i18n={i18n}/>
             <TagListSecondary listTags={cityList} style={{marginBottom: "120px"}}/>

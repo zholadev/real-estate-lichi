@@ -1,11 +1,15 @@
-import React, {useMemo} from 'react';
-import styles from "@/styles/widget-submenu-navbar.module.sass"
-import {Logo} from "@/shared/uikit/logo";
-import {IMG} from "@/shared/constants/constants";
-import Link from "next/link";
-import {ButtonArrow} from "@/shared/uikit/button";
-import {PhoneAction} from "@/shared/site";
+'use client'
 
+import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {gsap} from 'gsap'
+import Link from "next/link";
+import {PhoneAction} from "@/shared/site";
+import {IMG} from "@/shared/constants/constants";
+import {ButtonArrow} from "@/shared/uikit/button";
+import styles from "@/styles/widget-submenu-navbar.module.sass"
+import NavbarMenuItem from "@/widgets/submenu/ui/NavbarMenuItem";
+
+// TODO: Refactoring
 
 /**
  * @author Zholaman Zhumanov
@@ -15,7 +19,112 @@ import {PhoneAction} from "@/shared/site";
  * @constructor
  */
 function NavbarSubmenu(props) {
-    const {i18n, active, toggle} = props
+    const {i18n, active, toggleAnimate, toggleMenu, animateTrigger, showSubmenuHandle, hideSubmenuHandle} = props
+
+    const listMenuRef = useRef(null);
+    const listPageRef = useRef(null)
+
+    const bottomActionRef = useRef(null)
+
+    const [menuMotion, setMenuMotion] = useState(false)
+    const [bottomActionMotion, setBottomActionMotion] = useState(false)
+
+    const animateMenuList = () => {
+        gsap.fromTo(
+            listMenuRef.current.children,
+            {y: 20, opacity: 0},
+            {
+                y: 0,
+                opacity: 1,
+                duration: .2,
+                ease: "power2.inOut",
+                onComplete: () => setMenuMotion(true)
+            }
+        );
+    };
+
+    const animatePageList = () => {
+        gsap.fromTo(
+            listPageRef.current.children,
+            {y: 20, opacity: 0},
+            {
+                y: 0,
+                opacity: 1,
+                duration: .2,
+                ease: "power2.inOut",
+                onComplete: () => setBottomActionMotion(true)
+            }
+        );
+    }
+
+    const animateBottomAction = () => {
+        gsap.fromTo(
+            bottomActionRef.current.children,
+            {y: 20, opacity: 0},
+            {
+                y: 0,
+                opacity: 1,
+                duration: .2,
+                ease: "power2.inOut"
+            }
+        );
+    }
+
+
+    const reverseListAnimation = () => {
+        gsap.to(listMenuRef.current.children, {
+            y: 20,
+            opacity: 0,
+            duration: .2,
+            onComplete: () => setMenuMotion(false)
+        });
+    };
+
+    const reversePageListAnimation = () => {
+        gsap.to(listPageRef.current.children, {
+            y: 20,
+            opacity: 0,
+            duration: .2,
+            onComplete: () => setBottomActionMotion(false)
+        });
+    }
+
+    const reverseBottomActionAnimation = () => {
+        gsap.to(bottomActionRef.current.children, {
+            y: 20,
+            opacity: 0,
+            duration: .2,
+            onComplete: () => {
+                hideSubmenuHandle()
+            }
+        });
+    }
+
+
+    useEffect(() => {
+        if (animateTrigger) {
+            showSubmenuHandle()
+            animateMenuList();
+        } else {
+            reverseListAnimation();
+        }
+    }, [animateTrigger]);
+
+    useEffect(() => {
+        if (menuMotion) {
+            animatePageList()
+        } else {
+            reversePageListAnimation()
+        }
+    }, [menuMotion]);
+
+    useEffect(() => {
+        if (bottomActionMotion) {
+            animateBottomAction()
+        } else {
+            reverseBottomActionAnimation()
+        }
+    }, [bottomActionMotion]);
 
     const menuList = useMemo(() => {
         return [
@@ -42,35 +151,20 @@ function NavbarSubmenu(props) {
 
     return (
         <div className={`${styles['navbar_submenu']} ${active ? styles['navbar_submenu__active'] : ''}`}>
-            <div className={styles['navbar_bg']}>
-                <div className={styles['bg_img']}/>
-            </div>
-            <i className={styles['menu_closed']} onClick={toggle}/>
+            {/*<i className={styles['menu_closed']} onClick={toggleAnimate}/>*/}
 
             <div className={styles['navbar_content']}>
                 <div className={styles['main_content']}>
                     <div className={styles['top_content']}>
-                        <Logo theme={'light'} onClick={toggle} type={'secondary'}/>
+                        {/*<Logo theme={'light'} onClick={toggle} type={'secondary'}/>*/}
                     </div>
 
                     <div className={styles['menu_content']}>
-                        <ul className={styles['menu_list']}>
+                        <ul className={styles['menu_list']} ref={listMenuRef}>
                             {
                                 menuList.map((item, id) => {
                                     return (
-                                        <div key={id} onClick={toggle}>
-                                            <li className={styles['list_item']}>
-                                                <Link href={item.url}>
-                                                    <div className={styles['title']}>{item.title}</div>
-                                                </Link>
-
-                                            </li>
-                                            <div className={styles['img_preview']}>
-                                                <div className={styles['preview_overlay']}></div>
-                                                <img src={item.img} alt=""/>
-                                            </div>
-                                        </div>
-
+                                        <NavbarMenuItem onClick={toggleAnimate} item={item} key={id}/>
                                     )
                                 })
                             }
@@ -78,18 +172,18 @@ function NavbarSubmenu(props) {
                     </div>
 
                     <div className={styles['page_content']}>
-                        <ul className={styles['menu_list']}>
-                            <li className={styles['list_item']} onClick={toggle}>
+                        <ul className={styles['menu_list']} ref={listPageRef}>
+                            <li className={styles['list_item']} onClick={toggleAnimate}>
                                 <Link href={'/about'}>
                                     О нас
                                 </Link>
                             </li>
-                            <li className={styles['list_item']} onClick={toggle}>
+                            <li className={styles['list_item']} onClick={toggleAnimate}>
                                 <Link href={'/faq'}>
                                     FAQ
                                 </Link>
                             </li>
-                            <li className={styles['list_item']} onClick={toggle}>
+                            <li className={styles['list_item']} onClick={toggleAnimate}>
                                 <Link href={'/news'}>
                                     Новости
                                 </Link>
@@ -99,21 +193,23 @@ function NavbarSubmenu(props) {
                 </div>
 
                 <div className={styles['footer_content']}>
-                    <ButtonArrow
-                        title={'Подобрать объект'}
-                        url={'/catalog'}
-                        onClick={toggle}
-                    />
+                   <div className={styles['footer_box']} ref={bottomActionRef}>
+                       <ButtonArrow
+                           title={'Подобрать объект'}
+                           url={'/catalog'}
+                           onClick={toggleAnimate}
+                       />
 
-                    <div className={styles['action_content']} onClick={toggle}>
-                        <PhoneAction
-                            i18n={i18n}
-                            themePhone={'light'}
-                            themeLocal={'light'}
-                            phoneOnClick={toggle}
-                            localOnClick={toggle}
-                        />
-                    </div>
+                       <div className={styles['action_content']} onClick={toggleAnimate}>
+                           <PhoneAction
+                               i18n={i18n}
+                               themePhone={'light'}
+                               themeLocal={'light'}
+                               phoneOnClick={toggleAnimate}
+                               localOnClick={toggleAnimate}
+                           />
+                       </div>
+                   </div>
                 </div>
             </div>
         </div>

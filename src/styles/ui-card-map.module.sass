@@ -1,0 +1,63 @@
+@import "_var"
+@import "_mixins"
+
+
+.card_map
+  width: 100%
+  padding: 0 0 24px 0
+  margin-bottom: 12px
+  border-bottom: 1px solid rgba(22, 24, 29, 0.3)
+
+  display: flex
+  align-items: flex-start
+  flex-direction: row
+
+  @media (hover: hover)
+    &:hover
+      img
+        transform: scale(1.02)
+
+  +sm
+    flex-direction: column
+    border: 1px solid rgba(214, 214, 214, 1)
+    min-width: 156px
+    max-width: 156px
+    padding: 8px
+    justify-content: center
+    margin-bottom: $p-size-10
+    margin-inline-end: 8px
+
+  .info
+    .info_header
+      margin-bottom: $p-size-20
+
+      .title
+        font-size: $size-20
+        line-height: $size-24
+        margin-bottom: $p-size-20
+
+        +sm
+          font-size: $size-14
+          line-height: 16.4px
+          margin-bottom: 7px
+
+      .price
+        font-weight: $size-600
+        font-size: $size-15
+
+    .info_footer
+      button
+        font-size: $size-16
+
+  .img
+    margin-inline-end: $p-size-10
+    overflow: hidden
+
+    +sm
+      margin-inline-end: 0
+
+    img
+      border-radius: 4px
+      transition: transform .4s ease
+      will-change: transform
+

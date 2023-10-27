@@ -11,7 +11,6 @@
   flex-wrap: wrap
 
   .tag_item
-    //border-right: 1px solid $text-primary-gray
     margin-bottom: $p-size-5
     padding-inline-end: 8px
     position: relative
@@ -29,7 +28,9 @@
 
 
     &:last-of-type
-      border-right: none
+      &:after
+        display: none
+        visibility: hidden
 
     &:first-of-type
       padding-left: 0

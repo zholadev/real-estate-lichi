@@ -63,4 +63,4 @@ function Accordion(props) {
     );
 }
 
-export default Accordion;
+export default React.memo(Accordion);

@@ -4,31 +4,39 @@ import {TagListSecondary} from "@/shared/uikit/tags";
 const cityList = [
     {
         id: 1,
-        title: "Burg Binghatti"
+        title: "Burg Binghatti",
+        link: "/catalog/apartment"
     }, {
         id: 2,
-        title: "Keturah Reserve"
+        title: "Keturah Reserve",
+        link: "/catalog/apartment"
     }, {
         id: 3,
-        title: "Bugatti Residences"
+        title: "Bugatti Residences",
+        link: "/catalog/apartment"
     }, {
         id: 4,
-        title: "Como Residences by Nakheel"
+        title: "Como Residences by Nakheel",
+        link: "/catalog/apartment"
     }, {
         id: 5,
-        title: "The Sanctuary"
+        title: "The Sanctuary",
+        link: "/catalog/apartment"
     }, {
         id: 6,
-        title: "Sobha Estates Villas"
+        title: "Sobha Estates Villas",
+        link: "/catalog/apartment"
     },
 ]
 const cityList2 = [
     {
         id: 7,
-        title: "Vela Residences by Omniyat"
+        title: "Vela Residences by Omniyat",
+        link: "/catalog/apartment"
     }, {
         id: 8,
-        title: "Ocean House by Ellington"
+        title: "Ocean House by Ellington",
+        link: "/catalog/apartment"
     }
 ]
 

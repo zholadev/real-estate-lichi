@@ -16,11 +16,23 @@
       color: $default-light
 
   .icon
-    width: 62px
-    height: 62px
+    width: 40px
+    height: 40px
 
     &.icon_sc
       transform: rotate(90deg)
+
+  .icon_box
+    width: 36px
+    height: 36px
+    display: flex
+    flex-direction: column
+    justify-content: space-around
+    align-items: flex-end
+    margin-inline-end: $p-size-20
+
+    &.icon_box_row
+      flex-direction: row
 
   .ui_logo_items
     display: flex

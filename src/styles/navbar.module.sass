@@ -6,13 +6,20 @@
   height: 52px !important
   position: fixed
   top: 40px
-  z-index: 100
+  z-index: 10001
 
   @media screen and (max-width: 768px)
     top: 10px
 
+  &.navbar_fill
+    top: 0
+    background-color: $default-light
+    height: 75px !important
+    transition: top .5s ease
+
   .navbar_content
     display: flex
+    position: relative
     align-items: center
     justify-content: space-between
 

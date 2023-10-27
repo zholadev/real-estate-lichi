@@ -8,6 +8,7 @@ import 'swiper/css'
 import {IMG} from "@/shared/constants/constants";
 import {useMediaMaxState} from "@/shared/hooks";
 import {useMediaQuery} from "react-responsive";
+import {Autoplay} from "swiper/modules";
 
 /**
  * @author Zholaman Zhumanov
@@ -107,6 +108,11 @@ function ApartmentAdvantagesSwiper(props) {
         }
     }, [swiper])
 
+    const getProgressCount = useMemo(() => {
+        const getCount = swiperActiveSlide / sliderDataStatic.length
+        return getCount * 100
+    }, [swiperActiveSlide])
+
 
     return (
         <div className={styles['advantages_swiper']}>
@@ -119,6 +125,11 @@ function ApartmentAdvantagesSwiper(props) {
                 onSlideChange={(swiper) => setSwiperActiveSlide(swiper.activeIndex + 1)}
                 onSwiper={(swiper) => setSwiper(swiper)}
                 className={'apartments-advantages-swiper'}
+                modules={[Autoplay]}
+                autoplay={{
+                    pauseOnMouseEnter: true,
+                    delay: 3000
+                }}
             >
                 {
                     sliderDataStatic.map((item, id) => {
@@ -143,7 +154,9 @@ function ApartmentAdvantagesSwiper(props) {
                         </div>
                         <i className={`${styles['icon']} ${styles['icon_right']}`} onClick={nextHandle}/>
                     </div>
-                    <div className={styles['swiper_line']}/>
+                    <div className={styles['swiper_line']}>
+                        <div className={styles['line_progress']} style={{width: `${getProgressCount}%`}}/>
+                    </div>
                 </div>
             </div>
         </div>

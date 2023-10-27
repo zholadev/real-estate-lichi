@@ -16,7 +16,7 @@
     h1
       text-align: center
       max-width: 837px
-      margin-bottom: 80px
+      margin-bottom: $p-size-120
       line-height: 67.2px
 
       @media screen and (max-width: 1200px)
@@ -27,18 +27,17 @@
     margin-bottom: 80px
     position: relative
 
-    min-height: 639px
-    height: calc(100vh - 639px)
+    height: 32vw
 
     @media screen and (max-width: 1024px)
-      height: calc(100vh - 1010px)
+      height: 67vw
 
     @media screen and (max-width: 768px)
       height: calc(100vh - 457px)
 
     .preview_btn_place
       position: absolute
-      top: 100px
+      bottom: 100px
       margin: 0 auto
       width: 100%
       display: flex
@@ -59,6 +58,7 @@
     margin-inline-end: 15px
     margin-bottom: 15px
     font-size: $size-16
+    cursor: pointer
 
     &:last-of-type
       margin-inline-end: 0

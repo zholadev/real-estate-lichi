@@ -1,10 +1,11 @@
 'use client'
 
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Swiper, SwiperSlide} from "swiper/react";
 import styles from '@/styles/apartments-page.module.sass'
 
 import 'swiper/css';
+import {Autoplay} from "swiper/modules";
 
 /**
  * @author Zholaman Zhumanov
@@ -74,6 +75,11 @@ function ApartmentDesignSwiper(props) {
                         loop={false}
                         slidesPerView={1}
                         speed={500}
+                        modules={[Autoplay]}
+                        autoplay={{
+                            pauseOnMouseEnter: true,
+                            delay: 3000
+                        }}
                         onSwiper={swiper => setSwiper(swiper)}
                         onSlideChange={swiper => {
                             setSwiperActiveIndex(swiper.activeIndex + 1)

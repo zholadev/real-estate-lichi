@@ -1,18 +1,18 @@
 'use client'
 
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import styles from "@/styles/ui-logo.module.sass";
-import anime from "animejs";
+import {gsap} from "gsap";
 
 const animationsPath = [
     {
-        p: "M2.12275e-06 5.50904L0 19.5002V22.0002H5L5 19.5002L5 0.587891L2.12275e-06 5.50904Z",
+        p: "M5.10656 5L13.9902 5L16.4902 5L16.4902 -1.67393e-06L13.9902 -1.56465e-06L0.0126951 0L5.10656 5Z",
     },
     {
-        p: "M11.977,35.848501L16.0325,28.1285L52.014,28.1285L51.977,36.0325L11.977,35.848501Z",
+        p: "M0 5L30.9895 5L33.4895 5L33.4895 -1.94071e-06L30.9895 -1.83143e-06L5.15798 -1.65597e-06L5.15799 2.63556e-06L0 5Z",
     },
     {
-        p: "M28.0555,52.133688L24.0555,44.001541L51.948,44.129623L51.910296,52.133688L28.0555,52.133688Z",
+        p: "M4.99927 5L18.9904 5L21.4904 5L21.4904 -9.35962e-07L18.9904 -1.30352e-06L0.0781248 -2.86102e-06L4.99927 5Z",
     },
 ];
 
@@ -34,6 +34,11 @@ const animationsPathDefault = [
     },
 ];
 
+const easeIcon = "expoScale(0.5,7,none)"
+const easeIconBox = "slow(0.7,0.7,false)"
+const easeElastic = "elastic.inOut"
+const easingPowerInOut = "power2.inOut"
+
 /**
  * @author Zholaman Zhumanov
  * @created 09.10.2023
@@ -42,157 +47,290 @@ const animationsPathDefault = [
  * @constructor
  */
 function Logo(props) {
-    const {theme, onClick, type} = props
+    const {theme, onClick, type, active, activeColor} = props
 
-    const timelineRef = useRef(null);
+    const contentLogoBox = useRef(null)
 
-    const init = () => {
-        const tl = anime.timeline({
-            easing: 'easeOutElastic(1, 0.8)',
-            duration: 500,
-            autoplay: false,
-        });
+    const contentLogoF = useRef(null)
+    const contentLogoBoxF = useRef(null)
 
-        tl.add({
-            targets: '.icon',
-            rotate: 90,
-        }, 0);
 
-        const pathData = [
+    const contentLogoS = useRef(null)
+    const contentLogoBoxS = useRef(null)
+
+
+    const contentLogoT = useRef(null)
+    const contentLogoBoxT = useRef(null)
+
+    const [motionIsOn, setMotionIsOn] = useState(false)
+
+    const svgFillColor = useMemo(() => {
+        return activeColor ? "#fff" : "#16181D"
+    }, [motionIsOn, activeColor])
+
+    const motionAnimateInitial = () => {
+        gsap.to(contentLogoBox.current,
             {
-                o: '#svg_bar_1',
-                p: 'M35.044,19.904243L39.044,12.095601L52.088,12.095601L52.072269,19.999922L35.044,19.904243Z',
-            },
-            {
-                o: '#svg_bar_2',
-                p: 'M11.977,35.848501L16.0325,28.1285L52.014,28.1285L51.977,36.0325L11.977,35.848501Z',
-            },
-            {
-                o: '#svg_bar_3',
-                p: 'M28.0555,52.133688L24.0555,44.001541L51.948,44.129623L51.910296,52.133688L28.0555,52.133688Z',
-            },
-        ];
+                rotate: 90,
+                ease: easingPowerInOut,
+                duration: .3,
+                onComplete: () => {
+                    gsap.to(contentLogoBoxF.current, {
+                        ease: easeIconBox,
+                        duration: 0,
+                        attr: {
+                            width: 17,
+                            height: 5,
+                            fill: "none",
+                            viewBox: "0 0 17 5"
+                        },
+                        onComplete: () => {
+                            gsap.fromTo(contentLogoF.current,
+                                {
+                                    attr: {
+                                        fill: '#16181D',
+                                    }
+                                },
+                                {
+                                    ease: easeIcon,
+                                    duration: 1,
+                                    delay: .3,
+                                    attr: {
+                                        fill: '#fff',
+                                    },
+                                })
+                            gsap.fromTo(contentLogoF.current,
+                                {},
+                                {
+                                    ease: easeIcon,
+                                    duration: .6,
+                                    delay: .3,
+                                    x: 0,
+                                    attr: {
+                                        d: animationsPath[0]["p"],
+                                        ['stroke-width']: 0
+                                    },
+                                })
 
-        pathData.forEach((el, i) => {
-            tl.add({
-                targets: el.o,
-                d: el.p,
-            }, 100 * (i + 1));
-        });
+                        }
+                    })
 
-        timelineRef.current = tl;
-    };
+                    gsap.to(contentLogoBoxS.current, {
+                        ease: easeIconBox,
+                        duration: 0,
+                        attr: {
+                            width: 34,
+                            height: 5,
+                            fill: "none",
+                            viewBox: "0 0 34 5"
+                        },
+                        onComplete: () => {
+                            gsap.fromTo(contentLogoS.current,
+                                {
+                                    attr: {
+                                        fill: '#16181D',
+                                    }
+                                },
+                                {
+                                    ease: easeIcon,
+                                    duration: .6,
+                                    delay: .2,
+                                    x: 0,
+                                    attr: {
+                                        d: animationsPath[1]["p"],
+                                        fill: '#fff',
+                                        ['stroke-width']: 0
+                                    },
+                                })
+                        }
+                    })
 
-    const handleClick = (e) => {
-        if (type === 'secondary') return
-        if (timelineRef.current) {
-            timelineRef.current.play();
-            timelineRef.current.finished.then(() => {
-                timelineRef.current.reverse();
-                if (onClick) {
-                    onClick()
+                    gsap.to(contentLogoBoxT.current, {
+                        ease: easeIconBox,
+                        duration: 0,
+                        attr: {
+                            width: 22,
+                            height: 5,
+                            fill: "none",
+                            viewBox: "0 0 22 5"
+                        },
+                        onComplete: () => {
+                            gsap.fromTo(contentLogoT.current,
+                                {
+                                    attr: {
+                                        fill: '#16181D',
+                                    }
+                                },
+                                {
+                                    ease: easeIcon,
+                                    duration: .6,
+                                    delay: .1,
+                                    x: 0,
+                                    attr: {
+                                        d: animationsPath[2]["p"],
+                                        fill: '#fff',
+                                        ['stroke-width']: 0
+                                    },
+                                })
+                        }
+                    })
                 }
-            });
-        }
-    };
+            },
+        )
+    }
 
-    // Call the `init` function when the component is mounted.
+    const motionReverseAnimate = () => {
+        gsap.to(contentLogoBox.current,
+            {
+                rotate: 0,
+                ease: easingPowerInOut,
+                duration: .2,
+                onComplete: () => {
+                    gsap.to(contentLogoBoxF.current, {
+                        ease: easeIconBox,
+                        duration: 0,
+                        attr: {
+                            width: 24,
+                            height: 2,
+                            fill: "none",
+                            viewBox: "0 0 24 2"
+                        },
+                        onComplete: () => {
+                            gsap.to(contentLogoF.current, {
+                                ease: easeIcon,
+                                duration: .2,
+                                attr: {
+                                    d: animationsPathDefault[0]["p"],
+                                    fill: '#16181D',
+                                    ['stroke-width']: 2
+                                },
+                            })
+                        }
+                    })
+
+                    gsap.to(contentLogoBoxS.current, {
+                        ease: easeIconBox,
+                        duration: 0,
+                        attr: {
+                            width: 36,
+                            height: 2,
+                            fill: "none",
+                            viewBox: "0 0 36 2"
+                        },
+                        onComplete: () => {
+                            gsap.to(contentLogoS.current, {
+                                ease: easeIcon,
+                                duration: .2,
+                                attr: {
+                                    d: animationsPathDefault[1]["p"],
+                                    fill: '#16181D',
+                                    ['stroke-width']: 2
+                                },
+                            })
+                        }
+                    })
+
+                    gsap.to(contentLogoBoxT.current, {
+                        ease: easeIconBox,
+                        duration: 0,
+                        attr: {
+                            width: 24,
+                            height: 2,
+                            fill: "none",
+                            viewBox: "0 0 24 2"
+                        },
+                        onComplete: () => {
+                            gsap.to(contentLogoT.current, {
+                                ease: easeIcon,
+                                duration: .2,
+                                attr: {
+                                    d: animationsPathDefault[2]["p"],
+                                    fill: '#16181D',
+                                    ['stroke-width']: 2
+                                },
+                            })
+                        }
+                    })
+                }
+            })
+
+
+    }
+
     useEffect(() => {
-        init();
-    }, []);
+        if (motionIsOn) {
+            motionAnimateInitial()
+        } else {
+            setTimeout(() => {
+                motionReverseAnimate()
+            }, 900)
+        }
+    }, [motionIsOn]);
+
+    useEffect(() => {
+        if (type === 'secondary') return
+        if (active) {
+            setMotionIsOn(true)
+        } else {
+            setMotionIsOn(false)
+        }
+    }, [active, type])
 
     return (
         <div
             className={`${styles['ui_logo']} ${theme === 'light' ? styles['ui_logo_light'] : ''}`}
-            onClick={handleClick}
+            onClick={onClick}
         >
-            {/*<motion.div*/}
-            {/*    className={styles['ui_logo_items']}*/}
-            {/*    initial={{rotate: 0}}*/}
-            {/*    animate={controls}*/}
-            {/*>*/}
-            {/*    /!*<div className={styles['item']}/>*!/*/}
-            {/*    /!*<div className={styles['item']}/>*!/*/}
-            {/*    /!*<div className={styles['item']}/>*!/*/}
-
-            {/*    <motion.svg*/}
-            {/*        xmlns="http://www.w3.org/2000/svg"*/}
-            {/*        width={isOpened ? "5" : "24"}*/}
-            {/*        height={isOpened ? "22" : "2"}*/}
-            {/*        viewBox={isOpened ? "0 0 5 22" : "0 0 24 2"}*/}
-            {/*        fill="none"*/}
-            {/*        style={{marginBottom: "10px"}}*/}
-            {/*    >*/}
-            {/*        <motion.path*/}
-            {/*            d={isOpened ? animationsPath[0].p : animationsPathDefault[0].p}*/}
-            {/*            stroke="#16181D"*/}
-            {/*            strokeWidth="2" strokeLinecap="square"*/}
-            {/*            animate={controlPath1}*/}
-            {/*            transition={{duration: 0.5}}*/}
-            {/*        />*/}
-            {/*    </motion.svg>*/}
-            {/*    <motion.svg*/}
-            {/*        xmlns="http://www.w3.org/2000/svg"*/}
-            {/*        width="36"*/}
-            {/*        height="2"*/}
-            {/*        viewBox="0 0 36 2"*/}
-            {/*        fill="none"*/}
-            {/*        style={{marginBottom: "10px"}}*/}
-            {/*    >*/}
-            {/*        <motion.path*/}
-            {/*            d={isOpened ? animationsPath[1].p : animationsPathDefault[1].p}*/}
-            {/*            stroke="#16181D"*/}
-            {/*            strokeWidth="2" strokeLinecap="square"*/}
-            {/*            animate={controlPath2}*/}
-            {/*            transition={{duration: 0.5}}*/}
-            {/*        />*/}
-            {/*    </motion.svg>*/}
-            {/*    <motion.svg*/}
-            {/*        xmlns="http://www.w3.org/2000/svg"*/}
-            {/*        width="24"*/}
-            {/*        height="2"*/}
-            {/*        viewBox="0 0 24 2"*/}
-            {/*        fill="none"*/}
-            {/*    >*/}
-            {/*        <motion.path*/}
-            {/*            d={isOpened ? animationsPath[2].p : animationsPathDefault[2].p}*/}
-            {/*            stroke="#16181D"*/}
-            {/*            strokeWidth="2" strokeLinecap="square"*/}
-            {/*            animate={controlPath3}*/}
-            {/*            transition={{duration: 0.5}}*/}
-            {/*        />*/}
-            {/*    </motion.svg>*/}
-            {/*</motion.div>*/}
             {
                 type === 'secondary' ?
-                    <div className={`${styles['icon']} ${styles['icon_sc']}`}>
-                        <svg viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-                            <g id="bars">
-                                <path id="svg_bar_1"
-                                      d="M35.044,19.904243L39.044,12.095601L52.088,12.095601L52.072269,19.999922L35.044,19.904243Z"
-                                      style={{strokeWidth: 0, fill: theme === 'light' ? '#fff' : '#000'}}/>
-                                <path id="svg_bar_2"
-                                      d="M11.977,35.848501L16.0325,28.1285L52.014,28.1285L51.977,36.0325L11.977,35.848501Z"
-                                      style={{strokeWidth: 0, fill: theme === 'light' ? '#fff' : '#000'}}/>
-                                <path id="svg_bar_3"
-                                      d="M28.0555,52.133688L24.0555,44.001541L51.948,44.129623L51.910296,52.133688L28.0555,52.133688Z"
-                                      style={{strokeWidth: 0, fill: theme === 'light' ? '#fff' : '#000'}}/>
-                            </g>
+                    <div className={`${styles['icon_box']} ${styles['icon_box_row']}`}>
+                        <svg width="5" height="22" viewBox="0 0 5 22" fill="none" style={{marginRight: '6px'}}
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2.12275e-06 5.50904L0 19.5002V22.0002H5L5 19.5002L5 0.587891L2.12275e-06 5.50904Z"
+                                  fill="#16181D"/>
+                        </svg>
+
+                        <svg width="5" height="34" viewBox="0 0 5 34" fill="none" style={{marginRight: '6px'}}
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M1.73847e-06 0.510254L0 31.4998V33.9998H5V31.4998L5 5.66824L5 5.66824L1.73847e-06 0.510254Z"
+                                fill="#16181D"/>
+                        </svg>
+
+                        <svg width="5" height="17" viewBox="0 0 5 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 5.61632V14.5V17H5V14.5L5 0.522461L0 5.61632Z" fill="#16181D"/>
                         </svg>
                     </div>
                     :
-                    <div className={`${styles['icon']} icon`}>
-                        <svg viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-                            <g id="bars">
-                                <path id="svg_bar_1" d="M 12 17.976 L 12 16 L 52.088 16.024 L 52.051 18 L 12 17.976 Z"
-                                      style={{strokeWidth: 0, fill: theme === 'light' ? '#fff' : '#000'}}/>
-                                <path id="svg_bar_2"
-                                      d="M 11.977 31.954 L 12 30 L 52.014 30.024 L 51.977 32 L 11.977 31.954 Z"
-                                      style={{strokeWidth: 0, fill: theme === 'light' ? '#fff' : '#000'}}/>
-                                <path id="svg_bar_3"
-                                      d="M 12.052 45.978 L 12.052 44 L 52 44.032 L 51.946 46 L 12.052 45.978 Z"
-                                      style={{strokeWidth: 0, fill: theme === 'light' ? '#fff' : '#000'}}/>
-                            </g>
+                    <div ref={contentLogoBox} className={`${styles['icon_box']} icon`}>
+                        <svg
+                            ref={contentLogoBoxF}
+                            width="24"
+                            height="2"
+                            viewBox="0 0 24 2"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path d="M1 1L23 1" stroke="#16181D" strokeWidth={2} ref={contentLogoF}/>
+                        </svg>
+
+                        <svg
+                            ref={contentLogoBoxS}
+                            width="36"
+                            height="2"
+                            viewBox="0 0 36 2"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path d="M1 1H35" stroke="#16181D" strokeWidth={2} ref={contentLogoS}/>
+                        </svg>
+
+                        <svg
+                            ref={contentLogoBoxT}
+                            width="24"
+                            height="2"
+                            viewBox="0 0 24 2"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path d="M1 1L23 1" stroke="#16181D" strokeWidth={2} ref={contentLogoT}/>
                         </svg>
                     </div>
             }
@@ -207,3 +345,56 @@ function Logo(props) {
 }
 
 export default Logo;
+
+
+// <div className={styles['icon_box']} ref={contentRotateRef}>
+//     <svg width="24" height="2" viewBox="0 0 24 2" fill="none"
+//          xmlns="http://www.w3.org/2000/svg" style={{marginBottom: '10px'}}>
+//         <path d="M1 1L23 1" stroke="#16181D" strokeWidth="2" strokeLinecap="square"/>
+//     </svg>
+//
+//     <svg width="36" height="2" viewBox="0 0 36 2" fill="none"
+//          xmlns="http://www.w3.org/2000/svg" style={{marginBottom: '10px'}}>
+//         <path d="M1 1H35" stroke="#16181D" strokeWidth="2" strokeLinecap="square"/>
+//     </svg>
+//
+//     <svg width="24" height="2" viewBox="0 0 24 2" fill="none"
+//          xmlns="http://www.w3.org/2000/svg">
+//         <path d="M1 1L23 1" stroke="#16181D" strokeWidth="2" strokeLinecap="square"/>
+//     </svg>
+// </div>
+
+
+// <div>
+//
+//     <svg width="5" height="22" viewBox="0 0 5 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+//         <path fill-rule="evenodd" clip-rule="evenodd" d="M2.12275e-06 5.50904L0 19.5002V22.0002H5L5 19.5002L5 0.587891L2.12275e-06 5.50904Z" fill="#16181D"/>
+//     </svg>
+//
+//     <svg width="5" height="34" viewBox="0 0 5 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+//         <path fill-rule="evenodd" clip-rule="evenodd" d="M1.73847e-06 0.510254L0 31.4998V33.9998H5V31.4998L5 5.66824L5 5.66824L1.73847e-06 0.510254Z" fill="#16181D"/>
+//     </svg>
+//
+//     <svg width="5" height="17" viewBox="0 0 5 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+//         <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5.61632V14.5V17H5V14.5L5 0.522461L0 5.61632Z" fill="#16181D"/>
+//     </svg>
+//
+// </div>
+
+//
+// <div>
+//     <svg width="17" height="5" viewBox="0 0 17 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+//         <path d="M5.10656 5L13.9902 5L16.4902 5L16.4902 -1.67393e-06L13.9902 -1.56465e-06L0.0126951 0L5.10656 5Z" fill="#16181D"/>
+//     </svg>
+//
+//
+//     <svg width="34" height="5" viewBox="0 0 34 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+//         <path d="M0 5L30.9895 5L33.4895 5L33.4895 -1.94071e-06L30.9895 -1.83143e-06L5.15798 -1.65597e-06L5.15799 2.63556e-06L0 5Z" fill="#16181D"/>
+//     </svg>
+//
+//
+//     <svg width="22" height="5" viewBox="0 0 22 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+//         <path d="M4.99927 5L18.9904 5L21.4904 5L21.4904 -9.35962e-07L18.9904 -1.30352e-06L0.0781248 -2.86102e-06L4.99927 5Z" fill="#16181D"/>
+//     </svg>
+//
+// </div>

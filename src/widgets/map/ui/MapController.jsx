@@ -16,15 +16,15 @@ import MapOptions from "./MapOptions";
  * @constructor
  */
 function MapController(props) {
-    const {width, height = 700} = props
+    const {width = "100%", height = 700} = props
 
     return (
-        <div className={styles['map_controller']} style={{width: "100%", height: height}}>
+        <div className={styles['map_controller']} style={{width: width, height: height}}>
             <MapContainer
                 zoomControl={false}
                 scrollWheelZoom={false}
                 zoom={17}
-                style={{width: "100%", height: height}}
+                style={{width: width, height: height}}
             >
                 <MapOptions/>
                 <ZoomControl position="topright"/>

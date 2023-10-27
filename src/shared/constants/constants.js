@@ -21,7 +21,10 @@ import templateDesignApartment from '../../../public/images/template/tempalte-de
 import templateBasicImg1 from  '../../../public/images/template/image 20.png'
 import templateBasicImg2 from  '../../../public/images/template/image 15.png'
 import templateBasicImg3 from  '../../../public/images/template/image 19.png'
-
+import posterDubaiMain from '../../../public/images/posters/poster-main-dubai.jpg'
+import posterDubaiApartmentPage from '../../../public/images/posters/poster-apartment-page.jpg'
+import posterAboutPage from '../../../public/images/posters/poster-about-page.jpg'
+import templateMapCard from '../../../public/images/template/template-map-card.png'
 
 export const IMG = {
     "previewDubaiImg": previewDubaiImg,
@@ -40,7 +43,11 @@ export const IMG = {
     "templateDesignApartment": templateDesignApartment,
     "templateBasicImg1": templateBasicImg1,
     "templateBasicImg2": templateBasicImg2,
-    "templateBasicImg3": templateBasicImg3
+    "templateBasicImg3": templateBasicImg3,
+    "posterDubaiMain": posterDubaiMain,
+    "posterDubaiApartmentPage": posterDubaiApartmentPage,
+    "posterAboutPage": posterAboutPage,
+    "templateMapCard": templateMapCard
 }
 
 import swiperArrowLeftIcon from '../../../public/images/icons/swiper-arrow-left.svg'
