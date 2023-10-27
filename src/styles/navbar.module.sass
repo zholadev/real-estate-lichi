@@ -38,6 +38,10 @@
   align-items: center
   color: $text-color-opacity
 
+  &.phone_hide_content
+    @media screen and (max-width: 768px)
+      margin-inline-end: 0
+
   &.navbar_phone_secondary
     .phone_icon
       @media screen and (max-width: 768px)

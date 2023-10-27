@@ -14,9 +14,9 @@ function PhoneAction(props) {
     const {type, hideContent, i18n, themePhone, themeLocal, phoneOnClick, localOnClick} = props
 
     return (
-        <div className={styles['site_phone_box']}>
+        <div className={`${styles['site_phone_box']} ${hideContent ? styles['phone_box_hide'] : ''}`}>
             <div className={styles['phone_link']}>
-                <PhoneLink i18n={i18n} theme={themePhone} type={type} onClick={phoneOnClick}/>
+                <PhoneLink i18n={i18n} theme={themePhone} type={type} hideContent={hideContent} onClick={phoneOnClick}/>
             </div>
             <div className={styles['localization_link']}>
                 <SwitchLocalization i18n={i18n} theme={themeLocal} hideContent={hideContent} onClick={localOnClick}/>
