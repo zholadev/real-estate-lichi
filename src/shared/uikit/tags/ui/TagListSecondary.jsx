@@ -19,8 +19,8 @@ function TagListSecondary(props) {
                     listTags.map((cityItem, cityId) => {
                         return (
                             cityItem?.link ?
-                                <Link href={cityItem?.link} key={cityItem.id}>
-                                    <li className={styles['list_item']}>
+                                <Link href={cityItem?.link} key={cityItem.id} className={styles['list_item']}>
+                                    <li>
                                         {cityItem.title}
                                     </li>
                                 </Link>
