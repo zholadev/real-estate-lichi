@@ -29,7 +29,7 @@ function MainPreview(props) {
                 />
                 <div className={styles['preview_btn_place']}>
                     <Button
-                        type={'outline'}
+                        type={'outline_light'}
                         title={i18n?.["site"]?.["get_object"]}
                         style={{minWidth: '268px'}}
                         url={'/catalog'}

@@ -114,7 +114,11 @@
         .title
           position: relative
           z-index: 10
-          transition: all .3s ease
+          transition: font-weight .1s ease-in-out
+          will-change: font-weight
+          @media (hover: hover)
+            &:hover
+              font-weight: $size-600
 
       .img_preview
         position: absolute
@@ -152,6 +156,12 @@
 
       .list_item
         margin-bottom: $p-size-30
+
+        transition: font-weight .1s ease-in-out
+        will-change: font-weight
+        @media (hover: hover)
+          &:hover
+            font-weight: $size-500
 
   .footer_content
     width: 100%
