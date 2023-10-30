@@ -7,7 +7,7 @@ import {IMG} from "@/shared/constants/constants";
 import {useMediaMaxState} from "@/shared/hooks";
 
 function MapCard(props) {
-    const {data} = props
+    const {data, redirect} = props
 
     const mediaSmQuery = useMediaMaxState({screenSize: 576})
 
@@ -43,6 +43,7 @@ function MapCard(props) {
                         <ButtonArrow
                             title={'Подробнее'}
                             url={'/catalog/apartment'}
+                            type={'small'}
                         />
                     </div>
                 </div>
