@@ -12,7 +12,7 @@ function FooterContact(props) {
     const {i18n} = props
 
     return (
-        <div>
+        <div className={'w-100'}>
             <ul className={`${styles['footer_page_list']} ${styles['footer_page_list_icon']}`}>
                 <li className={`${styles['page_list_item']} ${styles['page_list_item_icon']}`}>
                     <i className={`${styles['icon']} ${styles['phone']}`}/>

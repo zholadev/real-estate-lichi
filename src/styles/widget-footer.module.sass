@@ -25,7 +25,6 @@
   .footer_top_content
     display: flex
     flex-direction: row
-    justify-content: space-between
     width: 100%
     align-items: flex-start
 
@@ -34,7 +33,10 @@
       width: 100%
 
     .top_content
-      width: 50%
+      width: 40%
+
+      +md_sm
+        width: 50%
 
 .footer_page_list
   width: auto

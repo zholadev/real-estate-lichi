@@ -18,20 +18,28 @@ function ButtonArrow(props) {
     const {title, onClick, url, type = 'button'} = props
 
     const buttonRef = useRef(null)
+    const textRef = useRef(null)
+    const iconRef = useRef(null)
 
     const motionHover = () => {
         gsap.to(buttonRef.current,
             {
-                border: '1px solid #000',
+                backgroundColor: '#000',
                 duration: .4,
                 ease: "power2.inOut",
+                padding: "0 30px",
                 onComplete: args => {
-                    gsap.to(buttonRef.current,
+                    gsap.to(textRef.current,
                         {
-                            backgroundColor: '#000',
-                            duration: .5,
-                            color: '#fff',
-                            filter: 'invert(100%)'
+                            color: '#ffffff',
+                            duration: .3,
+                        }
+                    )
+
+                    gsap.to(iconRef.current,
+                        {
+                            filter: "invert(100%)",
+                            duration: .3,
                         }
                     )
                 }
@@ -42,16 +50,22 @@ function ButtonArrow(props) {
     const motionHoverLeave = () => {
         gsap.to(buttonRef.current,
             {
-                border: 0,
+                backgroundColor: 'transparent',
                 duration: .4,
                 ease: "power2.inOut",
+                padding: "0",
                 onComplete: args => {
-                    gsap.to(buttonRef.current,
+                    gsap.to(textRef.current,
                         {
-                            backgroundColor: 'transparent',
-                            duration: .4,
-                            color: '#000',
-                            filter: 'none'
+                            color: 'initial',
+                            duration: .3,
+                        }
+                    )
+
+                    gsap.to(iconRef.current,
+                        {
+                            filter: "none",
+                            duration: .3,
                         }
                     )
                 }
@@ -75,14 +89,14 @@ function ButtonArrow(props) {
                     className={styles['ui_button_arrow']}
                     onClick={onClickHandle}
                     type={type}
-                    // onMouseEnter={() => {
-                    //     motionHover()
-                    // }}
-                    // onMouseLeave={() => {
-                    //     motionHoverLeave()
-                    // }}
+                    onMouseEnter={() => {
+                        motionHover()
+                    }}
+                    onMouseLeave={() => {
+                        motionHoverLeave()
+                    }}
                 >
-                    <span>{title}</span> <i className={styles['arrow_icon']}/>
+                    <span ref={textRef}>{title}</span> <i ref={iconRef} className={styles['arrow_icon']}/>
                 </button>
             </Link>
             :
@@ -91,14 +105,14 @@ function ButtonArrow(props) {
                 className={styles['ui_button_arrow']}
                 onClick={onClickHandle}
                 type={type}
-                // onMouseEnter={() => {
-                //     motionHover()
-                // }}
-                // onMouseLeave={() => {
-                //     motionHoverLeave()
-                // }}
+                onMouseEnter={() => {
+                    motionHover()
+                }}
+                onMouseLeave={() => {
+                    motionHoverLeave()
+                }}
             >
-                <span>{title}</span> <i className={styles['arrow_icon']}/>
+                <span ref={textRef}>{title}</span> <i ref={iconRef} className={styles['arrow_icon']}/>
             </button>
     );
 }
