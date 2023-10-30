@@ -9,10 +9,10 @@ import styles from "@/styles/ui-tags.module.sass";
  * @constructor
  */
 function TagList(props) {
-    const {list} = props
+    const {list, center} = props
 
     return (
-        <ul className={styles['tags_list']}>
+        <ul className={`${styles['tags_list']} ${center ? styles['center_content'] : ''}`}>
             <li className={styles['tag_item']}>видовая</li>
             <li className={styles['tag_item']}>новостройки</li>
             <li className={styles['tag_item']}>у воды</li>

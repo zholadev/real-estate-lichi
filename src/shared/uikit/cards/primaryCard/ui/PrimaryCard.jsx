@@ -25,7 +25,7 @@ function PrimaryCard(props) {
 
             <div className={styles['card_info']}>
                 <Link href={'/catalog/apartment'}>
-                    <div className={styles['title']}>{cardData?.["title"] ?? "REPO"}</div>
+                    <div className={styles['title']}>{cardData?.["title"] ?? "KETURAH RESERVE"}</div>
                 </Link>
                 <div className={styles['subtitle']}>{cardData?.["subtitle"] ?? "2-BEDROOM (311 м2)"}</div>
 

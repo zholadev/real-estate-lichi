@@ -23,6 +23,12 @@ function NewsContainer(props) {
                 id: 1,
             },{
                 id: 1,
+            }
+            ,{
+                id: 1,
+            }
+            ,{
+                id: 1,
             },
         ]
     }, [])
@@ -31,7 +37,7 @@ function NewsContainer(props) {
         <div className={styles['news_container']}>
             <h1 className={styles['title']}>{i18n?.["news"]?.["news_page_title"]}</h1>
 
-            <article className={`${styles['news_list']} container_sm_pn`}>
+            <article className={`${styles['news_list']} container_md_pn`}>
                 {
                     news.map((newsItem, newsId) => {
                         return (
