@@ -15,7 +15,7 @@ import styles from '@/styles/ui-button-arrow.module.sass'
  * @constructor
  */
 function ButtonArrow(props) {
-    const {title, onClick, url, attrType = 'button', type} = props
+    const {title, onClick, url, attrType = 'button', type, theme} = props
 
     const buttonRef = useRef(null)
     const textRef = useRef(null)
@@ -57,14 +57,14 @@ function ButtonArrow(props) {
                 onComplete: args => {
                     gsap.to(textRef.current,
                         {
-                            color: 'initial',
+                            color: theme === "light" ? "#ffffff" : 'initial',
                             duration: .3,
                         }
                     )
 
                     gsap.to(iconRef.current,
                         {
-                            filter: "none",
+                            filter: theme === "light" ? "invert(100%)" : "none",
                             duration: .3,
                         }
                     )

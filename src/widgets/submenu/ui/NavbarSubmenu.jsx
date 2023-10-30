@@ -198,6 +198,7 @@ function NavbarSubmenu(props) {
                            title={'Подобрать объект'}
                            url={'/catalog'}
                            onClick={toggleAnimate}
+                           theme={'light'}
                        />
 
                        <div className={styles['action_content']} onClick={toggleAnimate}>
