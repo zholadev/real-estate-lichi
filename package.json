@@ -30,6 +30,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
     "sass": "^1.69.0",
+    "sharp": "^0.32.6",
     "swiper": "^10.3.1"
   },
   "devDependencies": {

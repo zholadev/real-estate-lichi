@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {gsap} from "gsap";
 import styles from "@/styles/widget-submenu-navbar.module.sass";
 import Link from "next/link";
@@ -18,7 +18,14 @@ function NavbarMenuItem(props) {
     const imgPreviewRef = useRef(null);
     const textPreviewRef = useRef(null)
 
+    const [hovered, setHovered] = useState(false)
+
+    const hoverHandle = () => {
+        setHovered(!hovered)
+    }
+
     const handleMouseEnter = (e) => {
+        hoverHandle()
         const rect = imgPreviewRef.current.getBoundingClientRect();
 
         // gsap.to(imgPreviewRef.current, {
@@ -36,6 +43,7 @@ function NavbarMenuItem(props) {
     };
 
     const handleMouseLeave = () => {
+        hoverHandle()
         // gsap.to(imgPreviewRef.current, {
         //     x: 0,
         //     y: 0,
@@ -56,7 +64,7 @@ function NavbarMenuItem(props) {
                 onMouseMove={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}>
                 <Link href={item.url}>
-                    <div className={styles['title']} ref={textPreviewRef}>{item.title}</div>
+                    <div className={`${styles['title']}`} ref={textPreviewRef}>{item.title}</div>
                 </Link>
             </li>
             <div className={styles['img_preview']} ref={imgPreviewRef}>
