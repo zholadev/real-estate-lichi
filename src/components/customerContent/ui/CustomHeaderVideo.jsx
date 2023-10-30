@@ -10,10 +10,7 @@ function CustomHeaderVideo(props) {
 
     return (
         <div className={styles['header_video']}>
-            <div className={'container_lg'}>
-                <Breadcrumbs i18n={i18n} page={page}/>
-            </div>
-
+            <div className={styles['overlay']}/>
             <div className={styles['media_box']}>
                 {
                     img ?
@@ -22,10 +19,16 @@ function CustomHeaderVideo(props) {
                         <Video src={videoSrc} poster={poster}/>
                 }
             </div>
+           <div className={styles['content_part']}>
+               <div className={'container_lg'}>
+                   <Breadcrumbs i18n={i18n} page={page}/>
+               </div>
 
-            <div className={styles['center_content']}>
-                <h1 className={styles['title']}>{centerText}</h1>
-            </div>
+
+               <div className={styles['center_content']}>
+                   <h1 className={styles['title']}>{centerText}</h1>
+               </div>
+           </div>
         </div>
     );
 }
