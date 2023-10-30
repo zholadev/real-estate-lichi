@@ -43,40 +43,24 @@ function PageMapInfo(props) {
                             onClick={() => switchCurrentMapValue('sport')}>
                             <span>
                                 Спорт
-                                <MotionTextUnderLine
-                                    current={currentMap}
-                                    id={'sport'}
-                                />
                             </span>
                         </li>
                         <li className={`${styles['list_item']} ${currentMap === 'sport1' ? styles['active'] : ''}`}
                             onClick={() => switchCurrentMapValue('sport1')}>
                             <span>
                                 достопримечательности
-                                 <MotionTextUnderLine
-                                     current={currentMap}
-                                     id={'sport1'}
-                                 />
                             </span>
                         </li>
                         <li className={`${styles['list_item']} ${currentMap === 'sport2' ? styles['active'] : ''}`}
                             onClick={() => switchCurrentMapValue('sport2')}>
                             <span>
                                 магазины
-                                <MotionTextUnderLine
-                                    current={currentMap}
-                                    id={'sport2'}
-                                />
                             </span>
                         </li>
                         <li className={`${styles['list_item']} ${currentMap === 'sport3' ? styles['active'] : ''}`}
                             onClick={() => switchCurrentMapValue('sport3')}>
                             <span>
                                 аптеки
-                                   <MotionTextUnderLine
-                                       current={currentMap}
-                                       id={'sport3'}
-                                   />
                             </span>
                         </li>
                     </ul>
