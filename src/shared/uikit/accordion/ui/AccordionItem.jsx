@@ -28,7 +28,7 @@ function AccordionItem(props) {
     useEffect(() => {
         if (active) {
             gsap.to(iconHRef.current, {duration: .3, rotate: 0, opacity: .6, delay: .2, ease: 'power2.inOut'})
-            gsap.to(iconHRef.current, {duration: .4, delay: .2, width: 30, height: 2, ease: 'power2.inOut'})
+            gsap.to(iconHRef.current, {duration: .4, delay: .2, width: 30, height: 1, ease: 'power2.inOut'})
         } else {
             gsap.to(iconHRef.current, {
                 duration: .3,
