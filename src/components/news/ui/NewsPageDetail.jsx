@@ -23,7 +23,7 @@ function NewsPageDetail(props) {
             <article className={styles['news_detail_info']}>
                <div>
                    <img src={IMG.templateNewsInfoPage['src']} alt=""/>
-                   <TagList i18n={i18n}/>
+                   <TagList i18n={i18n} center/>
                </div>
                 <div className={styles['text_content']}>
                     <h4>Мутко призвал не разгонять слухи, чтобы не создавать «горбы» ажиотажного спроса.</h4>

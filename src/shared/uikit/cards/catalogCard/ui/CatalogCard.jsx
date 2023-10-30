@@ -22,7 +22,7 @@ function CatalogCard(props) {
             <div className={styles['card_photo']}>
                 <Link href={`/catalog/${redirectUrl}`}>
                     <img
-                        src={redirectUrl === 'apartment' ? IMG.templateBasicImg1['src'] : IMG.templateCatalogCard['src']}
+                        src={redirectUrl === 'apartment' ? IMG.posterDubaiApartmentPage['src'] : IMG.templateCatalogCard['src']}
                         alt={'alt'}/>
                 </Link>
             </div>
