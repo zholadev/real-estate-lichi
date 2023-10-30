@@ -26,7 +26,8 @@ function ObjectDetailGallery(props) {
                 slidesPerView={1}
                 loop={true}
                 thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
-                modules={[Thumbs, FreeMode, Autoplay]}
+                modules={[Thumbs, FreeMode, Autoplay, Navigation]}
+                navigation={true}
                 autoplay={{
                     pauseOnMouseEnter: true,
                     delay: 3000

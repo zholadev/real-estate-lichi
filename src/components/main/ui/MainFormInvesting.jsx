@@ -18,7 +18,7 @@ function MainFormInvesting(props) {
             <div className={styles['title']}>{i18n?.["main"]?.["form_investing_title"]}</div>
             <div className={styles['subtitle']}>{i18n?.["main"]?.["form_investing_subtitle"]}</div>
 
-            <form className={`${styles['form_investing']} container_sm_pn`}>
+            <form className={`${styles['form_investing']}`}>
                 <div className={styles['form_box']}>
                     <FormSelect
                         placeholder={i18n?.["form"]?.["selected"]}

@@ -48,7 +48,7 @@ function CatalogContainer(props) {
 
     return (
         <div className={styles['catalog_products_list']}>
-            <div className={'container_md'}>
+            <div className={'container_md mb-15'}>
                 <Tabs i18n={i18n} tabData={tabData} onClick={setTypeCatalog}/>
             </div>
             {

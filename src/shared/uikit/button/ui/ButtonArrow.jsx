@@ -1,6 +1,7 @@
 'use client'
 
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import {gsap} from "gsap"
 import Link from "next/link";
 import styles from '@/styles/ui-button-arrow.module.sass'
 
@@ -16,6 +17,48 @@ import styles from '@/styles/ui-button-arrow.module.sass'
 function ButtonArrow(props) {
     const {title, onClick, url, type = 'button'} = props
 
+    const buttonRef = useRef(null)
+
+    const motionHover = () => {
+        gsap.to(buttonRef.current,
+            {
+                border: '1px solid #000',
+                duration: .4,
+                ease: "power2.inOut",
+                onComplete: args => {
+                    gsap.to(buttonRef.current,
+                        {
+                            backgroundColor: '#000',
+                            duration: .5,
+                            color: '#fff',
+                            filter: 'invert(100%)'
+                        }
+                    )
+                }
+            }
+        )
+    }
+
+    const motionHoverLeave = () => {
+        gsap.to(buttonRef.current,
+            {
+                border: 0,
+                duration: .4,
+                ease: "power2.inOut",
+                onComplete: args => {
+                    gsap.to(buttonRef.current,
+                        {
+                            backgroundColor: 'transparent',
+                            duration: .4,
+                            color: '#000',
+                            filter: 'none'
+                        }
+                    )
+                }
+            }
+        )
+    }
+
     const onClickHandle = () => {
         if (onClick) {
             onClick()
@@ -24,20 +67,36 @@ function ButtonArrow(props) {
 
     return (
         url ?
-            <Link href={url}>
+            <Link
+                href={url}
+            >
                 <button
+                    ref={buttonRef}
                     className={styles['ui_button_arrow']}
                     onClick={onClickHandle}
                     type={type}
+                    // onMouseEnter={() => {
+                    //     motionHover()
+                    // }}
+                    // onMouseLeave={() => {
+                    //     motionHoverLeave()
+                    // }}
                 >
                     <span>{title}</span> <i className={styles['arrow_icon']}/>
                 </button>
             </Link>
             :
             <button
+                ref={buttonRef}
                 className={styles['ui_button_arrow']}
                 onClick={onClickHandle}
                 type={type}
+                // onMouseEnter={() => {
+                //     motionHover()
+                // }}
+                // onMouseLeave={() => {
+                //     motionHoverLeave()
+                // }}
             >
                 <span>{title}</span> <i className={styles['arrow_icon']}/>
             </button>
