@@ -234,14 +234,16 @@
         .list_item
           cursor: pointer
           margin-inline-end: $p-size-20
-          transition: font-weight .4s ease
+          transition: font-weight .1s ease-in-out
           margin-bottom: $p-size-10
 
           span
             position: relative
+            transition: font-weight .1s ease-in-out
 
           &.active
             color: $default-black
+            font-weight: $size-500
 
     .map_info
       width: auto

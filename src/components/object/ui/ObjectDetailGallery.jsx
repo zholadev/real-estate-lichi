@@ -65,22 +65,22 @@ function ObjectDetailGallery(props) {
                 navigation={true}
                 className="preview-gallery-swiper-thumbs"
             >
-                <SwiperSlide>
+                <SwiperSlide className={'cursor-pointer'}>
                     <img src={IMG.templateSwiperImg['src']}/>
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide className={'cursor-pointer'}>
                     <img src={IMG.templateSwiperImg['src']}/>
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide className={'cursor-pointer'}>
                     <img src={IMG.templateSwiperImg['src']}/>
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide className={'cursor-pointer'}>
                     <img src={IMG.templateSwiperImg['src']}/>
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide className={'cursor-pointer'}>
                     <img src={IMG.templateSwiperImg['src']}/>
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide className={'cursor-pointer'}>
                     <img src={IMG.templateSwiperImg['src']}/>
                 </SwiperSlide>
             </Swiper>
