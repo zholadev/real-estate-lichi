@@ -1,8 +1,11 @@
+'use client'
+
 import React, {useMemo} from 'react';
 import {Logo} from "@/shared/uikit/logo";
 import FooterContact from "./FooterContact";
 import FooterPageList from "./FooterPageList";
 import styles from '@/styles/widget-footer.module.sass'
+import {usePathname} from "next/navigation";
 
 /**
  * @author Zholaman Zhumanov
@@ -13,6 +16,8 @@ import styles from '@/styles/widget-footer.module.sass'
  */
 function Footer(props) {
     const {i18n, footerData} = props
+
+    const pathname = usePathname()
 
     const footerPageListData = useMemo(() => {
         try {
@@ -46,7 +51,7 @@ function Footer(props) {
 
     return (
         <footer className={styles['footer']}>
-            <div className={styles['footer_content']}>
+            <div className={`${styles['footer_content']} ${pathname === '/catalog/apartment' || pathname === '/catalog/object' || pathname === '/about' || pathname === '/faq' ? 'container_lg' : 'container_md'}`}>
                 <div className={styles['footer_top_content']}>
                     <div className={styles['top_content']}>
                         <Logo type={'secondary'}/>
