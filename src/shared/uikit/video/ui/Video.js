@@ -22,9 +22,12 @@ function Video(props) {
 
     return (
         <div className={styles['video_container']}>
-            <div className={`${styles['video_poster_box']} ${videoIsPlay ? styles['hide'] : ''}`} ref={posterRef}>
-                <img src={poster} alt="poster"/>
-            </div>
+            {
+                poster &&
+                <div className={`${styles['video_poster_box']} ${videoIsPlay ? styles['hide'] : ''}`} ref={posterRef}>
+                    <img src={poster} alt="poster"/>
+                </div>
+            }
             <ReactPlayer
                 url={src}
                 style={style}

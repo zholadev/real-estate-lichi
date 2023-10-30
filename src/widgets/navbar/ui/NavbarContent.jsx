@@ -1,15 +1,15 @@
 'use client'
 
 import React, {useEffect, useRef, useState} from 'react';
-import styles from "@/styles/navbar.module.sass";
+import {gsap} from "gsap"
 import {Logo} from "@/shared/uikit/logo";
-import stylesSecondary from "@/styles/widget-submenu-navbar.module.sass";
 import {PhoneAction} from "@/shared/site";
+import {usePathname} from "next/navigation";
 import {PortalProvider} from "@/shared/portals";
 import {NavbarSubmenu} from "@/widgets/submenu";
-import {usePathname} from "next/navigation";
+import styles from "@/styles/navbar.module.sass";
 import {useMediaMaxState, useScrollAction} from "@/shared/hooks";
-import {gsap} from "gsap"
+import stylesSecondary from "@/styles/widget-submenu-navbar.module.sass";
 
 function NavbarContent(props) {
     const {i18n} = props
@@ -26,10 +26,6 @@ function NavbarContent(props) {
     const [toggleNavbar, setToggleNavbar] = useState(false)
     const [animateTrigger, setAnimateTrigger] = useState(false)
     const [animateLogoTrigger, setAnimateLogoTrigger] = useState(false)
-
-    const toggleNavbarHandle = () => {
-        setToggleNavbar(!toggleNavbar)
-    }
 
     const toggleAnimateTrigger = () => {
         setAnimateTrigger(!animateTrigger)
@@ -56,13 +52,6 @@ function NavbarContent(props) {
                         {
                             backgroundColor: "#ffffff",
                             duration: .4,
-                            onComplete: () => {
-                                // gsap.to(scrollNavbar.current,
-                                //     {
-                                //         height: 72,
-                                //         duration: .4
-                                //     })
-                            }
                         })
                 }
             })
@@ -78,23 +67,8 @@ function NavbarContent(props) {
                         {
                             backgroundColor: "transparent",
                             duration: .4,
-                            onComplete: () => {
-                                // gsap.to(scrollNavbar.current,
-                                //     {
-                                //         height: mediaSmQuery ? 70 : 58,
-                                //         duration: .4
-                                //     })
-                            }
                         })
                 }
-            })
-    }
-
-    const navbarDefaultMotionTrigger = () => {
-        gsap.to(scrollNavbar.current,
-            {
-                backgroundColor: "transparent",
-                duration: .4
             })
     }
 

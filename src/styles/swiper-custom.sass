@@ -4,6 +4,30 @@
 .preview-gallery-swiper-main
   margin-bottom: 10px
 
+  .swiper-button-prev, .swiper-button-next
+    width: 40px
+    height: 100%
+    top: 0
+    position: absolute
+    display: flex
+    justify-content: center
+    align-items: center
+    z-index: 100
+    cursor: pointer
+    transition: background-color .4s ease
+
+    @media (hover: hover)
+      &:hover
+        background-color: $color-light-rgb
+
+  .swiper-button-prev
+    left: 0
+    @include background-image-set-full(20px, center, '/images/icons/arrow-short-left.png')
+
+  .swiper-button-next
+    right: 0
+    @include background-image-set-full(20px, center, '/images/icons/arrow-short-right.png')
+
 .apartments-advantages-swiper
   margin-bottom: $p-size-70
 

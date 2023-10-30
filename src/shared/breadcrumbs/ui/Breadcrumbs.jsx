@@ -20,7 +20,6 @@ function Breadcrumbs(props) {
                         "id": 1,
                         "name": i18n?.["site"]?.["main_page_title"],
                         "redirect": "/",
-                        "slash": true
                     },
                     {
                         "id": 1,
@@ -34,7 +33,6 @@ function Breadcrumbs(props) {
                         "id": 1,
                         "name": i18n?.["site"]?.["main_page_title"],
                         "redirect": "/",
-                        "slash": true
                     },
                     {
                         "id": 1,
@@ -48,7 +46,6 @@ function Breadcrumbs(props) {
                         "id": 1,
                         "name": i18n?.["site"]?.["main_page_title"],
                         "redirect": "/",
-                        "slash": true
                     },
                     {
                         "id": 1,
@@ -68,7 +65,6 @@ function Breadcrumbs(props) {
                         "id": 1,
                         "name": i18n?.["site"]?.["main_page_title"],
                         "redirect": "/",
-                        "slash": true
                     },
                     {
                         "id": 1,
@@ -88,7 +84,6 @@ function Breadcrumbs(props) {
                         "id": 1,
                         "name": i18n?.["site"]?.["main_page_title"],
                         "redirect": "/",
-                        "slash": true
                     },
                     {
                         "id": 2,
@@ -102,7 +97,6 @@ function Breadcrumbs(props) {
                         "id": 1,
                         "name": i18n?.["site"]?.["main_page_title"],
                         "redirect": "/",
-                        "slash": true
                     },
                     {
                         "id": 2,
@@ -129,13 +123,13 @@ function Breadcrumbs(props) {
                         breadItem?.["redirect"] ?
                             <Link href={breadItem?.["redirect"]} key={breadId}>
                                 <li className={styles['bread_item']}>
-                                    {breadItem?.["slash"] && <div className={styles['item_slash']}>/</div>}
+                                    {breadItem?.["slash"] && <div className={styles['item_slash']}>•</div>}
                                     <span>{breadItem?.["name"]}</span>
                                 </li>
                             </Link>
                             :
                             <li className={styles['bread_item']} key={breadId}>
-                                {breadItem?.["slash"] && <div className={styles['item_slash']}>/</div>}
+                                {breadItem?.["slash"] && <div className={styles['item_slash']}>•</div>}
                                 <span>{breadItem?.["name"]}</span>
                             </li>
                     )

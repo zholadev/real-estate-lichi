@@ -184,7 +184,7 @@ function Logo(props) {
             {
                 rotate: 0,
                 ease: easingPowerInOut,
-                duration: .2,
+                duration: .5,
                 onComplete: () => {
                     gsap.to(contentLogoBoxF.current, {
                         ease: easeIconBox,
