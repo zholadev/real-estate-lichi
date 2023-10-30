@@ -15,7 +15,7 @@ import styles from '@/styles/ui-button-arrow.module.sass'
  * @constructor
  */
 function ButtonArrow(props) {
-    const {title, onClick, url, type = 'button'} = props
+    const {title, onClick, url, attrType = 'button', type} = props
 
     const buttonRef = useRef(null)
     const textRef = useRef(null)
@@ -27,7 +27,7 @@ function ButtonArrow(props) {
                 backgroundColor: '#000',
                 duration: .4,
                 ease: "power2.inOut",
-                padding: "0 30px",
+                padding: type === "small" ? "10px 10px" : "0 30px",
                 onComplete: args => {
                     gsap.to(textRef.current,
                         {
@@ -53,7 +53,7 @@ function ButtonArrow(props) {
                 backgroundColor: 'transparent',
                 duration: .4,
                 ease: "power2.inOut",
-                padding: "0",
+                padding: type === "small" ? "10px 0" : "0",
                 onComplete: args => {
                     gsap.to(textRef.current,
                         {
@@ -86,9 +86,9 @@ function ButtonArrow(props) {
             >
                 <button
                     ref={buttonRef}
-                    className={styles['ui_button_arrow']}
+                    className={`${styles['ui_button_arrow']} ${type === 'small' ? styles['ui_button_arrow__small'] : ''}`}
                     onClick={onClickHandle}
-                    type={type}
+                    type={attrType}
                     onMouseEnter={() => {
                         motionHover()
                     }}
@@ -102,9 +102,9 @@ function ButtonArrow(props) {
             :
             <button
                 ref={buttonRef}
-                className={styles['ui_button_arrow']}
+                className={`${styles['ui_button_arrow']} ${type === 'small' ? styles['ui_button_arrow__small'] : ''}`}
                 onClick={onClickHandle}
-                type={type}
+                type={attrType}
                 onMouseEnter={() => {
                     motionHover()
                 }}
