@@ -7,7 +7,7 @@ import {MapCard} from "@/shared/uikit/cards/mapCard";
 import {useMediaMaxState} from "@/shared/hooks";
 import {Swiper, SwiperSlide} from "swiper/react";
 
-const MapController = dynamic(() => import('@/widgets/map/ui/MapController'), {ssr: false})
+const MapController = dynamic(() => import('@/widgets/map/ui/MapComponent'), {ssr: false})
 
 /**
  * @author Zholaman Zhumanov

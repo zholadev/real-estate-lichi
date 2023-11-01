@@ -24,7 +24,7 @@ function MapControllerPrimary(props) {
         iconUrl: ICON.mapMarketIcon['src'],
         iconAnchor: [20, 40],
         popupAnchor: [0, -20], // Adjust the popup anchor as needed
-        iconSize: [48, 48],
+        iconSize: [119, 39],
     });
 
     let markers = L.markerClusterGroup({
@@ -37,7 +37,7 @@ function MapControllerPrimary(props) {
                 className: 'customIcon-cs',
                 iconSize: [119, 38],
                 html: '<div><span>' + cluster.getChildCount() + '</span></div>',
-            });
+            })
         },
     });
 
@@ -46,7 +46,8 @@ function MapControllerPrimary(props) {
     useEffect(() => {
         try {
             mapCoordinates?.map((data) => {
-                const marker = L.marker(data, { icon: iconPerson });
+                console.log(data)
+                const marker = L.marker(data, { icon: iconPerson, data: data });
                 marker.bindPopup('Your Tooltip Content'); // Replace with your tooltip content
                 markers.addLayer(marker);
             });

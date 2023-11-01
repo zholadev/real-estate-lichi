@@ -8,7 +8,7 @@ import {MotionTextUnderLine} from "@/shared/uikit/motion";
 
 // TODO: style file update
 
-const MapContainer = dynamic(() => import('@/widgets/map/ui/MapController'), {ssr: false})
+const MapContainer = dynamic(() => import('@/widgets/map/ui/MapComponent'), {ssr: false})
 
 /**
  * @author Zholaman Zhumanov
