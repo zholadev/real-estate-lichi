@@ -25,6 +25,7 @@ import posterDubaiMain from '../../../public/images/posters/poster-main-dubai.jp
 import posterDubaiApartmentPage from '../../../public/images/posters/poster-apartment-page.jpg'
 import posterAboutPage from '../../../public/images/posters/poster-about-page.jpg'
 import templateMapCard from '../../../public/images/template/template-map-card.png'
+import templateMapPopup from '../../../public/images/template/templateMapPopup.png'
 
 export const IMG = {
     "previewDubaiImg": previewDubaiImg,
@@ -47,7 +48,8 @@ export const IMG = {
     "posterDubaiMain": posterDubaiMain,
     "posterDubaiApartmentPage": posterDubaiApartmentPage,
     "posterAboutPage": posterAboutPage,
-    "templateMapCard": templateMapCard
+    "templateMapCard": templateMapCard,
+    "templateMapPopup": templateMapPopup
 }
 
 import swiperArrowLeftIcon from '../../../public/images/icons/swiper-arrow-left.svg'
