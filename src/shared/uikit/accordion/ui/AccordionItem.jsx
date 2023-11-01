@@ -120,4 +120,4 @@ function AccordionItem(props) {
     );
 }
 
-export default AccordionItem;
+export default React.memo(AccordionItem);

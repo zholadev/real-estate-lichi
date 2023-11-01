@@ -51,7 +51,7 @@ function CatalogMapProducts(props) {
 
     return (
         <div className={styles['catalog_map_container']}>
-            <MapController width={'100%'} height={mediaMdQuery ? 763 : 601}/>
+            <MapController width={'100%'} height={mediaMdQuery ? 763 : 601} type={'secondary'}/>
 
             {/*{*/}
             {/*    mediaSmQuery ?*/}

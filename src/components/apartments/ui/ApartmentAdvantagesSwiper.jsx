@@ -117,7 +117,7 @@ function ApartmentAdvantagesSwiper(props) {
     return (
         <div className={styles['advantages_swiper']}>
             <Swiper
-                loop={false}
+                loop={true}
                 spaceBetween={mediaLgQuery ? 45 : mediaMdQuery ? 30 : mediaSmQuery ? 10 : 60}
                 speed={700}
                 centeredSlides={mediaSmQuery ? false : 'auto'}

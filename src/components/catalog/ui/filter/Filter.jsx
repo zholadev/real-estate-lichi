@@ -31,8 +31,21 @@ function Filter(props) {
                 <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
                 <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
                 <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
+                <div className={styles['filter_switch_btn']}>
+                    <Button
+                        type={'primary_animate'}
+                        title={'Список'}
+                        onClick={onClick}
+                        animateActive={typeCatalog === 'list'}
+                    />
+                    <Button
+                        type={'primary_animate'}
+                        title={i18n?.["site"]?.["select_map_title"]}
+                        onClick={onClick}
+                        animateActive={typeCatalog === 'map'}
+                    />
+                </div>
                 <Button title={i18n?.["site"]?.["search_title"]}/>
-                <Button type={'outline'} title={typeCatalog === 'map' ? 'Список' : i18n?.["site"]?.["select_map_title"]} onClick={onClick}/>
             </div>
 
             <div className={styles['filter_sm_action']} onClick={toggleFilterHandle}>
@@ -46,8 +59,21 @@ function Filter(props) {
             <div className={styles['catalog_filter_sm']}>
                 <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
                 <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
+                <div className={styles['filter_switch_btn']}>
+                    <Button
+                        type={'primary_animate'}
+                        title={'Список'}
+                        onClick={onClick}
+                        animateActive={typeCatalog === 'list'}
+                    />
+                    <Button
+                        type={'primary_animate'}
+                        title={i18n?.["site"]?.["select_map_title"]}
+                        onClick={onClick}
+                        animateActive={typeCatalog === 'map'}
+                    />
+                </div>
                 <Button title={i18n?.["site"]?.["search_title"]}/>
-                <Button type={'outline'} title={typeCatalog === 'map' ? 'Список' : i18n?.["site"]?.["select_map_title"]} onClick={onClick}/>
             </div>
 
             <PortalProvider>
@@ -59,8 +85,21 @@ function Filter(props) {
                         <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
                         <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
                         <FormSelect placeholder={i18n?.["form"]?.["selected"]}/>
+                        <div className={styles['filter_switch_btn']}>
+                            <Button
+                                type={'primary_animate'}
+                                title={'Список'}
+                                onClick={onClick}
+                                animateActive={typeCatalog === 'list'}
+                            />
+                            <Button
+                                type={'primary_animate'}
+                                title={i18n?.["site"]?.["select_map_title"]}
+                                onClick={onClick}
+                                animateActive={typeCatalog === 'map'}
+                            />
+                        </div>
                         <Button title={i18n?.["site"]?.["search_title"]}/>
-                        <Button type={'outline'} title={typeCatalog === 'map' ? 'Список' : i18n?.["site"]?.["select_map_title"]} onClick={onClick}/>
                     </div>
                 </SidebarContainer>
             </PortalProvider>
