@@ -1,11 +1,20 @@
 'use client'
 
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import Link from "next/link";
 import styles from '@/styles/ui-button.module.sass'
 
+
+/**
+ * @author Zholaman Zhumanov
+ * @param props
+ * @returns {Element}
+ * @constructor
+ */
 function Button(props) {
-    const {type = 'button', title, children, style, onClick, url} = props
+    const {type = 'button', title, children, style, onClick, url, animateActive} = props
+
+    const buttonAnimateRef = useRef(null)
 
     const onClickHandle = () => {
         if (onClick) {
@@ -17,7 +26,7 @@ function Button(props) {
         url ?
             <Link href={url}>
                 <button
-                    className={`${styles['ui_button']} ${type === 'secondary' ? styles['ui_button_secondary'] : type === 'outline' ? styles['ui_button_outline'] : type === 'outline_light' ? styles['ui_button_outline_light'] : type === 'secondary_dark' ? styles['ui_button_secondary_dark'] : ''} `}
+                    className={`${styles['ui_button']} ${animateActive && type === 'primary_animate' ? styles['animate_bg_fill'] : ''} ${type === 'secondary' ? styles['ui_button_secondary'] : type === 'outline' ? styles['ui_button_outline'] : type === 'outline_light' ? styles['ui_button_outline_light'] : type === 'primary_animate' ? styles['ui_button_primary_animate'] : type === 'secondary_dark' ? styles['ui_button_secondary_dark'] : ''} `}
                     style={style}
                     onClick={onClickHandle}
                     type={type}
@@ -27,10 +36,11 @@ function Button(props) {
             </Link>
             :
             <button
-                className={`${styles['ui_button']} ${type === 'secondary' ? styles['ui_button_secondary'] : type === 'outline' ? styles['ui_button_outline'] : type === 'outline_light' ? styles['ui_button_outline_light'] : type === 'secondary_dark' ? styles['ui_button_secondary_dark'] : ''} `}
+                className={`${styles['ui_button']} ${animateActive && type === 'primary_animate' ? styles['animate_bg_fill'] : ''} ${type === 'secondary' ? styles['ui_button_secondary'] : type === 'outline' ? styles['ui_button_outline'] : type === 'outline_light' ? styles['ui_button_outline_light'] : type === 'primary_animate' ? styles['ui_button_primary_animate'] : type === 'secondary_dark' ? styles['ui_button_secondary_dark'] : ''} `}
                 style={style}
                 onClick={onClickHandle}
                 type={type}
+                ref={buttonAnimateRef}
             >
                 <span>{children ? children : title}</span>
             </button>

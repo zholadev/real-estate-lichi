@@ -45,6 +45,7 @@
   @media (hover: hover)
     &:hover
       background-color: rgba(22, 24, 29, 0.88)
+
       &::before
         transform: translateX(-100%)
         animation: buttonSlideIn 1.5s cubic-bezier(0.4, 0, 0, 1)
@@ -67,6 +68,20 @@
     background-color: $default-light
     color: $default-black
 
+  &.ui_button_primary_animate
+    height: 100%
+    padding: 15px 23px 15px 23px
+    background-color: transparent
+    color: $text-color-opacity
+    text-wrap: nowrap
+
+  &.animate_bg_fill
+    background-color: $default-black
+    transition: background-color .4s ease
+    will-change: background-color
+
+    span
+      color: $default-light
 
 @keyframes buttonSlideIn
   from

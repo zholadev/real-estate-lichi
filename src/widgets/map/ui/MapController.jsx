@@ -5,6 +5,7 @@ import styles from '@/styles/widget-map.module.sass'
 
 import {MapContainer, ZoomControl} from 'react-leaflet'
 import MapOptions from "./MapOptions";
+import MapControllerPrimary from "@/widgets/map/ui/MapControllerPrimary";
 
 // TODO: Refactoring
 
@@ -16,7 +17,7 @@ import MapOptions from "./MapOptions";
  * @constructor
  */
 function MapController(props) {
-    const {width = "100%", height = 700} = props
+    const {width = "100%", height = 700, type = 'primary'} = props
 
     return (
         <div className={styles['map_controller']} style={{width: width, height: height}}>
@@ -26,7 +27,7 @@ function MapController(props) {
                 zoom={17}
                 style={{width: width, height: height}}
             >
-                <MapOptions/>
+                {type === 'secondary' ?  <MapControllerPrimary/> :  <MapOptions/>}
                 <ZoomControl position="topright"/>
             </MapContainer>
         </div>
