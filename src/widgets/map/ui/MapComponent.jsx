@@ -2,7 +2,7 @@
 
 import React, {useRef} from 'react';
 import {mapCoordinates} from "@/shared/utils/mapCoordinates";
-import {MapContainer, Marker, Popup, TileLayer, ZoomControl} from "react-leaflet";
+import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import styles from '@/styles/widget-map.module.sass'
 import {ICON, IMG} from "@/shared/constants/constants";
 import L from "leaflet";
@@ -70,7 +70,6 @@ function MapComponent(props) {
                     </Marker>
                 )
             })}
-            <ZoomControl/>
         </MapContainer>
     );
 }
