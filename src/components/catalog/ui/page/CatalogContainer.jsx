@@ -59,7 +59,7 @@ function CatalogContainer(props) {
                         </div>
                         {
                             typeContent === 'map' ?
-                                <div className={'container_md_pn'}>
+                                <div className={'container_md_p_sm'}>
                                     <CatalogMapProducts/>
                                 </div>
                                 :
@@ -75,7 +75,7 @@ function CatalogContainer(props) {
                         </div>
                         {
                             typeContent === 'map' ?
-                                <div className={'container_md_pn'}>
+                                <div className={'container_md_p_sm'}>
                                     <CatalogMapProducts/>
                                 </div>
                                 :
