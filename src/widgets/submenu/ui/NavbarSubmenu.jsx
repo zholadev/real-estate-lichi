@@ -37,6 +37,7 @@ function NavbarSubmenu(props) {
                 y: 0,
                 opacity: 1,
                 duration: .2,
+                stagger: .1,
                 ease: "power2.inOut",
                 onComplete: () => setMenuMotion(true)
             }
@@ -51,6 +52,7 @@ function NavbarSubmenu(props) {
                 y: 0,
                 opacity: 1,
                 duration: .2,
+                stagger: .1,
                 ease: "power2.inOut",
                 onComplete: () => setBottomActionMotion(true)
             }
@@ -65,6 +67,7 @@ function NavbarSubmenu(props) {
                 y: 0,
                 opacity: 1,
                 duration: .2,
+                stagger: .1,
                 ease: "power2.inOut"
             }
         );
@@ -76,6 +79,7 @@ function NavbarSubmenu(props) {
             y: 20,
             opacity: 0,
             duration: .2,
+            stagger: .1,
             onComplete: () => setMenuMotion(false)
         });
     };
@@ -85,6 +89,7 @@ function NavbarSubmenu(props) {
             y: 20,
             opacity: 0,
             duration: .2,
+            stagger: .1,
             onComplete: () => setBottomActionMotion(false)
         });
     }
@@ -94,6 +99,7 @@ function NavbarSubmenu(props) {
             y: 20,
             opacity: 0,
             duration: .2,
+            stagger: .1,
             onComplete: () => {
                 hideSubmenuHandle()
             }
