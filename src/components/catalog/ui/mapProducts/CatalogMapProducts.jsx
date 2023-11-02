@@ -6,6 +6,8 @@ import dynamic from "next/dynamic";
 import {MapCard} from "@/shared/uikit/cards/mapCard";
 import {useMediaMaxState} from "@/shared/hooks";
 import {Swiper, SwiperSlide} from "swiper/react";
+import WebJlMap from "@/widgets/map/ui/WebJlMap";
+import MapTiler from "@/widgets/map/ui/MapTiler";
 
 const MapController = dynamic(() => import('@/widgets/map/ui/MapComponent'), {ssr: false})
 
@@ -51,8 +53,9 @@ function CatalogMapProducts(props) {
 
     return (
         <div className={styles['catalog_map_container']}>
-            <MapController width={'100%'} height={mediaMdQuery ? 763 : 601} type={'secondary'}/>
-
+            {/*<MapController width={'100%'} height={mediaMdQuery ? 763 : 601} type={'secondary'}/>*/}
+            {/*<WebJlMap width={'100%'} height={mediaMdQuery ? 763 : 601}/>*/}
+            <MapTiler width={'100%'} height={mediaMdQuery ? 763 : 601}/>
             {/*{*/}
             {/*    mediaSmQuery ?*/}
             {/*        <div className={styles['map_address_box']}>*/}
