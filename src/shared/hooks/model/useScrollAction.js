@@ -15,7 +15,7 @@ function useScrollAction({position}) {
     useEffect(() => {
         const scrollDown = () => {
             try {
-                if (document.body.scrollTop > position) {
+                if (window.scrollY > position) {
                     setScroll(true)
                 } else {
                     setScroll(false)

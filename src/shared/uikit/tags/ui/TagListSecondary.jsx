@@ -1,6 +1,8 @@
+'use client'
+
 import React from 'react';
-import styles from "@/styles/main.module.sass";
 import Link from "next/link";
+import styles from "@/styles/main.module.sass";
 
 /**
  * @author Zholaman Zhumanov
@@ -12,22 +14,27 @@ import Link from "next/link";
 function TagListSecondary(props) {
     const {listTags, i18n, style} = props
 
+    if (Object.values(listTags || {}).length === 0) {
+        return null
+    }
+
     return (
         <div className={'container_md'}>
             <ul className={styles['main_bottom_list']} style={style}>
                 {
-                    listTags.map((cityItem, cityId) => {
+                    Object.values(listTags || {}).map((item, Id) => {
                         return (
-                            cityItem?.link ?
-                                <Link href={cityItem?.link} key={cityItem.id} className={styles['list_item']}>
-                                    <li>
-                                        {cityItem.title}
-                                    </li>
+                            // <></>
+                            // item?.["id"] || item?.["link"] ?
+                            <li key={item?.["id"]} className={styles['list_item']}>
+                                <Link href={`/catalog/residence/${item?.["id"]?.toString()}`}>
+                                    {item?.["attributes"]?.["name"] ?? ""}
                                 </Link>
-                                :
-                                <li className={styles['list_item']} key={cityItem.id}>
-                                    {cityItem.title}
-                                </li>
+                            </li>
+                            // :
+                            // <li className={styles['list_item']} key={item?.["id"]}>
+                            //     {item?.["attributes"]?.["name"] || item?.["title"] || ""}
+                            // </li>
                         )
                     })
                 }

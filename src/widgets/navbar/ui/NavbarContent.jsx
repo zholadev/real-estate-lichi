@@ -4,12 +4,13 @@ import React, {useEffect, useRef, useState} from 'react';
 import {gsap} from "gsap"
 import {Logo} from "@/shared/uikit/logo";
 import {PhoneAction} from "@/shared/site";
-import {usePathname} from "next/navigation";
+import {useParams, usePathname} from "next/navigation";
 import {PortalProvider} from "@/shared/portals";
 import {NavbarSubmenu} from "@/widgets/submenu";
 import styles from "@/styles/navbar.module.sass";
 import {useMediaMaxState, useScrollAction} from "@/shared/hooks";
 import stylesSecondary from "@/styles/widget-submenu-navbar.module.sass";
+import Cookies from "js-cookie";
 
 function NavbarContent(props) {
     const {i18n} = props
@@ -17,11 +18,10 @@ function NavbarContent(props) {
     const scrollNavbar = useRef(null)
 
     const pathname = usePathname()
+    const routerParams = useParams()
 
     const scrollBottom = useScrollAction({"position": 20})
-
     const mediaSmQuery = useMediaMaxState({screenSize: 768})
-
 
     const [toggleNavbar, setToggleNavbar] = useState(false)
     const [animateTrigger, setAnimateTrigger] = useState(false)
@@ -51,7 +51,7 @@ function NavbarContent(props) {
                     gsap.to(scrollNavbar.current,
                         {
                             backgroundColor: "#ffffff",
-                            duration: .4,
+                            duration: .3,
                         })
                 }
             })
@@ -66,11 +66,19 @@ function NavbarContent(props) {
                     gsap.to(scrollNavbar.current,
                         {
                             backgroundColor: "transparent",
-                            duration: .4,
+                            duration: .3,
                         })
                 }
             })
     }
+
+    useEffect(() => {
+        const langCookie = Cookies.get('dubai_lang')
+
+        if (!langCookie) {
+            Cookies.set('dubai_lang', 'en', {expires: 7})
+        }
+    }, [])
 
     useEffect(() => {
         if (animateTrigger) return
@@ -84,11 +92,11 @@ function NavbarContent(props) {
 
     return (
         <>
-            <navbar
+            <header
                 ref={scrollNavbar}
-                className={`${styles['navbar']} ${pathname === '/catalog/apartment' ? styles['navbar_full_wd'] : ''} ${scrollBottom ? styles['navbar_fill'] : ''}`}>
+                className={`${styles['navbar']} ${pathname === `/catalog/residence/${routerParams?.["id"]}` ? styles['navbar_full_wd'] : ''} ${scrollBottom ? styles['navbar_fill'] : ''}`}>
                 <div
-                    className={`${styles['navbar_content']} ${pathname === '/catalog/apartment' || pathname === '/catalog/object' || pathname === '/about' || pathname === '/faq' ? 'container_lg' : 'container_md'}`}>
+                    className={`${styles['navbar_content']} ${pathname === `/catalog/residence/${routerParams?.["id"]}` || pathname === `/catalog/apartment/${routerParams?.["id"]}` || pathname === '/about' || pathname === '/faq' ? 'container_lg' : 'container_md'}`}>
                     <Logo
                         onClick={() => {
                             toggleLogoAnimateTrigger()
@@ -106,10 +114,10 @@ function NavbarContent(props) {
                         }}/>
                         : <PhoneAction i18n={i18n} type={'secondary'} hideContent/>}
                 </div>
-            </navbar>
+            </header>
             <PortalProvider>
                 <NavbarSubmenu
-                    fullWidth={pathname === '/catalog/apartment' || pathname === '/catalog/object' || pathname === '/about' || pathname === '/faq'}
+                    fullWidth={pathname === `/catalog/residence/${routerParams?.["id"]}` || pathname === `/catalog/apartment/${routerParams?.["id"]}` || pathname === '/about' || pathname === '/faq'}
                     i18n={i18n}
                     active={toggleNavbar}
                     animateTrigger={animateTrigger}

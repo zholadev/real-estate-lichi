@@ -9,20 +9,21 @@ import styles from "@/styles/ui-tags.module.sass";
  * @constructor
  */
 function TagList(props) {
-    const {list, center} = props
+    const {list, center, tagName, i18n} = props
+
+    if (Object.values(list || {}).length === 0) {
+        return null
+    }
 
     return (
         <ul className={`${styles['tags_list']} ${center ? styles['center_content'] : ''}`}>
-            <li className={styles['tag_item']}>видовая</li>
-            <li className={styles['tag_item']}>новостройки</li>
-            <li className={styles['tag_item']}>у воды</li>
-            <li className={styles['tag_item']}>центр</li>
-            <li className={styles['tag_item']}>крутой ЖК</li>
-            <li className={styles['tag_item']}>видовая</li>
-            <li className={styles['tag_item']}>новостройки</li>
-            <li className={styles['tag_item']}>у воды</li>
-            <li className={styles['tag_item']}>центр</li>
-            <li className={styles['tag_item']}>крутой ЖК</li>
+            {
+                Object.values(list || {}).map((tagItem, tagId) => {
+                    return (
+                        <li className={styles['tag_item']} key={tagItem?.["id"]}>{tagItem?.[tagName]}</li>
+                    )
+                })
+            }
         </ul>
     );
 }

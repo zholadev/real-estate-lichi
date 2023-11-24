@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import styles from '@/styles/main.module.sass'
 import {PrimaryCard} from "@/shared/uikit/cards/primaryCard";
@@ -11,19 +13,20 @@ import {ButtonArrow} from "@/shared/uikit/button";
  * @constructor
  */
 function MainApartment(props) {
-    const {cityData, i18n, col, title} = props
+    const {i18n, col, title, data} = props
 
     return (
         <div className={styles['main_apartment']}>
             <div className={styles['title']}>{title}</div>
 
             <div className={`${styles['list']} ${styles[`list_${col}`]}`}>
-                <PrimaryCard/>
-                <PrimaryCard/>
-                <PrimaryCard/>
-                <PrimaryCard/>
-                <PrimaryCard/>
-                <PrimaryCard/>
+                {
+                    Object.values(data || {}).map((item, id) => {
+                        return (
+                            <PrimaryCard key={id} cardData={item}/>
+                        )
+                    })
+                }
             </div>
 
             <div className={styles['more_btn_place']}>

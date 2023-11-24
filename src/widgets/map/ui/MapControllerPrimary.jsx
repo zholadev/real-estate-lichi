@@ -14,7 +14,7 @@ import {mapCoordinates} from "@/shared/utils/mapCoordinates";
  * @constructor
  */
 function MapControllerPrimary(props) {
-    const {position, zoom} = props
+    const {position, zoom, mapInfo} = props
 
     const map = useMap();
 
@@ -45,10 +45,9 @@ function MapControllerPrimary(props) {
 
     useEffect(() => {
         try {
-            mapCoordinates?.map((data) => {
-                console.log(data)
+            mapInfo?.map((data) => {
                 const marker = L.marker(data, { icon: iconPerson, data: data });
-                marker.bindPopup('Your Tooltip Content'); // Replace with your tooltip content
+                marker.bindPopup('Your Tooltip Content');
                 markers.addLayer(marker);
             });
 
@@ -56,7 +55,7 @@ function MapControllerPrimary(props) {
         } catch (error) {
             console.log(`page: shopMaps, event: mapInitPositions, error: ${error}`);
         }
-    }, [mapCoordinates]);
+    }, [mapInfo]);
 
     const flyToHandler = (position) => {
         try {
@@ -83,4 +82,4 @@ function MapControllerPrimary(props) {
     return <></>;
 }
 
-export default React.memo(MapControllerPrimary);
+export default MapControllerPrimary;

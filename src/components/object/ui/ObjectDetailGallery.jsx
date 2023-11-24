@@ -3,9 +3,9 @@
 import React, {useState} from 'react';
 import 'swiper/css';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {Thumbs, FreeMode, Autoplay, Navigation, Pagination} from 'swiper/modules';
-import {IMG} from "@/shared/constants/constants";
+import {Autoplay, FreeMode, Navigation, Pagination, Thumbs} from 'swiper/modules';
 import styles from '@/styles/object-page.module.sass'
+import {mediaImgSrc} from "@/shared/constants/options";
 
 /**
  * @author Zholaman Zhumanov
@@ -15,7 +15,7 @@ import styles from '@/styles/object-page.module.sass'
  * @constructor
  */
 function ObjectDetailGallery(props) {
-    const {galleryData} = props
+    const {galleryImages, name} = props
 
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
@@ -25,33 +25,25 @@ function ObjectDetailGallery(props) {
                 spaceBetween={10}
                 slidesPerView={1}
                 loop={true}
-                thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
+                thumbs={{swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null}}
                 modules={[Thumbs, FreeMode, Autoplay, Navigation]}
                 navigation={true}
+                autoHeight={true}
                 autoplay={{
                     pauseOnMouseEnter: true,
                     delay: 3000
                 }}
                 className="preview-gallery-swiper-main"
             >
-                <SwiperSlide>
-                    <img src={IMG.templateSwiperImg['src']}/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <img src={IMG.templateSwiperImg['src']}/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <img src={IMG.templateSwiperImg['src']}/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <img src={IMG.templateSwiperImg['src']}/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <img src={IMG.templateSwiperImg['src']}/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <img src={IMG.templateSwiperImg['src']}/>
-                </SwiperSlide>
+                {
+                    Object.values(galleryImages?.["big"]?.["data"] || {}).map((photoItem, photoId) => {
+                        return (
+                            <SwiperSlide key={photoId}>
+                                <img src={mediaImgSrc(photoItem?.["attributes"]?.["url"])} alt={name}/>
+                            </SwiperSlide>
+                        )
+                    })
+                }
             </Swiper>
             <Swiper
                 onSwiper={setThumbsSwiper}
@@ -59,30 +51,22 @@ function ObjectDetailGallery(props) {
                 spaceBetween={10}
                 slidesPerView={4.5}
                 freeMode={true}
+                autoHeight={true}
                 watchSlidesProgress={true}
                 modules={[Thumbs, FreeMode, Navigation, Pagination]}
                 pagination={true}
                 navigation={true}
                 className="preview-gallery-swiper-thumbs"
             >
-                <SwiperSlide className={'cursor-pointer'}>
-                    <img src={IMG.templateSwiperImg['src']}/>
-                </SwiperSlide>
-                <SwiperSlide className={'cursor-pointer'}>
-                    <img src={IMG.templateSwiperImg['src']}/>
-                </SwiperSlide>
-                <SwiperSlide className={'cursor-pointer'}>
-                    <img src={IMG.templateSwiperImg['src']}/>
-                </SwiperSlide>
-                <SwiperSlide className={'cursor-pointer'}>
-                    <img src={IMG.templateSwiperImg['src']}/>
-                </SwiperSlide>
-                <SwiperSlide className={'cursor-pointer'}>
-                    <img src={IMG.templateSwiperImg['src']}/>
-                </SwiperSlide>
-                <SwiperSlide className={'cursor-pointer'}>
-                    <img src={IMG.templateSwiperImg['src']}/>
-                </SwiperSlide>
+                {
+                    Object.values(galleryImages?.["big"]?.["data"] || {}).map((photoItem, photoId) => {
+                        return (
+                            <SwiperSlide key={photoId}>
+                                <img src={mediaImgSrc(photoItem?.["attributes"]?.["url"])} alt={name}/>
+                            </SwiperSlide>
+                        )
+                    })
+                }
             </Swiper>
         </div>
     );

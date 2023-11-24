@@ -13,6 +13,7 @@
     margin-bottom: 15px
     overflow: hidden
     border-radius: 4px
+    max-height: 266px
 
     img
       transition: transform .4s ease
@@ -35,5 +36,10 @@
       font-size: $size-14
       color: $text-color-opacity
       line-height: 19.4px
+      overflow: hidden
+      text-overflow: ellipsis
+      display: -webkit-box
+      -webkit-line-clamp: 2
+      -webkit-box-orient: vertical
 
 

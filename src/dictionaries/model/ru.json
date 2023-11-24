@@ -23,7 +23,8 @@
     "residential_complex": "ЖК",
     "share_title": "Поделиться",
     "in_map_title": "На карте",
-    "interest_for_you_title": "Так же вас может заинтересовать:"
+    "interest_for_you_title": "Так же вас может заинтересовать:",
+    "list.title": "Список"
   },
   "form": {
     "selected": "Выбрать",
@@ -48,7 +49,7 @@
     "contact_title": "Контакты"
   },
   "object": {
-    "sign_up_view": "записаться на просмотр",
+    "sign_up_view": "Записаться на просмотр",
     "layout_title": "Планировка"
   },
   "characters": {
@@ -63,7 +64,30 @@
     "contact_view_title": "Контактное лицо",
     "know_language_title": "Владеет языками",
     "order_call_title": "Подобрать объект"
-  }
+  },
+  "catalog.initial.free": "Первоначальный взнос",
+  "site.residence.title": "Жилой комплекс",
+  "site.coast_price.title": "Стоимость от",
+  "site.district.title": "Район",
+  "site.roominess.title": "Комнатность",
+  "site.property.type.title": "Тип недвижимости",
+  "site.tags.title": "Тэги",
+  "form.name.title": "Имя",
+  "form.email.title": "Почта",
+  "form.phone.title": "Телефон",
+  "form.comment.title": "Комментарий",
+  "form.service.title": "Услуга",
+  "form.selected.title": "Выбрать",
+  "form.send.title": "Отправить",
+  "filter.clear.title": "Очистить",
+  "residence.more.interesting.title": "Цены и планировки",
+  "button.book.title": "Забронировать",
+  "button.3d.title": "3D тур",
+  "button.video.about.title": "Видео о проекте",
+  "object.payment.plan.title": "План оплаты",
+  "site.advantages.title": "Преимущества",
+  "site.more.title": "Подробнее",
+  "site.contact.us.title": "Контакты"
 }
 
 

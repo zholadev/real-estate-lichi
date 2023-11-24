@@ -2,9 +2,8 @@
 
 import React from 'react';
 import Link from "next/link";
-import {useRouter} from "next/navigation";
-import {IMG} from "@/shared/constants/constants";
 import styles from '@/styles/ui-card-news.module.sass'
+import {mediaImgSrc} from "@/shared/constants/options";
 
 /**
  * @author Zholaman Zhumanov
@@ -14,29 +13,26 @@ import styles from '@/styles/ui-card-news.module.sass'
  * @constructor
  */
 function NewsCard(props) {
-    const {cardData, i18n, descripOff} = props
-
-    const imgs = [IMG.templateNews1['src'], IMG.templateNews2['src']]
-
-    const router = useRouter()
+    const {i18n, descripOff, newsData, id} = props
 
     return (
         <div className={styles['news_card']}>
             <div className={styles['img']}>
-                <Link href={`/news/settings`}>
-                    <img src={imgs[Math.floor(Math.random() * 2)]} alt=""
-                         onClick={() => router.push('/news/settings')}/>
+                <Link href={`/news/${id}`}>
+                    <img
+                        src={mediaImgSrc(newsData?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"])}
+                        alt={newsData?.["title"]}
+                    />
                 </Link>
             </div>
 
             <div className={styles['card_info']}>
-                <Link href={`/news/settings`}>
-                    <h4 className={styles['title']}>Открытие новой дороги</h4>
+                <Link href={`/news/${id}`}>
+                    <h4 className={styles['title']}>{newsData?.["title"]}</h4>
                 </Link>
-                <div className={styles['date']}>12 сентября 2023</div>
+                <div className={styles['date']}>{newsData?.["date"]}</div>
                 {!descripOff &&
-                    <p className={styles['description']}>Германия подтвердила конфискацию товаров у въезжающих
-                        россиян.</p>}
+                    <p className={styles['description']}>{newsData?.["short_description"]}</p>}
             </div>
         </div>
     );

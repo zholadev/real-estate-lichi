@@ -13,7 +13,7 @@ import {ButtonArrow} from "@/shared/uikit/button";
  * @constructor
  */
 function CustomerObjectContent(props) {
-    const {i18n, title, cardType, cardData, col = 3, container = 'container_sm_pn', button, buttonTitle} = props
+    const {i18n, title, col = 3, container = 'container_sm_pn', button, buttonTitle, data, redirectTo} = props
 
     return (
         <div className={'container_md_pn'}>
@@ -22,9 +22,13 @@ function CustomerObjectContent(props) {
 
                 <div className={container}>
                     <div className={styles[`content_list_${col}`]}>
-                        <PrimaryCard/>
-                        <PrimaryCard/>
-                        <PrimaryCard/>
+                        {
+                            Object.values(data || {}).map((item, id) => {
+                                return (
+                                    <PrimaryCard key={id} cardData={item}/>
+                                )
+                            })
+                        }
                     </div>
 
                     {
@@ -32,7 +36,7 @@ function CustomerObjectContent(props) {
                         <div className={styles['more_btn_place']}>
                             <ButtonArrow
                                 title={buttonTitle}
-                                url={'/catalog'}
+                                url={redirectTo || '/catalog'}
                             />
                         </div>
                     }
