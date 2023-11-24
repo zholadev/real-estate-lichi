@@ -1,8 +1,10 @@
 'use client'
 
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styles from "@/styles/widget-switch-local.module.sass";
 import {useMediaMaxState} from "@/shared/hooks";
+import Cookies from "js-cookie";
+import {useRouter} from "next/navigation";
 
 /**
  * @author Zholaman Zhumanov
@@ -14,14 +16,25 @@ import {useMediaMaxState} from "@/shared/hooks";
 function SwitchLocalization(props) {
     const {theme, hideContent} = props
 
+    const router = useRouter()
+
+    const langCookie = Cookies.get('dubai_lang')
+
     const [lang, setLang] = useState('ru')
 
     const mediaMdQuery = useMediaMaxState({screenSize: 768})
 
     const toggleLangHandle = useCallback(() => {
         const getCurrentLangValue = lang === 'ru' ? 'en' : 'ru'
+        Cookies.set('dubai_lang', getCurrentLangValue, {expires: 7})
         setLang(getCurrentLangValue)
+
+        window.location.reload()
     }, [lang])
+
+    useEffect(() => {
+        setLang(langCookie)
+    }, [langCookie]);
 
     return (
         hideContent && mediaMdQuery ? null :

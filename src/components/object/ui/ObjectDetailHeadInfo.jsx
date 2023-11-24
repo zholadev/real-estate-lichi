@@ -10,28 +10,34 @@ import {Button} from "@/shared/uikit/button";
  * @constructor
  */
 function ObjectDetailHeadInfo(props) {
-    const {i18n} = props
+    const {i18n, apartmentInfoData} = props
 
     return (
         <div className={styles['preview_head_info']}>
-            <h1 className={styles['title']}>2-BEDROOM (190 кв.м2)</h1>
+            <h1 className={styles['title']}>{apartmentInfoData?.["name"]}</h1>
 
             <ul className={styles['preview_head_characters']}>
                 <li className={styles['characters_item']}>
                     <span className={styles['key']}>{i18n?.["characters"]?.["price"]}</span>
-                    <span className={styles['value']}>ОТ ~3.836.000 $</span>
+                    <span className={styles['value']}>{apartmentInfoData?.["price"]} $</span>
                 </li>
-                <li className={styles['characters_item']}>
-                    <span className={styles['key']}>{i18n?.["characters"]?.["square"]}</span>
-                    <span className={styles['value']}>190 кв.м2</span>
-                </li>
+                {
+                    Object.values(apartmentInfoData?.["build_info"] || {}).map((info, id) => {
+                        return (
+                            <li className={styles['characters_item']} key={id}>
+                                <span className={styles['key']}>{info?.["name"]}</span>
+                                <span className={styles['value']}>{info?.["description"]}</span>
+                            </li>
+                        )
+                    })
+                }
                 <li className={styles['characters_item']}>
                     <span className={styles['key']}>{i18n?.["characters"]?.["resident_complex"]}</span>
-                    <span className={styles['value']}>Como Residences by Nakheel</span>
+                    <span className={styles['value']}>{apartmentInfoData?.["residence"]?.["data"]?.["attributes"]?.["name"]}</span>
                 </li>
                 <li className={styles['characters_item']}>
                     <span className={styles['key']}>{i18n?.["characters"]?.["area"]}</span>
-                    <span className={styles['value']}>Al Barsha и Barsha Heights</span>
+                    <span className={styles['value']}>{apartmentInfoData?.["district"]?.["data"]?.["attributes"]?.["name"]}</span>
                 </li>
             </ul>
 

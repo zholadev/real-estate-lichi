@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styles from "@/styles/ui-tabs.module.sass";
 import {MotionTextUnderLine} from "@/shared/uikit/motion";
 
@@ -12,9 +12,9 @@ import {MotionTextUnderLine} from "@/shared/uikit/motion";
  * @constructor
  */
 function Tabs(props) {
-    const {i18n, onClick, tabData} = props
+    const {i18n, onClick, tabData, item, activeSelectName} = props
 
-    const [tab, setTab] = useState(tabData?.[0]?.["value"])
+    const [tab, setTab] = useState("")
 
     const toggleTab = useCallback((value) => {
         try {
@@ -27,23 +27,35 @@ function Tabs(props) {
         }
     }, [tab, onClick])
 
+    useEffect(() => {
+        if (Object.values(tabData || {}).length === 0) return
+        if (!tab) {
+            setTab(Object.values(tabData || {})?.[0]?.["name"])
+            onClick(Object.values(tabData || {})?.[0]?.["name"])
+        }
+    }, [tab]);
+
+    if (Object.values(tabData || {}).length === 0) {
+        return null
+    }
+
     return (
         <div className={styles['ui_tabs']}>
             {
-                tabData.map((tabItem, id) => {
+                Object.values(tabData || {}).map((tabItem, id) => {
                     return (
                         <button
                             onClick={() => {
-                                toggleTab(tabItem?.["value"])
+                                toggleTab(tabItem?.[activeSelectName])
                             }}
                             tabIndex={id}
                             key={id}
                         >
                             <span>
-                                {tabItem?.["title"]}
+                                {tabItem?.[item]}
                                 <MotionTextUnderLine
                                     current={tab}
-                                    id={tabItem?.["value"]}
+                                    id={tabItem?.[activeSelectName]}
                                 />
                             </span>
                         </button>

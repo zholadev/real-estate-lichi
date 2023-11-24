@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import {ButtonArrow} from "@/shared/uikit/button";
 import {NewsCard} from "@/shared/uikit/cards/newsCard";
@@ -11,17 +13,24 @@ import styles from '@/styles/customer_content.module.sass'
  * @constructor
  */
 function CustomerNewsContent(props) {
-    const {i18n, title, btnOff} = props
+    const {i18n, title, btnOff, newsData} = props
 
     return (
         <section className={styles['news_content']}>
             <h3 className={styles['title']}>{title}</h3>
 
             <div className={styles['list']}>
-                <NewsCard/>
-                <NewsCard/>
-                <NewsCard/>
-                <NewsCard/>
+                {
+                    Object.values(newsData || {}).map((newsItem, newsId) => {
+                        return (
+                            <NewsCard
+                                key={newsId}
+                                id={newsItem?.["id"]}
+                                newsData={newsItem?.["attributes"]}
+                            />
+                        )
+                    })
+                }
             </div>
 
             {

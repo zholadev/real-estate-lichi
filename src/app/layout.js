@@ -4,21 +4,23 @@ import './reset.css'
 import '@/styles/font.css'
 import '@/styles/swiper-custom.sass'
 import '@/styles/leaflet.css'
+import 'react-loading-skeleton/dist/skeleton.css'
 import {Navbar} from "@/widgets/navbar";
 import {getDictionary} from "@/dictionaries";
 import {Footer} from "@/widgets/footer";
 import NextTopLoader from "nextjs-toploader";
-import dynamic from "next/dynamic";
-
-// const Navbar = dynamic(() => import('@/widgets/navbar/ui/Navbar'), {ssr: false})
+import {cookies} from "next/headers";
 
 export const metadata = {
-    title: 'META TRAST-DUBAI',
-    description: 'META TRAST-DUBAI new project',
+    title: 'META TRUST-DUBAI',
+    description: 'META TRUST-DUBAI',
 }
 
 export default async function RootLayout({children}) {
-    const i18n = await getDictionary('ru')
+    const cookieStore = cookies()
+    const lang = cookieStore.get('dubai_lang')?.value || 'en'
+
+    const i18n = await getDictionary(lang)
 
     return (
         <html lang="en">
@@ -26,6 +28,7 @@ export default async function RootLayout({children}) {
         <NextTopLoader
             color="#000"
             showSpinner={false}
+            zIndex={1100}
         />
 
         <Navbar i18n={i18n}/>

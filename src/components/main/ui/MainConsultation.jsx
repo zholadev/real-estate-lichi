@@ -24,20 +24,20 @@ function MainConsultation(props) {
                     <FormSelect
                         i18n={i18n}
                         type={'secondary'}
-                        label={'Услуга'}
+                        label={i18n?.["form.service.title"]}
                     />
                 </div>
                 <div className={styles['form_single']}>
                     <Input
-                        label={'Имя'}
+                        label={i18n?.["form.name.title"]}
                     />
                 </div>
                 <div className={styles['form_double']}>
                     <Input
-                        label={'E-mail'}
+                        label={i18n?.["form.email.title"]}
                     />
                     <Input
-                        label={'Телефон'}
+                        label={i18n?.["form.phone.title"]}
                     />
                 </div>
 
@@ -45,13 +45,13 @@ function MainConsultation(props) {
                     <FormTextArea
                         id={'comments'}
                         name={'comments'}
-                        label={'Комментарий'}
+                        label={i18n?.["form.comment.title"]}
                     />
                 </div>
 
                 <Button
                     type={'outline'}
-                    title={'Отправить'}
+                    title={i18n?.["form.send.title"]}
                     style={{
                         minWidth: "295px"
                     }}

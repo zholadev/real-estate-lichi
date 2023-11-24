@@ -36,8 +36,8 @@ function NavbarSubmenu(props) {
             {
                 y: 0,
                 opacity: 1,
-                duration: .2,
-                stagger: .1,
+                duration: .1,
+                stagger: 0.02,
                 ease: "power2.inOut",
                 onComplete: () => setMenuMotion(true)
             }
@@ -51,8 +51,8 @@ function NavbarSubmenu(props) {
             {
                 y: 0,
                 opacity: 1,
-                duration: .2,
-                stagger: .1,
+                duration: .1,
+                stagger: 0.02,
                 ease: "power2.inOut",
                 onComplete: () => setBottomActionMotion(true)
             }
@@ -66,8 +66,8 @@ function NavbarSubmenu(props) {
             {
                 y: 0,
                 opacity: 1,
-                duration: .2,
-                stagger: .1,
+                duration: .1,
+                stagger: 0.02,
                 ease: "power2.inOut"
             }
         );
@@ -78,8 +78,8 @@ function NavbarSubmenu(props) {
         gsap.to(listMenuRef.current.children, {
             y: 20,
             opacity: 0,
-            duration: .2,
-            stagger: .1,
+            duration: .1,
+            stagger: 0.02,
             onComplete: () => setMenuMotion(false)
         });
     };
@@ -88,8 +88,8 @@ function NavbarSubmenu(props) {
         gsap.to(listPageRef.current.children, {
             y: 20,
             opacity: 0,
-            duration: .2,
-            stagger: .1,
+            duration: .1,
+            stagger: 0.02,
             onComplete: () => setBottomActionMotion(false)
         });
     }
@@ -98,8 +98,8 @@ function NavbarSubmenu(props) {
         gsap.to(bottomActionRef.current.children, {
             y: 20,
             opacity: 0,
-            duration: .2,
-            stagger: .1,
+            duration: .1,
+            stagger: 0.02,
             onComplete: () => {
                 hideSubmenuHandle()
             }
@@ -136,24 +136,24 @@ function NavbarSubmenu(props) {
         return [
             {
                 id: 1,
-                title: "Каталог недвижимости",
+                title: i18n?.["footer"]?.["catalog_apartment_title"],
                 img: IMG.templateCatalogCard['src'],
                 url: "/catalog"
             },
             {
                 id: 1,
-                title: "Жилые комплексы",
+                title: i18n?.["site.residence.title"],
                 img: IMG.templateCatalogCard['src'],
                 url: "/catalog"
             },
             {
                 id: 1,
-                title: "Контакты",
+                title: i18n?.["site.contact.us.title"],
                 img: IMG.templateCatalogCard['src'],
-                url: "/catalog"
+                url: "/contact"
             },
         ]
-    }, [])
+    }, [i18n])
 
     return (
         <div className={`${styles['navbar_submenu']} ${fullWidth  ? styles['submenu_full_wd'] : ''} ${active ? styles['navbar_submenu__active'] : ''}`}>
@@ -181,17 +181,17 @@ function NavbarSubmenu(props) {
                         <ul className={styles['menu_list']} ref={listPageRef}>
                             <li className={styles['list_item']} onClick={toggleAnimate}>
                                 <Link href={'/about'}>
-                                    О нас
+                                    {i18n?.["footer"]?.["about_us_title"]}
                                 </Link>
                             </li>
                             <li className={styles['list_item']} onClick={toggleAnimate}>
                                 <Link href={'/faq'}>
-                                    FAQ
+                                    {i18n?.["footer"]?.["faq_title"]}
                                 </Link>
                             </li>
                             <li className={styles['list_item']} onClick={toggleAnimate}>
                                 <Link href={'/news'}>
-                                    Новости
+                                    {i18n?.["site"]?.["news_title"]}
                                 </Link>
                             </li>
                         </ul>
@@ -201,7 +201,7 @@ function NavbarSubmenu(props) {
                 <div className={styles['footer_content']}>
                    <div className={styles['footer_box']} ref={bottomActionRef}>
                        <ButtonArrow
-                           title={'Подобрать объект'}
+                           title={i18n?.["site"]?.["get_object"]}
                            url={'/catalog'}
                            onClick={toggleAnimate}
                            theme={'light'}

@@ -8,7 +8,7 @@ import {MotionTextUnderLine} from "@/shared/uikit/motion";
 
 // TODO: style file update
 
-const MapContainer = dynamic(() => import('@/widgets/map/ui/MapComponent'), {ssr: false})
+const MapContainer = dynamic(() => import('@/widgets/map/ui/MapController'), {ssr: false})
 
 /**
  * @author Zholaman Zhumanov
@@ -18,7 +18,7 @@ const MapContainer = dynamic(() => import('@/widgets/map/ui/MapComponent'), {ssr
  * @constructor
  */
 function PageMapInfo(props) {
-    const {i18n} = props
+    const {i18n, mapInfo, mapInfoList} = props
 
     const [currentMap, setCurrentMap] = useState('sport')
 
@@ -38,49 +38,48 @@ function PageMapInfo(props) {
 
             <div className={styles['map_board_interaction']}>
                 <div className={styles['map_action']}>
-                    <ul className={styles['map_tab_list']}>
-                        <li className={`${styles['list_item']} ${currentMap === 'sport' ? styles['active'] : ''}`}
-                            onClick={() => switchCurrentMapValue('sport')}>
-                            <span>
-                                Спорт
-                            </span>
-                        </li>
-                        <li className={`${styles['list_item']} ${currentMap === 'sport1' ? styles['active'] : ''}`}
-                            onClick={() => switchCurrentMapValue('sport1')}>
-                            <span>
-                                достопримечательности
-                            </span>
-                        </li>
-                        <li className={`${styles['list_item']} ${currentMap === 'sport2' ? styles['active'] : ''}`}
-                            onClick={() => switchCurrentMapValue('sport2')}>
-                            <span>
-                                магазины
-                            </span>
-                        </li>
-                        <li className={`${styles['list_item']} ${currentMap === 'sport3' ? styles['active'] : ''}`}
-                            onClick={() => switchCurrentMapValue('sport3')}>
-                            <span>
-                                аптеки
-                            </span>
-                        </li>
-                    </ul>
+                    {/*<ul className={styles['map_tab_list']}>*/}
+                    {/*    <li className={`${styles['list_item']} ${currentMap === 'sport' ? styles['active'] : ''}`}*/}
+                    {/*        onClick={() => switchCurrentMapValue('sport')}>*/}
+                    {/*        <span>*/}
+                    {/*            Спорт*/}
+                    {/*        </span>*/}
+                    {/*    </li>*/}
+                    {/*    <li className={`${styles['list_item']} ${currentMap === 'sport1' ? styles['active'] : ''}`}*/}
+                    {/*        onClick={() => switchCurrentMapValue('sport1')}>*/}
+                    {/*        <span>*/}
+                    {/*            достопримечательности*/}
+                    {/*        </span>*/}
+                    {/*    </li>*/}
+                    {/*    <li className={`${styles['list_item']} ${currentMap === 'sport2' ? styles['active'] : ''}`}*/}
+                    {/*        onClick={() => switchCurrentMapValue('sport2')}>*/}
+                    {/*        <span>*/}
+                    {/*            магазины*/}
+                    {/*        </span>*/}
+                    {/*    </li>*/}
+                    {/*    <li className={`${styles['list_item']} ${currentMap === 'sport3' ? styles['active'] : ''}`}*/}
+                    {/*        onClick={() => switchCurrentMapValue('sport3')}>*/}
+                    {/*        <span>*/}
+                    {/*            аптеки*/}
+                    {/*        </span>*/}
+                    {/*    </li>*/}
+                    {/*</ul>*/}
                 </div>
 
                 <div className={styles['map_info']}>
-                    <MapContainer height={484}/>
+                    <MapContainer height={484} mapInfo={mapInfo}/>
+
                     <ul className={styles['map_info_list']}>
-                        <li className={styles['list_item']}>
-                            <div className={styles['dot_shape']}/>
-                            <span>5 минут до Бизнес Бэй</span>
-                        </li>
-                        <li className={styles['list_item']}>
-                            <div className={styles['dot_shape']}/>
-                            <span>10 минут до Бурдж Халифа</span>
-                        </li>
-                        <li className={styles['list_item']}>
-                            <div className={styles['dot_shape']}/>
-                            <span>13 минут до пляжа Джумейра</span>
-                        </li>
+                        {
+                            Object.values(mapInfoList || {}).map((localText) => {
+                                return (
+                                    <li key={localText?.["id"]} className={styles['list_item']}>
+                                        <div className={styles['dot_shape']}/>
+                                        <span>{localText?.["locate"]}</span>
+                                    </li>
+                                )
+                            })
+                        }
                     </ul>
                 </div>
             </div>

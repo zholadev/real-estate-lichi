@@ -1,7 +1,6 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import styles from '@/styles/news-page.module.sass'
 import {NewsCard} from "@/shared/uikit/cards/newsCard";
-import {CustomerNewsContent} from "@/components/customerContent";
 
 /**
  * @author Zholaman Zhumanov
@@ -12,26 +11,12 @@ import {CustomerNewsContent} from "@/components/customerContent";
  */
 function NewsContainer(props) {
     const {i18n, newsData} = props
+    // const {i18n} = props
 
-    const news = useMemo(() => {
-        return [
-            {
-                id: 1,
-            },{
-                id: 1,
-            },{
-                id: 1,
-            },{
-                id: 1,
-            }
-            ,{
-                id: 1,
-            }
-            ,{
-                id: 1,
-            },
-        ]
-    }, [])
+    if (Object.values(newsData || {}).length === 0) {
+        return <h4>НИЧЕГО НЕ НАЙДЕНО</h4>
+    }
+
 
     return (
         <div className={styles['news_container']}>
@@ -39,12 +24,14 @@ function NewsContainer(props) {
 
             <article className={`${styles['news_list']} container_md_pn`}>
                 {
-                    news.map((newsItem, newsId) => {
+                    Object.values(newsData || {}).map((newsItem, newsId) => {
                         return (
                             <NewsCard
                                 i18n={i18n}
                                 key={newsId}
                                 descripOff
+                                id={newsItem?.["id"]}
+                                newsData={newsItem?.["attributes"]}
                             />
                         )
                     })

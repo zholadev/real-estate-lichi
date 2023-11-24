@@ -9,10 +9,11 @@ import {CustomerNewsContent} from "@/components/customerContent";
  * @constructor
  */
 function MainNewsContent(props) {
-    const {i18n} = props
+    const {i18n, newsData} = props
 
     return (
-      <CustomerNewsContent i18n={i18n} title={i18n?.["site"]?.["news_title"]}/>
+        Object.values(newsData || {}).length > 0 &&
+        <CustomerNewsContent i18n={i18n} newsData={newsData} title={i18n?.["site"]?.["news_title"]}/>
     );
 }
 

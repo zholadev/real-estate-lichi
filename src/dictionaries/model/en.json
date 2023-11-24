@@ -1,5 +1,91 @@
 {
   "main": {
-    "welcome": "Add to Cart"
-  }
+    "welcome": "Premium properties for living and investment in Dubai",
+    "form_investing_title": "Start investing in real estate now.",
+    "form_investing_subtitle": "We will help you choose an object that is ideal for your purposes."
+  },
+  "site": {
+    "meta": "meta",
+    "trust": "trust",
+    "get_object": "Select an object",
+    "search_title": "Search",
+    "apartment_title": "Apartments",
+    "villas_title": "Villas",
+    "see_more": "See more",
+    "more": "More details",
+    "news_title": "News",
+    "site_number_phone": "+971 5 886 95492",
+    "site_address": "Arenco tower 1806, Dubai Internet City, Dubai, UAE",
+    "catalogs": "Catalog of objects",
+    "main_page_title": "Home",
+    "select_map_title": "On the map",
+    "objects": "Objects",
+    "residential_complex": "Residential complex",
+    "share_title": "Share",
+    "in_map_title": "On the map",
+    "interest_for_you_title": "You may also be interested in:",
+    "list.title": "List"
+  },
+  "form": {
+    "selected": "Select",
+    "empty": "Empty",
+    "consultant_description": "Leave a request and get a free consultation"
+  },
+  "about": {
+    "title": "META TRUST REAL ESTATE BROCKERS LLC",
+    "first_desc": "<strong>META TRUST REAL ESTATE BROCKERS LLC</strong> is a real estate company established in Dubai, UAE since 2022. Sale, rental and management of residential and commercial real estate.",
+    "sec_desc": "Our specialist property consultants cover\nall areas of Dubai and are well aware of market innovations; their main focus is to help buyers find properties that suit their requirements and budget, and to help landlords sell or rent their properties. We ensure that both parties enter into favorable agreements as we strive to foster strong, long-term relationships with our clients by delivering our impeccable services with professionalism."
+  },
+  "news": {
+    "more_news_title": "All news",
+    "news_page_title": "Real estate news",
+    "news_recommend_title": "You might be interested in"
+  },
+  "footer": {
+    "about_us_title": "About Us",
+    "catalog_apartment_title": "Real estate catalog",
+    "faq_title": "FAQ",
+    "get_object_title": "Pick up an object",
+    "contact_title": "Contacts"
+  },
+  "object": {
+    "sign_up_view": "sign up for viewing",
+    "layout_title": "Layout"
+  },
+  "characters": {
+    "price": "Price",
+    "square": "Square",
+    "resident_complex": "Residential complex",
+    "area": "District"
+  },
+  "feedback": {
+    "feedback_title": "Contact the seller",
+    "company_title": "Company",
+    "contact_view_title": "The contact person",
+    "know_language_title": "Speaks languages",
+    "order_call_title": "Pick up an object"
+  },
+  "catalog.initial.free": "An initial fee",
+  "site.residence.title": "Residential complex",
+  "site.coast_price.title": "Cost from",
+  "site.district.title": "District",
+  "site.roominess.title": "Roominess",
+  "site.property.type.title": "Property type",
+  "site.tags.title": "Tags",
+  "form.name.title": "Name",
+  "form.email.title": "E-Mail",
+  "form.phone.title": "Phone",
+  "form.comment.title": "Comments",
+  "form.service.title": "Service",
+  "form.selected.title": "Select",
+  "form.send.title": "Send",
+  "filter.clear.title": "Clear",
+  "residence.more.interesting.title": "Prices and planning",
+  "button.book.title": "Book",
+  "button.3d.title": "3D tour",
+  "button.video.about.title": "Video about the project",
+  "object.payment.plan.title": "Payment plan",
+  "site.advantages.title": "Advantages",
+  "site.more.title": "More details",
+  "site.contact.us.title": "Contact Us"
 }

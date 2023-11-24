@@ -7,7 +7,7 @@ import {customSelectDefaultStyles} from "../model/selectStyles";
 import styles from '@/styles/ui-form-select.module.sass'
 
 function FormSelect(props) {
-    const {label, options, id, name, loader, search, placeholder = 'Выбрать', i18n, type} = props
+    const {label, options, id, name, loader, search, placeholder, i18n, type, onChange, isMulti} = props
 
     return (
         <div className={styles['ui_select']}>
@@ -17,13 +17,20 @@ function FormSelect(props) {
                 id={id}
                 name={name}
                 styles={customSelectDefaultStyles(type)}
-                placeholder={placeholder}
+                placeholder={placeholder || i18n?.["form.selected.title"]}
                 noOptionsMessage={() => i18n?.["form"]?.["empty"]}
                 options={options}
                 isLoading={loader}
+                isMulti={isMulti}
+                onChange={e => {
+                    if (onChange) {
+                        onChange(e)
+                    }
+                }}
                 isSearchable={search}
                 components={{
-                    DropdownIndicator: () => <img src={ICON.arrowBottomIcon['src']} alt="" style={{width: type === 'secondary' ? '14px' : 'initial'}}/>,
+                    DropdownIndicator: () => <img src={ICON.arrowBottomIcon['src']} alt=""
+                                                  style={{width: type === 'secondary' ? '14px' : 'initial'}}/>,
                     IndicatorSeparator: () => null,
                     ClearIndicator: () => null,
                     LoadingIndicator: () => null

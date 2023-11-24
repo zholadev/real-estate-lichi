@@ -1,7 +1,16 @@
-import React from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import styles from '@/styles/main.module.sass'
 import {FormSelect} from "@/shared/uikit/form/select";
 import {Button} from "@/shared/uikit/button";
+import {useApiRequest} from "@/shared/hooks";
+import {
+    apiGetFilterDistrictList,
+    apiGetFilterPropertyTypeList,
+    apiGetFilterResidenceList,
+    apiGetFilterRoomsList
+} from "@/shared/services/clientRequests";
+import qs from "qs";
+import {useRouter} from "next/navigation";
 
 /**
  * @author Zholaman Zhumanov
@@ -13,6 +22,171 @@ import {Button} from "@/shared/uikit/button";
 function MainFormInvesting(props) {
     const {i18n} = props
 
+    const router = useRouter()
+
+    const {apiFetchHandler, loading} = useApiRequest()
+
+    const [queryFilter, setQueryFilter] = useState({})
+    const [roomsDataFilter, setRoomsDataFilter] = useState([])
+    const [districtDataFilter, setDistrictDataFilter] = useState([])
+    const [residenceDataFilter, setResidenceFilterData] = useState([])
+    const [propertyTypeDataFilter, setPropertyTypeFilterData] = useState([])
+
+    const getFilterResidenceData = async () => {
+        await apiFetchHandler(apiGetFilterResidenceList, [], false, {
+            onGetData: (params) => {
+                setResidenceFilterData(params.api_data)
+            }
+        })
+    }
+
+    const getFilterDistrictData = async () => {
+        await apiFetchHandler(apiGetFilterDistrictList, [], false, {
+            onGetData: (params) => {
+                setDistrictDataFilter(params.api_data)
+            }
+        })
+    }
+
+    const getFilterRoomsData = async () => {
+        await apiFetchHandler(apiGetFilterRoomsList, [], false, {
+            onGetData: (params) => {
+                setRoomsDataFilter(params.api_data)
+            }
+        })
+    }
+
+    const getFilterPropertyData = async () => {
+        await apiFetchHandler(apiGetFilterPropertyTypeList, [], false, {
+            onGetData: (params) => {
+                setPropertyTypeFilterData(params.api_data)
+            }
+        })
+    }
+
+    useEffect(() => {
+        getFilterResidenceData().catch(e => console.log(e))
+        getFilterDistrictData().catch(e => console.log(e))
+        getFilterRoomsData().catch(e => console.log(e))
+        getFilterPropertyData().catch(e => console.log(e))
+
+        return () => {
+            setResidenceFilterData([])
+            setDistrictDataFilter([])
+            setRoomsDataFilter([])
+            setPropertyTypeFilterData([])
+        }
+    }, []);
+
+    const optionsResidence = useMemo(() => {
+        try {
+            return residenceDataFilter.map((filter) => {
+                return {
+                    label: filter?.["attributes"]?.["name"],
+                    value: filter?.["attributes"]?.["name"],
+                    key: "residence"
+                }
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }, [residenceDataFilter])
+
+    const optionsDistrict = useMemo(() => {
+        try {
+            return districtDataFilter.map((filter) => {
+                return {
+                    label: filter?.["attributes"]?.["name"],
+                    value: filter?.["attributes"]?.["type"],
+                    key: "district"
+                }
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }, [districtDataFilter])
+
+    const optionsRooms = useMemo(() => {
+        try {
+            return roomsDataFilter.map((filter) => {
+                return {
+                    label: filter?.["attributes"]?.["name"],
+                    value: filter?.["attributes"]?.["type"],
+                    key: "rooms"
+                }
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }, [roomsDataFilter])
+
+    const optionsPropertyType = useMemo(() => {
+        try {
+            return propertyTypeDataFilter.map((filter) => {
+                return {
+                    label: filter?.["attributes"]?.["name"],
+                    value: filter?.["attributes"]?.["type"],
+                    key: "property_type"
+                }
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }, [propertyTypeDataFilter])
+
+
+    const setFilterQueryHandle = (data) => {
+        const {key, value} = data
+
+        setQueryFilter((prevFilters) => {
+            try {
+                // if (prevFilters.hasOwnProperty(key)) {
+                //     return {
+                //         ...prevFilters,
+                //         [key]: Array.isArray(prevFilters[key])
+                //             ? [...prevFilters[key], value]
+                //             : [prevFilters[key], value],
+                //     };
+                // } else {
+                return {
+                    ...prevFilters,
+                    [key]: value,
+                };
+                // }
+            } catch (e) {
+                console.log(e)
+            }
+        });
+    };
+
+    const sendFilterQuery = () => {
+        router.push(`/catalog?${qs.stringify({
+            filters: Object.entries(queryFilter || {}).map((item) => {
+                if (item?.[0] === "residence") {
+                    return {
+                        [item?.[0]]: {
+                            "name": {
+                                "$contains": item?.[1]
+                            }
+                        }
+                    }
+                } else {
+                    return {
+                        [item?.[0]]: {
+                            "type": item?.[1]
+                        }
+                    }
+                }
+            })
+        }, {arrayFormat: 'repeat'})}`)
+    }
+
+    const clearFilters = () => {
+        setQueryFilter({})
+        router.replace('/catalog')
+    }
+
+
     return (
         <div className={styles['main_form_investing']}>
             <div className={styles['title']}>{i18n?.["main"]?.["form_investing_title"]}</div>
@@ -21,29 +195,41 @@ function MainFormInvesting(props) {
             <form className={`${styles['form_investing']}`}>
                 <div className={styles['form_box']}>
                     <FormSelect
-                        placeholder={i18n?.["form"]?.["selected"]}
-                        i18n={i18n}
+                        placeholder={i18n?.["site.residence.title"]}
+                        options={optionsResidence}
+                        onChange={e => {
+                            setFilterQueryHandle(e)
+                        }}
                     />
                 </div>
 
                 <div className={styles['form_box']}>
                     <FormSelect
-                        placeholder={i18n?.["form"]?.["selected"]}
-                        i18n={i18n}
+                        placeholder={i18n?.["site.district.title"]}
+                        options={optionsDistrict}
+                        onChange={e => {
+                            setFilterQueryHandle(e)
+                        }}
                     />
                 </div>
 
                 <div className={styles['form_box']}>
                     <FormSelect
-                        placeholder={i18n?.["form"]?.["selected"]}
-                        i18n={i18n}
+                        placeholder={i18n?.["site.roominess.title"]}
+                        options={optionsRooms}
+                        onChange={e => {
+                            setFilterQueryHandle(e)
+                        }}
                     />
                 </div>
 
                 <div className={styles['form_box']}>
                     <FormSelect
-                        placeholder={i18n?.["form"]?.["selected"]}
-                        i18n={i18n}
+                        placeholder={i18n?.["site.property.type.title"]}
+                        options={optionsPropertyType}
+                        onChange={e => {
+                            setFilterQueryHandle(e)
+                        }}
                     />
                 </div>
 
@@ -52,6 +238,7 @@ function MainFormInvesting(props) {
             <Button
                 title={i18n?.["site"]?.["search_title"]}
                 style={{minWidth: "303px"}}
+                onClick={sendFilterQuery}
             />
         </div>
     );

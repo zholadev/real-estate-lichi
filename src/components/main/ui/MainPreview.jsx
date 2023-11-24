@@ -4,8 +4,10 @@ import React from 'react';
 import styles from '@/styles/main.module.sass'
 import {Button} from "@/shared/uikit/button";
 import MainBottomList from "./MainBottomList";
-import {Video} from "@/shared/uikit/video";
 import {IMG} from "@/shared/constants/constants";
+import dynamic from "next/dynamic";
+
+const Video = dynamic(() => import('@/shared/uikit/video/ui/Video'), {ssr: false})
 
 /**
  * @author Zholaman Zhumanov

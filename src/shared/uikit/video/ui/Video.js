@@ -14,7 +14,7 @@ import styles from '@/styles/ui-video.module.sass'
  * @constructor
  */
 function Video(props) {
-    const {src, style, poster} = props
+    const {src, style, poster, posterStyle} = props
 
     const posterRef = useRef(null)
 
@@ -25,7 +25,7 @@ function Video(props) {
             {
                 poster &&
                 <div className={`${styles['video_poster_box']} ${videoIsPlay ? styles['hide'] : ''}`} ref={posterRef}>
-                    <img src={poster} alt="poster"/>
+                    <img src={poster} alt="poster" style={posterStyle}/>
                 </div>
             }
             <ReactPlayer

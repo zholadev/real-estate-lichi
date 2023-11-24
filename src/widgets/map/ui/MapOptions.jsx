@@ -10,7 +10,7 @@ import {ICON} from "@/shared/constants/constants";
 // TODO: refactoring
 
 function MapOptions(props) {
-    const {position, zoom} = props
+    const {position, zoom, mapInfo} = props
 
     const map = useMap()
 
@@ -41,9 +41,9 @@ function MapOptions(props) {
 
     useEffect(() => {
         try {
-            mapCoordinates?.map((data) => {
+            mapInfo?.map((data) => {
                 markers?.addLayer(
-                    L.marker(data, {
+                    L.marker([data?.["lat"], data?.["lang"]], {
                         icon: iconPerson
                     })
                 )

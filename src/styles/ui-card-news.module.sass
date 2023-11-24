@@ -23,9 +23,15 @@
 
     .title
       font-weight: $size-600
-      margin-bottom: 5px
-      line-height: $size-28
+      margin-bottom: 10px
+      line-height: $size-24
       cursor: pointer
+      font-size: $size-14 !important
+      overflow: hidden
+      text-overflow: ellipsis
+      display: -webkit-box
+      -webkit-line-clamp: 2
+      -webkit-box-orient: vertical
 
     .date
       color: rgba(115, 116, 119, 1)
@@ -35,3 +41,8 @@
     .description
       font-size: $size-14
       color: rgba(23, 23, 23, 0.6)
+      overflow: hidden
+      text-overflow: ellipsis
+      display: -webkit-box
+      -webkit-line-clamp: 2
+      -webkit-box-orient: vertical

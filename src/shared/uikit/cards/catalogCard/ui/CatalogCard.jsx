@@ -1,11 +1,11 @@
 'use client'
 
 import React from 'react';
-import styles from '@/styles/ui-catalog-card.module.sass'
-import {IMG} from "@/shared/constants/constants";
-import {ButtonArrow} from "@/shared/uikit/button";
-import {TagList} from "@/shared/uikit/tags";
 import Link from "next/link";
+import {ButtonArrow} from "@/shared/uikit/button";
+import stylesTag from "@/styles/ui-tags.module.sass";
+import {mediaImgSrc} from "@/shared/constants/options";
+import styles from '@/styles/ui-catalog-card.module.sass'
 
 /**
  * @author Zholaman Zhumanov
@@ -15,43 +15,70 @@ import Link from "next/link";
  * @constructor
  */
 function CatalogCard(props) {
-    const {catalogData, i18n, redirectUrl} = props
+    const {cardData, cardDataInfo, i18n, redirectUrl} = props
 
     return (
         <div className={styles['ui_catalog_card']}>
             <div className={styles['card_photo']}>
-                <Link href={`/catalog/${redirectUrl}`}>
+                <Link href={`/catalog/${redirectUrl}/${cardData?.["id"]}`}>
                     <img
-                        src={redirectUrl === 'apartment' ? IMG.posterDubaiApartmentPage['src'] : IMG.templateCatalogCard['src']}
+                        src={mediaImgSrc(cardDataInfo?.["photo_preview"]?.["big"]?.["data"]?.["attributes"]?.["url"])}
                         alt={'alt'}/>
                 </Link>
             </div>
 
             <div className={styles['card_info']}>
-                <Link href={`/catalog/${redirectUrl}`}>
-                    <h3 className={styles['title']}>2-BEDROOM (190 кв.м2)</h3>
+                <Link href={`/catalog/${redirectUrl}/${cardData?.["id"]}`}>
+                    <h3 className={styles['title']}>{cardDataInfo?.["name"]}</h3>
                 </Link>
 
-                <h4 className={styles['price']}>ОТ ~3.836.000 $</h4>
+                {cardDataInfo?.["price"] && <h4 className={styles['price']}>{cardDataInfo?.["price"]} $</h4>}
 
                 <div className={styles['short_info']}>
-                    <p className={styles['info']}>
-                        <span className={styles['key']}>Первоначальный взнос</span>
-                        <span className={styles['value']}>ОТ ~105.000 $</span>
-                    </p>
-                    <p className={styles['info']}>
-                        <span className={styles['key']}>План оплаты</span>
-                        <span className={styles['value']}>20% При бронировании <br/> 80% Во время строительства</span>
-                    </p>
+                    {
+                        cardDataInfo?.["an_initial_fee"] &&
+                        <p className={styles['info']}>
+                            <span className={styles['key']}>{i18n?.["catalog.initial.free"]}</span>
+                            <span className={styles['value']}>$ {cardDataInfo?.["an_initial_fee"]}</span>
+                        </p>
+                    }
+
+                    {
+                        cardDataInfo?.["payment_plan"] &&
+                        <p className={styles['info']}>
+                            <span className={styles['key']}>План оплаты</span>
+                            <ul className={styles['value']}>
+                                {
+                                    cardDataInfo?.["payment_plan"].map((item, id) => {
+                                        return (
+                                            <li key={id}>
+                                                <h3>{item?.["name"]}</h3>
+                                                <p>{item?.["description"]}</p>
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </p>
+                    }
+
                 </div>
 
                 <div className={styles['action_info']}>
-                   <div className={styles['tags']}>
-                       <TagList/>
-                   </div>
+                    <div className={styles['tags']}>
+                        <ul className={`${stylesTag['tags_list']}`}>
+                            {
+                                Object.values(cardDataInfo?.["tags"]?.["data"] || {}).map((tagItem, tagId) => {
+                                    return (
+                                        <li className={stylesTag['tag_item']} key={tagId}>{tagItem?.["attributes"]?.["name"]}</li>
+                                    )
+                                })
+                            }
+                        </ul>
+                    </div>
                     <ButtonArrow
                         title={i18n?.["site"]?.["more"]}
-                        url={`/catalog/${redirectUrl}`}
+                        url={`/catalog/${redirectUrl}/${cardData?.["id"]}`}
                     />
                 </div>
             </div>

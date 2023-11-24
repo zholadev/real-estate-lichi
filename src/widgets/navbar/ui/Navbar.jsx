@@ -15,7 +15,7 @@ import NavbarContent from "@/widgets/navbar/ui/NavbarContent";
 function Navbar(props) {
     const {i18n} = props
 
-    return (<NavbarContent i18n={i18n}/>);
+    return <NavbarContent i18n={i18n}/>;
 }
 
 export default Navbar;

@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import styles from '@/styles/object-page.module.sass'
 import {IMG} from "@/shared/constants/constants";
@@ -34,7 +36,7 @@ function ObjectDetailFeedback(props) {
 
                         <li className={styles['list_item']}>
                             <div className={styles['key']}>{i18n?.["feedback"]?.["company_title"]}:</div>
-                            <div className={styles['value']}>Русский, Аглийский</div>
+                            <div className={styles['value']}>Meta Dubai</div>
                         </li>
                     </ul>
 

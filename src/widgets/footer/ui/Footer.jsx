@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useMemo} from 'react';
+import React from 'react';
 import {Logo} from "@/shared/uikit/logo";
 import FooterContact from "./FooterContact";
 import FooterPageList from "./FooterPageList";
@@ -19,39 +19,64 @@ function Footer(props) {
 
     const pathname = usePathname()
 
-    const footerPageListData = useMemo(() => {
-        try {
-            return [
-                {
-                    id: 1,
-                    title: i18n?.["footer"]?.["about_us_title"],
-                    link: "/about"
-                }, {
-                    id: 2,
-                    title: i18n?.["footer"]?.["catalog_apartment_title"],
-                    link: "/catalog"
-                }, {
-                    id: 3,
-                    title: i18n?.["footer"]?.["faq_title"],
-                    link: "/faq"
-                }, {
-                    id: 4,
-                    title: i18n?.["footer"]?.["get_object_title"],
-                    link: "/catalog"
-                }, {
-                    id: 5,
-                    title: i18n?.["footer"]?.["contact_title"],
-                    link: "/contact"
-                },
-            ]
-        } catch (error) {
-            console.log(`page: footer, event: footerPageListData, error: ${error}`)
-        }
-    }, [i18n])
+    // const footerPageListData = useMemo(() => {
+    //     try {
+    //         return [
+    //             {
+    //                 id: 1,
+    //                 title: i18n?.["footer"]?.["about_us_title"],
+    //                 link: "/about"
+    //             }, {
+    //                 id: 2,
+    //                 title: i18n?.["footer"]?.["catalog_apartment_title"],
+    //                 link: "/catalog"
+    //             }, {
+    //                 id: 3,
+    //                 title: i18n?.["footer"]?.["faq_title"],
+    //                 link: "/faq"
+    //             }, {
+    //                 id: 4,
+    //                 title: i18n?.["footer"]?.["get_object_title"],
+    //                 link: "/catalog"
+    //             }, {
+    //                 id: 5,
+    //                 title: i18n?.["footer"]?.["contact_title"],
+    //                 link: "/contact"
+    //             },
+    //         ]
+    //     } catch (error) {
+    //         console.log(`page: footer, event: footerPageListData, error: ${error}`)
+    //     }
+    // }, [i18n])
+
+    const footerPageListData = [
+        {
+            id: 1,
+            title: i18n?.["footer"]?.["about_us_title"],
+            link: "/about"
+        }, {
+            id: 2,
+            title: i18n?.["footer"]?.["catalog_apartment_title"],
+            link: "/catalog"
+        }, {
+            id: 3,
+            title: i18n?.["footer"]?.["faq_title"],
+            link: "/faq"
+        }, {
+            id: 4,
+            title: i18n?.["footer"]?.["get_object_title"],
+            link: "/catalog"
+        }, {
+            id: 5,
+            title: i18n?.["footer"]?.["contact_title"],
+            link: "/contact"
+        },
+    ]
 
     return (
         <footer className={styles['footer']}>
-            <div className={`${styles['footer_content']} ${pathname === '/catalog/apartment' || pathname === '/catalog/object' || pathname === '/about' || pathname === '/faq' ? 'container_lg' : 'container_md'}`}>
+            <div
+                className={`${styles['footer_content']} ${pathname === '/catalog/residential' || pathname === '/catalog/apartment' || pathname === '/about' || pathname === '/faq' ? 'container_lg' : 'container_md'}`}>
                 <div className={styles['footer_top_content']}>
                     <div className={styles['top_content']}>
                         <Logo type={'secondary'}/>

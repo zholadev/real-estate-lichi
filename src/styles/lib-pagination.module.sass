@@ -1,0 +1,54 @@
+@import "__var.sass"
+@import "_mixins"
+
+.pagination_container
+  width: 100%
+  height: auto
+  display: flex
+  justify-content: center
+  align-items: center
+
+  &.pagination_container__dark
+    .pagination_btn
+      background-color: $default-black
+
+      .pagination_icon
+        filter: invert(100%)
+
+    .pagination_item
+      color: $default-light
+      background-color: $default-black
+
+  .pagination_btn
+    width: 60px
+    padding: 0 10px
+    height: 30px
+    border: 0
+    display: flex
+    background-color: $default-light
+    position: relative
+    justify-content: center
+    align-items: center
+
+    .pagination_icon
+      width: 12px
+      height: 12px
+
+  .pagination_item
+    width: 30px
+    height: 30px
+    border: 0
+    display: flex
+    background-color: $default-light
+    justify-content: center
+    align-items: center
+    flex-direction: column
+    position: relative
+    overflow: hidden
+    color: $default-black
+
+  .disabled_btn
+    user-select: none
+    pointer-events: none
+    opacity: 0.6
+    cursor: no-drop

@@ -10,7 +10,7 @@ import Link from "next/link";
  * @constructor
  */
 function Breadcrumbs(props) {
-    const {page, i18n, theme} = props
+    const {page, i18n, theme, pageName} = props
 
     const breadData = useMemo(() => {
         try {
@@ -22,7 +22,7 @@ function Breadcrumbs(props) {
                         "redirect": "/",
                     },
                     {
-                        "id": 1,
+                        "id": 2,
                         "name": i18n?.["site"]?.["catalogs"],
                         "redirect": false,
                         "slash": true
@@ -35,7 +35,7 @@ function Breadcrumbs(props) {
                         "redirect": "/",
                     },
                     {
-                        "id": 1,
+                        "id": 2,
                         "name": i18n?.["site"]?.["news_title"],
                         "redirect": false,
                         "slash": true
@@ -48,14 +48,14 @@ function Breadcrumbs(props) {
                         "redirect": "/",
                     },
                     {
-                        "id": 1,
+                        "id": 2,
                         "name": i18n?.["site"]?.["news_title"],
                         "redirect": "/news",
                         "slash": true
                     },
                     {
-                        "id": 1,
-                        "name": "Ударлить ли повышение",
+                        "id": 3,
+                        "name": pageName,
                         "redirect": false,
                         "slash": true
                     },
@@ -67,14 +67,33 @@ function Breadcrumbs(props) {
                         "redirect": "/",
                     },
                     {
-                        "id": 1,
+                        "id": 2,
                         "name": i18n?.["site"]?.["catalogs"],
                         "redirect": "/catalog",
                         "slash": true
                     },
                     {
+                        "id": 3,
+                        "name": pageName || 'burg binghatti',
+                        "redirect": false,
+                        "slash": true
+                    },
+                ],
+                "residence": [
+                    {
                         "id": 1,
-                        "name": 'burg binghatti',
+                        "name": i18n?.["site"]?.["main_page_title"],
+                        "redirect": "/",
+                    },
+                    {
+                        "id": 2,
+                        "name": i18n?.["site.residence.title"],
+                        "redirect": "/catalog",
+                        "slash": true
+                    },
+                    {
+                        "id": 3,
+                        "name": pageName || 'burg binghatti',
                         "redirect": false,
                         "slash": true
                     },

@@ -1,11 +1,13 @@
 'use client'
 
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import styles from '@/styles/catalog-products.module.sass'
 import dynamic from "next/dynamic";
 import {MapCard} from "@/shared/uikit/cards/mapCard";
 import {useMediaMaxState} from "@/shared/hooks";
 import {Swiper, SwiperSlide} from "swiper/react";
+import WebJlMap from "@/widgets/map/ui/WebJlMap";
+import MapTiler from "@/widgets/map/ui/MapTiler";
 
 const MapController = dynamic(() => import('@/widgets/map/ui/MapComponent'), {ssr: false})
 
@@ -17,77 +19,39 @@ const MapController = dynamic(() => import('@/widgets/map/ui/MapComponent'), {ss
  * @constructor
  */
 function CatalogMapProducts(props) {
+    const {mapData, i18n, redirectTo} = props
+
+    console.log(mapData)
 
     const mediaMdQuery = useMediaMaxState({screenSize: 1024})
     const mediaSmQuery = useMediaMaxState({screenSize: 576})
 
-    const data = useMemo(() => {
-        return [
-            {
-                card: "card"
-            }, {
-                card: "card"
-            }, {
-                card: "card"
-            }, {
-                card: "card"
-            }, {
-                card: "card"
-            }, {
-                card: "card"
-            }, {
-                card: "card"
-            }, {
-                card: "card"
-            }, {
-                card: "card"
-            }, {
-                card: "card"
-            }, {
-                card: "card"
-            },
-        ]
-    }, [])
-
     return (
         <div className={styles['catalog_map_container']}>
-            <MapController width={'100%'} height={mediaMdQuery ? 763 : 601} type={'secondary'}/>
-
-            {/*{*/}
-            {/*    mediaSmQuery ?*/}
-            {/*        <div className={styles['map_address_box']}>*/}
-            {/*            <Swiper*/}
-            {/*                speed={200}*/}
-            {/*                loop={false}*/}
-            {/*                slidesPerView={3.3}*/}
-            {/*                slidesPerGroup={4}*/}
-            {/*                spaceBetween={8}*/}
-
-            {/*            >*/}
-            {/*                {*/}
-            {/*                    data.map((item, id) => {*/}
-            {/*                        return (*/}
-            {/*                            <SwiperSlide key={id}>*/}
-            {/*                                <MapCard/>*/}
-            {/*                            </SwiperSlide>*/}
-            {/*                        )*/}
-            {/*                    })*/}
-            {/*                }*/}
-            {/*            </Swiper>*/}
-            {/*        </div>*/}
-            {/*        :*/}
+            <MapController
+                mapData={mapData}
+                width={'100%'}
+                type={'secondary'}
+                height={mediaMdQuery ? 763 : 601}
+            />
             <div className={styles['map_address_box']}>
-                <MapCard/>
-                <MapCard/>
-                <MapCard/>
-                <MapCard/>
-                <MapCard/>
-                <MapCard/>
-                <MapCard/>
+                {
+                    Object.values(mapData || {}).map((position, id) => {
+                        return (
+                            <MapCard
+                                key={id}
+                                i18n={i18n}
+                                data={position?.["attributes"]?.["locate"]}
+                                page={position?.["id"]}
+                                totalData={position?.["attributes"]}
+                                redirect={redirectTo}
+                            />
+                        )
+                    })
+                }
             </div>
-            {/*}*/}
         </div>
     );
 }
 
-export default CatalogMapProducts;
+export default React.memo(CatalogMapProducts);

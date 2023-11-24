@@ -9,7 +9,27 @@
   -webkit-font-smoothing: antialiased
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
 
-html, body
+
+body
+  --sb-track-color: #232E33
+  --sb-thumb-color: #00562b
+  --sb-size: 3px
+
+  scrollbar-color: var(--sb-thumb-color), var(--sb-track-color)
+
+body::-webkit-scrollbar
+  width: var(--sb-size)
+
+body::-webkit-scrollbar-track
+  background: var(--sb-track-color)
+  border-radius: 6px
+
+body::-webkit-scrollbar-thumb
+  background: var(--sb-thumb-color)
+  border-radius: 6px
+
+
+body
   width: 100%
   height: 100%
   max-width: 100vw
@@ -18,7 +38,6 @@ html, body
   background-color: var(--default-light)
   font-weight: var(--size-400)
   font-family: 'Montserrat', sans-serif
-
 
 h1
   font-size: var(--size-42) !important

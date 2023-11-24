@@ -103,7 +103,7 @@ function Logo(props) {
                                 {},
                                 {
                                     ease: easeIcon,
-                                    duration: .6,
+                                    duration: .8,
                                     delay: .3,
                                     x: 0,
                                     attr: {
@@ -133,7 +133,7 @@ function Logo(props) {
                                 },
                                 {
                                     ease: easeIcon,
-                                    duration: .6,
+                                    duration: .4,
                                     delay: .2,
                                     x: 0,
                                     attr: {
@@ -163,7 +163,7 @@ function Logo(props) {
                                 },
                                 {
                                     ease: easeIcon,
-                                    duration: .6,
+                                    duration: .2,
                                     delay: .1,
                                     x: 0,
                                     attr: {
