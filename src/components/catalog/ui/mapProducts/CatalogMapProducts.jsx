@@ -21,8 +21,6 @@ const MapController = dynamic(() => import('@/widgets/map/ui/MapComponent'), {ss
 function CatalogMapProducts(props) {
     const {mapData, i18n, redirectTo} = props
 
-    console.log(mapData)
-
     const mediaMdQuery = useMediaMaxState({screenSize: 1024})
     const mediaSmQuery = useMediaMaxState({screenSize: 576})
 

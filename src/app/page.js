@@ -8,7 +8,11 @@ async function getNewsData() {
 }
 
 async function getApartmentData() {
-    return apiGetApartmentsData()
+    return apiGetApartmentsData(1, {'filters[property_type][type]': "apartment"})
+}
+
+async function getVillaData() {
+    return apiGetApartmentsData(1, {'filters[property_type][type]': "villa"})
 }
 
 /**
@@ -20,6 +24,7 @@ async function getApartmentData() {
 export default async function Home({params}) {
     const newsData = await getNewsData()
     const apartmentData = await getApartmentData()
+    const villaData = await getVillaData()
 
     const cookieStore = cookies()
     const lang = cookieStore.get('dubai_lang')?.value || 'en'
@@ -31,6 +36,7 @@ export default async function Home({params}) {
             <MainContainer
                 newsData={newsData?.["data"]?.["data"]}
                 apartmentData={apartmentData?.["data"]?.["data"]}
+                villaData={villaData?.["data"]?.["data"]}
                 i18n={i18n}
             />
         </div>

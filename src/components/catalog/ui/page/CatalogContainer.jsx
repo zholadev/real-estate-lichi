@@ -17,8 +17,6 @@ import CatalogMapProducts from "@/components/catalog/ui/mapProducts/CatalogMapPr
 function CatalogContainer(props) {
     const {i18n, residenceListData, apartmentListData, apartmentMetaData, residenceMetaData, pageParams} = props
 
-    // console.log(apartmentListData)
-
     const [typeCatalog, setTypeCatalog] = useState('object')
     const [typeContent, setTypeContent] = useState('list')
 
@@ -100,6 +98,7 @@ function CatalogContainer(props) {
                                 :
                                 <div className={'container_md'}>
                                     <CatalogProducts
+                                        metaData={residenceMetaData}
                                         catalogData={residenceListData}
                                         redirectTo={'residence'}
                                         i18n={i18n}
@@ -124,7 +123,7 @@ function CatalogContainer(props) {
                                 :
                                 <div className={'container_md'}>
                                     <CatalogProducts
-                                        apartmentMetaData={apartmentMetaData}
+                                        metaData={apartmentMetaData}
                                         catalogData={apartmentListData}
                                         redirectTo={'apartment'}
                                         i18n={i18n}

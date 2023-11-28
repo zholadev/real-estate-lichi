@@ -17,7 +17,7 @@ import MainNewsContent from "@/components/main/ui/MainNewsContent";
  * @constructor
  */
 function MainContainer(props) {
-    const {i18n, newsData, apartmentData} = props
+    const {i18n, newsData, apartmentData, villaData} = props
 
     return (
         <div className={`${styles['main']} container_md`}>
@@ -29,7 +29,13 @@ function MainContainer(props) {
                 col={3}
                 data={apartmentData}
             />
-            {/*<MainApartment i18n={i18n} title={i18n?.["site"]?.["villas_title"]} col={2}/>*/}
+
+            <MainApartment
+                i18n={i18n}
+                title={i18n?.["site"]?.["villas_title"]}
+                col={3}
+                data={villaData}
+            />
             <MainAboutUs i18n={i18n}/>
             <div className={'container_md_pn'}>
                 <MainConsultation i18n={i18n}/>

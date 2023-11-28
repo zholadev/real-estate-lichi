@@ -33,10 +33,14 @@ export const apiGetNewsByIdData = async (id) => {
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
 export const apiGetResidentialData = async (page, params) => {
+    const updatedParams = Object.fromEntries(
+        Object.entries(params || {}).filter(([key]) => key !== 'page')
+    );
+
     return await api_client_get(api.residential_complexes.get, {
         "pagination[page]": page,
         "populate": "videos.big,videos.small,photos.big,photos.small,photo_preview.big,photo_preview.small,video_posters,residence,room,prices,district,property_type,tags,locate,locate_items,locations,locate.photo,locate.icon*",
-        ...params
+        ...updatedParams
     })
 }
 
@@ -63,12 +67,16 @@ export const apiGetResidentialByIdData = async (id, params) => {
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
 export const apiGetApartmentsData = async (page, params) => {
+    const updatedParams = Object.fromEntries(
+        Object.entries(params || {}).filter(([key]) => key !== 'page')
+    );
+
     return await api_client_get(
         api.apartment.get,
         {
             "pagination[page]": page,
             "populate": "videos.big,videos.small,photos.big,photos.small,photo_preview.big,photo_preview.small,video_posters,residence,room,prices,district,property_type,tags,locations,locate,locate.photo,locate.icon,*",
-            ...params
+            ...updatedParams
         })
 }
 
