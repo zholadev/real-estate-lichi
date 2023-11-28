@@ -14,7 +14,7 @@ import {usePathname, useRouter} from "next/navigation";
  * @constructor
  */
 function CatalogProducts(props) {
-    const {catalogData, i18n, redirectTo, apartmentMetaData} = props
+    const {catalogData, i18n, redirectTo, metaData} = props
 
     const router = useRouter()
     const pathname = usePathname()
@@ -62,14 +62,14 @@ function CatalogProducts(props) {
             }
 
             {
-                // apartmentMetaData &&
+                metaData?.["pagination"]?.["pageCount"] > 1 &&
                 <PaginationContainer
-                    totalPageCount={apartmentMetaData?.["pagination"]?.["pageCount"]}
+                    totalPageCount={metaData?.["pagination"]?.["pageCount"]}
                     goToNextPage={nextToPage}
                     gotToPreviousPage={prevToPage}
-                    buttonConst={2}
+                    buttonConst={3}
                     siblingCount={1}
-                    maxPage={apartmentMetaData?.["pagination"]?.["total"]}
+                    maxPage={metaData?.["pagination"]?.["total"]}
                     changePage={togglePage}
                     currentPage={page}
                 />

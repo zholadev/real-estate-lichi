@@ -37,13 +37,13 @@ function PaginationContainer(props) {
     return (
         maxPage > 1 && <div
             className={`${styles['pagination_container']} ${theme === 'dark' ? styles['pagination_container__dark'] : ''}`}>
-            <button
-                aria-label={'page toggle prev'}
-                onClick={gotToPreviousPage}
-                className={`${styles['pagination_btn']} ${currentPage === 1 ? styles['disabled_btn'] : ""}`}
-            >
-                Назад
-            </button>
+            {/*<button*/}
+            {/*    aria-label={'page toggle prev'}*/}
+            {/*    onClick={gotToPreviousPage}*/}
+            {/*    className={`${styles['pagination_btn']} ${currentPage === 1 ? styles['disabled_btn'] : ""}`}*/}
+            {/*>*/}
+            {/*    Назад*/}
+            {/*</button>*/}
             {paginationRange?.map((item, index) => {
                 if (item === DOTS) {
                     return (
@@ -65,13 +65,13 @@ function PaginationContainer(props) {
                     </button>
                 )
             })}
-            <button
-                aria-label={'next'}
-                onClick={goToNextPage}
-                className={`${styles['pagination_btn']} ${currentPage === totalPageCount ? styles['disabled_btn'] : ""}`}
-            >
-                Дальше
-            </button>
+            {/*<button*/}
+            {/*    aria-label={'next'}*/}
+            {/*    onClick={goToNextPage}*/}
+            {/*    className={`${styles['pagination_btn']} ${currentPage === totalPageCount ? styles['disabled_btn'] : ""}`}*/}
+            {/*>*/}
+            {/*    Дальше*/}
+            {/*</button>*/}
         </div>
     );
 }

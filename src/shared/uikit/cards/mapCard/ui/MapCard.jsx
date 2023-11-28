@@ -12,8 +12,6 @@ function MapCard(props) {
 
     const mediaSmQuery = useMediaMaxState({screenSize: 576})
 
-    console.log(totalData)
-
     return (
         mediaSmQuery ?
             <div className={styles['card_map']}>

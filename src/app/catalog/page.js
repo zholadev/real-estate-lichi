@@ -24,7 +24,10 @@ export default async function Page(props) {
         props?.searchParams?.["page"] || 1,
         props?.searchParams
     )
-    const apartmentListData = await getGetApartmentsDataData(props?.searchParams?.["page"] || 1, props?.searchParams)
+    const apartmentListData = await getGetApartmentsDataData(
+        props?.searchParams?.["page"] || 1,
+        props?.searchParams
+    )
 
     const cookieStore = cookies()
     const lang = cookieStore.get('dubai_lang')?.value || 'en'

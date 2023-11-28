@@ -39,13 +39,12 @@ function MapComponent(props) {
 
 
     const PopupContent = (data) => {
-        console.log('data', data?.["data"])
         return (
             <div className={styles['map_popup']}>
                 <div className={styles['info']}>
                     <h3 className={styles['popup_title']}>{data?.["data"]?.["name"]}</h3>
 
-                    <div className={styles['popup_price']}>$ {data?.["data"]?.["price"]}</div>
+                    {data?.["data"]?.["price"] && <div className={styles['popup_price']}>$ {data?.["data"]?.["price"]}</div>}
                 </div>
                 <img src={mediaImgSrc(`${data?.["data"]?.["locate"]?.["photo"]?.["data"]?.["attributes"]?.["url"]}`)} alt=""/>
                 {/*<div className={styles['popup_object_count']}>3 объекта</div>*/}
