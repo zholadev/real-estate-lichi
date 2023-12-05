@@ -1,6 +1,9 @@
+'use client'
+
 import React from 'react';
 import styles from '@/styles/object-page.module.sass'
 import {Button} from "@/shared/uikit/button";
+import {useCurrencyFormat} from "@/shared/hooks";
 
 /**
  * @author Zholaman Zhumanov
@@ -12,6 +15,8 @@ import {Button} from "@/shared/uikit/button";
 function ObjectDetailHeadInfo(props) {
     const {i18n, apartmentInfoData} = props
 
+    const convertCurrency = useCurrencyFormat()
+
     return (
         <div className={styles['preview_head_info']}>
             <h1 className={styles['title']}>{apartmentInfoData?.["name"]}</h1>
@@ -19,7 +24,7 @@ function ObjectDetailHeadInfo(props) {
             <ul className={styles['preview_head_characters']}>
                 <li className={styles['characters_item']}>
                     <span className={styles['key']}>{i18n?.["characters"]?.["price"]}</span>
-                    <span className={styles['value']}>{apartmentInfoData?.["price"]} $</span>
+                    <span className={styles['value']}>{convertCurrency(apartmentInfoData?.["price"])} $</span>
                 </li>
                 {
                     Object.values(apartmentInfoData?.["build_info"] || {}).map((info, id) => {

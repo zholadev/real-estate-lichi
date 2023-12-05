@@ -14,6 +14,9 @@
       &.lang_active
         color: $default-light
 
+  .slash
+    margin-inline-end: $p-size-5
+
   .lang
     margin-inline-end: $p-size-5
     text-transform: uppercase
@@ -21,8 +24,9 @@
     font-size: $size-16
     color: $text-color-opacity
     cursor: pointer
+    display: block
 
-    &:last-of-type
+    &.last
       margin-inline-end: 0
 
     &.lang_active

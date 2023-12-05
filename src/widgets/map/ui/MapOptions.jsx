@@ -25,7 +25,7 @@ function MapOptions(props) {
 
     let markers = L?.markerClusterGroup({
         spiderfyOnMaxZoom: false,
-        showCoverageOnHover: false,
+        showCoverageOnHover: true,
         zoomToBoundsOnClick: true,
         animate: true,
         iconCreateFunction: function (cluster) {
@@ -43,7 +43,7 @@ function MapOptions(props) {
         try {
             mapInfo?.map((data) => {
                 markers?.addLayer(
-                    L.marker([data?.["lat"], data?.["lang"]], {
+                    L.marker([data?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lat"], data?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lng"]], {
                         icon: iconPerson
                     })
                 )
@@ -55,14 +55,6 @@ function MapOptions(props) {
         }
     }, [mapCoordinates])
 
-    const flyToHandler = (position) => {
-        try {
-            map.setView(position, zoom || 15)
-        } catch (error) {
-            console.log(`page: shopMaps, event: flyToHandler, error: ${error}`)
-        }
-    }
-
     markers.clearLayers()
 
     L?.tileLayer('https://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}', {
@@ -72,12 +64,6 @@ function MapOptions(props) {
         updateWhenIdle: true,
         detectRetina: true,
     }).addTo(map)
-
-    useEffect(() => {
-        if (position) {
-            flyToHandler(position)
-        }
-    }, [position])
 
     return <></>
 }

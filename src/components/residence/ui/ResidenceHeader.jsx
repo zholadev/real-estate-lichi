@@ -1,9 +1,12 @@
+'use client'
+
 import React from 'react';
+import dynamic from "next/dynamic";
+import {useRouter} from "next/navigation";
 import {Button} from "@/shared/uikit/button";
 import {Breadcrumbs} from "@/shared/breadcrumbs";
-import {ICON, IMG} from "@/shared/constants/constants";
+import {ICON} from "@/shared/constants/constants";
 import styles from '@/styles/apartments-page.module.sass'
-import dynamic from "next/dynamic";
 
 const Video = dynamic(() => import('@/shared/uikit/video/ui/Video'), {ssr: false})
 
@@ -16,6 +19,8 @@ const Video = dynamic(() => import('@/shared/uikit/video/ui/Video'), {ssr: false
  */
 function ResidenceHeader(props) {
     const {i18n, videoSrc, title, description, poster} = props
+
+    const router = useRouter()
 
     return (
         <div className={styles['apartment_header']}>
@@ -57,10 +62,12 @@ function ResidenceHeader(props) {
                         <div className={styles['info_action']}>
                             <Button
                                 type={'secondary_dark'}
+                                onClick={() => router.push('https://3dtours.floorplanimaging.com/p/PXeX80XX')}
                             >
                                 <div className={'button-children-icon'}>
                                     <span>{i18n?.["button.3d.title"]}</span>
-                                    <img src={ICON.repeatIcon['src']} alt=""/></div>
+                                    <img src={ICON.repeatIcon['src']} alt=""/>
+                                </div>
                             </Button>
 
                             <Button
@@ -68,7 +75,8 @@ function ResidenceHeader(props) {
                             >
                                 <div className={'button-children-icon'}>
                                     <span>{i18n?.["button.video.about.title"]}</span>
-                                    <img src={ICON.startIcon['src']} alt=""/></div>
+                                    <img src={ICON.startIcon['src']} alt=""/>
+                                </div>
                             </Button>
                         </div>
                     </div>

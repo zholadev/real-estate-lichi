@@ -3,8 +3,8 @@
 import {Tabs} from "@/shared/uikit/tabs";
 import {Button} from "@/shared/uikit/button";
 import React, {useMemo, useState} from 'react';
-import {CatalogProducts, Filter} from "@/components/catalog";
 import styles from '@/styles/catalog-products.module.sass'
+import {CatalogProducts, Filter} from "@/components/catalog";
 import CatalogMapProducts from "@/components/catalog/ui/mapProducts/CatalogMapProducts";
 
 /**
@@ -15,7 +15,7 @@ import CatalogMapProducts from "@/components/catalog/ui/mapProducts/CatalogMapPr
  * @constructor
  */
 function CatalogContainer(props) {
-    const {i18n, residenceListData, apartmentListData, apartmentMetaData, residenceMetaData, pageParams} = props
+    const {i18n, residenceListData, apartmentListData, apartmentMetaData, residenceMetaData} = props
 
     const [typeCatalog, setTypeCatalog] = useState('object')
     const [typeContent, setTypeContent] = useState('list')
@@ -56,6 +56,7 @@ function CatalogContainer(props) {
                     onClick={setTypeCatalog}
                     item={"title"}
                     activeSelectName={"value"}
+                    defaultValue={'object'}
                 />
                 <div className={styles['filter_switch_btn']}>
                     <Button

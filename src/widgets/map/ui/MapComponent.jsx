@@ -4,9 +4,11 @@ import React, {useRef} from 'react';
 import {mapCoordinates} from "@/shared/utils/mapCoordinates";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import styles from '@/styles/widget-map.module.sass'
-import {ICON, IMG} from "@/shared/constants/constants";
+import {ICON} from "@/shared/constants/constants";
 import L from "leaflet";
 import {mediaImgSrc} from "@/shared/constants/options";
+import Image from "next/image";
+import {useCurrencyFormat} from "@/shared/hooks";
 
 
 const tileLayerUrl = 'https://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}';
@@ -28,6 +30,8 @@ const tileLayerOptions = {
 function MapComponent(props) {
     const {width, height, mapData = [], mapInfo} = props
 
+    const convertCurrency = useCurrencyFormat()
+
     const mapRef = useRef(null);
 
     const iconPerson = new L.Icon({
@@ -44,10 +48,16 @@ function MapComponent(props) {
                 <div className={styles['info']}>
                     <h3 className={styles['popup_title']}>{data?.["data"]?.["name"]}</h3>
 
-                    {data?.["data"]?.["price"] && <div className={styles['popup_price']}>$ {data?.["data"]?.["price"]}</div>}
+                    {data?.["data"]?.["price"] &&
+                        <div className={styles['popup_price']}>{convertCurrency(data?.["data"]?.["price"])}</div>}
                 </div>
-                <img src={mediaImgSrc(`${data?.["data"]?.["locate"]?.["photo"]?.["data"]?.["attributes"]?.["url"]}`)} alt=""/>
-                {/*<div className={styles['popup_object_count']}>3 объекта</div>*/}
+                <Image
+                    src={mediaImgSrc(`${data?.["data"]?.["locate"]?.["photo"]?.["data"]?.[0]?.["attributes"]?.["url"]}`)}
+                    alt={data?.["data"]?.["name"]}
+                    priority={true}
+                    width={200}
+                    height={200}
+                />
             </div>
         )
     }
@@ -58,7 +68,7 @@ function MapComponent(props) {
 
     return (
         <MapContainer
-            zoom={13}
+            zoom={17}
             style={{height: height, width: width}}
             ref={mapRef}
             bounds={mapCoordinates}
@@ -66,7 +76,12 @@ function MapComponent(props) {
             <TileLayer url={tileLayerUrl} {...tileLayerOptions} />
             {Object.values(mapData || {}).map((marker, index) => {
                 return (
-                    <Marker animate={true} key={index} position={[marker?.["attributes"]?.["locate"]?.["lat"], marker?.["attributes"]?.["locate"]?.["lang"]]} icon={iconPerson}>
+                    <Marker
+                        animate={true}
+                        key={index}
+                        position={[marker?.["attributes"]?.["locate"]?.["coordinates"]?.["coordinates"]?.["lat"], marker?.["attributes"]?.["locate"]?.["coordinates"]?.["coordinates"]?.["lng"]]}
+                        icon={iconPerson}
+                    >
                         <Popup>
                             <PopupContent data={marker?.["attributes"]}/>
                         </Popup>

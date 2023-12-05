@@ -2,15 +2,15 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {gsap} from "gsap"
+import Cookies from "js-cookie";
 import {Logo} from "@/shared/uikit/logo";
 import {PhoneAction} from "@/shared/site";
-import {useParams, usePathname} from "next/navigation";
 import {PortalProvider} from "@/shared/portals";
 import {NavbarSubmenu} from "@/widgets/submenu";
 import styles from "@/styles/navbar.module.sass";
+import {useParams, usePathname} from "next/navigation";
 import {useMediaMaxState, useScrollAction} from "@/shared/hooks";
 import stylesSecondary from "@/styles/widget-submenu-navbar.module.sass";
-import Cookies from "js-cookie";
 
 function NavbarContent(props) {
     const {i18n} = props
@@ -21,7 +21,7 @@ function NavbarContent(props) {
     const routerParams = useParams()
 
     const scrollBottom = useScrollAction({"position": 20})
-    const mediaSmQuery = useMediaMaxState({screenSize: 768})
+    const mediaSmQuery = useMediaMaxState({"screenSize": 768})
 
     const [toggleNavbar, setToggleNavbar] = useState(false)
     const [animateTrigger, setAnimateTrigger] = useState(false)
@@ -94,9 +94,9 @@ function NavbarContent(props) {
         <>
             <header
                 ref={scrollNavbar}
-                className={`${styles['navbar']} ${pathname === `/catalog/residence/${routerParams?.["id"]}` ? styles['navbar_full_wd'] : ''} ${scrollBottom ? styles['navbar_fill'] : ''}`}>
+                className={`${styles['navbar']} ${scrollBottom ? styles['navbar_fill'] : ''}`}>
                 <div
-                    className={`${styles['navbar_content']} ${pathname === `/catalog/residence/${routerParams?.["id"]}` || pathname === `/catalog/apartment/${routerParams?.["id"]}` || pathname === '/about' || pathname === '/faq' ? 'container_lg' : 'container_md'}`}>
+                    className={`${styles['navbar_content']} ${pathname == `/${routerParams['lang']}` || pathname == `/${routerParams['lang']}/catalog` || pathname == `/${routerParams['lang']}/news` || pathname == `/${routerParams['lang']}/news/${routerParams['id']}` ? 'container_md' : 'container_lg'}`}>
                     <Logo
                         onClick={() => {
                             toggleLogoAnimateTrigger()
@@ -117,7 +117,7 @@ function NavbarContent(props) {
             </header>
             <PortalProvider>
                 <NavbarSubmenu
-                    fullWidth={pathname === `/catalog/residence/${routerParams?.["id"]}` || pathname === `/catalog/apartment/${routerParams?.["id"]}` || pathname === '/about' || pathname === '/faq'}
+                    fullWidth={pathname == `/${routerParams['lang']}` || pathname == `/${routerParams['lang']}/catalog` || pathname == `/${routerParams['lang']}/news` || pathname == `/${routerParams['lang']}/news/${routerParams['id']}`}
                     i18n={i18n}
                     active={toggleNavbar}
                     animateTrigger={animateTrigger}

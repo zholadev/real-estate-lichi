@@ -28,8 +28,6 @@ function SwitchLocalization(props) {
         const getCurrentLangValue = lang === 'ru' ? 'en' : 'ru'
         Cookies.set('dubai_lang', getCurrentLangValue, {expires: 7})
         setLang(getCurrentLangValue)
-
-        window.location.reload()
     }, [lang])
 
     useEffect(() => {
@@ -40,13 +38,21 @@ function SwitchLocalization(props) {
         hideContent && mediaMdQuery ? null :
             <div
                 className={`${styles['switch_lang_toggle']} ${theme === 'light' ? styles['switch_lang_toggle__light'] : ''}`}>
-                <div className={`${styles['lang']} ${lang === 'ru' ? styles['lang_active'] : ''}`}
-                     onClick={toggleLangHandle}>ru
-                </div>
-                <div className={styles['lang']}>/</div>
-                <div className={`${styles['lang']} ${lang === 'en' ? styles['lang_active'] : ''}`}
-                     onClick={toggleLangHandle}>en
-                </div>
+                <a
+                    href={'/ru'}
+                    className={`${styles['lang']} ${lang === 'ru' ? styles['lang_active'] : ''}`}
+                    onClick={toggleLangHandle}
+                >
+                    ru
+                </a>
+                <div className={`${styles['lang']} ${styles['slash']}`}>/</div>
+                <a
+                    href={'/en'}
+                    className={`${styles['lang']} ${lang === 'en' ? styles['lang_active'] : ''} ${styles['last']}`}
+                    onClick={toggleLangHandle}
+                >
+                    en
+                </a>
             </div>
     );
 }

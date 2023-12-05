@@ -14,6 +14,8 @@ import {ConstructorHtml} from "@/entities/constructorHtml";
 function ObjectDetailInfo(props) {
     const {i18n, apartmentData} = props
 
+    console.log(apartmentData)
+
     return (
         <div className={styles['info']}>
             <ConstructorHtml jsonHtmlData={apartmentData?.["description"]}/>

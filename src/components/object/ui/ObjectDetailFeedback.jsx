@@ -1,9 +1,10 @@
 'use client'
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import styles from '@/styles/object-page.module.sass'
-import {IMG} from "@/shared/constants/constants";
 import {Button} from "@/shared/uikit/button";
+import {mediaImgSrc} from "@/shared/constants/options";
+import Image from "next/image";
 
 /**
  * @author Zholaman Zhumanov
@@ -13,43 +14,64 @@ import {Button} from "@/shared/uikit/button";
  * @constructor
  */
 function ObjectDetailFeedback(props) {
-    const {i18n} = props
+    const {i18n, managerData} = props
+
+    const getManagerData = useMemo(() => {
+        return {
+            "info": managerData?.["data"]?.[0]?.["attributes"]?.["info"],
+            "contacts": managerData?.["data"]?.[0]?.["attributes"]?.["contacts"],
+            "lastname": managerData?.["data"]?.[0]?.["attributes"]?.["lastname"],
+            "firstname": managerData?.["data"]?.[0]?.["attributes"]?.["firstname"],
+            "photo": managerData?.["data"]?.[0]?.["attributes"]?.["photo"]?.["item"]?.["data"]?.["attributes"]?.["url"],
+        }
+    }, [managerData])
+
+    if (Object.values(managerData?.["data"] || {}).length === 0) {
+        return null
+    }
 
     return (
         <div className={styles['feedback']}>
             <h4 className={styles['title']}>{i18n?.["feedback"]?.["feedback_title"]}</h4>
 
             <div className={styles['feedback_info']}>
-                <img src={IMG.templateFeedbackUser['src']} alt=""/>
+                <Image
+                    src={mediaImgSrc(`${getManagerData?.["photo"]}`)}
+                    alt={getManagerData?.["firstname"]}
+                    priority={true}
+                    width={1024}
+                    height={768}
+                />
 
                 <div className={styles['board']}>
                     <ul className={styles['board_info_list']}>
                         <li className={styles['list_item']}>
-                            <div className={styles['key']}>{i18n?.["feedback"]?.["company_title"]}:</div>
-                            <div className={`${styles['value']} ${styles['value_bold']}`}>Meta Trast</div>
+                            <div className={styles['key']}>{i18n?.["form.contact.title"]}:</div>
+                            <div className={styles['value']}>{getManagerData?.["firstname"]} {getManagerData?.["lastname"]}</div>
                         </li>
 
-                        <li className={styles['list_item']}>
-                            <div className={styles['key']}>{i18n?.["feedback"]?.["company_title"]}:</div>
-                            <div className={styles['value']}>Ольга Добровольская</div>
-                        </li>
-
-                        <li className={styles['list_item']}>
-                            <div className={styles['key']}>{i18n?.["feedback"]?.["company_title"]}:</div>
-                            <div className={styles['value']}>Meta Dubai</div>
-                        </li>
+                        {
+                            Object.values(getManagerData?.["info"] || {}).map((infoItem, infoId) => {
+                                return (
+                                    <li className={styles['list_item']} key={infoId}>
+                                        <div className={styles['key']}>{infoItem?.["name"]}:</div>
+                                        <div className={styles['value']}>{infoItem?.["description"]}</div>
+                                    </li>
+                                )
+                            })
+                        }
                     </ul>
 
                     <ul className={styles['board_media_list']}>
-                        <li className={styles['list_item']}>
-                            <i className={`${styles['icon']} ${styles['phone_icon']}`}/>
-                        </li>
-                        <li className={styles['list_item']}>
-                            <i className={`${styles['icon']} ${styles['whatsapp_icon']}`}/>
-                        </li>
-                        <li className={styles['list_item']}>
-                            <i className={`${styles['icon']} ${styles['telegram_icon']}`}/>
-                        </li>
+                        {
+                            Object.values(getManagerData?.["contacts"] || {}).map((infoItem, infoId) => {
+                                return (
+                                    <li className={styles['list_item']} key={infoId}>
+                                        <i className={`${styles['icon']} ${styles[`${infoItem?.["name"]}_icon`]}`}/>
+                                    </li>
+                                )
+                            })
+                        }
                     </ul>
 
                     <Button

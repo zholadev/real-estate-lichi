@@ -26,9 +26,9 @@ function ResidencePageContainer(props) {
         <div className={styles['apartments_container']}>
             <ResidenceHeader
                 i18n={i18n}
-                videoSrc={mediaImgSrc(residenceData?.["attributes"]?.["videos"]?.["big"]?.["data"]?.[0]?.["attributes"]?.["url"])}
+                videoSrc={mediaImgSrc(residenceData?.["attributes"]?.["videos"]?.["item"]?.["data"]?.[0]?.["attributes"]?.["url"])}
                 title={residenceData?.["attributes"]?.["name"]}
-                poster={mediaImgSrc(residenceData?.["attributes"]?.["video_posters"]?.["big"]?.["data"]?.["attributes"]?.["url"])}
+                poster={mediaImgSrc(residenceData?.["attributes"]?.["video_posters"]?.["item"]?.["data"]?.["attributes"]?.["url"])}
                 description={residenceData?.["attributes"]?.["description"]}
             />
             <div className={'container_md'}>
@@ -40,14 +40,15 @@ function ResidencePageContainer(props) {
 
             <ResidenceAdvantages
                 i18n={i18n}
-                galleryImages={residenceData?.["attributes"]?.["photos"]?.["big"]?.["data"]}
+                galleryImages={residenceData?.["attributes"]?.["photos"]?.["item"]?.["data"]}
             />
 
             <div className={'container_md'}>
                 <PageMapInfo
                     i18n={i18n}
-                    mapInfo={residenceData?.["attributes"]?.["locations"]}
-                    mapInfoList={residenceData?.["attributes"]?.["location_items"]}
+                    zoom={20}
+                    mapInfo={residenceData?.["attributes"]?.["attractions"]?.["data"]}
+                    mapInfoList={residenceData?.["attributes"]?.["attractions"]?.["data"]}
                 />
                 <ResidenceDesignGallery
                     interiorData={residenceData?.["attributes"]?.["interior_description"]}
