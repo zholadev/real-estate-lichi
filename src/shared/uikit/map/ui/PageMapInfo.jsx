@@ -1,10 +1,8 @@
 'use client'
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import styles from "@/styles/object-page.module.sass";
-import {IMG} from "@/shared/constants/constants";
 import dynamic from "next/dynamic";
-import {MotionTextUnderLine} from "@/shared/uikit/motion";
 
 // TODO: style file update
 
@@ -18,56 +16,19 @@ const MapContainer = dynamic(() => import('@/widgets/map/ui/MapController'), {ss
  * @constructor
  */
 function PageMapInfo(props) {
-    const {i18n, mapInfo, mapInfoList} = props
+    const {i18n, mapInfo, mapInfoList, zoom} = props
 
-    const [currentMap, setCurrentMap] = useState('sport')
-
-    const switchCurrentMapValue = (value) => {
-        setCurrentMap(value)
+    if (Object.values(mapInfo || {}).length === 0 || !mapInfo) {
+        return null
     }
-
-    useEffect(() => {
-        return () => {
-            setCurrentMap('sport')
-        }
-    }, []);
 
     return (
         <div className={styles['object_map_place']}>
             <h2>{i18n?.["site"]?.["in_map_title"]}</h2>
 
             <div className={styles['map_board_interaction']}>
-                <div className={styles['map_action']}>
-                    {/*<ul className={styles['map_tab_list']}>*/}
-                    {/*    <li className={`${styles['list_item']} ${currentMap === 'sport' ? styles['active'] : ''}`}*/}
-                    {/*        onClick={() => switchCurrentMapValue('sport')}>*/}
-                    {/*        <span>*/}
-                    {/*            Спорт*/}
-                    {/*        </span>*/}
-                    {/*    </li>*/}
-                    {/*    <li className={`${styles['list_item']} ${currentMap === 'sport1' ? styles['active'] : ''}`}*/}
-                    {/*        onClick={() => switchCurrentMapValue('sport1')}>*/}
-                    {/*        <span>*/}
-                    {/*            достопримечательности*/}
-                    {/*        </span>*/}
-                    {/*    </li>*/}
-                    {/*    <li className={`${styles['list_item']} ${currentMap === 'sport2' ? styles['active'] : ''}`}*/}
-                    {/*        onClick={() => switchCurrentMapValue('sport2')}>*/}
-                    {/*        <span>*/}
-                    {/*            магазины*/}
-                    {/*        </span>*/}
-                    {/*    </li>*/}
-                    {/*    <li className={`${styles['list_item']} ${currentMap === 'sport3' ? styles['active'] : ''}`}*/}
-                    {/*        onClick={() => switchCurrentMapValue('sport3')}>*/}
-                    {/*        <span>*/}
-                    {/*            аптеки*/}
-                    {/*        </span>*/}
-                    {/*    </li>*/}
-                    {/*</ul>*/}
-                </div>
-
                 <div className={styles['map_info']}>
-                    <MapContainer height={484} mapInfo={mapInfo}/>
+                    <MapContainer height={484} mapInfo={mapInfo} zoom={zoom}/>
 
                     <ul className={styles['map_info_list']}>
                         {
@@ -75,7 +36,7 @@ function PageMapInfo(props) {
                                 return (
                                     <li key={localText?.["id"]} className={styles['list_item']}>
                                         <div className={styles['dot_shape']}/>
-                                        <span>{localText?.["locate"]}</span>
+                                        <span>{localText?.["attributes"]?.["name"]}</span>
                                     </li>
                                 )
                             })

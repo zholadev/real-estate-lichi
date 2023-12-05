@@ -12,9 +12,9 @@ import {MotionTextUnderLine} from "@/shared/uikit/motion";
  * @constructor
  */
 function Tabs(props) {
-    const {i18n, onClick, tabData, item, activeSelectName} = props
+    const {i18n, onClick, tabData, item, activeSelectName, defaultValue} = props
 
-    const [tab, setTab] = useState("")
+    const [tab, setTab] = useState(defaultValue || "")
 
     const toggleTab = useCallback((value) => {
         try {

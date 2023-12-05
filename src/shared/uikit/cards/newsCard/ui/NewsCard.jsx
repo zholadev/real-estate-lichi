@@ -4,6 +4,7 @@ import React from 'react';
 import Link from "next/link";
 import styles from '@/styles/ui-card-news.module.sass'
 import {mediaImgSrc} from "@/shared/constants/options";
+import Image from "next/image";
 
 /**
  * @author Zholaman Zhumanov
@@ -19,9 +20,12 @@ function NewsCard(props) {
         <div className={styles['news_card']}>
             <div className={styles['img']}>
                 <Link href={`/news/${id}`}>
-                    <img
+                    <Image
                         src={mediaImgSrc(newsData?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"])}
                         alt={newsData?.["title"]}
+                        priority={true}
+                        width={1024}
+                        height={768}
                     />
                 </Link>
             </div>

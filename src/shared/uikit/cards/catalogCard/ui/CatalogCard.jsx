@@ -6,6 +6,8 @@ import {ButtonArrow} from "@/shared/uikit/button";
 import stylesTag from "@/styles/ui-tags.module.sass";
 import {mediaImgSrc} from "@/shared/constants/options";
 import styles from '@/styles/ui-catalog-card.module.sass'
+import {useCurrencyFormat} from "@/shared/hooks";
+import Image from "next/image";
 
 /**
  * @author Zholaman Zhumanov
@@ -17,13 +19,19 @@ import styles from '@/styles/ui-catalog-card.module.sass'
 function CatalogCard(props) {
     const {cardData, cardDataInfo, i18n, redirectUrl} = props
 
+    const convertCurrency = useCurrencyFormat()
+
     return (
         <div className={styles['ui_catalog_card']}>
             <div className={styles['card_photo']}>
                 <Link href={`/catalog/${redirectUrl}/${cardData?.["id"]}`}>
-                    <img
-                        src={mediaImgSrc(cardDataInfo?.["photo_preview"]?.["big"]?.["data"]?.["attributes"]?.["url"])}
-                        alt={'alt'}/>
+                    <Image
+                        src={mediaImgSrc(cardDataInfo?.["photo_preview"]?.["item"]?.["data"]?.["attributes"]?.["url"])}
+                        alt={cardDataInfo?.["name"]}
+                        priority={true}
+                        width={1024}
+                        height={768}
+                    />
                 </Link>
             </div>
 
@@ -32,36 +40,16 @@ function CatalogCard(props) {
                     <h3 className={styles['title']}>{cardDataInfo?.["name"]}</h3>
                 </Link>
 
-                {cardDataInfo?.["price"] && <h4 className={styles['price']}>{cardDataInfo?.["price"]} $</h4>}
+                {cardDataInfo?.["price"] && <h4 className={styles['price']}>{convertCurrency(cardDataInfo?.["price"])}</h4>}
 
                 <div className={styles['short_info']}>
                     {
                         cardDataInfo?.["an_initial_fee"] &&
                         <p className={styles['info']}>
                             <span className={styles['key']}>{i18n?.["catalog.initial.free"]}</span>
-                            <span className={styles['value']}>$ {cardDataInfo?.["an_initial_fee"]}</span>
+                            <span className={styles['value']}>{convertCurrency(cardDataInfo?.["an_initial_fee"])}</span>
                         </p>
                     }
-
-                    {
-                        cardDataInfo?.["payment_plan"] &&
-                        <p className={styles['info']}>
-                            <span className={styles['key']}>План оплаты</span>
-                            <ul className={styles['value']}>
-                                {
-                                    cardDataInfo?.["payment_plan"].map((item, id) => {
-                                        return (
-                                            <li key={id}>
-                                                <h3>{item?.["name"]}</h3>
-                                                <p>{item?.["description"]}</p>
-                                            </li>
-                                        )
-                                    })
-                                }
-                            </ul>
-                        </p>
-                    }
-
                 </div>
 
                 <div className={styles['action_info']}>

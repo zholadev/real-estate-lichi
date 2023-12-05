@@ -16,7 +16,7 @@ function ObjectDetailDescription(props) {
     return (
         <div className={styles['object_description']}>
             <ObjectDetailInfo apartmentData={apartmentData?.["data"]?.["data"]?.["attributes"]} i18n={i18n} />
-            <ObjectDetailFeedback i18n={i18n} />
+            <ObjectDetailFeedback i18n={i18n} managerData={apartmentData?.["data"]?.["data"]?.["attributes"]?.["managers"]}/>
         </div>
     );
 }

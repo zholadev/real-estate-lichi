@@ -8,6 +8,7 @@ import 'swiper/css'
 import {useMediaQuery} from "react-responsive";
 import {Autoplay} from "swiper/modules";
 import {mediaImgSrc} from "@/shared/constants/options";
+import Image from "next/image";
 
 /**
  * @author Zholaman Zhumanov
@@ -55,7 +56,7 @@ function ResidenceAdvantagesSwiper(props) {
     return (
         <div className={styles['advantages_swiper']}>
             <Swiper
-                loop={true}
+                // loop={true}
                 spaceBetween={mediaLgQuery ? 45 : mediaMdQuery ? 30 : mediaSmQuery ? 10 : 60}
                 speed={700}
                 centeredSlides={mediaSmQuery ? false : 'auto'}
@@ -74,8 +75,14 @@ function ResidenceAdvantagesSwiper(props) {
                         return (
                             <SwiperSlide key={id}>
                                 {({isActive}) => (
-                                    <img src={mediaImgSrc(image?.["attributes"]?.["url"])} alt=""
-                                         className={isActive ? styles['swiper_active_block'] : []}/>
+                                    <Image
+                                        src={mediaImgSrc(image?.["attributes"]?.["url"])}
+                                        alt={''}
+                                        priority={true}
+                                        width={1024}
+                                        height={768}
+                                        className={isActive ? styles['swiper_active_block'] : []}
+                                    />
                                 )}
                             </SwiperSlide>
                         )

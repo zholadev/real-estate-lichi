@@ -17,14 +17,22 @@ import {mediaImgSrc} from "@/shared/constants/options";
 function ObjectLayout(props) {
     const {i18n, apartmentData} = props
 
+    if (Object.values(apartmentData || {}).length === 0) {
+        return null
+    }
+
     return (
         <div className={styles['object_layout']}>
             <h2>{i18n?.["object"]?.["layout_title"]}</h2>
 
             <div className={`${styles['layout_board_info']} container_md`}>
-                <img
+                <Image
                     src={mediaImgSrc(`${apartmentData?.["attributes"]?.["layouts"]?.[0]?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"]}`)}
-                    alt={apartmentData?.["attributes"]?.["name"]}/>
+                    alt={apartmentData?.["attributes"]?.["name"]}
+                    priority={true}
+                    width={1024}
+                    height={768}
+                />
 
                 <div className={styles['info']}>
                     <span

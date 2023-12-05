@@ -26,19 +26,19 @@ function CatalogProducts(props) {
     }
 
     const nextToPage = () => {
-        setPage(page + 1)
+        setPage(page => page + 1)
         router.push(`${pathname}?page=${page}`)
     }
 
     const prevToPage = () => {
-        setPage(page - 1)
+        setPage(page => page - 1)
         router.push(`${pathname}?page=${page}`)
     }
 
     const togglePage = (e) => {
         try {
-            const pageNumber = Number(event.target.textContent);
-            setPage(page + 1)
+            const pageNumber = Number(e.target.textContent);
+            setPage(pageNumber)
             router.push(`${pathname}?page=${pageNumber}`)
         } catch (error) {
             console.log(`page: orderBox, event: changePage, error: ${error}`)

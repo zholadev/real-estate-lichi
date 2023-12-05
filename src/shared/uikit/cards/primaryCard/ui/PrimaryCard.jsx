@@ -2,6 +2,7 @@ import React from 'react';
 import styles from '@/styles/ui-card-primary.module.sass'
 import Link from "next/link";
 import {mediaImgSrc} from "@/shared/constants/options";
+import Image from "next/image";
 
 /**
  * @author Zholaman Zhumanov
@@ -17,9 +18,13 @@ function PrimaryCard(props) {
         <div className={styles['ui_card_primary']}>
             <div className={styles['card_photo']}>
                 <Link href={`/catalog/apartment/${cardData?.["id"]}`}>
-                    <img
-                        src={mediaImgSrc(`${cardData?.["attributes"]?.["photo_preview"]?.["big"]?.["data"]?.["attributes"]?.["url"]}`)}
-                        alt={cardData?.["attributes"]?.["name"]}/>
+                    <Image
+                        src={mediaImgSrc(`${cardData?.["attributes"]?.["photo_preview"]?.["item"]?.["data"]?.["attributes"]?.["url"]}`)}
+                        alt={cardData?.["attributes"]?.["name"]}
+                        priority={true}
+                        width={1024}
+                        height={768}
+                    />
                 </Link>
             </div>
 
@@ -27,7 +32,6 @@ function PrimaryCard(props) {
                 <Link href={`/catalog/apartment/${cardData?.["id"]}`}>
                     <div className={styles['title']}>{cardData?.["attributes"]?.["name"] ?? "KETURAH RESERVE"}</div>
                 </Link>
-                {/*<div className={styles['subtitle']}>{cardData?.["subtitle"] ?? "2-BEDROOM (311 м2)"}</div>*/}
 
                 <p className={styles['description']}>{cardData?.["attributes"]?.["short_description"] ?? "Стремясь к звездам, Binghatti x Jacob & Co. запускают продажи самого высокого жилого небоскреба в мире."}</p>
             </div>

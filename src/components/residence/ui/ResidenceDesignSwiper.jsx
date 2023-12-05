@@ -8,6 +8,7 @@ import 'swiper/css';
 import {Autoplay} from "swiper/modules";
 import {ConstructorHtml} from "@/entities/constructorHtml";
 import {mediaImgSrc} from "@/shared/constants/options";
+import Image from "next/image";
 
 /**
  * @author Zholaman Zhumanov
@@ -38,17 +39,6 @@ function ResidenceDesignSwiper(props) {
         }
     }, [swiper])
 
-    // useEffect(() => {
-    //     try {
-    //         if (swiper) {
-    //             setSwiperActiveIndex(swiper.activeIndex)
-    //         }
-    //     } catch (error) {
-    //         console.log(`page: apartmentDesignSwiper, event: useEffect, error: ${error}`)
-    //     }
-    //
-    // }, [swiperActiveIndex, swiper]);
-
     return (
         <div className={styles['design_gallery_swiper']}>
             <div className={styles['content']}>
@@ -77,9 +67,12 @@ function ResidenceDesignSwiper(props) {
                                 return (
                                     <SwiperSlide key={swiperId}>
                                         <div className={styles['swiper_slider_content']}>
-                                            <img
+                                            <Image
                                                 src={mediaImgSrc(`${swiperItem?.["attributes"]?.["url"]}`)}
                                                 alt={info?.["name"]}
+                                                priority={true}
+                                                width={1024}
+                                                height={768}
                                             />
                                         </div>
                                     </SwiperSlide>

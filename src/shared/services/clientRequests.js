@@ -39,7 +39,7 @@ export const apiGetResidentialData = async (page, params) => {
 
     return await api_client_get(api.residential_complexes.get, {
         "pagination[page]": page,
-        "populate": "videos.big,videos.small,photos.big,photos.small,photo_preview.big,photo_preview.small,video_posters,residence,room,prices,district,property_type,tags,locate,locate_items,locations,locate.photo,locate.icon*",
+        "populate": "photo_preview.item,residence,room,district,property_type,tags,locate,locate_items,locations,locate.photo,locate.icon,*",
         ...updatedParams
     })
 }
@@ -48,13 +48,12 @@ export const apiGetResidentialData = async (page, params) => {
  * @author Zholaman Zhumanov
  * @description method for get residence data by id
  * @param id
- * @param params
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
-export const apiGetResidentialByIdData = async (id, params) => {
+export const apiGetResidentialByIdData = async (id) => {
     return await api_client_get(`${api.residential_complexes.get}/${id}`,
         {
-            ...params
+            "populate": "residence,room,district,property_type,tags,apartments.photo_preview.item,locations.photos,interior_description,interior_description.images,videos.item,videos.item,photos.item,video_posters.item,attractions.photo,*"
         }
     )
 }
@@ -75,7 +74,7 @@ export const apiGetApartmentsData = async (page, params) => {
         api.apartment.get,
         {
             "pagination[page]": page,
-            "populate": "videos.big,videos.small,photos.big,photos.small,photo_preview.big,photo_preview.small,video_posters,residence,room,prices,district,property_type,tags,locations,locate,locate.photo,locate.icon,*",
+            "populate": "photo_preview.item,residence,room,district,property_type,tags,locations,locate,locate.photo,locate.icon,*",
             ...updatedParams
         })
 }
@@ -91,7 +90,7 @@ export const apiGetApartmentsByIdData = async (id) => {
         `${api.apartment.get}/${id}`,
         {
             "id": id,
-            "populate": "videos.big,videos.small,photos.big,photos.small,photo_preview.big,photo_preview.small,video_posters,residence,room,prices,district,property_type,tags,videos,video_posters,locations.icon,location_items,locations.photo,layouts.locates,layouts.images,build_info,payment_plan,*"
+            "populate": "attractions,managers,managers.info,managers.contacts,managers.photo.item,photos.item,residence,room,district,property_type,tags,layouts.locates,layouts.images,build_info,payment_plan,*"
         })
 }
 

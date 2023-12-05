@@ -6,6 +6,7 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import {Autoplay, FreeMode, Navigation, Pagination, Thumbs} from 'swiper/modules';
 import styles from '@/styles/object-page.module.sass'
 import {mediaImgSrc} from "@/shared/constants/options";
+import Image from "next/image";
 
 /**
  * @author Zholaman Zhumanov
@@ -36,10 +37,16 @@ function ObjectDetailGallery(props) {
                 className="preview-gallery-swiper-main"
             >
                 {
-                    Object.values(galleryImages?.["big"]?.["data"] || {}).map((photoItem, photoId) => {
+                    Object.values(galleryImages?.["item"]?.["data"] || {}).map((photoItem, photoId) => {
                         return (
                             <SwiperSlide key={photoId}>
-                                <img src={mediaImgSrc(photoItem?.["attributes"]?.["url"])} alt={name}/>
+                                <Image
+                                    src={mediaImgSrc(photoItem?.["attributes"]?.["url"])}
+                                    alt={name}
+                                    priority={true}
+                                    width={1024}
+                                    height={768}
+                                />
                             </SwiperSlide>
                         )
                     })
@@ -59,10 +66,16 @@ function ObjectDetailGallery(props) {
                 className="preview-gallery-swiper-thumbs"
             >
                 {
-                    Object.values(galleryImages?.["big"]?.["data"] || {}).map((photoItem, photoId) => {
+                    Object.values(galleryImages?.["item"]?.["data"] || {}).map((photoItem, photoId) => {
                         return (
                             <SwiperSlide key={photoId}>
-                                <img src={mediaImgSrc(photoItem?.["attributes"]?.["url"])} alt={name}/>
+                                <Image
+                                    src={mediaImgSrc(photoItem?.["attributes"]?.["url"])}
+                                    alt={name}
+                                    priority={true}
+                                    width={576}
+                                    height={693}
+                                />
                             </SwiperSlide>
                         )
                     })

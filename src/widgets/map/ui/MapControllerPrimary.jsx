@@ -4,7 +4,6 @@ import React, {useEffect} from 'react';
 import {useMap} from "react-leaflet";
 import L from "leaflet";
 import {ICON} from "@/shared/constants/constants";
-import {mapCoordinates} from "@/shared/utils/mapCoordinates";
 
 /**
  * @author Zholaman Zhumanov

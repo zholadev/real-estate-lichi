@@ -27,9 +27,12 @@ function NewsPageDetail(props) {
                 {
                     newsData?.["attributes"]?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"] &&
                     <div>
-                        <img
+                        <Image
                             src={mediaImgSrc(newsData?.["attributes"]?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"])}
-                            alt=""
+                            alt={newsData?.["title"]}
+                            priority={true}
+                            width={1024}
+                            height={768}
                         />
                         <TagList i18n={i18n} center list={newsData?.["attributes"]?.["keys"]} tagName={"item"}/>
                     </div>

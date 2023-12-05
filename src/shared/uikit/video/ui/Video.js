@@ -3,6 +3,7 @@
 import React, {useRef, useState} from 'react';
 import ReactPlayer from "react-player";
 import styles from '@/styles/ui-video.module.sass'
+import Image from "next/image";
 
 // TODO: Gsap animation
 
@@ -25,7 +26,14 @@ function Video(props) {
             {
                 poster &&
                 <div className={`${styles['video_poster_box']} ${videoIsPlay ? styles['hide'] : ''}`} ref={posterRef}>
-                    <img src={poster} alt="poster" style={posterStyle}/>
+                    <Image
+                        src={poster}
+                        alt={'poster'}
+                        priority={true}
+                        width={1920}
+                        height={1080}
+                        style={posterStyle}
+                    />
                 </div>
             }
             <ReactPlayer
