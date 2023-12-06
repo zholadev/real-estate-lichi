@@ -144,7 +144,7 @@ function NavbarSubmenu(props) {
                 id: 1,
                 title: i18n?.["site.residence.title"],
                 img: IMG.templateCatalogCard['src'],
-                url: "/catalog"
+                url: "/catalog?type=residential_complex"
             },
             {
                 id: 1,

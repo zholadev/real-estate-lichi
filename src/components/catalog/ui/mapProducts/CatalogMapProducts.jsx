@@ -23,10 +23,12 @@ function CatalogMapProducts(props) {
     return (
         <div className={styles['catalog_map_container']}>
             <MapController
+                i18n={i18n}
                 mapData={mapData}
                 width={'100%'}
                 type={'secondary'}
                 height={mediaMdQuery ? 763 : 601}
+                url={`/catalog/${redirectTo}`}
             />
             <div className={styles['map_address_box']}>
                 {

@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import styles from '@/styles/news-page-info.module.sass'
 import {TagList} from "@/shared/uikit/tags";
@@ -34,7 +36,7 @@ function NewsPageDetail(props) {
                             width={1024}
                             height={768}
                         />
-                        <TagList i18n={i18n} center list={newsData?.["attributes"]?.["keys"]} tagName={"item"}/>
+                        <TagList i18n={i18n} center list={newsData?.["attributes"]?.["tags"]} tagName={"item"}/>
                     </div>
                 }
 

@@ -9,6 +9,7 @@ import L from "leaflet";
 import {mediaImgSrc} from "@/shared/constants/options";
 import Image from "next/image";
 import {useCurrencyFormat} from "@/shared/hooks";
+import {ButtonArrow} from "@/shared/uikit/button";
 
 
 const tileLayerUrl = 'https://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}';
@@ -28,19 +29,18 @@ const tileLayerOptions = {
  * @constructor
  */
 function MapComponent(props) {
-    const {width, height, mapData = [], mapInfo} = props
+    const {width, height, mapData = [], mapInfo, i18n, url} = props
 
     const convertCurrency = useCurrencyFormat()
 
     const mapRef = useRef(null);
 
     const iconPerson = new L.Icon({
-        iconUrl: ICON.mapMarketIcon['src'],
+        iconUrl: ICON.mapMarketBlackScIcon['src'],
         iconAnchor: [20, 40],
         popupAnchor: [0, -20],
         iconSize: [40, 40],
     });
-
 
     const PopupContent = (data) => {
         return (
@@ -58,6 +58,14 @@ function MapComponent(props) {
                     width={200}
                     height={200}
                 />
+
+                <div className={styles['popup_btn']}>
+                    <ButtonArrow
+                        title={i18n?.["site.more.title"]}
+                        url={`${url}/${data?.["urlId"]}`}
+                        type={'small'}
+                    />
+                </div>
             </div>
         )
     }
@@ -83,7 +91,7 @@ function MapComponent(props) {
                         icon={iconPerson}
                     >
                         <Popup>
-                            <PopupContent data={marker?.["attributes"]}/>
+                            <PopupContent data={marker?.["attributes"]} urlId={marker?.["id"]}/>
                         </Popup>
                     </Marker>
                 )

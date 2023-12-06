@@ -23,7 +23,7 @@ function ResidencePageContainer(props) {
     const {i18n, residenceData} = props
 
     return (
-        <div className={styles['apartments_container']}>
+        <section className={styles['apartments_container']}>
             <ResidenceHeader
                 i18n={i18n}
                 videoSrc={mediaImgSrc(residenceData?.["attributes"]?.["videos"]?.["item"]?.["data"]?.[0]?.["attributes"]?.["url"])}
@@ -75,7 +75,7 @@ function ResidencePageContainer(props) {
                     />
                 }
             </div>
-        </div>
+        </section>
     );
 }
 

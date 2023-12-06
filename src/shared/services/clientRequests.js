@@ -23,7 +23,7 @@ export const apiGetNewsData = async (limit, page) => {
  */
 export const apiGetNewsByIdData = async (id) => {
     return await api_client_get(`${api.news.get}/${id}`, {
-        "populate": "more_interestings.images,images,*"
+        "populate": "more_interestings.images,images,tags,*"
     })
 }
 
@@ -90,7 +90,7 @@ export const apiGetApartmentsByIdData = async (id) => {
         `${api.apartment.get}/${id}`,
         {
             "id": id,
-            "populate": "attractions,managers,managers.info,managers.contacts,managers.photo.item,photos.item,residence,room,district,property_type,tags,layouts.locates,layouts.images,build_info,payment_plan,*"
+            "populate": "attractions,managers,managers.info,managers.contacts,managers.photo.item,photos.item,residence,room,district,property_type,tags,layouts.locates,layouts.images,build_info,payment_plan,locate,locate.photo,*"
         })
 }
 

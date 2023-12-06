@@ -27,7 +27,7 @@ function ButtonArrow(props) {
                 backgroundColor: '#000',
                 duration: .4,
                 ease: "power2.inOut",
-                padding: type === "small" ? "10px 10px" : "0 30px",
+                padding: type === "small" ? "10px 10px" : "0 20px",
                 onComplete: args => {
                     gsap.to(textRef.current,
                         {

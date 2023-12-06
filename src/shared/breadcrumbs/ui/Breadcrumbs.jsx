@@ -88,7 +88,7 @@ function Breadcrumbs(props) {
                     {
                         "id": 2,
                         "name": i18n?.["site.residence.title"],
-                        "redirect": "/catalog",
+                        "redirect": "/catalog?type=residential_complex",
                         "slash": true
                     },
                     {

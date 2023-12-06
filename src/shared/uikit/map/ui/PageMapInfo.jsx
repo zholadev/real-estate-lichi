@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from "@/styles/object-page.module.sass";
 import dynamic from "next/dynamic";
 
@@ -16,7 +16,16 @@ const MapContainer = dynamic(() => import('@/widgets/map/ui/MapController'), {ss
  * @constructor
  */
 function PageMapInfo(props) {
-    const {i18n, mapInfo, mapInfoList, zoom} = props
+    const {i18n, mapInfo, mapInfoList, zoom, currentData, attractionsData} = props
+
+    const [mapData, setMapData] = useState([])
+
+    useEffect(() => {
+        const currentDataType = {type: "current", ...currentData};
+        const attractionDataType = attractionsData.map(item => ({type: "attraction", ...item}));
+
+        setMapData([currentDataType, ...attractionDataType])
+    }, [currentData, attractionsData]);
 
     if (Object.values(mapInfo || {}).length === 0 || !mapInfo) {
         return null
@@ -28,7 +37,7 @@ function PageMapInfo(props) {
 
             <div className={styles['map_board_interaction']}>
                 <div className={styles['map_info']}>
-                    <MapContainer height={484} mapInfo={mapInfo} zoom={zoom}/>
+                    <MapContainer height={'100%'} mapInfo={mapInfo} mapData={mapData} zoom={zoom}/>
 
                     <ul className={styles['map_info_list']}>
                         {

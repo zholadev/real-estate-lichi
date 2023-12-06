@@ -13,7 +13,7 @@
     margin-bottom: 15px
     overflow: hidden
     border-radius: 4px
-    max-height: 266px
+    min-height: 266px
 
     img
       transition: transform .4s ease
@@ -23,8 +23,14 @@
     .title
       font-weight: $size-300
       text-transform: uppercase
-      font-size: $size-20
+      font-size: $size-16
       margin-bottom: 10px
+      overflow: hidden
+      text-overflow: ellipsis
+      display: -webkit-box
+      -webkit-line-clamp: 1
+      font-weight: 400
+      -webkit-box-orient: vertical
 
     .subtitle
       font-size: $size-16

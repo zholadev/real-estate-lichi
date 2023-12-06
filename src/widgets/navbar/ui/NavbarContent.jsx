@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {gsap} from "gsap"
 import Cookies from "js-cookie";
 import {Logo} from "@/shared/uikit/logo";
@@ -26,6 +26,10 @@ function NavbarContent(props) {
     const [toggleNavbar, setToggleNavbar] = useState(false)
     const [animateTrigger, setAnimateTrigger] = useState(false)
     const [animateLogoTrigger, setAnimateLogoTrigger] = useState(false)
+
+    const contentIsMin = useMemo(() => {
+        return pathname == `/${routerParams['lang']}` || pathname == `/${routerParams['lang']}/catalog` || pathname == `/${routerParams['lang']}/news` || pathname == `/${routerParams['lang']}/news/${routerParams['id']}`
+    }, [routerParams, pathname])
 
     const toggleAnimateTrigger = () => {
         setAnimateTrigger(!animateTrigger)
@@ -96,7 +100,7 @@ function NavbarContent(props) {
                 ref={scrollNavbar}
                 className={`${styles['navbar']} ${scrollBottom ? styles['navbar_fill'] : ''}`}>
                 <div
-                    className={`${styles['navbar_content']} ${pathname == `/${routerParams['lang']}` || pathname == `/${routerParams['lang']}/catalog` || pathname == `/${routerParams['lang']}/news` || pathname == `/${routerParams['lang']}/news/${routerParams['id']}` ? 'container_md' : 'container_lg'}`}>
+                    className={`${styles['navbar_content']} ${contentIsMin ? 'container_md' : 'container_lg'}`}>
                     <Logo
                         onClick={() => {
                             toggleLogoAnimateTrigger()
@@ -117,7 +121,7 @@ function NavbarContent(props) {
             </header>
             <PortalProvider>
                 <NavbarSubmenu
-                    fullWidth={pathname == `/${routerParams['lang']}` || pathname == `/${routerParams['lang']}/catalog` || pathname == `/${routerParams['lang']}/news` || pathname == `/${routerParams['lang']}/news/${routerParams['id']}`}
+                    fullWidth={!contentIsMin}
                     i18n={i18n}
                     active={toggleNavbar}
                     animateTrigger={animateTrigger}

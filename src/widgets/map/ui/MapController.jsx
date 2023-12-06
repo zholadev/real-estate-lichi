@@ -17,7 +17,7 @@ import MapControllerPrimary from "@/widgets/map/ui/MapControllerPrimary";
  * @constructor
  */
 function MapController(props) {
-    const {width = "100%", height = 700, type = 'primary', mapInfo, zoom} = props
+    const {width = "100%", height = 700, type = 'primary', mapInfo, zoom, mapData} = props
 
     return (
         <div className={styles['map_controller']} style={{width: width, height: height}}>
@@ -27,7 +27,7 @@ function MapController(props) {
                 zoom={zoom || 17}
                 style={{width: width, height: height}}
             >
-                {type === 'secondary' ? <MapControllerPrimary mapInfo={mapInfo}/> : <MapOptions mapInfo={mapInfo}/>}
+                {type === 'secondary' ? <MapControllerPrimary mapInfo={mapInfo}/> : <MapOptions mapData={mapData} mapInfo={mapInfo}/>}
                 <ZoomControl position="topright"/>
             </MapContainer>
         </div>

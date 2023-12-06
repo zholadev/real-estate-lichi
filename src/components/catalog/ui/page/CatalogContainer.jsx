@@ -6,6 +6,7 @@ import React, {useMemo, useState} from 'react';
 import styles from '@/styles/catalog-products.module.sass'
 import {CatalogProducts, Filter} from "@/components/catalog";
 import CatalogMapProducts from "@/components/catalog/ui/mapProducts/CatalogMapProducts";
+import {useParams, useSearchParams} from "next/navigation";
 
 /**
  * @author Zholaman Zhumanov
@@ -17,6 +18,8 @@ import CatalogMapProducts from "@/components/catalog/ui/mapProducts/CatalogMapPr
 function CatalogContainer(props) {
     const {i18n, residenceListData, apartmentListData, apartmentMetaData, residenceMetaData} = props
 
+    const query = useSearchParams()
+
     const [typeCatalog, setTypeCatalog] = useState('object')
     const [typeContent, setTypeContent] = useState('list')
 
@@ -25,12 +28,12 @@ function CatalogContainer(props) {
             return [
                 {
                     id: 1,
-                    value: "object",
+                    value: "apartments",
                     title: i18n?.["site"]?.["objects"]
                 },
                 {
                     id: 2,
-                    value: "complex",
+                    value: "residential_complex",
                     title: i18n?.["site"]?.["residential_complex"]
                 },
             ]
@@ -54,9 +57,10 @@ function CatalogContainer(props) {
                     i18n={i18n}
                     tabData={tabData}
                     onClick={setTypeCatalog}
+                    url={'/catalog'}
                     item={"title"}
                     activeSelectName={"value"}
-                    defaultValue={'object'}
+                    defaultValue={query.get('type') || tabData?.[0]?.["value"]}
                 />
                 <div className={styles['filter_switch_btn']}>
                     <Button
@@ -82,7 +86,7 @@ function CatalogContainer(props) {
                 </div>
             </div>
             {
-                typeCatalog === 'complex' ?
+                query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex' ?
                     <>
                         <div className={'container_md'}>
                             <Filter typeCatalog={typeContent} i18n={i18n} onClick={toggleView}/>

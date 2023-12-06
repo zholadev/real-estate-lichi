@@ -29,3 +29,5 @@ export default async function Page({params}) {
         residenceData={data?.["data"]?.["data"]}
     />;
 }
+
+export const revalidate = 3600
