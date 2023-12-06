@@ -19,6 +19,7 @@ function PageMapInfo(props) {
     const {i18n, mapInfo, mapInfoList, zoom, currentData, attractionsData} = props
 
     const [mapData, setMapData] = useState([])
+    const [currentPositionCoord, setCurrentPositionCoord] = useState([currentData?.["coordinates"]?.["coordinates"]?.["lat"], currentData?.["coordinates"]?.["coordinates"]?.["lng"]])
 
     useEffect(() => {
         const currentDataType = {type: "current", ...currentData};
@@ -27,7 +28,7 @@ function PageMapInfo(props) {
         setMapData([currentDataType, ...attractionDataType])
     }, [currentData, attractionsData]);
 
-    if (Object.values(mapInfo || {}).length === 0 || !mapInfo) {
+    if (Object.values(attractionsData || {}).length === 0 || !attractionsData) {
         return null
     }
 
@@ -36,14 +37,33 @@ function PageMapInfo(props) {
             <h2>{i18n?.["site"]?.["in_map_title"]}</h2>
 
             <div className={styles['map_board_interaction']}>
+                <div className={styles['map_action']} onClick={() => {
+                    setCurrentPositionCoord([currentData?.["coordinates"]?.["coordinates"]?.["lat"], currentData?.["coordinates"]?.["coordinates"]?.["lng"]])
+                }}>
+                    <div className={styles['current_locate']}>
+                        Home
+                    </div>
+                </div>
                 <div className={styles['map_info']}>
-                    <MapContainer height={'100%'} mapInfo={mapInfo} mapData={mapData} zoom={zoom}/>
+                    <MapContainer
+                        center={[currentData?.["coordinates"]?.["coordinates"]?.["lat"], currentData?.["coordinates"]?.["coordinates"]?.["lng"]]}
+                        height={500}
+                        mapInfo={mapInfo}
+                        mapData={mapData}
+                        zoom={zoom}
+                        currentPositionCd={currentPositionCoord}
+                    />
 
                     <ul className={styles['map_info_list']}>
                         {
                             Object.values(mapInfoList || {}).map((localText) => {
                                 return (
-                                    <li key={localText?.["id"]} className={styles['list_item']}>
+                                    <li key={localText?.["id"]}
+                                        className={styles['list_item']}
+                                        onClick={() => {
+                                            setCurrentPositionCoord([localText?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lat"], localText?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lng"]])
+                                        }}
+                                    >
                                         <div className={styles['dot_shape']}/>
                                         <span>{localText?.["attributes"]?.["name"]}</span>
                                     </li>

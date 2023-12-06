@@ -10,11 +10,25 @@ import {ICON} from "@/shared/constants/constants";
 // TODO: refactoring
 
 function MapOptions(props) {
-    const {position, zoom, mapInfo, mapData} = props
+    const {position, zoom, mapInfo, mapData, currentPositionCd} = props
 
     const map = useMap()
 
     map._layersMaxZoom = 6
+
+    const mapFlyToPosition = (coordinate) => {
+        try {
+            map.flyTo(coordinate, 17, {
+                animate: false
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        mapFlyToPosition(currentPositionCd)
+    }, [currentPositionCd])
 
     const iconAttractionIcon = new L.Icon({
         iconUrl: ICON.mapMarketIcon['src'],
@@ -68,7 +82,7 @@ function MapOptions(props) {
                 })
             }
 
-            map.fitBounds(markers.getBounds())
+            // map.fitBounds(markers.fitBounds())
         } catch (error) {
             console.log(`page: shopMaps, event: mapInitPositions, error: ${error}`)
         }
@@ -87,4 +101,4 @@ function MapOptions(props) {
     return <></>
 }
 
-export default MapOptions;
+export default React.memo(MapOptions);

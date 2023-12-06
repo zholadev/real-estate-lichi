@@ -53,7 +53,7 @@ export const apiGetResidentialData = async (page, params) => {
 export const apiGetResidentialByIdData = async (id) => {
     return await api_client_get(`${api.residential_complexes.get}/${id}`,
         {
-            "populate": "residence,room,district,property_type,tags,apartments.photo_preview.item,locations.photos,interior_description,interior_description.images,videos.item,videos.item,photos.item,video_posters.item,attractions.photo,*"
+            "populate": "residence,room,district,property_type,tags,apartments.photo_preview.item,locations.photos,interior_description,interior_description.images,videos.item,videos.item,photos.item,video_posters.item,attractions.photo,locate,attractions,*"
         }
     )
 }
@@ -84,13 +84,15 @@ export const apiGetApartmentsData = async (page, params) => {
  * @description method for get apartment by id
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  * @param id
+ * @param locale
  */
-export const apiGetApartmentsByIdData = async (id) => {
+export const apiGetApartmentsByIdData = async (id, locale) => {
     return await api_client_get(
         `${api.apartment.get}/${id}`,
         {
             "id": id,
-            "populate": "attractions,managers,managers.info,managers.contacts,managers.photo.item,photos.item,residence,room,district,property_type,tags,layouts.locates,layouts.images,build_info,payment_plan,locate,locate.photo,*"
+            "populate": "attractions,managers,managers.info,managers.contacts,managers.photo.item,photos.item,residence,room,district,property_type,tags,layouts.locates,layouts.images,build_info,payment_plan,locate,locate.photo,*",
+            "locale": locale
         })
 }
 

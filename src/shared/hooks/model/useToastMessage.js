@@ -14,17 +14,31 @@ import {useMediaQuery} from "react-responsive";
 function useToastMessage() {
     const isTypeDevice = useMediaQuery({maxWidth: 1199.98})
 
-    return (message) => {
-        toast(message, {
-            position: isTypeDevice ? 'top-center' : 'bottom-right',
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            transition: Slide,
-        })
+    return (message, type) => {
+        if (type) {
+            toast[type](message, {
+                position: isTypeDevice ? 'top-center' : 'top-right',
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                transition: Slide,
+            })
+        } else {
+            toast(message, {
+                position: isTypeDevice ? 'top-center' : 'top-right',
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                transition: Slide,
+            })
+        }
+
     }
 }
 

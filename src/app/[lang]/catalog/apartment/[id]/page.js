@@ -6,8 +6,8 @@ import {PageMapInfo} from "@/shared/uikit/map";
 import {apiGetApartmentsByIdData} from "@/shared/services/clientRequests";
 import {ApartmentPaymentPlan, ObjectDetailDescription, ObjectDetailPreview, ObjectLayout} from "@/components/object";
 
-async function getGetApartmentsByIdData(id) {
-    return apiGetApartmentsByIdData(id)
+async function getGetApartmentsByIdData(id, locale) {
+    return apiGetApartmentsByIdData(id, locale)
 }
 
 /**
@@ -18,9 +18,9 @@ async function getGetApartmentsByIdData(id) {
  * @constructor
  */
 export default async function Page({params}) {
-    const apartmentData = await getGetApartmentsByIdData(params.id)
-
     const cookieStore = cookies()
+    const apartmentData = await getGetApartmentsByIdData(params.id, cookieStore.get('dubai_lang')?.value)
+
     const lang = cookieStore.get('dubai_lang')?.value || 'en'
 
     const i18n = await getDictionary(lang)
