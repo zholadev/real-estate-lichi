@@ -16,7 +16,7 @@ import {useParams, useSearchParams} from "next/navigation";
  * @constructor
  */
 function CatalogContainer(props) {
-    const {i18n, residenceListData, apartmentListData, apartmentMetaData, residenceMetaData} = props
+    const {i18n, residenceListData, apartmentListData, apartmentMetaData, residenceMetaData, pageParams} = props
 
     const query = useSearchParams()
 
@@ -89,7 +89,7 @@ function CatalogContainer(props) {
                 query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex' ?
                     <>
                         <div className={'container_md'}>
-                            <Filter typeCatalog={typeContent} i18n={i18n} onClick={toggleView}/>
+                            <Filter typeCatalog={typeContent} i18n={i18n} onClick={toggleView} pageParams={pageParams}/>
                         </div>
                         {
                             typeContent === 'map' ?
@@ -114,7 +114,7 @@ function CatalogContainer(props) {
                     :
                     <>
                         <div className={'container_md'}>
-                            <Filter typeCatalog={typeContent} i18n={i18n} onClick={toggleView}/>
+                            <Filter typeCatalog={typeContent} i18n={i18n} onClick={toggleView} pageParams={pageParams}/>
                         </div>
                         {
                             typeContent === 'map' ?

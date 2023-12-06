@@ -7,16 +7,17 @@ import {Button} from "@/shared/uikit/button";
 import {PortalProvider} from "@/shared/portals";
 import {SidebarContainer} from "@/widgets/sidebar";
 import {useApiRequest} from "@/shared/hooks";
+import {Input} from "@/shared/uikit/form/input";
+import usePushFilters from "../../lib/usePushFilters";
+import {useRouter} from "next/navigation";
 import {
     apiGetFilterDistrictList,
-    apiGetFilterPriceList,
     apiGetFilterPropertyTypeList,
     apiGetFilterResidenceList,
     apiGetFilterRoomsList,
     apiGetFilterTagsList
 } from "@/shared/services/clientRequests";
-import {useRouter, useSearchParams} from "next/navigation";
-import qs from "qs";
+import useSetFilter from "../../lib/useSetFilter";
 
 /**
  * @author Zholaman Zhumanov
@@ -25,34 +26,29 @@ import qs from "qs";
  * @constructor
  */
 function Filter(props) {
-    const {filterData, i18n, onClick, typeCatalog} = props
+    const {i18n, pageParams} = props
 
     const router = useRouter()
-    const searchParams = useSearchParams()
 
-    const {apiFetchHandler, loading} = useApiRequest()
+    const pushFilterHandle = usePushFilters()
+    const getSetFilterHandle = useSetFilter()
+
+    const {apiFetchHandler} = useApiRequest()
 
     const [queryFilter, setQueryFilter] = useState({})
     const [tagDataFilter, setTagDataFilter] = useState([])
     const [toggleFilter, setToggleFilter] = useState(false)
     const [roomsDataFilter, setRoomsDataFilter] = useState([])
-    const [pricesDataFilter, setPricesDataFilter] = useState([])
     const [districtDataFilter, setDistrictDataFilter] = useState([])
     const [residenceDataFilter, setResidenceFilterData] = useState([])
     const [propertyTypeDataFilter, setPropertyTypeFilterData] = useState([])
+
+    const [priceValue, setPriceValue] = useState(0)
 
     const getFilterResidenceData = async () => {
         await apiFetchHandler(apiGetFilterResidenceList, [], false, {
             onGetData: (params) => {
                 setResidenceFilterData(params.api_data)
-            }
-        })
-    }
-
-    const getFilterPricesData = async () => {
-        await apiFetchHandler(apiGetFilterPriceList, [], false, {
-            onGetData: (params) => {
-                setPricesDataFilter(params.api_data)
             }
         })
     }
@@ -94,17 +90,6 @@ function Filter(props) {
         getFilterRoomsData().catch(e => console.log(e))
         getFilterPropertyData().catch(e => console.log(e))
         getFilterTagsData().catch(e => console.log(e))
-        getFilterPricesData().catch(e => console.log(e))
-
-        // return () => {
-        //     setResidenceFilterData([])
-        //     setPricesDataFilter([])
-        //     setDistrictDataFilter([])
-        //     setRoomsDataFilter([])
-        //     setTagDataFilter([])
-        //     setPropertyTypeFilterData([])
-        //     setQueryFilter({})
-        // }
     }, []);
 
     const optionsResidence = useMemo(() => {
@@ -178,66 +163,12 @@ function Filter(props) {
         }
     }, [tagDataFilter])
 
-
-    const optionsPrices = useMemo(() => {
-        try {
-            return pricesDataFilter.map((filter) => {
-                return {
-                    label: filter?.["attributes"]?.["name"],
-                    value: filter?.["attributes"]?.["type"],
-                    key: "prices"
-                }
-            })
-        } catch (e) {
-            console.log(e)
-        }
-    }, [pricesDataFilter])
-
     const setFilterQueryHandle = (data) => {
         const {key, value} = data
-
-        setQueryFilter((prevFilters) => {
-            try {
-                // if (prevFilters.hasOwnProperty(key)) {
-                //     return {
-                //         ...prevFilters,
-                //         [key]: Array.isArray(prevFilters[key])
-                //             ? [...prevFilters[key], value]
-                //             : [prevFilters[key], value],
-                //     };
-                // } else {
-                return {
-                    ...prevFilters,
-                    [key]: value,
-                };
-                // }
-            } catch (e) {
-                console.log(e)
-            }
-        });
+        setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value, false));
     };
 
-    const sendFilterQuery = () => {
-        router.push(`/catalog?${qs.stringify({
-            filters: Object.entries(queryFilter || {}).map((item) => {
-                if (item?.[0] === "residence") {
-                    return {
-                        [item?.[0]]: {
-                            "name": {
-                                "$contains": item?.[1]
-                            }
-                        }
-                    }
-                } else {
-                    return {
-                        [item?.[0]]: {
-                            "type": item?.[1]
-                        }
-                    }
-                }
-            })
-        }, {arrayFormat: 'repeat'})}`)
-    }
+    const sendFilterQuery = () => pushFilterHandle('/catalog', queryFilter)
 
     const clearFilters = () => {
         setQueryFilter({})
@@ -254,14 +185,6 @@ function Filter(props) {
                 <FormSelect
                     placeholder={i18n?.["site.residence.title"]}
                     options={optionsResidence}
-                    onChange={e => {
-                        setFilterQueryHandle(e)
-                    }}
-                />
-
-                <FormSelect
-                    placeholder={i18n?.["site.coast_price.title"]}
-                    options={optionsPrices}
                     onChange={e => {
                         setFilterQueryHandle(e)
                     }}
@@ -300,6 +223,19 @@ function Filter(props) {
                     }}
                 />
 
+                <Input
+                    id={"price"}
+                    type={"number"}
+                    label={i18n?.["site.coast_price.title"]}
+                    value={priceValue}
+                    labelActive
+                    onChange={(e) => {
+                        setPriceValue(e)
+                        setFilterQueryHandle({key: "price", value: e})
+                    }}
+                    typeInput={'secondary'}
+                />
+
                 <Button title={i18n?.["filter.clear.title"]} type={'outline'} onClick={clearFilters}/>
                 <Button title={i18n?.["site"]?.["search_title"]} onClick={sendFilterQuery}/>
             </div>
@@ -321,14 +257,6 @@ function Filter(props) {
                     }}
                 />
 
-                <FormSelect
-                    placeholder={i18n?.["site.coast_price.title"]}
-                    options={optionsPrices}
-                    onChange={e => {
-                        setFilterQueryHandle(e)
-                    }}
-                />
-
                 <Button title={i18n?.["filter.clear.title"]} type={'outline'} onClick={clearFilters}/>
                 <Button title={i18n?.["site"]?.["search_title"]} onClick={sendFilterQuery}/>
             </div>
@@ -339,14 +267,6 @@ function Filter(props) {
                         <FormSelect
                             placeholder={i18n?.["site.residence.title"]}
                             options={optionsResidence}
-                            onChange={e => {
-                                setFilterQueryHandle(e)
-                            }}
-                        />
-
-                        <FormSelect
-                            placeholder={i18n?.["site.coast_price.title"]}
-                            options={optionsPrices}
                             onChange={e => {
                                 setFilterQueryHandle(e)
                             }}
@@ -396,21 +316,3 @@ function Filter(props) {
 }
 
 export default Filter;
-
-// setQueryFilter((prevFilters) => {
-//     // Если ключ уже существует, обновляем значение в виде массива
-//     if (prevFilters.hasOwnProperty(key)) {
-//         return {
-//             ...prevFilters,
-//             [key]: Array.isArray(prevFilters[key])
-//                 ? [...prevFilters[key], value]
-//                 : [prevFilters[key], value],
-//         };
-//     } else {
-//         // Если ключа нет, добавляем его с текущим значением
-//         return {
-//             ...prevFilters,
-//             [key]: value,
-//         };
-//     }
-// });

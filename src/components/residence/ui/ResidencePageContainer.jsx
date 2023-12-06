@@ -47,7 +47,8 @@ function ResidencePageContainer(props) {
                 <PageMapInfo
                     i18n={i18n}
                     zoom={20}
-                    mapInfo={residenceData?.["attributes"]?.["attractions"]?.["data"]}
+                    currentData={residenceData?.["attributes"]?.["locate"]}
+                    attractionsData={residenceData?.["attributes"]?.["attractions"]?.["data"]}
                     mapInfoList={residenceData?.["attributes"]?.["attractions"]?.["data"]}
                 />
                 <ResidenceDesignGallery
