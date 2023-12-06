@@ -8,15 +8,16 @@
   overflow: hidden
 
 .map_popup
-  width: 190px
-  height: 190px
+  width: 220px
+  height: 270px
   background-color: $default-light
   border-radius: 4px
   padding: 10px 0
 
   img
     border-radius: 0
-    max-height: 117px
+    min-height: 130px
+    max-height: 130px
 
   .info
     padding: 0 10px
@@ -25,6 +26,11 @@
     font-size: $size-14 !important
     line-height: 22px
     margin-bottom: $p-size-5
+    overflow: hidden
+    text-overflow: ellipsis
+    display: -webkit-box
+    -webkit-line-clamp: 1
+    -webkit-box-orient: vertical
 
   .popup_price
     font-weight: $size-500
@@ -36,5 +42,11 @@
     color: $text-color-opacity
     font-size: $size-11
     line-height: 15.4px
-    //margin-top: $p-size-10
+
+  .popup_btn
+    padding: 0 10px
+    margin-top: 10px
+
+    button
+      font-size: $size-14
 

@@ -58,6 +58,8 @@ import startIcon from '../../../public/images/icons/start-icon.svg'
 import repeatIcon from '../../../public/images/icons/repeat-icon.svg'
 import arrowBottomIcon from '../../../public/images/icons/arrow-bottom.svg'
 import mapMarketIcon from '../../../public/images/icons/map-marker.png'
+import mapMarketBlackIcon from '../../../public/images/icons/map-icon.svg'
+import mapMarketBlackScIcon from '../../../public/images/icons/map-marker-black-sc.svg'
 
 export const ICON = {
     "swiperArrowLeftIcon": swiperArrowLeftIcon,
@@ -65,7 +67,9 @@ export const ICON = {
     "startIcon": startIcon,
     "repeatIcon": repeatIcon,
     "arrowBottomIcon": arrowBottomIcon,
-    "mapMarketIcon": mapMarketIcon
+    "mapMarketIcon": mapMarketIcon,
+    "mapMarketBlackIcon": mapMarketBlackIcon,
+    "mapMarketBlackScIcon": mapMarketBlackScIcon,
 }
 
 import aboutPageObject from '../../../public/images/page/about/about-object.png'

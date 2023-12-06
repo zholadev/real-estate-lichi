@@ -41,9 +41,13 @@ export default async function Page({params}) {
             <ObjectLayout apartmentData={apartmentData?.["data"]?.["data"]} i18n={i18n}/>
             <PageMapInfo
                 i18n={i18n}
+                currentData={apartmentData?.["data"]?.["data"]?.["attributes"]?.["locate"]}
+                attractionsData={apartmentData?.["data"]?.["data"]?.["attributes"]?.["attractions"]?.["data"]}
                 mapInfo={apartmentData?.["data"]?.["data"]?.["attributes"]?.["attractions"]?.["data"]}
                 mapInfoList={apartmentData?.["data"]?.["data"]?.["attributes"]?.["attractions"]?.["data"]}
             />
         </div>
     );
 }
+
+export const revalidate = 3600

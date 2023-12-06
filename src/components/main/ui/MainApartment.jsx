@@ -13,7 +13,7 @@ import {ButtonArrow} from "@/shared/uikit/button";
  * @constructor
  */
 function MainApartment(props) {
-    const {i18n, col, title, data} = props
+    const {i18n, col, title, data, url} = props
 
     return (
         <div className={styles['main_apartment']}>
@@ -32,7 +32,7 @@ function MainApartment(props) {
             <div className={styles['more_btn_place']}>
                 <ButtonArrow
                     title={i18n?.["site"]?.["see_more"]}
-                    url={'/catalog'}
+                    url={url}
                 />
             </div>
         </div>

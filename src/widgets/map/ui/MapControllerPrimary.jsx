@@ -46,7 +46,6 @@ function MapControllerPrimary(props) {
         try {
             mapInfo?.map((data) => {
                 const marker = L.marker(data, { icon: iconPerson, data: data });
-                marker.bindPopup('Your Tooltip Content');
                 markers.addLayer(marker);
             });
 

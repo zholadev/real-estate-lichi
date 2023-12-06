@@ -10,14 +10,21 @@ import {ICON} from "@/shared/constants/constants";
 // TODO: refactoring
 
 function MapOptions(props) {
-    const {position, zoom, mapInfo} = props
+    const {position, zoom, mapInfo, mapData} = props
 
     const map = useMap()
 
-    map._layersMaxZoom = 15
+    map._layersMaxZoom = 6
 
-    const iconPerson = new L.Icon({
+    const iconAttractionIcon = new L.Icon({
         iconUrl: ICON.mapMarketIcon['src'],
+        iconAnchor: [20, 40],
+        popupAnchor: [0, 0],
+        iconSize: [48, 48],
+    })
+
+    const iconCurrentLocate = new L.Icon({
+        iconUrl: ICON.mapMarketBlackIcon['src'],
         iconAnchor: [20, 40],
         popupAnchor: [0, 0],
         iconSize: [48, 48],
@@ -25,7 +32,7 @@ function MapOptions(props) {
 
     let markers = L?.markerClusterGroup({
         spiderfyOnMaxZoom: false,
-        showCoverageOnHover: true,
+        showCoverageOnHover: false,
         zoomToBoundsOnClick: true,
         animate: true,
         iconCreateFunction: function (cluster) {
@@ -41,13 +48,25 @@ function MapOptions(props) {
 
     useEffect(() => {
         try {
-            mapInfo?.map((data) => {
-                markers?.addLayer(
-                    L.marker([data?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lat"], data?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lng"]], {
-                        icon: iconPerson
-                    })
-                )
-            })
+            if (mapData) {
+                mapData?.map((data) => {
+                    console.log(data)
+                    const position = data?.["type"] === "current" ? [data?.["coordinates"]?.["coordinates"]?.["lat"], data?.["coordinates"]?.["coordinates"]?.["lng"]] : [data?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lat"], data?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lng"]]
+                    markers?.addLayer(
+                        L.marker(position, {
+                            icon: data?.["type"] === "current" ? iconCurrentLocate : iconAttractionIcon
+                        })
+                    )
+                })
+            } else {
+                mapInfo?.map((data) => {
+                    markers?.addLayer(
+                        L.marker([data?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lat"], data?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lng"]], {
+                            icon: iconAttractionIcon
+                        })
+                    )
+                })
+            }
 
             map.fitBounds(markers.getBounds())
         } catch (error) {

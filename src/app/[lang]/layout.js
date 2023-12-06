@@ -28,7 +28,7 @@ export default async function RootLayout({children}) {
         <NextTopLoader
             color="#000"
             showSpinner={false}
-            zIndex={1100}
+            zIndex={11000}
         />
 
         <Navbar i18n={i18n}/>

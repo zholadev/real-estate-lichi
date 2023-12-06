@@ -3,6 +3,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styles from "@/styles/ui-tabs.module.sass";
 import {MotionTextUnderLine} from "@/shared/uikit/motion";
+import {useRouter} from "next/navigation";
 
 /**
  * @author Zholaman Zhumanov
@@ -12,7 +13,9 @@ import {MotionTextUnderLine} from "@/shared/uikit/motion";
  * @constructor
  */
 function Tabs(props) {
-    const {i18n, onClick, tabData, item, activeSelectName, defaultValue} = props
+    const {i18n, onClick, tabData, item, activeSelectName, defaultValue, url} = props
+
+    const router = useRouter()
 
     const [tab, setTab] = useState(defaultValue || "")
 
@@ -21,6 +24,10 @@ function Tabs(props) {
             setTab(value)
             if (onClick) {
                 onClick(value)
+            }
+
+            if (url) {
+                router.replace(url)
             }
         } catch (error) {
             console.log(`page: catalog, event: toggleTab, error: ${error}`)
