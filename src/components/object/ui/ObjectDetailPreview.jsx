@@ -12,24 +12,29 @@ import ObjectDetailHeadInfo from "./ObjectDetailHeadInfo";
  * @constructor
  */
 function ObjectDetailPreview(props) {
-    const {i18n, apartmentData} = props
+    const {i18n, data} = props
 
     return (
         <>
             <div className={styles['object_page_preview']}>
-                <h1 className={styles['title_sm']}>{apartmentData?.["data"]?.["data"]?.["attributes"]?.["name"]}</h1>
+                <h1 className={styles['title_sm']}>{data?.["name"]}</h1>
                 <ObjectDetailGallery
-                    galleryImages={apartmentData?.["data"]?.["data"]?.["attributes"]?.["photos"] ?? []}
-                    name={apartmentData?.["data"]?.["data"]?.["attributes"]?.["name"]}
+                    galleryImages={data?.["photos"] ?? []}
+                    name={data?.["name"]}
                 />
-                <ObjectDetailHeadInfo i18n={i18n} apartmentInfoData={apartmentData?.["data"]?.["data"]?.["attributes"]}/>
+                <ObjectDetailHeadInfo
+                    i18n={i18n}
+                    data={data}
+                />
             </div>
+
             <div className={'container_md'}>
                 <ul className={stylesTag['main_bottom_list']} style={{marginBottom: "120px"}}>
                     {
-                        Object.values(apartmentData?.["data"]?.["data"]?.["attributes"]?.["tags"]?.["data"] || {}).map((item, Id) => {
+                        Object.values(data?.["tags"] || {}).map((item, Id) => {
                             return (
-                                <li key={item?.["id"]}
+                                <li
+                                    key={Id}
                                     className={stylesTag['list_item']}
                                 >
                                     {item?.["attributes"]?.["name"] ?? ""}

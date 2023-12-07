@@ -10,14 +10,14 @@ import ResidenceAdvantagesSwiper from "@/components/residence/ui/ResidenceAdvant
  * @constructor
  */
 function ResidenceAdvantages(props) {
-    const {galleryImages, i18n} = props
+    const {data, i18n} = props
 
     return (
         <div className={styles['apartment_advantages']}>
             <div className={'container_md'}>
                 <h2>{i18n?.["site.advantages.title"]}</h2>
             </div>
-            <ResidenceAdvantagesSwiper galleryImages={galleryImages}/>
+            <ResidenceAdvantagesSwiper data={data}/>
         </div>
     );
 }

@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import {MapCard} from "@/shared/uikit/cards/mapCard";
 import {useMediaMaxState} from "@/shared/hooks";
 
-const MapController = dynamic(() => import('@/widgets/map/ui/MapComponent'), {ssr: false})
+const MapListContainer = dynamic(() => import('@/widgets/map/ui/MapListContainer'), {ssr: false})
 
 /**
  * @author Zholaman Zhumanov
@@ -22,12 +22,15 @@ function CatalogMapProducts(props) {
 
     return (
         <div className={styles['catalog_map_container']}>
-            <MapController
+            <MapListContainer
+                isBtn
+                isPopup
+                type={"list"}
                 i18n={i18n}
-                mapData={mapData}
-                width={'100%'}
-                type={'secondary'}
-                height={mediaMdQuery ? 763 : 601}
+                cluster
+                zoom={10}
+                data={mapData}
+                style={{height: mediaMdQuery ? 763 : 601, width: "100%"}}
                 url={`/catalog/${redirectTo}`}
             />
             <div className={styles['map_address_box']}>

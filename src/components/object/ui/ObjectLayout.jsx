@@ -1,8 +1,9 @@
 'use client'
 
 import React from 'react';
-import styles from '@/styles/object-page.module.sass'
 import Image from "next/image";
+import {ZoomContainer} from "@/shared/uikit/zoom";
+import styles from '@/styles/object-page.module.sass'
 import {mediaImgSrc} from "@/shared/constants/options";
 
 // TODO: Сделать общим
@@ -15,9 +16,9 @@ import {mediaImgSrc} from "@/shared/constants/options";
  * @constructor
  */
 function ObjectLayout(props) {
-    const {i18n, apartmentData} = props
+    const {i18n, data} = props
 
-    if (Object.values(apartmentData || {}).length === 0) {
+    if (Object.values(data || {}).length === 0) {
         return null
     }
 
@@ -26,21 +27,23 @@ function ObjectLayout(props) {
             <h2>{i18n?.["object"]?.["layout_title"]}</h2>
 
             <div className={`${styles['layout_board_info']} container_md`}>
-                <Image
-                    src={mediaImgSrc(`${apartmentData?.["attributes"]?.["layouts"]?.[0]?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"]}`)}
-                    alt={apartmentData?.["attributes"]?.["name"]}
-                    priority={true}
-                    width={1024}
-                    height={768}
-                />
+                <ZoomContainer>
+                    <Image
+                        height={768}
+                        width={1024}
+                        priority={true}
+                        alt={data?.["name"]}
+                        src={mediaImgSrc(`${data?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"]}`)}
+                    />
+                </ZoomContainer>
 
                 <div className={styles['info']}>
                     <span
-                        className={styles['info_subtitle']}>{apartmentData?.["attributes"]?.["layouts"]?.[0]?.["name"]}</span>
+                        className={styles['info_subtitle']}>{data?.["name"]}</span>
 
                     <ul className={styles['board_info_list']}>
                         {
-                            Object.values(apartmentData?.["attributes"]?.["layouts"]?.[0]?.["locates"] || {}).map((item, id) => {
+                            Object.values(data?.["locates"] || {}).map((item, id) => {
                                 return (
                                     <li className={styles['list_item']} key={id}>{item?.["locate"]}</li>
                                 )

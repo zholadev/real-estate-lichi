@@ -91,7 +91,7 @@ export const apiGetApartmentsByIdData = async (id, locale) => {
         `${api.apartment.get}/${id}`,
         {
             "id": id,
-            "populate": "attractions,managers,managers.info,managers.contacts,managers.photo.item,photos.item,residence,room,district,property_type,tags,layouts.locates,layouts.images,build_info,payment_plan,locate,locate.photo,*",
+            "populate": "attractions,managers,managers.info,managers.contacts,managers.photo.item,photos.item,residence,room,district,property_type,tags,layouts.locates,layouts.images,build_info,payment_plan,locate,locate.photo,attractions.photo,country,*",
             "locale": locale
         })
 }

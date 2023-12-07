@@ -10,11 +10,11 @@ import {ConstructorHtml} from "@/entities/constructorHtml";
  * @constructor
  */
 function ResidenceAboutProject(props) {
-    const {description} = props
+    const {data} = props
 
     return (
         <section className={styles['apartment_about_project']}>
-           <ConstructorHtml jsonHtmlData={description}/>
+           <ConstructorHtml jsonHtmlData={data}/>
         </section>
     );
 }

@@ -1,12 +1,12 @@
 'use client'
 
-import React, {useEffect, useState} from 'react';
-import styles from "@/styles/object-page.module.sass";
+import React, {useCallback, useEffect, useState} from 'react';
 import dynamic from "next/dynamic";
+import styles from "@/styles/object-page.module.sass";
 
 // TODO: style file update
 
-const MapContainer = dynamic(() => import('@/widgets/map/ui/MapController'), {ssr: false})
+const MapObjectsContainer = dynamic(() => import('@/widgets/map/ui/MapObjectsContainer'), {ssr: false})
 
 /**
  * @author Zholaman Zhumanov
@@ -16,17 +16,33 @@ const MapContainer = dynamic(() => import('@/widgets/map/ui/MapController'), {ss
  * @constructor
  */
 function PageMapInfo(props) {
-    const {i18n, mapInfo, mapInfoList, zoom, currentData, attractionsData} = props
+    const {
+        i18n,
+        zoom,
+        url,
+        isBtn,
+        isPopup,
+        cluster,
+        currentData,
+        attractionsData,
+        type = 'apartments',
+        styleMap = {height: 500, width: "100%"},
+    } = props
 
     const [mapData, setMapData] = useState([])
-    const [currentPositionCoord, setCurrentPositionCoord] = useState([currentData?.["coordinates"]?.["coordinates"]?.["lat"], currentData?.["coordinates"]?.["coordinates"]?.["lng"]])
+    const [position, setPosition] = useState(false)
 
     useEffect(() => {
-        const currentDataType = {type: "current", ...currentData};
+        if (!currentData || !attractionsData) return
+        const currentDataType = {type: "current", attributes: {...currentData}};
         const attractionDataType = attractionsData.map(item => ({type: "attraction", ...item}));
 
         setMapData([currentDataType, ...attractionDataType])
     }, [currentData, attractionsData]);
+
+    const getPositionHandle = useCallback((pos) => {
+        setPosition(pos)
+    }, [])
 
     if (Object.values(attractionsData || {}).length === 0 || !attractionsData) {
         return null
@@ -37,31 +53,37 @@ function PageMapInfo(props) {
             <h2>{i18n?.["site"]?.["in_map_title"]}</h2>
 
             <div className={styles['map_board_interaction']}>
-                <div className={styles['map_action']} onClick={() => {
-                    setCurrentPositionCoord([currentData?.["coordinates"]?.["coordinates"]?.["lat"], currentData?.["coordinates"]?.["coordinates"]?.["lng"]])
-                }}>
-                    <div className={styles['current_locate']}>
-                        Home
-                    </div>
+                <div
+                    className={styles['map_action']}
+                    onClick={() => {
+                        getPositionHandle([currentData?.["coordinates"]?.["coordinates"]?.["lat"], currentData?.["coordinates"]?.["coordinates"]?.["lng"]])
+                    }}
+                >
+                    <div className={styles['current_locate']}>Home</div>
                 </div>
                 <div className={styles['map_info']}>
-                    <MapContainer
-                        center={[currentData?.["coordinates"]?.["coordinates"]?.["lat"], currentData?.["coordinates"]?.["coordinates"]?.["lng"]]}
-                        height={500}
-                        mapInfo={mapInfo}
-                        mapData={mapData}
+                    <MapObjectsContainer
+                        url={url}
                         zoom={zoom}
-                        currentPositionCd={currentPositionCoord}
+                        i18n={i18n}
+                        type={'attractions'}
+                        isBtn={isBtn}
+                        data={mapData}
+                        style={styleMap}
+                        cluster={cluster}
+                        isPopup={isPopup}
+                        position={position}
+                        center={[currentData?.["coordinates"]?.["coordinates"]?.["lat"], currentData?.["coordinates"]?.["coordinates"]?.["lng"]]}
                     />
 
                     <ul className={styles['map_info_list']}>
                         {
-                            Object.values(mapInfoList || {}).map((localText) => {
+                            Object.values(attractionsData || {}).map((localText) => {
                                 return (
                                     <li key={localText?.["id"]}
                                         className={styles['list_item']}
                                         onClick={() => {
-                                            setCurrentPositionCoord([localText?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lat"], localText?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lng"]])
+                                            getPositionHandle([localText?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lat"], localText?.["attributes"]?.["coordinates"]?.["coordinates"]?.["lng"]])
                                         }}
                                     >
                                         <div className={styles['dot_shape']}/>
