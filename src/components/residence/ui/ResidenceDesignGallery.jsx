@@ -13,14 +13,14 @@ import ResidenceDesignSwiper from "@/components/residence/ui/ResidenceDesignSwip
  * @constructor
  */
 function ResidenceDesignGallery(props) {
-    const {i18n, interiorData} = props
+    const {i18n, data} = props
 
     const [typeContent, setTypeContent] = useState('interior')
 
     return (
         <div className={styles['apartment_design_gallery']}>
             <Tabs
-                tabData={interiorData}
+                tabData={data}
                 item={"name"}
                 activeSelectName={"name"}
                 onClick={setTypeContent}
@@ -28,7 +28,7 @@ function ResidenceDesignGallery(props) {
 
             <div className={styles['design_gallery_content']}>
                 {
-                    Object.values(interiorData || {}).map((item, id) => {
+                    Object.values(data || {}).map((item, id) => {
                         return (
                             typeContent === item?.["name"] && <ResidenceDesignSwiper key={id} i18n={i18n} info={item}/>
                         )

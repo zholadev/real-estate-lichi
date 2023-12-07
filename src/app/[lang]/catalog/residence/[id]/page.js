@@ -1,6 +1,6 @@
 import React from 'react';
 import {getDictionary} from "@/dictionaries";
-import {ResidencePageContainer} from "@/components/residence";
+import {ResidencePage} from "@/components/residence";
 import {cookies} from "next/headers";
 import {apiGetResidentialByIdData} from "@/shared/services/clientRequests";
 
@@ -23,11 +23,13 @@ export default async function Page({params}) {
 
     const data = await fetchResidenceDataById(params.id)
 
-    return <ResidencePageContainer
-        i18n={i18n}
-        id={params.id}
-        residenceData={data?.["data"]?.["data"]}
-    />;
+    return (
+        <ResidencePage
+            i18n={i18n}
+            id={params.id}
+            residenceData={data?.["data"]?.["data"]}
+        />
+    )
 }
 
 export const revalidate = 3600

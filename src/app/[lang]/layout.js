@@ -13,6 +13,7 @@ import NextTopLoader from "nextjs-toploader";
 import {cookies} from "next/headers";
 import {Slide, ToastContainer} from "react-toastify";
 
+
 export const metadata = {
     title: 'META TRUST-DUBAI',
     description: 'META TRUST-DUBAI',
@@ -26,13 +27,13 @@ export default async function RootLayout({children}) {
 
     return (
         <html lang="en">
+
         <body>
         <NextTopLoader
             color="#000"
             showSpinner={false}
-            zIndex={11000}
+            zIndex={10010}
         />
-
         <ToastContainer
             position={'top-right'}
             autoClose={3000}

@@ -43,7 +43,7 @@ function Filter(props) {
     const [residenceDataFilter, setResidenceFilterData] = useState([])
     const [propertyTypeDataFilter, setPropertyTypeFilterData] = useState([])
 
-    const [priceValue, setPriceValue] = useState(0)
+    const [priceValue, setPriceValue] = useState('')
 
     const getFilterResidenceData = async () => {
         await apiFetchHandler(apiGetFilterResidenceList, [], false, {
@@ -226,9 +226,8 @@ function Filter(props) {
                 <Input
                     id={"price"}
                     type={"number"}
-                    label={i18n?.["site.coast_price.title"]}
+                    placeholder={i18n?.["site.coast_price.title"]}
                     value={priceValue}
-                    labelActive
                     onChange={(e) => {
                         setPriceValue(e)
                         setFilterQueryHandle({key: "price", value: e})

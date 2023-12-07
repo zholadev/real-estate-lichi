@@ -2,11 +2,12 @@
 
 import React, {useState} from 'react';
 import 'swiper/css';
+import Image from "next/image";
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {Autoplay, FreeMode, Navigation, Pagination, Thumbs} from 'swiper/modules';
+import {ZoomContainer} from "@/shared/uikit/zoom";
 import styles from '@/styles/object-page.module.sass'
 import {mediaImgSrc} from "@/shared/constants/options";
-import Image from "next/image";
+import {Autoplay, FreeMode, Navigation, Pagination, Thumbs} from 'swiper/modules';
 
 /**
  * @author Zholaman Zhumanov
@@ -40,13 +41,15 @@ function ObjectDetailGallery(props) {
                     Object.values(galleryImages?.["item"]?.["data"] || {}).map((photoItem, photoId) => {
                         return (
                             <SwiperSlide key={photoId}>
-                                <Image
-                                    src={mediaImgSrc(photoItem?.["attributes"]?.["url"])}
-                                    alt={name}
-                                    priority={true}
-                                    width={1024}
-                                    height={768}
-                                />
+                                <ZoomContainer>
+                                    <Image
+                                        src={mediaImgSrc(photoItem?.["attributes"]?.["url"])}
+                                        alt={name}
+                                        priority={true}
+                                        width={1024}
+                                        height={768}
+                                    />
+                                </ZoomContainer>
                             </SwiperSlide>
                         )
                     })

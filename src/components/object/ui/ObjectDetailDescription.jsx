@@ -11,12 +11,17 @@ import ObjectDetailFeedback from "@/components/object/ui/ObjectDetailFeedback";
  * @constructor
  */
 function ObjectDetailDescription(props) {
-    const {i18n, apartmentData} = props
+    const {i18n, data} = props
 
     return (
         <div className={styles['object_description']}>
-            <ObjectDetailInfo apartmentData={apartmentData?.["data"]?.["data"]?.["attributes"]} i18n={i18n} />
-            <ObjectDetailFeedback i18n={i18n} managerData={apartmentData?.["data"]?.["data"]?.["attributes"]?.["managers"]}/>
+            <ObjectDetailInfo
+                data={data?.["description"]}
+            />
+            <ObjectDetailFeedback
+                i18n={i18n}
+                data={data?.["managers"]}
+            />
         </div>
     );
 }

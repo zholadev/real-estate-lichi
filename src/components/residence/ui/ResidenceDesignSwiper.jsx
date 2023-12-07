@@ -5,10 +5,11 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import styles from '@/styles/apartments-page.module.sass'
 
 import 'swiper/css';
-import {Autoplay} from "swiper/modules";
-import {ConstructorHtml} from "@/entities/constructorHtml";
-import {mediaImgSrc} from "@/shared/constants/options";
 import Image from "next/image";
+import {Autoplay} from "swiper/modules";
+import {ZoomContainer} from "@/shared/uikit/zoom";
+import {mediaImgSrc} from "@/shared/constants/options";
+import {ConstructorHtml} from "@/entities/constructorHtml";
 
 /**
  * @author Zholaman Zhumanov
@@ -67,13 +68,15 @@ function ResidenceDesignSwiper(props) {
                                 return (
                                     <SwiperSlide key={swiperId}>
                                         <div className={styles['swiper_slider_content']}>
-                                            <Image
-                                                src={mediaImgSrc(`${swiperItem?.["attributes"]?.["url"]}`)}
-                                                alt={info?.["name"]}
-                                                priority={true}
-                                                width={1024}
-                                                height={768}
-                                            />
+                                            <ZoomContainer>
+                                                <Image
+                                                    src={mediaImgSrc(`${swiperItem?.["attributes"]?.["url"]}`)}
+                                                    alt={info?.["name"]}
+                                                    priority={true}
+                                                    width={1024}
+                                                    height={768}
+                                                />
+                                            </ZoomContainer>
                                         </div>
                                     </SwiperSlide>
                                 )

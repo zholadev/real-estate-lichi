@@ -141,16 +141,16 @@ function NavbarSubmenu(props) {
                 url: "/catalog"
             },
             {
-                id: 1,
+                id: 2,
                 title: i18n?.["site.residence.title"],
                 img: IMG.templateCatalogCard['src'],
                 url: "/catalog?type=residential_complex"
             },
             {
-                id: 1,
-                title: i18n?.["site.contact.us.title"],
+                id: 3,
+                title: i18n?.["site"]?.["apartment_title"],
                 img: IMG.templateCatalogCard['src'],
-                url: "/contact"
+                url: "/catalog?filters[property_type][type]=apartment"
             },
         ]
     }, [i18n])

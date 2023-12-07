@@ -14,19 +14,19 @@ import Image from "next/image";
  * @constructor
  */
 function ObjectDetailFeedback(props) {
-    const {i18n, managerData} = props
+    const {i18n, data} = props
 
     const getManagerData = useMemo(() => {
         return {
-            "info": managerData?.["data"]?.[0]?.["attributes"]?.["info"],
-            "contacts": managerData?.["data"]?.[0]?.["attributes"]?.["contacts"],
-            "lastname": managerData?.["data"]?.[0]?.["attributes"]?.["lastname"],
-            "firstname": managerData?.["data"]?.[0]?.["attributes"]?.["firstname"],
-            "photo": managerData?.["data"]?.[0]?.["attributes"]?.["photo"]?.["item"]?.["data"]?.["attributes"]?.["url"],
+            "info": data?.["data"]?.[0]?.["attributes"]?.["info"],
+            "contacts": data?.["data"]?.[0]?.["attributes"]?.["contacts"],
+            "lastname": data?.["data"]?.[0]?.["attributes"]?.["lastname"],
+            "firstname": data?.["data"]?.[0]?.["attributes"]?.["firstname"],
+            "photo": data?.["data"]?.[0]?.["attributes"]?.["photo"]?.["item"]?.["data"]?.["attributes"]?.["url"],
         }
-    }, [managerData])
+    }, [data])
 
-    if (Object.values(managerData?.["data"] || {}).length === 0) {
+    if (Object.values(data?.["data"] || {}).length === 0) {
         return null
     }
 

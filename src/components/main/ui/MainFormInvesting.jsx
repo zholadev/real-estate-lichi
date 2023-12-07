@@ -11,6 +11,8 @@ import {
 } from "@/shared/services/clientRequests";
 import qs from "qs";
 import {useRouter} from "next/navigation";
+import usePushFilters from "@/components/catalog/lib/usePushFilters";
+import useSetFilter from "@/components/catalog/lib/useSetFilter";
 
 /**
  * @author Zholaman Zhumanov
@@ -23,6 +25,9 @@ function MainFormInvesting(props) {
     const {i18n} = props
 
     const router = useRouter()
+
+    const pushFilterHandle = usePushFilters()
+    const getSetFilterHandle = useSetFilter()
 
     const {apiFetchHandler, loading} = useApiRequest()
 
@@ -137,54 +142,10 @@ function MainFormInvesting(props) {
 
     const setFilterQueryHandle = (data) => {
         const {key, value} = data
-
-        setQueryFilter((prevFilters) => {
-            try {
-                // if (prevFilters.hasOwnProperty(key)) {
-                //     return {
-                //         ...prevFilters,
-                //         [key]: Array.isArray(prevFilters[key])
-                //             ? [...prevFilters[key], value]
-                //             : [prevFilters[key], value],
-                //     };
-                // } else {
-                return {
-                    ...prevFilters,
-                    [key]: value,
-                };
-                // }
-            } catch (e) {
-                console.log(e)
-            }
-        });
+        setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value, false));
     };
 
-    const sendFilterQuery = () => {
-        router.push(`/catalog?${qs.stringify({
-            filters: Object.entries(queryFilter || {}).map((item) => {
-                if (item?.[0] === "residence") {
-                    return {
-                        [item?.[0]]: {
-                            "name": {
-                                "$contains": item?.[1]
-                            }
-                        }
-                    }
-                } else {
-                    return {
-                        [item?.[0]]: {
-                            "type": item?.[1]
-                        }
-                    }
-                }
-            })
-        }, {arrayFormat: 'repeat'})}`)
-    }
-
-    const clearFilters = () => {
-        setQueryFilter({})
-        router.replace('/catalog')
-    }
+    const sendFilterQuery = () => pushFilterHandle('/catalog', queryFilter)
 
 
     return (
