@@ -26,7 +26,7 @@ export default async function RootLayout({children}) {
     const i18n = await getDictionary(lang)
 
     return (
-        <html lang="en">
+        <html lang={lang}>
 
         <body>
         <NextTopLoader
