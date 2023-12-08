@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from '@/styles/catalog-products.module.sass'
 import dynamic from "next/dynamic";
 import {MapCard} from "@/shared/uikit/cards/mapCard";
@@ -20,6 +20,21 @@ function CatalogMapProducts(props) {
 
     const mediaMdQuery = useMediaMaxState({screenSize: 1024})
 
+    const [position, setPosition] = useState(false)
+    const [currentListCard, setCurrentListCard] = useState(mapData)
+
+    useEffect(() => {
+        setCurrentListCard(mapData)
+
+        return () => {
+            setCurrentListCard([])
+        }
+    }, [mapData]);
+
+    if (Object.values(mapData || {}).length === 0) {
+        return <h4>{i18n?.["site.not_found.title"]}</h4>
+    }
+
     return (
         <div className={styles['catalog_map_container']}>
             <MapListContainer
@@ -28,22 +43,27 @@ function CatalogMapProducts(props) {
                 type={"list"}
                 i18n={i18n}
                 cluster
-                zoom={10}
+                zoom={50}
                 data={mapData}
                 style={{height: mediaMdQuery ? 763 : 601, width: "100%"}}
                 url={`/catalog/${redirectTo}`}
+                position={position}
+                getViewMarkers={setCurrentListCard}
             />
             <div className={styles['map_address_box']}>
                 {
-                    Object.values(mapData || {}).map((position, id) => {
+                    Object.values(currentListCard || {}).map((position, id) => {
                         return (
                             <MapCard
                                 key={id}
                                 i18n={i18n}
-                                data={position?.["attributes"]?.["locate"]}
+                                redirect={redirectTo}
+                                onGetCoordinates={() => {
+                                    setPosition([position?.["attributes"]?.["locate"]?.["coordinates"]?.["coordinates"]?.["lat"], position?.["attributes"]?.["locate"]?.["coordinates"]?.["coordinates"]?.["lng"]])
+                                }}
                                 page={position?.["id"]}
                                 totalData={position?.["attributes"]}
-                                redirect={redirectTo}
+                                data={position?.["attributes"]?.["locate"]}
                             />
                         )
                     })

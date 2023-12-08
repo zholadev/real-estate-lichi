@@ -22,7 +22,7 @@ function CatalogProducts(props) {
     const [page, setPage] = useState(1)
 
     if (Object.values(catalogData || {}).length === 0) {
-        return <h4>Ничего не найдено</h4>
+        return <h4>{i18n?.["site.not_found.title"]}</h4>
     }
 
     const nextToPage = () => {

@@ -4,7 +4,7 @@
 
 .card_map
   width: 100%
-  padding: 0 0 24px 0
+  padding: 0 0 7px 0
   margin-bottom: 12px
   border-bottom: 1px solid rgba(22, 24, 29, 0.3)
 
@@ -32,9 +32,9 @@
       margin-bottom: $p-size-20
 
       .title
-        font-size: $size-16
-        line-height: $size-24
-        margin-bottom: $p-size-10
+        font-size: $size-15
+        line-height: $size-18
+        margin-bottom: $p-size-5
 
         +sm
           font-size: $size-14
@@ -42,12 +42,24 @@
           margin-bottom: 7px
 
       .price
-        font-weight: $size-600
-        font-size: $size-15
+        font-weight: $size-500
+        font-size: $size-14
+        margin-bottom: $p-size-15
+
+      .on_the_map
+        margin-bottom: 10px
+        font-size: 13px
+        cursor: pointer
+
+        transition: color .2s ease
+        will-change: color
+
+        &:hover
+          color: $text-color-opacity
 
     .info_footer
       button
-        font-size: $size-16
+        font-size: $size-11
 
   .img
     margin-inline-end: $p-size-10
