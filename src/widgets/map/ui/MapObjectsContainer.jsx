@@ -19,7 +19,7 @@ function MapObjectsContainer(props) {
 
     useEffect(() => {
         if (!position) return
-        if (mapConfig && position) {
+        if (mapConfig.target && position) {
             try {
                 mapConfig.target.flyTo(position, 15, {
                     animate: false

@@ -8,7 +8,7 @@ import {mediaImgSrc} from "@/shared/constants/options";
 import {useCurrencyFormat, useMediaMaxState} from "@/shared/hooks";
 
 function MapCard(props) {
-    const {data, redirect, i18n, totalData, page} = props
+    const {data, redirect, i18n, totalData, page, onGetCoordinates} = props
 
     const convertCurrency = useCurrencyFormat()
 
@@ -35,6 +35,7 @@ function MapCard(props) {
                     <div className={styles['info_header']}>
                         {totalData?.["price"] &&
                             <div className={styles['price']}>{convertCurrency(totalData?.["price"])}</div>}
+                        <div className={styles['on_the_map']} onClick={onGetCoordinates}>{i18n?.["site"]?.["select_map_title"]}</div>
                     </div>
                 </div>
             </div>
@@ -55,6 +56,8 @@ function MapCard(props) {
 
                         {totalData?.["price"] &&
                             <div className={styles['price']}>{convertCurrency(totalData?.["price"])}</div>}
+
+                        <div className={styles['on_the_map']} onClick={onGetCoordinates}>{i18n?.["site"]?.["select_map_title"]}</div>
                     </div>
                     <div className={styles['info_footer']}>
                         <ButtonArrow
