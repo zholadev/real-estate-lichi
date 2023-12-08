@@ -1,3 +1,3 @@
-import MainContainer from "./ui/MainContainer";
+import MainPage from "./ui/MainPage";
 
-export {MainContainer}
+export {MainPage}

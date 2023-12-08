@@ -1,7 +1,7 @@
 import React from 'react';
-import {AboutPageContainer} from "@/components/about";
-import {getDictionary} from "@/dictionaries";
 import {cookies} from "next/headers";
+import {getDictionary} from "@/dictionaries";
+import {AboutPageContainer} from "@/components/about";
 
 /**
  * @author Zholaman Zhumanov
@@ -16,5 +16,5 @@ export default async function Page(props) {
 
     const i18n = await getDictionary(lang)
 
-    return (<AboutPageContainer i18n={i18n}/>);
+    return <AboutPageContainer i18n={i18n}/>;
 }

@@ -66,12 +66,6 @@
     "order_call_title": "Pick up an object"
   },
   "catalog.initial.free": "An initial fee",
-  "site.residence.title": "Residential complex",
-  "site.coast_price.title": "Cost from",
-  "site.district.title": "District",
-  "site.roominess.title": "Roominess",
-  "site.property.type.title": "Property type",
-  "site.tags.title": "Tags",
   "form.name.title": "Name",
   "form.email.title": "E-Mail",
   "form.phone.title": "Phone",
@@ -79,6 +73,7 @@
   "form.service.title": "Service",
   "form.selected.title": "Select",
   "form.send.title": "Send",
+  "form.contact.title": "The contact person",
   "filter.clear.title": "Clear",
   "residence.more.interesting.title": "Prices and planning",
   "button.book.title": "Book",
@@ -88,5 +83,15 @@
   "site.advantages.title": "Advantages",
   "site.more.title": "More details",
   "site.contact.us.title": "Contact Us",
-  "form.contact.title": "The contact person"
+  "site.residence.title": "Residential complex",
+  "site.coast_price.title": "Cost from",
+  "site.district.title": "District",
+  "site.roominess.title": "Roominess",
+  "site.property.type.title": "Property type",
+  "site.tags.title": "Tags",
+  "page.about.preview.title": "All residential and commercial real estate in one place",
+  "page.about.description.company": "META TRUST REAL ESTATE BROCKERS LLC is a real estate company established in Dubai, UAE since 2022. Sale, rental and management of residential and commercial real estate.",
+  "page.about.description.estate": "Our specialized property consultants cover all areas of Dubai and are well aware of the latest developments in the market; their main focus is to help buyers find properties that suit their requirements and budget, and to help landlords sell or rent their properties. We ensure that both parties enter into favorable agreements as we strive to foster strong, long-term relationships with our clients by delivering our impeccable services with professionalism.",
+  "page.about.description.significance": "The significance of these problems is so obvious that the constant quantitative growth and scope of our activity allows us to carry out important tasks in developing a personnel training system that meets urgent needs.",
+  "page.about.description.development.model": "On the other hand, the implementation of the planned targets contributes to the preparation and implementation of the development model."
 }

@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import MarkerBox from "./MarkerBox";
 import MarkerClusterGroup from "react-leaflet-cluster";

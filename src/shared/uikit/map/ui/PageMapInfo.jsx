@@ -25,12 +25,11 @@ function PageMapInfo(props) {
         cluster,
         currentData,
         attractionsData,
-        type = 'apartments',
         styleMap = {height: 500, width: "100%"},
     } = props
 
     const [mapData, setMapData] = useState([])
-    const [position, setPosition] = useState(false)
+    const [position, setPosition] = useState([currentData?.["coordinates"]?.["coordinates"]?.["lat"], currentData?.["coordinates"]?.["coordinates"]?.["lng"]])
 
     useEffect(() => {
         if (!currentData || !attractionsData) return
