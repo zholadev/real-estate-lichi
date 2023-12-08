@@ -3,10 +3,10 @@
 import {Tabs} from "@/shared/uikit/tabs";
 import {Button} from "@/shared/uikit/button";
 import React, {useMemo, useState} from 'react';
+import {useSearchParams} from "next/navigation";
 import styles from '@/styles/catalog-products.module.sass'
 import {CatalogProducts, Filter} from "@/components/catalog";
 import CatalogMapProducts from "@/components/catalog/ui/mapProducts/CatalogMapProducts";
-import {useParams, useSearchParams} from "next/navigation";
 
 /**
  * @author Zholaman Zhumanov

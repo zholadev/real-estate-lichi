@@ -22,11 +22,19 @@ async function getGetApartmentsDataData(page, params) {
 export default async function Page(props) {
     const residenceListData = await getCatalogResidenceData(
         props?.searchParams?.["page"] || 1,
-        props?.searchParams
+        {
+            "fields[0]": "name",
+            ...props?.searchParams
+        }
     )
     const apartmentListData = await getGetApartmentsDataData(
         props?.searchParams?.["page"] || 1,
-        props?.searchParams
+        {
+            "fields[0]": "name",
+            "fields[1]": "price",
+            "fields[2]": "an_initial_fee",
+            ...props?.searchParams
+        }
     )
 
     const cookieStore = cookies()
