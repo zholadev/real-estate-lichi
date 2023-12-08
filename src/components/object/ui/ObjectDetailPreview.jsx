@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import styles from '@/styles/object-page.module.sass'
 import stylesTag from '@/styles/main.module.sass'

@@ -1,3 +1,5 @@
+'use client'
+
 import React, {useMemo} from 'react';
 import styles from '@/styles/ui-breadcrumbs.module.sass'
 import Link from "next/link";

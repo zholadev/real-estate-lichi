@@ -1,6 +1,6 @@
 import {cookies} from 'next/headers'
 import {getDictionary} from "@/dictionaries";
-import {MainContainer} from "@/components/main";
+import {MainPage} from "@/components/main";
 import {apiGetApartmentsData, apiGetNewsData} from "@/shared/services/clientRequests";
 
 async function getNewsData() {
@@ -33,7 +33,7 @@ export default async function Home({params}) {
 
     return (
         <div className={'page_top_size'}>
-            <MainContainer
+            <MainPage
                 newsData={newsData?.["data"]?.["data"]}
                 apartmentData={apartmentData?.["data"]?.["data"]}
                 villaData={villaData?.["data"]?.["data"]}

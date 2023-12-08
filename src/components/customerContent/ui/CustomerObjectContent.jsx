@@ -1,7 +1,9 @@
+'use client'
+
 import React from 'react';
+import {ButtonArrow} from "@/shared/uikit/button";
 import styles from '@/styles/customer_content.module.sass'
 import {PrimaryCard} from "@/shared/uikit/cards/primaryCard";
-import {ButtonArrow} from "@/shared/uikit/button";
 
 // TODO: style file update
 

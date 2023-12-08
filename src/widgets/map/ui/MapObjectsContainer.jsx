@@ -1,3 +1,5 @@
+'use client'
+
 import React, {useEffect, useState} from 'react';
 import MapMarkers from "./MapMarkers";
 import {MapContainer} from 'react-leaflet'

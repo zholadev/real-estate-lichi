@@ -1,3 +1,5 @@
+'use client'
+
 import React, {useEffect, useMemo, useState} from 'react';
 import styles from '@/styles/main.module.sass'
 import {FormSelect} from "@/shared/uikit/form/select";

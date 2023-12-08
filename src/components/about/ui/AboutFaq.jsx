@@ -1,8 +1,11 @@
+'use client'
+
 import React from 'react';
 import styles from '@/styles/about-page.module.sass'
 import {PAGE} from "@/shared/constants/constants";
 import {Button} from "@/shared/uikit/button";
 import {Accordion} from "@/shared/uikit/accordion";
+import Image from "next/image";
 
 /**
  * @author Zholaman Zhumanov
@@ -18,16 +21,18 @@ function AboutFaq(props) {
         return (
             <div className={styles['faq_info']}>
                 <div className={styles['top_info']}>
-                    <p>Значимость этих проблем настолько очевидна, что постоянный количественный рост и сфера нашей
-                        активности позволяет выполнять важные задания по разработке системы обучения кадров,
-                        соответствует
-                        насущным потребностям.</p>
-                    <p>С другой стороны реализация намеченных плановых заданий способствует подготовки и реализации
-                        модели
-                        развития. </p>
+                    <p>{i18n?.["page.about.description.significance"]}</p>
+                    <p>{i18n?.["page.about.description.development.model"]}</p>
                 </div>
 
-                <img src={PAGE.about.aboutPageObject['src']} alt="" className={styles['img']}/>
+                <Image
+                    priority={true}
+                    width={1024}
+                    height={768}
+                    src={PAGE.about.aboutPageObject['src']}
+                    alt=""
+                    className={styles['img']}
+                />
                 <Button
                     type={'secondary'}
                     title={i18n?.["site"]?.["get_object"]}

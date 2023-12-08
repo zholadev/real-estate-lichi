@@ -16,7 +16,7 @@ import MainNewsContent from "@/components/main/ui/MainNewsContent";
  * @returns {JSX.Element}
  * @constructor
  */
-function MainContainer(props) {
+function MainPage(props) {
     const {i18n, newsData, apartmentData, villaData} = props
 
     return (
@@ -47,4 +47,4 @@ function MainContainer(props) {
     );
 }
 
-export default MainContainer;
+export default MainPage;
