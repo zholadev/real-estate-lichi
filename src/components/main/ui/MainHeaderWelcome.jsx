@@ -18,17 +18,19 @@ const Video = dynamic(() => import('@/shared/uikit/video/ui/Video'), {ssr: false
  * @returns {JSX.Element}
  * @constructor
  */
-function MainPreview(props) {
+function MainHeaderWelcome(props) {
     const {i18n} = props
 
     return (
-        <div className={styles['preview']}>
+        <section className={styles['preview']}>
             <div className={styles['preview_title']}><h1>{i18n['main']['welcome']}</h1></div>
             <div className={styles['preview_start']}>
-                <Video
-                    src={'https://player.vimeo.com/progressive_redirect/playback/877839534/rendition/720p/file.mp4?loc=external&signature=789b1251249677aa4c66d5a8f5b83ebe86ec85ad25af29fdb87a696fdd20f74a'}
-                    poster={IMG.posterDubaiMain['src']}
-                />
+                <figure>
+                    <Video
+                        src={'https://player.vimeo.com/progressive_redirect/playback/877839534/rendition/720p/file.mp4?loc=external&signature=789b1251249677aa4c66d5a8f5b83ebe86ec85ad25af29fdb87a696fdd20f74a'}
+                        poster={IMG.posterDubaiMain['src']}
+                    />
+                </figure>
                 <div className={styles['preview_btn_place']}>
                     <Button
                         type={'outline_light'}
@@ -39,8 +41,8 @@ function MainPreview(props) {
                 </div>
             </div>
             <MainBottomList i18n={i18n}/>
-        </div>
+        </section>
     );
 }
 
-export default MainPreview;
+export default MainHeaderWelcome;

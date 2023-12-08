@@ -12,11 +12,11 @@ import {ButtonArrow} from "@/shared/uikit/button";
  * @returns {Element}
  * @constructor
  */
-function MainAboutUs(props) {
+function MainAboutInfo(props) {
     const {i18n} = props
 
     return (
-        <div className={styles['main_about_us']}>
+        <section className={styles['main_about_us']}>
             <div className={`${styles['title']} body_title`}>{i18n?.["about"]?.["title"]}</div>
 
             <section className={styles['about_us_info']}>
@@ -37,8 +37,8 @@ function MainAboutUs(props) {
                     url={'/about'}
                 />
             </div>
-        </div>
+        </section>
     );
 }
 
-export default MainAboutUs;
+export default MainAboutInfo;

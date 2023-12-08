@@ -14,7 +14,7 @@ import {FormSelect} from "@/shared/uikit/form/select";
  * @returns {Element}
  * @constructor
  */
-function MainConsultation(props) {
+function MainFeedback(props) {
     const {i18n} = props
 
     return (
@@ -63,4 +63,4 @@ function MainConsultation(props) {
     );
 }
 
-export default MainConsultation;
+export default MainFeedback;

@@ -21,7 +21,7 @@ function NewsPageDetail(props) {
     const data = newsData?.["attributes"]
 
     return (
-        <div className={`${styles['news_page_info']} container-lg`}>
+        <section className={`${styles['news_page_info']} container-lg`}>
             <h2 className={styles['title']}>{data?.["title"]}</h2>
             <div className={styles['date']}>{data?.["date"]}</div>
 
@@ -49,7 +49,7 @@ function NewsPageDetail(props) {
                 <h4 className={styles['share_text']}>{i18n?.["site"]?.["share_title"]}</h4>
                 <i className={styles['share_icon']}/>
             </div>
-        </div>
+        </section>
     );
 }
 

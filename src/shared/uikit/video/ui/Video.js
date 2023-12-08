@@ -1,11 +1,9 @@
 'use client'
 
 import React, {useRef, useState} from 'react';
+import Image from "next/image";
 import ReactPlayer from "react-player";
 import styles from '@/styles/ui-video.module.sass'
-import Image from "next/image";
-
-// TODO: Gsap animation
 
 /**
  * @author Zholaman Zhumanov

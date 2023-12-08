@@ -23,15 +23,13 @@ import useSetFilter from "@/components/catalog/lib/useSetFilter";
  * @returns {JSX.Element}
  * @constructor
  */
-function MainFormInvesting(props) {
+function MainSearchObject(props) {
     const {i18n} = props
-
-    const router = useRouter()
 
     const pushFilterHandle = usePushFilters()
     const getSetFilterHandle = useSetFilter()
 
-    const {apiFetchHandler, loading} = useApiRequest()
+    const {apiFetchHandler} = useApiRequest()
 
     const [queryFilter, setQueryFilter] = useState({})
     const [roomsDataFilter, setRoomsDataFilter] = useState([])
@@ -207,4 +205,4 @@ function MainFormInvesting(props) {
     );
 }
 
-export default MainFormInvesting;
+export default MainSearchObject;

@@ -13,17 +13,18 @@ export const apiGetCategoryData = async () => {
  * @author Zholaman Zhumanov
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
-export const apiGetNewsData = async (limit, page) => {
-    return await api_client_get(api.news.get, {'pagination[pageSize]': limit, 'pagination[page]': page})
+export const apiGetNewsData = async (limit, page, params) => {
+    return await api_client_get(api.news.get, {'pagination[pageSize]': limit, 'pagination[page]': page, ...params})
 }
 
 /**
  * @author Zholaman Zhumanov
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
-export const apiGetNewsByIdData = async (id) => {
+export const apiGetNewsByIdData = async (id, params) => {
     return await api_client_get(`${api.news.get}/${id}`, {
-        "populate": "more_interestings.images,images,tags,*"
+        "populate": "more_interestings.images,images,tags,*",
+        ...params
     })
 }
 

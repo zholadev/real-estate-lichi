@@ -1,18 +1,36 @@
 import {cookies} from 'next/headers'
-import {getDictionary} from "@/dictionaries";
 import {MainPage} from "@/components/main";
+import {getDictionary} from "@/dictionaries";
 import {apiGetApartmentsData, apiGetNewsData} from "@/shared/services/clientRequests";
 
 async function getNewsData() {
-    return apiGetNewsData(4, 1)
+    return apiGetNewsData(4, 1, {
+        "fields[0]": "title",
+        "fields[1]": "short_description",
+        "populate": "images"
+    })
 }
 
 async function getApartmentData() {
-    return apiGetApartmentsData(1, {'filters[property_type][type]': "apartment"})
+    return apiGetApartmentsData(1, {
+        'filters[property_type][type]': "apartment",
+        "pagination[pageSize]": "6",
+        "populate": "name,short_description,photo_preview.item,id",
+        "fields[0]": "name",
+        "fields[1]": "short_description",
+    })
 }
 
 async function getVillaData() {
-    return apiGetApartmentsData(1, {'filters[property_type][type]': "villa"})
+    return apiGetApartmentsData(1,
+        {
+            'filters[property_type][type]': "villa",
+            "pagination[pageSize]": "6",
+            "populate": "name,short_description,photo_preview.item,id",
+            "fields[0]": "name",
+            "fields[1]": "short_description",
+        }
+    )
 }
 
 /**

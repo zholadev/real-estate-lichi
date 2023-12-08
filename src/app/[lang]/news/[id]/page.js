@@ -1,13 +1,18 @@
 import React from 'react';
+import {cookies} from "next/headers";
 import {getDictionary} from "@/dictionaries";
-import {Breadcrumbs} from "@/shared/breadcrumbs";
 import {NewsPageDetail} from "@/components/news";
+import {Breadcrumbs} from "@/shared/breadcrumbs";
 import {CustomerNewsContent} from "@/components/customerContent";
 import {apiGetNewsByIdData} from "@/shared/services/clientRequests";
-import {cookies} from "next/headers";
 
 async function getNewsByIdData(id) {
-    return apiGetNewsByIdData(id)
+    return apiGetNewsByIdData(id, {
+        "fields[0]": "title",
+        "fields[1]": "content",
+        "fields[2]": "date",
+        "populate": "images,more_interestings.images"
+    })
 }
 
 async function Page({params}) {

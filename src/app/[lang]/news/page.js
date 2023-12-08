@@ -7,7 +7,11 @@ import {cookies} from "next/headers";
 
 
 async function getNewsData() {
-    return apiGetNewsData()
+    return apiGetNewsData(10, 1, {
+        "fields[0]": "title",
+        "fields[1]": "short_description",
+        "populate": "images"
+    })
 }
 
 /**

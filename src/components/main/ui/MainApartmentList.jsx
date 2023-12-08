@@ -12,11 +12,11 @@ import {ButtonArrow} from "@/shared/uikit/button";
  * @returns {Element}
  * @constructor
  */
-function MainApartment(props) {
+function MainApartmentList(props) {
     const {i18n, col, title, data, url} = props
 
     return (
-        <div className={styles['main_apartment']}>
+        <section className={styles['main_apartment']}>
             <div className={styles['title']}>{title}</div>
 
             <div className={`${styles['list']} ${styles[`list_${col}`]}`}>
@@ -35,8 +35,8 @@ function MainApartment(props) {
                     url={url}
                 />
             </div>
-        </div>
+        </section>
     );
 }
 
-export default MainApartment;
+export default MainApartmentList;
