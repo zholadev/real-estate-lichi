@@ -40,7 +40,7 @@ export const apiGetResidentialData = async (page, params) => {
 
     return await api_client_get(api.residential_complexes.get, {
         "pagination[page]": page,
-        "populate": "photo_preview.item,residence,room,district,property_type,tags,locate,locate_items,locations,locate.photo,locate.icon,*",
+        "populate": "photo_preview.item,,tags,locate,locate.photo,*",
         ...updatedParams
     })
 }
@@ -75,7 +75,7 @@ export const apiGetApartmentsData = async (page, params) => {
         api.apartment.get,
         {
             "pagination[page]": page,
-            "populate": "photo_preview.item,residence,room,district,property_type,tags,locations,locate,locate.photo,locate.icon,*",
+            "populate": "photo_preview.item,tags,locate.photo,*",
             ...updatedParams
         })
 }
