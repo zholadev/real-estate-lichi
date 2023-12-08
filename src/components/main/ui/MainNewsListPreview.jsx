@@ -10,7 +10,7 @@ import {CustomerNewsContent} from "@/components/customerContent";
  * @returns {Element}
  * @constructor
  */
-function MainNewsContent(props) {
+function MainNewsListPreview(props) {
     const {i18n, newsData} = props
 
     return (
@@ -19,4 +19,4 @@ function MainNewsContent(props) {
     );
 }
 
-export default MainNewsContent;
+export default MainNewsListPreview;

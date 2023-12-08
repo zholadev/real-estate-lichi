@@ -1,13 +1,13 @@
 'use client'
 
-import React, {useEffect} from 'react';
+import React from 'react';
+import MainHeaderWelcome from "./MainHeaderWelcome";
+import MainApartmentList from "./MainApartmentList";
 import styles from '@/styles/main.module.sass'
-import MainPreview from "./MainPreview";
-import MainFormInvesting from "./MainFormInvesting";
-import MainApartment from "./MainApartment";
-import MainAboutUs from "@/components/main/ui/MainAboutUs";
-import MainConsultation from "@/components/main/ui/MainConsultation";
-import MainNewsContent from "@/components/main/ui/MainNewsContent";
+import MainSearchObject from "./MainSearchObject";
+import MainAboutInfo from "@/components/main/ui/MainAboutInfo";
+import MainFeedback from "@/components/main/ui/MainFeedback";
+import MainNewsListPreview from "@/components/main/ui/MainNewsListPreview";
 
 /**
  * @author Zholaman Zhumanov
@@ -21,9 +21,10 @@ function MainPage(props) {
 
     return (
         <div className={`${styles['main']} container_md`}>
-            <MainPreview i18n={i18n}/>
-            <MainFormInvesting i18n={i18n}/>
-            <MainApartment
+            <MainHeaderWelcome i18n={i18n}/>
+            <MainSearchObject i18n={i18n}/>
+
+            <MainApartmentList
                 i18n={i18n}
                 title={i18n?.["site"]?.["apartment_title"]}
                 col={3}
@@ -31,17 +32,17 @@ function MainPage(props) {
                 url={'/catalog?filters[property_type][type]=apartment'}
             />
 
-            <MainApartment
+            <MainApartmentList
                 i18n={i18n}
                 title={i18n?.["site"]?.["villas_title"]}
                 col={2}
                 data={villaData}
                 url={'/catalog?filters[property_type][type]=villa'}
             />
-            <MainAboutUs i18n={i18n}/>
+            <MainAboutInfo i18n={i18n}/>
             <div className={'container_md_pn'}>
-                <MainConsultation i18n={i18n}/>
-                <MainNewsContent newsData={newsData} i18n={i18n}/>
+                <MainFeedback i18n={i18n}/>
+                <MainNewsListPreview newsData={newsData} i18n={i18n}/>
             </div>
         </div>
     );

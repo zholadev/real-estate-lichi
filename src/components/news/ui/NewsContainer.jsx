@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import styles from '@/styles/news-page.module.sass'
 import {NewsCard} from "@/shared/uikit/cards/newsCard";
@@ -11,12 +13,10 @@ import {NewsCard} from "@/shared/uikit/cards/newsCard";
  */
 function NewsContainer(props) {
     const {i18n, newsData} = props
-    // const {i18n} = props
 
     if (Object.values(newsData || {}).length === 0) {
-        return <h4>НИЧЕГО НЕ НАЙДЕНО</h4>
+        return <h4>{i18n?.["site.not_found.title"]}</h4>
     }
-
 
     return (
         <div className={styles['news_container']}>
