@@ -18,8 +18,6 @@ const MapListContainer = dynamic(() => import('@/widgets/map/ui/MapListContainer
 function CatalogMapProducts(props) {
     const {mapData, i18n, redirectTo} = props
 
-    const mediaMdQuery = useMediaMaxState({screenSize: 1024})
-
     const [position, setPosition] = useState(false)
     const [currentListCard, setCurrentListCard] = useState(mapData)
 
@@ -40,14 +38,13 @@ function CatalogMapProducts(props) {
             <MapListContainer
                 isBtn
                 isPopup
-                type={"list"}
-                i18n={i18n}
                 cluster
                 zoom={50}
+                i18n={i18n}
+                type={"list"}
                 data={mapData}
-                style={{height: mediaMdQuery ? 763 : 601, width: "100%"}}
-                url={`/catalog/${redirectTo}`}
                 position={position}
+                url={`/catalog/${redirectTo}`}
                 getViewMarkers={setCurrentListCard}
             />
             <div className={styles['map_address_box']}>
