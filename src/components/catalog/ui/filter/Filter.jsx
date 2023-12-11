@@ -168,7 +168,13 @@ function Filter(props) {
         setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value, false));
     };
 
-    const sendFilterQuery = () => pushFilterHandle('/catalog', queryFilter)
+    const sendFilterQuery = () => {
+        pushFilterHandle('/catalog', queryFilter)
+
+        if (Object.values(queryFilter || {}).length > 0) {
+            toggleFilterHandle()
+        }
+    }
 
     const clearFilters = () => {
         setQueryFilter({})
@@ -245,7 +251,7 @@ function Filter(props) {
                     <div className={`${styles['item']} ${styles['item_2']}`}></div>
                     <div className={`${styles['item']} ${styles['item_3']}`}></div>
                 </div>
-                <span className={styles['text']}>Больше фильтров</span>
+                <span className={styles['text']}>{i18n?.["filter.title"]}</span>
             </div>
             <div className={styles['catalog_filter_sm']}>
                 <FormSelect
@@ -302,6 +308,18 @@ function Filter(props) {
                             onChange={e => {
                                 setFilterQueryHandle(e)
                             }}
+                        />
+
+                        <Input
+                            id={"price"}
+                            type={"number"}
+                            placeholder={i18n?.["site.coast_price.title"]}
+                            value={priceValue}
+                            onChange={(e) => {
+                                setPriceValue(e)
+                                setFilterQueryHandle({key: "price", value: e})
+                            }}
+                            typeInput={'secondary'}
                         />
 
                         <Button title={i18n?.["filter.clear.title"]} type={'outline'} onClick={clearFilters}/>
