@@ -1,12 +1,12 @@
 'use client'
 
 import {Tabs} from "@/shared/uikit/tabs";
-import {Button} from "@/shared/uikit/button";
 import React, {useMemo, useState} from 'react';
 import {useSearchParams} from "next/navigation";
 import styles from '@/styles/catalog-products.module.sass'
 import {CatalogProducts, Filter} from "@/components/catalog";
 import CatalogMapProducts from "@/components/catalog/ui/mapProducts/CatalogMapProducts";
+import {StoreProvider} from "@/entities/store";
 
 /**
  * @author Zholaman Zhumanov
@@ -51,93 +51,51 @@ function CatalogContainer(props) {
     }
 
     return (
-        <div className={styles['catalog_products_list']}>
-            <div className={'container_md mb-15'}>
-                <Tabs
-                    i18n={i18n}
-                    tabData={tabData}
-                    onClick={setTypeCatalog}
-                    url={'/catalog'}
-                    item={"title"}
-                    activeSelectName={"value"}
-                    defaultValue={query.get('type') || tabData?.[0]?.["value"]}
-                />
-                <div className={styles['filter_switch_btn']}>
-                    <Button
-                        type={'primary_animate'}
-                        title={i18n?.["site"]?.["list.title"]}
-                        onClick={toggleView}
-                        animateActive={typeContent === 'list'}
-                        style={{
-                            fontSize: "13px",
-                            lineHeight: "18.2px"
-                        }}
+        <StoreProvider>
+            <div className={styles['catalog_products_list']}>
+                <div className={'container_md mb-15'}>
+                    <Tabs
+                        i18n={i18n}
+                        item={"title"}
+                        url={'/catalog'}
+                        tabData={tabData}
+                        onClick={setTypeCatalog}
+                        activeSelectName={"value"}
+                        defaultValue={query.get('type') || tabData?.[0]?.["value"]}
                     />
-                    <Button
-                        type={'primary_animate'}
-                        title={i18n?.["site"]?.["select_map_title"]}
-                        onClick={toggleView}
-                        animateActive={typeContent === 'map'}
-                        style={{
-                            fontSize: "13px",
-                            lineHeight: "18.2px"
-                        }}
-                    />
+
+
+                    <div className={'container_md'}>
+                        <Filter
+                            i18n={i18n}
+                            onClick={toggleView}
+                            pageParams={pageParams}
+                            typeContent={typeContent}
+                            typeCatalog={typeCatalog}
+                            apartmentListData={apartmentListData}
+                        />
+                    </div>
                 </div>
+                {typeContent === 'map' ? (
+                    <div className={'container_md_p_sm'}>
+                        <CatalogMapProducts
+                            i18n={i18n}
+                            mapData={query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex' ? residenceListData : apartmentListData}
+                            redirectTo={query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex' ? 'residence' : 'apartment'}
+                        />
+                    </div>
+                ) : (
+                    <div className={'container_md'}>
+                        <CatalogProducts
+                            metaData={query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex' ? residenceMetaData : apartmentMetaData}
+                            catalogData={query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex' ? residenceListData : apartmentListData}
+                            redirectTo={query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex' ? 'residence' : 'apartment'}
+                            i18n={i18n}
+                        />
+                    </div>
+                )}
             </div>
-            {
-                query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex' ?
-                    <>
-                        <div className={'container_md'}>
-                            <Filter typeCatalog={typeContent} i18n={i18n} onClick={toggleView} pageParams={pageParams}/>
-                        </div>
-                        {
-                            typeContent === 'map' ?
-                                <div className={'container_md_p_sm'}>
-                                    <CatalogMapProducts
-                                        i18n={i18n}
-                                        mapData={residenceListData}
-                                        redirectTo={'residence'}
-                                    />
-                                </div>
-                                :
-                                <div className={'container_md'}>
-                                    <CatalogProducts
-                                        metaData={residenceMetaData}
-                                        catalogData={residenceListData}
-                                        redirectTo={'residence'}
-                                        i18n={i18n}
-                                    />
-                                </div>
-                        }
-                    </>
-                    :
-                    <>
-                        <div className={'container_md'}>
-                            <Filter typeCatalog={typeContent} i18n={i18n} onClick={toggleView} pageParams={pageParams}/>
-                        </div>
-                        {
-                            typeContent === 'map' ?
-                                <div className={'container_md_p_sm'}>
-                                    <CatalogMapProducts
-                                        i18n={i18n}
-                                        mapData={apartmentListData}
-                                        redirectTo={'apartment'}
-                                    />
-                                </div>
-                                :
-                                <div className={'container_md'}>
-                                    <CatalogProducts
-                                        metaData={apartmentMetaData}
-                                        catalogData={apartmentListData}
-                                        redirectTo={'apartment'}
-                                        i18n={i18n}
-                                    />
-                                </div>
-                        }
-                    </>
-            }
-        </div>
+        </StoreProvider>
     );
 }
 

@@ -1,3 +1,3 @@
-import AboutPageContainer from "./ui/AboutPageContainer";
+import AboutPage from "./ui/AboutPage";
 
-export {AboutPageContainer}
+export {AboutPage}

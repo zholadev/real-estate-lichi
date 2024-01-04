@@ -13,7 +13,7 @@ async function getNewsData() {
 
 async function getApartmentData() {
     return apiGetApartmentsData(1, {
-        'filters[property_type][type]': "apartment",
+        'filters[property_types][type]': "apartment",
         "pagination[pageSize]": "6",
         "populate": "name,short_description,photo_preview.item,id",
         "fields[0]": "name",
@@ -24,7 +24,7 @@ async function getApartmentData() {
 async function getVillaData() {
     return apiGetApartmentsData(1,
         {
-            'filters[property_type][type]': "villa",
+            'filters[property_types][type]': "villa",
             "pagination[pageSize]": "6",
             "populate": "name,short_description,photo_preview.item,id",
             "fields[0]": "name",

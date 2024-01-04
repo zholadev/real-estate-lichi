@@ -20,6 +20,8 @@ function NewsPageDetail(props) {
 
     const data = newsData?.["attributes"]
 
+    console.log(newsData)
+
     return (
         <section className={`${styles['news_page_info']} container-lg`}>
             <h2 className={styles['title']}>{data?.["title"]}</h2>

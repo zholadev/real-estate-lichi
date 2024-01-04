@@ -48,7 +48,7 @@ export default async function Page(props) {
                 <Breadcrumbs i18n={i18n} page={'catalog'}/>
             </div>
             <CatalogContainer
-                pageParams={props}
+                pageParams={props.searchParams}
                 residenceListData={residenceListData?.["data"]?.["data"]}
                 apartmentListData={apartmentListData?.["data"]?.["data"]}
                 residenceMetaData={residenceListData?.["data"]?.["meta"]}

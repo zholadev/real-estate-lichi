@@ -2,12 +2,12 @@
 
 import React from 'react';
 import Link from "next/link";
+import Image from "next/image";
+import {useCurrencyFormat} from "@/shared/hooks";
 import {ButtonArrow} from "@/shared/uikit/button";
 import stylesTag from "@/styles/ui-tags.module.sass";
 import {mediaImgSrc} from "@/shared/constants/options";
 import styles from '@/styles/ui-catalog-card.module.sass'
-import {useCurrencyFormat} from "@/shared/hooks";
-import Image from "next/image";
 
 /**
  * @author Zholaman Zhumanov
@@ -17,16 +17,20 @@ import Image from "next/image";
  * @constructor
  */
 function CatalogCard(props) {
-    const {cardData, cardDataInfo, i18n, redirectUrl} = props
+    const {cardData, cardDataInfo, i18n, redirectUrl} = props;
 
-    const convertCurrency = useCurrencyFormat()
+    const convertCurrency = useCurrencyFormat();
+
+    const tagsData = cardDataInfo?.["tags"]?.["data"] || {};
+    const cardUrl = `/catalog/${redirectUrl}/${cardData?.["id"]}`;
+    const photoUrl = cardDataInfo?.["photo_preview"]?.["item"]?.["data"]?.["attributes"]?.["url"];
 
     return (
         <div className={styles['ui_catalog_card']}>
             <div className={styles['card_photo']}>
-                <Link href={`/catalog/${redirectUrl}/${cardData?.["id"]}`}>
+                <Link href={cardUrl}>
                     <Image
-                        src={mediaImgSrc(cardDataInfo?.["photo_preview"]?.["item"]?.["data"]?.["attributes"]?.["url"])}
+                        src={mediaImgSrc(photoUrl)}
                         alt={cardDataInfo?.["name"]}
                         priority={true}
                         width={1024}
@@ -34,14 +38,12 @@ function CatalogCard(props) {
                     />
                 </Link>
             </div>
-
             <div className={styles['card_info']}>
-                <Link href={`/catalog/${redirectUrl}/${cardData?.["id"]}`}>
+                <Link href={cardUrl}>
                     <h3 className={styles['title']}>{cardDataInfo?.["name"]}</h3>
                 </Link>
-
-                {cardDataInfo?.["price"] && <h4 className={styles['price']}>{convertCurrency(cardDataInfo?.["price"])}</h4>}
-
+                {cardDataInfo?.["price"] &&
+                    <h4 className={styles['price']}>{convertCurrency(cardDataInfo?.["price"])}</h4>}
                 <div className={styles['short_info']}>
                     {
                         cardDataInfo?.["an_initial_fee"] &&
@@ -51,14 +53,14 @@ function CatalogCard(props) {
                         </p>
                     }
                 </div>
-
                 <div className={styles['action_info']}>
                     <div className={styles['tags']}>
                         <ul className={`${stylesTag['tags_list']}`}>
                             {
-                                Object.values(cardDataInfo?.["tags"]?.["data"] || {}).map((tagItem, tagId) => {
+                                Object.values(tagsData).map((tagItem, tagId) => {
                                     return (
-                                        <li className={stylesTag['tag_item']} key={tagId}>{tagItem?.["attributes"]?.["name"]}</li>
+                                        <li className={stylesTag['tag_item']}
+                                            key={tagId}>{tagItem?.["attributes"]?.["name"]}</li>
                                     )
                                 })
                             }
@@ -66,7 +68,7 @@ function CatalogCard(props) {
                     </div>
                     <ButtonArrow
                         title={i18n?.["site"]?.["more"]}
-                        url={`/catalog/${redirectUrl}/${cardData?.["id"]}`}
+                        url={cardUrl}
                     />
                 </div>
             </div>

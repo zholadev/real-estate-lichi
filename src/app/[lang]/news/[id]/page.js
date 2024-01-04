@@ -11,7 +11,7 @@ async function getNewsByIdData(id) {
         "fields[0]": "title",
         "fields[1]": "content",
         "fields[2]": "date",
-        "populate": "images,more_interestings.images"
+        "populate": "images,more_interestings.images,tags"
     })
 }
 

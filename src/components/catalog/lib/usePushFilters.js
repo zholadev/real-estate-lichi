@@ -17,10 +17,16 @@ function usePushFilters() {
                         },
                     },
                 };
-            case "price":
+            case "price.from":
                 return {
                     price: {
                         $gte: value,
+                    },
+                };
+            case "price.to":
+                return {
+                    price: {
+                        $lte: value,
                     },
                 };
             default:
@@ -32,13 +38,42 @@ function usePushFilters() {
         }
     };
 
-    const buildFilters = (filters) => {
+    const transformResidenceFilter = (key, value) => {
+        switch (key) {
+            case "price.from":
+                return {
+                    'apartments': {
+                        price: {
+                            $gte: value,
+                        },
+                    }
+                };
+            case "price.to":
+                return {
+                    'apartments': {
+                        price: {
+                            $lte: value,
+                        },
+                    }
+                };
+            default:
+                return {
+                    'apartments': {
+                        [key]: {
+                            type: value,
+                        },
+                    },
+                };
+        }
+    };
+
+    const buildFilters = (filters, residenceFilter) => {
         return Object.entries(filters || {}).map(([key, value]) => {
-            return transformFilter(key, value);
+            return residenceFilter ? transformResidenceFilter(key, value) : transformFilter(key, value);
         });
     };
 
-    return (url, filters) => {
+    return (url, filters, residenceFilter) => {
         if (Object.values(filters || {}).length === 0) {
             toastMessage("Please select filter value", "error")
             return
@@ -46,7 +81,7 @@ function usePushFilters() {
 
         const queryString = qs.stringify(
             {
-                filters: buildFilters(filters),
+                filters: buildFilters(filters, residenceFilter),
             },
             {arrayFormat: "repeat"}
         );

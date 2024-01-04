@@ -11,7 +11,7 @@ import styles from '@/styles/ui-form-input.module.sass'
  * @constructor
  */
 function Input(props) {
-    const {value, onClick, onChange, label, placeholder, id, name, type, typeInput, labelActive} = props
+    const {value, onClick, onChange, label, placeholder, id, name, type, typeInput, labelActive, disabled} = props
 
     const [labelTrigger, setLabelTrigger] = useState(false)
 

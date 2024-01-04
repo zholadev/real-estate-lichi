@@ -4,10 +4,9 @@ import React, {useMemo} from 'react';
 import ObjectLayout from "./ObjectLayout";
 import {PageMapInfo} from "@/shared/uikit/map";
 import {Breadcrumbs} from "@/shared/breadcrumbs";
-import ObjectDetailPreview from "./ObjectDetailPreview";
 import ObjectPaymentPlan from "./ObjectPaymentPlan";
+import ObjectDetailPreview from "./ObjectDetailPreview";
 import ObjectDetailDescription from "./ObjectDetailDescription";
-import {log} from "three/nodes";
 
 /**
  * @author Zholaman Zhumanov
