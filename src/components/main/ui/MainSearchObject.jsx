@@ -1,20 +1,18 @@
 'use client'
 
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import styles from '@/styles/main.module.sass'
 import {FormSelect} from "@/shared/uikit/form/select";
 import {Button} from "@/shared/uikit/button";
-import {useApiRequest} from "@/shared/hooks";
+import {useApiRequest, useToastMessage} from "@/shared/hooks";
 import {
     apiGetFilterDistrictList,
     apiGetFilterPropertyTypeList,
     apiGetFilterResidenceList,
     apiGetFilterRoomsList
 } from "@/shared/services/clientRequests";
-import qs from "qs";
-import {useRouter} from "next/navigation";
-import usePushFilters from "@/components/catalog/lib/usePushFilters";
 import useSetFilter from "@/components/catalog/lib/useSetFilter";
+import usePushFilters from "@/components/catalog/lib/usePushFilters";
 
 /**
  * @author Zholaman Zhumanov
@@ -26,9 +24,9 @@ import useSetFilter from "@/components/catalog/lib/useSetFilter";
 function MainSearchObject(props) {
     const {i18n} = props
 
+    const toastMessage = useToastMessage()
     const pushFilterHandle = usePushFilters()
     const getSetFilterHandle = useSetFilter()
-
     const {apiFetchHandler} = useApiRequest()
 
     const [queryFilter, setQueryFilter] = useState({})
@@ -36,9 +34,10 @@ function MainSearchObject(props) {
     const [districtDataFilter, setDistrictDataFilter] = useState([])
     const [residenceDataFilter, setResidenceFilterData] = useState([])
     const [propertyTypeDataFilter, setPropertyTypeFilterData] = useState([])
+    const [queryApiFilters, setQueryApiFilters] = useState({"filters[apartments][name][$notNull]": true})
 
     const getFilterResidenceData = async () => {
-        await apiFetchHandler(apiGetFilterResidenceList, [], false, {
+        await apiFetchHandler(apiGetFilterResidenceList, [queryApiFilters], false, {
             onGetData: (params) => {
                 setResidenceFilterData(params.api_data)
             }
@@ -46,7 +45,7 @@ function MainSearchObject(props) {
     }
 
     const getFilterDistrictData = async () => {
-        await apiFetchHandler(apiGetFilterDistrictList, [], false, {
+        await apiFetchHandler(apiGetFilterDistrictList, [{"filters[apartments][name][$notNull]": true}], false, {
             onGetData: (params) => {
                 setDistrictDataFilter(params.api_data)
             }
@@ -54,7 +53,7 @@ function MainSearchObject(props) {
     }
 
     const getFilterRoomsData = async () => {
-        await apiFetchHandler(apiGetFilterRoomsList, [], false, {
+        await apiFetchHandler(apiGetFilterRoomsList, [queryApiFilters], false, {
             onGetData: (params) => {
                 setRoomsDataFilter(params.api_data)
             }
@@ -62,7 +61,7 @@ function MainSearchObject(props) {
     }
 
     const getFilterPropertyData = async () => {
-        await apiFetchHandler(apiGetFilterPropertyTypeList, [], false, {
+        await apiFetchHandler(apiGetFilterPropertyTypeList, [queryApiFilters], false, {
             onGetData: (params) => {
                 setPropertyTypeFilterData(params.api_data)
             }
@@ -81,7 +80,7 @@ function MainSearchObject(props) {
             setRoomsDataFilter([])
             setPropertyTypeFilterData([])
         }
-    }, []);
+    }, [queryApiFilters]);
 
     const optionsResidence = useMemo(() => {
         try {
@@ -103,7 +102,7 @@ function MainSearchObject(props) {
                 return {
                     label: filter?.["attributes"]?.["name"],
                     value: filter?.["attributes"]?.["type"],
-                    key: "district"
+                    key: "districts"
                 }
             })
         } catch (e) {
@@ -131,7 +130,7 @@ function MainSearchObject(props) {
                 return {
                     label: filter?.["attributes"]?.["name"],
                     value: filter?.["attributes"]?.["type"],
-                    key: "property_type"
+                    key: "property_types"
                 }
             })
         } catch (e) {
@@ -139,6 +138,23 @@ function MainSearchObject(props) {
         }
     }, [propertyTypeDataFilter])
 
+    const setApiFiltersHandle = (data) => {
+        const {key, value} = data
+
+        setQueryApiFilters(prevFilter => {
+            return {
+                ...prevFilter,
+                [key]: value,
+            }
+        })
+    }
+
+    const checkDistrictValue = useCallback(() => {
+        if (queryFilter?.["districts"]) return
+        if (!queryFilter?.["districts"]) {
+            toastMessage("Выберите район (districts)", "error")
+        }
+    }, [queryFilter])
 
     const setFilterQueryHandle = (data) => {
         const {key, value} = data
@@ -146,7 +162,6 @@ function MainSearchObject(props) {
     };
 
     const sendFilterQuery = () => pushFilterHandle('/catalog', queryFilter)
-
 
     return (
         <div className={styles['main_form_investing']}>
@@ -156,21 +171,32 @@ function MainSearchObject(props) {
             <form className={`${styles['form_investing']}`}>
                 <div className={styles['form_box']}>
                     <FormSelect
-                        placeholder={i18n?.["site.residence.title"]}
-                        options={optionsResidence}
+                        placeholder={i18n?.["site.district.title"]}
+                        options={optionsDistrict}
                         onChange={e => {
                             setFilterQueryHandle(e)
+                            setApiFiltersHandle({
+                                key: 'filters[apartments][districts][type]',
+                                value: e?.value
+                            })
                         }}
+                        onClickContainer={checkDistrictValue}
                     />
                 </div>
 
                 <div className={styles['form_box']}>
                     <FormSelect
-                        placeholder={i18n?.["site.district.title"]}
-                        options={optionsDistrict}
+                        placeholder={i18n?.["site.residence.title"]}
+                        options={optionsResidence}
+                        disabled={!queryFilter?.["districts"]}
                         onChange={e => {
                             setFilterQueryHandle(e)
+                            setApiFiltersHandle({
+                                key: 'filters[apartments][residence][name][$contains]',
+                                value: e?.value
+                            })
                         }}
+                        onClickContainer={checkDistrictValue}
                     />
                 </div>
 
@@ -178,9 +204,15 @@ function MainSearchObject(props) {
                     <FormSelect
                         placeholder={i18n?.["site.roominess.title"]}
                         options={optionsRooms}
+                        disabled={!queryFilter?.["districts"]}
                         onChange={e => {
                             setFilterQueryHandle(e)
+                            setApiFiltersHandle({
+                                key: 'filters[apartments][rooms][type]',
+                                value: e?.value
+                            })
                         }}
+                        onClickContainer={checkDistrictValue}
                     />
                 </div>
 
@@ -188,9 +220,15 @@ function MainSearchObject(props) {
                     <FormSelect
                         placeholder={i18n?.["site.property.type.title"]}
                         options={optionsPropertyType}
+                        disabled={!queryFilter?.["districts"]}
                         onChange={e => {
                             setFilterQueryHandle(e)
+                            setApiFiltersHandle({
+                                key: 'filters[apartments][property_types][type]',
+                                value: e?.value
+                            })
                         }}
+                        onClickContainer={checkDistrictValue}
                     />
                 </div>
 

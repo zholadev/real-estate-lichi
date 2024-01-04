@@ -5,14 +5,6 @@ import {api_client_get} from "./axios/instance";
  * @author Zholaman Zhumanov
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
-export const apiGetCategoryData = async () => {
-    return await api_client_get(api.category.get, {})
-}
-
-/**
- * @author Zholaman Zhumanov
- * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
- */
 export const apiGetNewsData = async (limit, page, params) => {
     return await api_client_get(api.news.get, {'pagination[pageSize]': limit, 'pagination[page]': page, ...params})
 }
@@ -40,7 +32,7 @@ export const apiGetResidentialData = async (page, params) => {
 
     return await api_client_get(api.residential_complexes.get, {
         "pagination[page]": page,
-        "populate": "photo_preview.item,,tags,locate,locate.photo,*",
+        "populate": "photo_preview.item,tags,locate,locate.photo,*",
         ...updatedParams
     })
 }
@@ -103,12 +95,13 @@ export const apiGetApartmentsByIdData = async (id, locale) => {
  * @description method for get residence list
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
-export const apiGetFilterResidenceList = async () => {
+export const apiGetFilterResidenceList = async (params) => {
     return await api_client_get(api.filter.residence_get,
         {
             populate: false,
             "fields[0]": "name",
-            "pagination[limit]": -1
+            "pagination[limit]": -1,
+            ...params
         })
 }
 
@@ -117,8 +110,8 @@ export const apiGetFilterResidenceList = async () => {
  * @description method for get district list
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
-export const apiGetFilterDistrictList = async () => {
-    return await api_client_get(api.filter.district_get, {"pagination[limit]": -1})
+export const apiGetFilterDistrictList = async (params) => {
+    return await api_client_get(api.filter.district_get, {"pagination[limit]": -1, ...params})
 }
 
 /**
@@ -126,8 +119,8 @@ export const apiGetFilterDistrictList = async () => {
  * @description method for get rooms list
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
-export const apiGetFilterRoomsList = async () => {
-    return await api_client_get(api.filter.rooms_get, {"pagination[limit]": -1})
+export const apiGetFilterRoomsList = async (params) => {
+    return await api_client_get(api.filter.rooms_get, {"pagination[limit]": -1, ...params})
 }
 
 /**
@@ -135,8 +128,8 @@ export const apiGetFilterRoomsList = async () => {
  * @description method for get property type list
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
-export const apiGetFilterPropertyTypeList = async () => {
-    return await api_client_get(api.filter.property_types_get, {"pagination[limit]": -1})
+export const apiGetFilterPropertyTypeList = async (params) => {
+    return await api_client_get(api.filter.property_types_get, {"pagination[limit]": -1, ...params})
 }
 
 /**
@@ -144,8 +137,8 @@ export const apiGetFilterPropertyTypeList = async () => {
  * @description method for get property type list
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
-export const apiGetFilterTagsList = async () => {
-    return await api_client_get(api.filter.tag_get, {"pagination[limit]": -1})
+export const apiGetFilterTagsList = async (params) => {
+    return await api_client_get(api.filter.tag_get, {"pagination[limit]": -1, ...params})
 }
 
 

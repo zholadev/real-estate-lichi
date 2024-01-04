@@ -9,7 +9,17 @@ import {ButtonArrow} from "@/shared/uikit/button";
 import styles from "@/styles/widget-submenu-navbar.module.sass"
 import NavbarMenuItem from "@/widgets/submenu/ui/NavbarMenuItem";
 
-// TODO: Refactoring
+const animFrom = {y: 20, opacity: 0}
+const animConfig = {y: 0, opacity: 1, duration: .1, stagger: 0.02, ease: "power2.inOut"};
+const reverseConfig = {y: 20, opacity: 0, duration: .1, stagger: 0.02};
+
+function gsapAnimation(ref, callback = () => {}) {
+    gsap.fromTo(ref.current.children, animFrom, {...animConfig, onComplete: callback});
+}
+
+function gsapReverseAnimation(ref, callback = () => {}) {
+    gsap.to(ref.current.children, {...reverseConfig, onComplete: callback});
+}
 
 /**
  * @author Zholaman Zhumanov
@@ -19,121 +29,47 @@ import NavbarMenuItem from "@/widgets/submenu/ui/NavbarMenuItem";
  * @constructor
  */
 function NavbarSubmenu(props) {
-    const {i18n, active, toggleAnimate, toggleMenu, animateTrigger, showSubmenuHandle, hideSubmenuHandle, fullWidth} = props
+    // props extraction
+    const {
+        i18n,
+        active,
+        fullWidth,
+        toggleAnimate,
+        animateTrigger,
+        hideSubmenuHandle,
+        showSubmenuHandle
+    } = props;
 
     const listMenuRef = useRef(null);
     const listPageRef = useRef(null)
+    const bottomActionRef = useRef(null);
 
-    const bottomActionRef = useRef(null)
-
-    const [menuMotion, setMenuMotion] = useState(false)
-    const [bottomActionMotion, setBottomActionMotion] = useState(false)
-
-    const animateMenuList = () => {
-        gsap.fromTo(
-            listMenuRef.current.children,
-            {y: 20, opacity: 0},
-            {
-                y: 0,
-                opacity: 1,
-                duration: .1,
-                stagger: 0.02,
-                ease: "power2.inOut",
-                onComplete: () => setMenuMotion(true)
-            }
-        );
-    };
-
-    const animatePageList = () => {
-        gsap.fromTo(
-            listPageRef.current.children,
-            {y: 20, opacity: 0},
-            {
-                y: 0,
-                opacity: 1,
-                duration: .1,
-                stagger: 0.02,
-                ease: "power2.inOut",
-                onComplete: () => setBottomActionMotion(true)
-            }
-        );
-    }
-
-    const animateBottomAction = () => {
-        gsap.fromTo(
-            bottomActionRef.current.children,
-            {y: 20, opacity: 0},
-            {
-                y: 0,
-                opacity: 1,
-                duration: .1,
-                stagger: 0.02,
-                ease: "power2.inOut"
-            }
-        );
-    }
-
-
-    const reverseListAnimation = () => {
-        gsap.to(listMenuRef.current.children, {
-            y: 20,
-            opacity: 0,
-            duration: .1,
-            stagger: 0.02,
-            onComplete: () => setMenuMotion(false)
-        });
-    };
-
-    const reversePageListAnimation = () => {
-        gsap.to(listPageRef.current.children, {
-            y: 20,
-            opacity: 0,
-            duration: .1,
-            stagger: 0.02,
-            onComplete: () => setBottomActionMotion(false)
-        });
-    }
-
-    const reverseBottomActionAnimation = () => {
-        gsap.to(bottomActionRef.current.children, {
-            y: 20,
-            opacity: 0,
-            duration: .1,
-            stagger: 0.02,
-            onComplete: () => {
-                hideSubmenuHandle()
-            }
-        });
-    }
-
+    const [menuMotion, setMenuMotion] = useState(false);
+    const [bottomActionMotion, setBottomActionMotion] = useState(false);
 
     useEffect(() => {
         if (animateTrigger) {
             showSubmenuHandle()
-            animateMenuList();
+            gsapAnimation(listMenuRef, () => setMenuMotion(true))
         } else {
-            reverseListAnimation();
+            gsapReverseAnimation(listPageRef, () => setMenuMotion(false));
         }
     }, [animateTrigger]);
 
     useEffect(() => {
-        if (menuMotion) {
-            animatePageList()
-        } else {
-            reversePageListAnimation()
-        }
+        menuMotion
+            ? gsapAnimation(listPageRef, () => setBottomActionMotion(true))
+            : gsapReverseAnimation(listPageRef, () => setBottomActionMotion(false));
     }, [menuMotion]);
 
     useEffect(() => {
-        if (bottomActionMotion) {
-            animateBottomAction()
-        } else {
-            reverseBottomActionAnimation()
-        }
+        bottomActionMotion
+            ? gsapAnimation(bottomActionRef)
+            : gsapReverseAnimation(bottomActionRef, () => hideSubmenuHandle());
     }, [bottomActionMotion]);
 
-    const menuList = useMemo(() => {
-        return [
+    const menuList = useMemo(() => (
+        [
             {
                 id: 1,
                 title: i18n?.["footer"]?.["catalog_apartment_title"],
@@ -150,21 +86,16 @@ function NavbarSubmenu(props) {
                 id: 3,
                 title: i18n?.["site"]?.["apartment_title"],
                 img: IMG.templateCatalogCard['src'],
-                url: "/catalog?filters[property_type][type]=apartment"
+                url: "/catalog?filters[property_types][type]=apartment"
             },
         ]
-    }, [i18n])
+    ), [i18n]);
 
     return (
-        <div className={`${styles['navbar_submenu']} ${fullWidth  ? styles['submenu_full_wd'] : ''} ${active ? styles['navbar_submenu__active'] : ''}`}>
-            {/*<i className={styles['menu_closed']} onClick={toggleAnimate}/>*/}
-
+        <div
+            className={`${styles['navbar_submenu']} ${fullWidth ? styles['submenu_full_wd'] : ''} ${active ? styles['navbar_submenu__active'] : ''}`}>
             <div className={styles['navbar_content']}>
                 <div className={styles['main_content']}>
-                    <div className={styles['top_content']}>
-                        {/*<Logo theme={'light'} onClick={toggle} type={'secondary'}/>*/}
-                    </div>
-
                     <div className={styles['menu_content']}>
                         <ul className={styles['menu_list']} ref={listMenuRef}>
                             {
@@ -199,24 +130,24 @@ function NavbarSubmenu(props) {
                 </div>
 
                 <div className={styles['footer_content']}>
-                   <div className={styles['footer_box']} ref={bottomActionRef}>
-                       <ButtonArrow
-                           title={i18n?.["site"]?.["get_object"]}
-                           url={'/catalog'}
-                           onClick={toggleAnimate}
-                           theme={'light'}
-                       />
+                    <div className={styles['footer_box']} ref={bottomActionRef}>
+                        <ButtonArrow
+                            title={i18n?.["site"]?.["get_object"]}
+                            url={'/catalog'}
+                            onClick={toggleAnimate}
+                            theme={'light'}
+                        />
 
-                       <div className={styles['action_content']} onClick={toggleAnimate}>
-                           <PhoneAction
-                               i18n={i18n}
-                               themePhone={'light'}
-                               themeLocal={'light'}
-                               phoneOnClick={toggleAnimate}
-                               localOnClick={toggleAnimate}
-                           />
-                       </div>
-                   </div>
+                        <div className={styles['action_content']} onClick={toggleAnimate}>
+                            <PhoneAction
+                                i18n={i18n}
+                                themePhone={'light'}
+                                themeLocal={'light'}
+                                phoneOnClick={toggleAnimate}
+                                localOnClick={toggleAnimate}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

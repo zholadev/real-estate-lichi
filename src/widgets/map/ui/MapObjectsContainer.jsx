@@ -21,7 +21,7 @@ function MapObjectsContainer(props) {
         if (!position) return
         if (mapConfig.target && position) {
             try {
-                mapConfig.target.flyTo(position, 15, {
+                mapConfig.target.flyTo(position, 18, {
                     animate: false
                 })
             } catch (error) {

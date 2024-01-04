@@ -29,7 +29,7 @@ function MainPage(props) {
                 title={i18n?.["site"]?.["apartment_title"]}
                 col={3}
                 data={apartmentData}
-                url={'/catalog?filters[property_type][type]=apartment'}
+                url={'/catalog?filters[property_types][type]=apartment'}
             />
 
             <MainApartmentList
@@ -37,7 +37,7 @@ function MainPage(props) {
                 title={i18n?.["site"]?.["villas_title"]}
                 col={2}
                 data={villaData}
-                url={'/catalog?filters[property_type][type]=villa'}
+                url={'/catalog?filters[property_types][type]=villa'}
             />
             <MainAboutInfo i18n={i18n}/>
             <div className={'container_md_pn'}>
