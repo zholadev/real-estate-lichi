@@ -26,6 +26,15 @@ function FilterBox(props) {
 
     const options = useMemo(() => {
         try {
+            if (filterType === 'residence') {
+                return filterGetData.map((filter) => {
+                    return {
+                        label: filter?.["attributes"]?.["name"],
+                        value: filter?.["attributes"]?.["name"],
+                        key: filterType
+                    }
+                })
+            }
             return filterGetData.map((filter) => {
                 return {
                     label: filter?.["attributes"]?.["name"],
@@ -43,7 +52,7 @@ function FilterBox(props) {
             let key = `filters[apartments][${filterType}][type]`
 
             if (filterType === 'residence') {
-                key = `filters[apartments][${filterType}][name][$contains]`
+                key = `filters[apartments][residence][name][$contains]`
             }
 
             return key
@@ -52,7 +61,7 @@ function FilterBox(props) {
         }
     }, [filterType])
 
-    const currentValue = options?.filter((item) => item.value ? item.value === value : item.label === value)
+    const currentValue = options?.filter((item) => item.value === value)
 
     return (
         <FormSelect

@@ -114,9 +114,8 @@ function FilterList(props) {
                 id={"price"}
                 i18n={i18n}
                 type={"number"}
-                placeholder={Object.values(queryFilter || {}).length > 0 && getMinMaxPrices?.["min"] || i18n?.["site.coast.from.title"]}
                 value={priceFrom}
-                disabled={Object.values(queryFilter || {}).length > 0}
+                typeInput={'secondary'}
                 onChange={(e) => {
                     setPriceFrom(e)
                     setFilterQueryHandle({key: "price.from", value: e})
@@ -125,16 +124,16 @@ function FilterList(props) {
                         value: e
                     })
                 }}
-                typeInput={'secondary'}
+                placeholder={`${i18n?.["site.coast.from.title"]} ${getMinMaxPrices?.["min"]}`}
+                disabled={Object.values(queryFilter || {}).length > 0 && queryFilter?.["districts"]}
             />
 
             <Input
                 id={"price"}
                 i18n={i18n}
                 type={"number"}
-                placeholder={Object.values(queryFilter || {}).length > 0 && getMinMaxPrices?.["max"] || i18n?.["site.coast.to.title"]}
                 value={priceValue}
-                disabled={Object.values(queryFilter || {}).length > 0}
+                typeInput={'secondary'}
                 onChange={(e) => {
                     setPriceValue(e)
                     setFilterQueryHandle(e)
@@ -144,7 +143,7 @@ function FilterList(props) {
                         value: e
                     })
                 }}
-                typeInput={'secondary'}
+                placeholder={`${i18n?.["site.coast.to.title"]} ${getMinMaxPrices?.["max"]}`}
             />
         </>
     );

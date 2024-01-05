@@ -2,73 +2,42 @@ import qs from "qs";
 import {useRouter} from "next/navigation";
 import {useToastMessage} from "@/shared/hooks";
 
+/**
+ * @author Zholaman Zhumanov
+ * @returns {(function(*, *, *): void)|*}
+ */
 function usePushFilters() {
-    const router = useRouter()
+    const RESIDENCE_FILTER = "residence";
+    const PRICE_FROM_FILTER = "price.from";
+    const PRICE_TO_FILTER = "price.to";
 
-    const toastMessage = useToastMessage()
+    const router = useRouter();
+    const toastMessage = useToastMessage();
+
+    const residenceFilter = (value) => ({name: {$contains: value}});
+    const priceFromFilter = (value) => ({price: {$gte: value}});
+    const priceToFilter = (value) => ({price: {$lte: value}});
+    const defaultFilter = (value) => ({type: value});
 
     const transformFilter = (key, value) => {
         switch (key) {
-            case "residence":
-                return {
-                    [key]: {
-                        name: {
-                            $contains: value,
-                        },
-                    },
-                };
-            case "price.from":
-                return {
-                    price: {
-                        $gte: value,
-                    },
-                };
-            case "price.to":
-                return {
-                    price: {
-                        $lte: value,
-                    },
-                };
+            case RESIDENCE_FILTER:
+                return {[key]: residenceFilter(value)};
+
+            case PRICE_FROM_FILTER:
+                return priceFromFilter(value);
+
+            case PRICE_TO_FILTER:
+                return priceToFilter(value);
+
             default:
-                return {
-                    [key]: {
-                        type: value,
-                    },
-                };
+                return {[key]: defaultFilter(value)};
         }
     };
 
-    const transformResidenceFilter = (key, value) => {
-        switch (key) {
-            case "price.from":
-                return {
-                    'apartments': {
-                        price: {
-                            $gte: value,
-                        },
-                    }
-                };
-            case "price.to":
-                return {
-                    'apartments': {
-                        price: {
-                            $lte: value,
-                        },
-                    }
-                };
-            default:
-                return {
-                    'apartments': {
-                        [key]: {
-                            type: value,
-                        },
-                    },
-                };
-        }
-    };
-
-    const buildFilters = (filters, residenceFilter) => {
+    const buildFilters = (filters) => {
         return Object.entries(filters || {}).map(([key, value]) => {
+            if (value === null) return
             return transformFilter(key, value);
         });
     };
@@ -78,14 +47,12 @@ function usePushFilters() {
             toastMessage("Please select filter value", "error")
             return
         }
-
         const queryString = qs.stringify(
             {
                 filters: buildFilters(filters, residenceFilter),
             },
             {arrayFormat: "repeat"}
         );
-
         router.push(`${url}?${queryString}`);
     };
 }

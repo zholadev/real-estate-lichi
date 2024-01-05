@@ -1,17 +1,20 @@
 'use client'
 
 import React, {useCallback, useMemo, useRef, useState} from 'react';
-import {useRouter} from "next/navigation";
+import {Tabs} from "@/shared/uikit/tabs";
 import {Button} from "@/shared/uikit/button";
-import {useToastMessage} from "@/shared/hooks";
+import {useMediaMaxState, useToastMessage} from "@/shared/hooks";
 import {PortalProvider} from "@/shared/portals";
 import useSetFilter from "../../lib/useSetFilter";
+import FilterList from "./filterList/FilterList";
 import {SidebarContainer} from "@/widgets/sidebar";
 import usePushFilters from "../../lib/usePushFilters";
 import styles from '@/styles/catalog-filter.module.sass'
+import {useRouter, useSearchParams} from "next/navigation";
+import FilterIconMenu from "./filterIconMenu/FilterIconMenu";
+import FilterBottomPanel from "./filterBottom/FilterBottomPanel";
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import useFilterConvertQuery from "../../lib/useFilterConvertQuery";
-import FilterList from "@/components/catalog/ui/filter/filterList/FilterList";
 
 /**
  * @author Zholaman Zhumanov
@@ -20,55 +23,56 @@ import FilterList from "@/components/catalog/ui/filter/filterList/FilterList";
  * @constructor
  */
 function Filter(props) {
-    const {i18n, onClick, typeContent, pageParams, typeCatalog, apartmentListData} = props
+    const {i18n, onClick, typeContent, pageParams, typeCatalog, apartmentListData, setTypeCatalog, tabData} = props
 
     const timerClearValue = useRef(null)
+    const timerClearFilterQuery = useRef(null)
 
     const router = useRouter()
+    const query = useSearchParams()
 
     const toastMessage = useToastMessage()
     const pushFilterHandle = usePushFilters()
     const getSetFilterHandle = useSetFilter()
     const convertQueryFilter = useFilterConvertQuery()
 
-    const [priceFrom, setPriceFrom] = useState(null)
+    const mediaQuerySm = useMediaMaxState({screenSize: 576})
 
+    const [priceFrom, setPriceFrom] = useState(null)
+    const [priceValue, setPriceValue] = useState('')
     const [toggleFilter, setToggleFilter] = useState(false)
     const [clearSelects, setClearSelects] = useState('fill')
     const [queryFilter, setQueryFilter] = useState(convertQueryFilter(pageParams) || {})
     const [queryApiFilters, setQueryApiFilters] = useState({"filters[apartments][name][$notNull]": true})
 
-    const [priceValue, setPriceValue] = useState('')
+    const FILTER_DATA = Object.values(queryFilter || {})
+    const FILTER_QUERY_DATA = Object.entries(convertQueryFilter(pageParams) || {})
 
-    const setFilterQueryHandle = (data, push) => {
-        const {key, value} = data
-        setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value, false));
+    const toggleFilterHandle = () => setToggleFilter(!toggleFilter);
 
-        if (push) {
-            sendFilterQuery()
+    /**
+     * Handles setting the filter query based on provided data
+     *
+     * @param {Object} filterData - The filter data to be set paired with its associated key
+     * @param {Boolean} shouldSendQuery - Indicates whether to send a filter query after setting
+     */
+    const setFilterQueryHandle = (filterData, shouldSendQuery) => {
+        const {key, value} = filterData
+
+
+        setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value));
+
+        if (shouldSendQuery) {
+            sendFilterQuery();
         }
     };
 
-    const checkDistrictValue = () => {
+    const checkDistrictValue = useCallback(() => {
         if (typeCatalog === 'residential_complex') return
         if (!queryFilter?.["districts"]) {
-            toastMessage("Выберите район (districts)", "error")
+            toastMessage("Please select a district", "error")
         }
-    }
-
-    const sendFilterQuery = () => {
-        if (parseFloat(queryFilter?.["price.from"]) > queryFilter?.["price.to"]) {
-            toastMessage("Вы ввели некорректные значение цен", "error")
-            return
-        } else if (parseFloat(queryFilter?.["price.from"]) < getMinMaxPrices?.["min"]) {
-            toastMessage("Сумма не должна быть ниже минимальной цены", "error")
-            return
-        } else if (parseFloat(queryFilter?.["price.to"]) > getMinMaxPrices?.["max"]) {
-            toastMessage("Сумма не должна быть выше максимальной цены", "error")
-            return
-        }
-        pushFilterHandle('/catalog', queryFilter, typeCatalog === 'residential_complex')
-    }
+    }, [typeCatalog, queryFilter])
 
     const setApiFiltersHandle = (data) => {
         const {key, value} = data
@@ -93,6 +97,44 @@ function Filter(props) {
         }
     }, [apartmentListData])
 
+    const sendFilterQuery = () => {
+        const parsePrice = (key) => parseFloat(queryFilter?.[`price.${key}`]);
+
+        const invalidPriceMsg = "You entered incorrect price values.";
+        const lowerThanMinPriceMsg = "The total should not be lower than the minimum price.";
+        const exceedsMaxPriceMsg = "The total should not exceed the maximum price.";
+
+        const fromPrice = parsePrice('from');
+        const toPrice = parsePrice('to');
+        const minPrice = getMinMaxPrices?.["min"];
+        const maxPrice = getMinMaxPrices?.["max"];
+
+        if (fromPrice > toPrice) {
+            toastMessage(invalidPriceMsg, "error")
+            return;
+        }
+
+        if (fromPrice < minPrice || toPrice < minPrice) {
+            toastMessage(lowerThanMinPriceMsg, "error")
+            return;
+        }
+
+        if (toPrice > maxPrice) {
+            toastMessage(exceedsMaxPriceMsg, "error")
+            return;
+        }
+
+        console.log('query send filter data', queryFilter)
+
+        pushFilterHandle('/catalog', queryFilter);
+
+        if (mediaQuerySm) {
+            toggleFilterHandle()
+        }
+    };
+
+    console.log('filter data', queryFilter)
+
     const clearFilters = useCallback(() => {
         try {
             if (timerClearValue.current) {
@@ -114,137 +156,91 @@ function Filter(props) {
         }
     }, [timerClearValue, router])
 
-    const toggleFilterHandle = useCallback(() => {
-        setToggleFilter(!toggleFilter)
-    }, [toggleFilter])
-
     return (
         <>
+            <Tabs
+                i18n={i18n}
+                item={"title"}
+                url={'/catalog'}
+                tabData={tabData}
+                onClick={setTypeCatalog}
+                onClickEvent={clearFilters}
+                activeSelectName={"value"}
+                defaultValue={query.get('type') || tabData?.[0]?.["value"]}
+            />
+
             <div className={styles['catalog_filter_lg']}>
                 <FilterList
                     i18n={i18n}
-                    clearSelect={clearSelects}
-                    queryFilter={queryFilter}
-                    setFilterQueryHandle={setFilterQueryHandle}
-                    setApiFiltersHandle={setApiFiltersHandle}
-                    checkDistrictValue={checkDistrictValue}
-                    queryApiFilters={queryApiFilters}
-                    typeCatalog={typeCatalog}
-                    getMinMaxPrices={getMinMaxPrices}
                     priceFrom={priceFrom}
-                    setPriceFrom={setPriceFrom}
                     priceValue={priceValue}
+                    queryFilter={queryFilter}
+                    typeCatalog={typeCatalog}
+                    clearSelect={clearSelects}
+                    setPriceFrom={setPriceFrom}
                     setPriceValue={setPriceValue}
+                    queryApiFilters={queryApiFilters}
+                    getMinMaxPrices={getMinMaxPrices}
+                    checkDistrictValue={checkDistrictValue}
+                    setApiFiltersHandle={setApiFiltersHandle}
+                    setFilterQueryHandle={setFilterQueryHandle}
                 />
 
                 <Button
-                    style={{
-                        opacity: Object.values(queryFilter || {}).length === 0 ? .3 : 1
-                    }}
                     onClick={sendFilterQuery}
                     title={i18n?.["site"]?.["search_title"]}
-                    disabled={Object.values(queryFilter || {}).length === 0}
+                    disabled={FILTER_DATA.length === 0}
+                    style={{
+                        opacity: FILTER_DATA.length === 0 ? .3 : 1
+                    }}
                 />
             </div>
 
-            <div className={styles['filter_panel']}>
-                <ul className={styles['filter_list_actions']}>
-                    {
-                        Object.entries(convertQueryFilter(pageParams) || {}).map(([key, value], id) => {
-                            return (
-                                <li
-                                    key={id}
-                                    onClick={() => {
-                                        setFilterQueryHandle({key: key, value: null}, true)
-                                        setApiFiltersHandle({
-                                            key: key === 'residence' ? `filters[apartments][residence}][name][$contains]` : `filters[apartments][${key}][type]`,
-                                            value: null
-                                        })
-                                    }}
-                                >
-                                    {key}
-                                </li>
-                            )
-                        })
-                    }
-                </ul>
-                <div className={styles['filter_switch_actions']}>
-                    {
-                        Object.values(queryFilter || {}).length > 0 ? (
-                            <Button
-                                type={'outline_light'}
-                                title={i18n?.["filter.clear.title"]}
-                                onClick={clearFilters}
-                                style={{
-                                    fontSize: "13px",
-                                    lineHeight: "18.2px"
-                                }}
-                            />) : (
-                            <div></div>
-                        )}
-                    <div className={styles['switch_btn']}>
-                        <Button
-                            type={'primary_animate'}
-                            onClick={onClick}
-                            animateActive={typeContent === 'list'}
-                            style={{
-                                fontSize: "13px",
-                                lineHeight: "18.2px"
-                            }}
-                        >
-                            <i className={`${styles['icon']} ${typeContent === "list" ? styles['invert_icon'] : ''} ${styles['icon_list']}`}/>
-                        </Button>
+            <FilterBottomPanel
+                i18n={i18n}
+                onClick={onClick}
+                filterData={FILTER_DATA}
+                typeContent={typeContent}
+                clearFilters={clearFilters}
+                setQueryFilter={setQueryFilter}
+                sendFilterQuery={sendFilterQuery}
+                queryFilterData={FILTER_QUERY_DATA}
+                filterClearHandle={setFilterQueryHandle}
+                filterApiClearHandle={setApiFiltersHandle}
 
-                        <Button
-                            type={'primary_animate'}
-                            onClick={onClick}
-                            animateActive={typeContent === 'map'}
-                            style={{
-                                fontSize: "13px",
-                                lineHeight: "18.2px"
-                            }}
-                        >
-                            <i className={`${styles['icon']} ${typeContent === "map" ? styles['invert_icon'] : ''} ${styles['icon_marker']}`}/>
-                        </Button>
-                    </div>
-                </div>
-            </div>
+            />
 
-            <div className={styles['filter_sm_action']} onClick={toggleFilterHandle}>
-                <div className={styles['menu']}>
-                    <div className={`${styles['item']} ${styles['item_1']}`}></div>
-                    <div className={`${styles['item']} ${styles['item_2']}`}></div>
-                    <div className={`${styles['item']} ${styles['item_3']}`}></div>
-                </div>
-                <span className={styles['text']}>{i18n?.["filter.title"]}</span>
-            </div>
+            <FilterIconMenu
+                i18n={i18n}
+                toggleFilterHandle={toggleFilterHandle}
+            />
 
             <PortalProvider>
                 <SidebarContainer active={toggleFilter} toggle={toggleFilterHandle}>
                     <div className={styles['catalog_filter']}>
                         <FilterList
                             i18n={i18n}
-                            clearSelect={clearSelects}
-                            queryFilter={queryFilter}
-                            setFilterQueryHandle={setFilterQueryHandle}
-                            setApiFiltersHandle={setApiFiltersHandle}
-                            checkDistrictValue={checkDistrictValue}
-                            queryApiFilters={queryApiFilters}
-                            typeCatalog={typeCatalog}
-                            getMinMaxPrices={getMinMaxPrices}
                             priceFrom={priceFrom}
-                            setPriceFrom={setPriceFrom}
                             priceValue={priceValue}
+                            queryFilter={queryFilter}
+                            typeCatalog={typeCatalog}
+                            clearSelect={clearSelects}
+                            setPriceFrom={setPriceFrom}
                             setPriceValue={setPriceValue}
+                            queryApiFilters={queryApiFilters}
+                            getMinMaxPrices={getMinMaxPrices}
+                            checkDistrictValue={checkDistrictValue}
+                            setApiFiltersHandle={setApiFiltersHandle}
+                            setFilterQueryHandle={setFilterQueryHandle}
                         />
 
                         <Button
-                            style={{
-                                opacity: Object.values(queryFilter || {}).length === 0 ? .3 : 1
-                            }}
                             onClick={sendFilterQuery}
                             title={i18n?.["site"]?.["search_title"]}
-                            disabled={Object.values(queryFilter || {}).length === 0}
+                            disabled={FILTER_DATA.length === 0}
+                            style={{
+                                opacity: FILTER_DATA.length === 0 ? .3 : 1
+                            }}
                         />
 
                         <Button title={i18n?.["filter.clear.title"]} type={'outline'} onClick={clearFilters}/>
