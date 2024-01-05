@@ -44,8 +44,7 @@ function FilterDistrict(props) {
                 errorHandler("filterDistrict", "useEffect", error)
             })
     }, [filterApiParams]);
-
-
+    
     return (
         <FilterBox
             i18n={i18n}

@@ -21,10 +21,6 @@ function CatalogProducts(props) {
 
     const [page, setPage] = useState(1)
 
-    if (Object.values(catalogData || {}).length === 0) {
-        return <h4>{i18n?.["site.not_found.title"]}</h4>
-    }
-
     const nextToPage = () => {
         setPage(page => page + 1)
         router.push(`${pathname}?page=${page}`)
@@ -43,6 +39,10 @@ function CatalogProducts(props) {
         } catch (error) {
             console.log(`page: orderBox, event: changePage, error: ${error}`)
         }
+    }
+
+    if (Object.values(catalogData || {}).length === 0) {
+        return <h4>{i18n?.["site.not_found.title"]}</h4>
     }
 
     return (

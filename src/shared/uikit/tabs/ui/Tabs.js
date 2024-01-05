@@ -13,17 +13,23 @@ import {useRouter} from "next/navigation";
  * @constructor
  */
 function Tabs(props) {
-    const {i18n, onClick, tabData, item, activeSelectName, defaultValue, url} = props
+    const {i18n, onClick, tabData = {}, item, activeSelectName, defaultValue, url, onClickEvent} = props
 
     const router = useRouter()
 
     const [tab, setTab] = useState(defaultValue || "")
+
+    const tabDataValues = Object.values(tabData);
 
     const toggleTab = useCallback((value) => {
         try {
             setTab(value)
             if (onClick) {
                 onClick(value)
+            }
+
+            if (onClickEvent) {
+                onClickEvent()
             }
 
             if (url) {
@@ -35,14 +41,15 @@ function Tabs(props) {
     }, [tab, onClick])
 
     useEffect(() => {
-        if (Object.values(tabData || {}).length === 0) return
+        if (tabDataValues.length === 0) return
         if (!tab) {
-            setTab(Object.values(tabData || {})?.[0]?.["name"])
-            onClick(Object.values(tabData || {})?.[0]?.["name"])
+            const defaultName = tabDataValues[0]?.["name"];
+            setTab(defaultName)
+            onClick(defaultName)
         }
     }, [tab]);
 
-    if (Object.values(tabData || {}).length === 0) {
+    if (tabDataValues.length === 0) {
         return null
     }
 

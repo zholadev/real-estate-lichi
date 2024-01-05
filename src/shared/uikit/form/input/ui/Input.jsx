@@ -48,6 +48,7 @@ function Input(props) {
                 name={name}
                 value={value ?? ""}
                 onClick={onClick}
+                disabled={disabled}
                 onBlur={onBlurHandler}
                 onFocus={onFocusHandler}
                 onChange={e => onChangeHandler(e)}

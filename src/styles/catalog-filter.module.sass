@@ -109,8 +109,23 @@
     gap: 10px
 
     li
+      display: flex
       cursor: pointer
+      flex-direction: row
+      align-content: center
       text-transform: uppercase
+      margin-inline-end: 20px
+
+      span
+        display: inline-block
+        margin-inline-end: 10px
+
+      i
+        width: 12px
+        height: 12px
+        display: block
+        @include background-image-set-full(12px, center, '/images/icons/close-icon.svg')
+
 
   .filter_switch_actions
     display: flex

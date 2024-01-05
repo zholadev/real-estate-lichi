@@ -1,6 +1,5 @@
 'use client'
 
-import {Tabs} from "@/shared/uikit/tabs";
 import React, {useMemo, useState} from 'react';
 import {useSearchParams} from "next/navigation";
 import styles from '@/styles/catalog-products.module.sass'
@@ -20,8 +19,10 @@ function CatalogContainer(props) {
 
     const query = useSearchParams()
 
-    const [typeCatalog, setTypeCatalog] = useState('object')
     const [typeContent, setTypeContent] = useState('list')
+    const [typeCatalog, setTypeCatalog] = useState('object')
+
+    const isResidential = query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex';
 
     const tabData = useMemo(() => {
         try {
@@ -54,43 +55,34 @@ function CatalogContainer(props) {
         <StoreProvider>
             <div className={styles['catalog_products_list']}>
                 <div className={'container_md mb-15'}>
-                    <Tabs
+                    <Filter
                         i18n={i18n}
-                        item={"title"}
-                        url={'/catalog'}
                         tabData={tabData}
-                        onClick={setTypeCatalog}
-                        activeSelectName={"value"}
-                        defaultValue={query.get('type') || tabData?.[0]?.["value"]}
+                        onClick={toggleView}
+                        pageParams={pageParams}
+                        typeContent={typeContent}
+                        typeCatalog={typeCatalog}
+                        setTypeCatalog={setTypeCatalog}
+                        apartmentListData={apartmentListData}
                     />
-
-
-                    <div className={'container_md'}>
-                        <Filter
-                            i18n={i18n}
-                            onClick={toggleView}
-                            pageParams={pageParams}
-                            typeContent={typeContent}
-                            typeCatalog={typeCatalog}
-                            apartmentListData={apartmentListData}
-                        />
-                    </div>
                 </div>
                 {typeContent === 'map' ? (
                     <div className={'container_md_p_sm'}>
                         <CatalogMapProducts
                             i18n={i18n}
-                            mapData={query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex' ? residenceListData : apartmentListData}
-                            redirectTo={query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex' ? 'residence' : 'apartment'}
+                            pageParams={pageParams}
+                            redirectTo={isResidential ? 'residence' : 'apartment'}
+                            mapData={isResidential ? residenceListData : apartmentListData}
                         />
                     </div>
                 ) : (
                     <div className={'container_md'}>
                         <CatalogProducts
-                            metaData={query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex' ? residenceMetaData : apartmentMetaData}
-                            catalogData={query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex' ? residenceListData : apartmentListData}
-                            redirectTo={query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex' ? 'residence' : 'apartment'}
                             i18n={i18n}
+                            pageParams={pageParams}
+                            redirectTo={isResidential ? 'residence' : 'apartment'}
+                            metaData={isResidential ? residenceMetaData : apartmentMetaData}
+                            catalogData={isResidential ? residenceListData : apartmentListData}
                         />
                     </div>
                 )}
