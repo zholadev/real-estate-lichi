@@ -24,6 +24,7 @@ function FilterRooms(props) {
         filterApiParams,
         onClickContainer,
         assemblyFilterApi,
+        onClickDis
     } = props
 
     const {apiFetchHandler, loading} = useApiRequest()
@@ -52,6 +53,7 @@ function FilterRooms(props) {
             loading={loading}
             disabled={disabled}
             filterApi={filterApi}
+            onClickDis={onClickDis}
             filterType={filterType}
             placeholder={placeholder}
             clearSelect={clearSelect}

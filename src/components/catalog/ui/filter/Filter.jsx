@@ -3,27 +3,15 @@
 import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {useRouter} from "next/navigation";
 import {Button} from "@/shared/uikit/button";
-import {Input} from "@/shared/uikit/form/input";
+import {useToastMessage} from "@/shared/hooks";
 import {PortalProvider} from "@/shared/portals";
+import useSetFilter from "../../lib/useSetFilter";
 import {SidebarContainer} from "@/widgets/sidebar";
 import usePushFilters from "../../lib/usePushFilters";
 import styles from '@/styles/catalog-filter.module.sass'
-import {useToastMessage} from "@/shared/hooks";
-import {
-    apiGetFilterDistrictList,
-    apiGetFilterPropertyTypeList,
-    apiGetFilterResidenceList,
-    apiGetFilterRoomsList,
-    apiGetFilterTagsList
-} from "@/shared/services/clientRequests";
-import useSetFilter from "../../lib/useSetFilter";
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import useFilterConvertQuery from "../../lib/useFilterConvertQuery";
-import FilterDistrict from "./filterTypes/FilterDistrict";
-import FilterResidence from "./filterTypes/FilterResidence";
-import FilterRooms from "./filterTypes/FilterRooms";
-import FilterPropertyType from "./filterTypes/FilterPropertyType";
-import FilterTags from "./filterTypes/FilterTags";
+import FilterList from "@/components/catalog/ui/filter/filterList/FilterList";
 
 /**
  * @author Zholaman Zhumanov
@@ -45,9 +33,9 @@ function Filter(props) {
 
     const [priceFrom, setPriceFrom] = useState(null)
 
-    const [queryFilter, setQueryFilter] = useState(convertQueryFilter(pageParams) || {})
     const [toggleFilter, setToggleFilter] = useState(false)
     const [clearSelects, setClearSelects] = useState('fill')
+    const [queryFilter, setQueryFilter] = useState(convertQueryFilter(pageParams) || {})
     const [queryApiFilters, setQueryApiFilters] = useState({"filters[apartments][name][$notNull]": true})
 
     const [priceValue, setPriceValue] = useState('')
@@ -62,7 +50,7 @@ function Filter(props) {
     };
 
     const checkDistrictValue = () => {
-        if (queryFilter?.["districts"]) return
+        if (typeCatalog === 'residential_complex') return
         if (!queryFilter?.["districts"]) {
             toastMessage("Выберите район (districts)", "error")
         }
@@ -71,6 +59,12 @@ function Filter(props) {
     const sendFilterQuery = () => {
         if (parseFloat(queryFilter?.["price.from"]) > queryFilter?.["price.to"]) {
             toastMessage("Вы ввели некорректные значение цен", "error")
+            return
+        } else if (parseFloat(queryFilter?.["price.from"]) < getMinMaxPrices?.["min"]) {
+            toastMessage("Сумма не должна быть ниже минимальной цены", "error")
+            return
+        } else if (parseFloat(queryFilter?.["price.to"]) > getMinMaxPrices?.["max"]) {
+            toastMessage("Сумма не должна быть выше максимальной цены", "error")
             return
         }
         pushFilterHandle('/catalog', queryFilter, typeCatalog === 'residential_complex')
@@ -127,116 +121,30 @@ function Filter(props) {
     return (
         <>
             <div className={styles['catalog_filter_lg']}>
-                <FilterDistrict
+                <FilterList
                     i18n={i18n}
-                    filterType={"districts"}
                     clearSelect={clearSelects}
-                    value={queryFilter?.["districts"]}
-                    filterApi={apiGetFilterDistrictList}
-                    assemblyFilter={setFilterQueryHandle}
-                    assemblyFilterApi={setApiFiltersHandle}
-                    defaultValue={queryFilter?.["districts"]}
-                    placeholder={i18n?.["site.district.title"]}
-                    filterApiParams={typeCatalog === 'residential_complex' ? {"filters[residential_complexes][name][$notNull]": true} : {"filters[apartments][name][$notNull]": true}}
+                    queryFilter={queryFilter}
+                    setFilterQueryHandle={setFilterQueryHandle}
+                    setApiFiltersHandle={setApiFiltersHandle}
+                    checkDistrictValue={checkDistrictValue}
+                    queryApiFilters={queryApiFilters}
+                    typeCatalog={typeCatalog}
+                    getMinMaxPrices={getMinMaxPrices}
+                    priceFrom={priceFrom}
+                    setPriceFrom={setPriceFrom}
+                    priceValue={priceValue}
+                    setPriceValue={setPriceValue}
                 />
 
-                {
-                    typeCatalog !== 'residential_complex' &&
-                    <FilterResidence
-                        i18n={i18n}
-                        filterType={"residence"}
-                        value={queryFilter?.["residence"]}
-                        clearSelect={clearSelects}
-                        disabled={!queryFilter?.["districts"]}
-                        filterApi={apiGetFilterResidenceList}
-                        assemblyFilter={setFilterQueryHandle}
-                        onClickContainer={checkDistrictValue}
-                        assemblyFilterApi={setApiFiltersHandle}
-                        placeholder={i18n?.["site.residence.title"]}
-                        filterApiParams={queryApiFilters}
-                    />
-                }
-
-                <FilterRooms
-                    i18n={i18n}
-                    filterType={"rooms"}
-                    clearSelect={clearSelects}
-                    value={queryFilter?.["rooms"]}
-                    disabled={!queryFilter?.["districts"]}
-                    filterApi={apiGetFilterRoomsList}
-                    assemblyFilter={setFilterQueryHandle}
-                    onClickContainer={checkDistrictValue}
-                    assemblyFilterApi={setApiFiltersHandle}
-                    placeholder={i18n?.["site.roominess.title"]}
-                    filterApiParams={queryApiFilters}
-                />
-
-                <FilterPropertyType
-                    i18n={i18n}
-                    filterType={"property_types"}
-                    clearSelect={clearSelects}
-                    value={queryFilter?.["property_types"]}
-                    disabled={!queryFilter?.["districts"]}
-                    filterApi={apiGetFilterPropertyTypeList}
-                    assemblyFilter={setFilterQueryHandle}
-                    onClickContainer={checkDistrictValue}
-                    assemblyFilterApi={setApiFiltersHandle}
-                    placeholder={i18n?.["site.property.type.title"]}
-                    filterApiParams={queryApiFilters}
-                />
-
-                <FilterTags
-                    i18n={i18n}
-                    filterType={"tags"}
-                    value={queryFilter?.["tags"]}
-                    clearSelect={clearSelects}
-                    disabled={!queryFilter?.["districts"]}
-                    filterApi={apiGetFilterTagsList}
-                    assemblyFilter={setFilterQueryHandle}
-                    onClickContainer={checkDistrictValue}
-                    assemblyFilterApi={setApiFiltersHandle}
-                    placeholder={i18n?.["site.tags.title"]}
-                    filterApiParams={queryApiFilters}
-                />
-
-                <Input
-                    id={"price"}
-                    i18n={i18n}
-                    type={"number"}
-                    placeholder={Object.values(queryFilter || {}).length > 0 && getMinMaxPrices?.["min"] || i18n?.["site.coast.from.title"]}
-                    value={priceFrom}
-                    disabled={Object.values(queryFilter || {}).length > 0}
-                    onChange={(e) => {
-                        setPriceFrom(e)
-                        setFilterQueryHandle({key: "price.from", value: e})
-                        setApiFiltersHandle({
-                            key: "filters[apartments][price][$gte]",
-                            value: e
-                        })
+                <Button
+                    style={{
+                        opacity: Object.values(queryFilter || {}).length === 0 ? .3 : 1
                     }}
-                    typeInput={'secondary'}
+                    onClick={sendFilterQuery}
+                    title={i18n?.["site"]?.["search_title"]}
+                    disabled={Object.values(queryFilter || {}).length === 0}
                 />
-
-                <Input
-                    id={"price"}
-                    i18n={i18n}
-                    type={"number"}
-                    placeholder={Object.values(queryFilter || {}).length > 0 && getMinMaxPrices?.["max"] || i18n?.["site.coast.to.title"]}
-                    value={priceValue}
-                    disabled={Object.values(queryFilter || {}).length > 0}
-                    onChange={(e) => {
-                        setPriceValue(e)
-                        setFilterQueryHandle(e)
-                        setFilterQueryHandle({key: "price.to", value: e})
-                        setApiFiltersHandle({
-                            key: "filters[apartments][price][$lte]",
-                            value: e
-                        })
-                    }}
-                    typeInput={'secondary'}
-                />
-
-                <Button title={i18n?.["site"]?.["search_title"]} onClick={sendFilterQuery}/>
             </div>
 
             <div className={styles['filter_panel']}>
@@ -310,88 +218,36 @@ function Filter(props) {
                 </div>
                 <span className={styles['text']}>{i18n?.["filter.title"]}</span>
             </div>
-            <div className={styles['catalog_filter_sm']}>
-                {/*<FormSelect*/}
-                {/*    placeholder={i18n?.["site.residence.title"]}*/}
-                {/*    options={optionsResidence}*/}
-                {/*    onChange={e => {*/}
-                {/*        if (e) {*/}
-                {/*            setFilterQueryHandle(e)*/}
-                {/*        }*/}
-                {/*    }}*/}
-                {/*/>*/}
-
-                <Button title={i18n?.["site"]?.["search_title"]} onClick={sendFilterQuery}/>
-            </div>
 
             <PortalProvider>
                 <SidebarContainer active={toggleFilter} toggle={toggleFilterHandle}>
                     <div className={styles['catalog_filter']}>
-                        {/*<FormSelect*/}
-                        {/*    placeholder={i18n?.["site.residence.title"]}*/}
-                        {/*    options={optionsResidence}*/}
-                        {/*    onChange={e => {*/}
-                        {/*        if (e) {*/}
-                        {/*            setFilterQueryHandle(e)*/}
-                        {/*        }*/}
-                        {/*    }}*/}
-                        {/*/>*/}
+                        <FilterList
+                            i18n={i18n}
+                            clearSelect={clearSelects}
+                            queryFilter={queryFilter}
+                            setFilterQueryHandle={setFilterQueryHandle}
+                            setApiFiltersHandle={setApiFiltersHandle}
+                            checkDistrictValue={checkDistrictValue}
+                            queryApiFilters={queryApiFilters}
+                            typeCatalog={typeCatalog}
+                            getMinMaxPrices={getMinMaxPrices}
+                            priceFrom={priceFrom}
+                            setPriceFrom={setPriceFrom}
+                            priceValue={priceValue}
+                            setPriceValue={setPriceValue}
+                        />
 
-                        {/*<FormSelect*/}
-                        {/*    placeholder={i18n?.["site.district.title"]}*/}
-                        {/*    options={optionsDistrict}*/}
-                        {/*    onChange={e => {*/}
-                        {/*        if (e) {*/}
-                        {/*            setFilterQueryHandle(e)*/}
-                        {/*        }*/}
-                        {/*    }}*/}
-                        {/*/>*/}
-
-                        {/*<FormSelect*/}
-                        {/*    placeholder={i18n?.["site.roominess.title"]}*/}
-                        {/*    options={optionsRooms}*/}
-                        {/*    onChange={e => {*/}
-                        {/*        if (e) {*/}
-                        {/*            setFilterQueryHandle(e)*/}
-                        {/*        }*/}
-                        {/*    }}*/}
-                        {/*/>*/}
-
-
-                        {/*<FormSelect*/}
-                        {/*    placeholder={i18n?.["site.property.type.title"]}*/}
-                        {/*    options={optionsPropertyType}*/}
-                        {/*    onChange={e => {*/}
-                        {/*        if (e) {*/}
-                        {/*            setFilterQueryHandle(e)*/}
-                        {/*        }*/}
-                        {/*    }}*/}
-                        {/*/>*/}
-
-                        {/*<FormSelect*/}
-                        {/*    placeholder={i18n?.["site.tags.title"]}*/}
-                        {/*    options={optionsTags}*/}
-                        {/*    onChange={e => {*/}
-                        {/*        if (e) {*/}
-                        {/*            setFilterQueryHandle(e)*/}
-                        {/*        }*/}
-                        {/*    }}*/}
-                        {/*/>*/}
-
-                        <Input
-                            id={"price"}
-                            type={"number"}
-                            placeholder={i18n?.["site.coast_price.title"]}
-                            value={priceValue}
-                            onChange={(e) => {
-                                setPriceValue(e)
-                                setFilterQueryHandle({key: "price", value: e})
+                        <Button
+                            style={{
+                                opacity: Object.values(queryFilter || {}).length === 0 ? .3 : 1
                             }}
-                            typeInput={'secondary'}
+                            onClick={sendFilterQuery}
+                            title={i18n?.["site"]?.["search_title"]}
+                            disabled={Object.values(queryFilter || {}).length === 0}
                         />
 
                         <Button title={i18n?.["filter.clear.title"]} type={'outline'} onClick={clearFilters}/>
-                        <Button title={i18n?.["site"]?.["search_title"]} onClick={sendFilterQuery}/>
                     </div>
                 </SidebarContainer>
             </PortalProvider>

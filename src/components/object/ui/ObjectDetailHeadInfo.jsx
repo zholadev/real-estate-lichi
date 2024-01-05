@@ -9,6 +9,7 @@ import {useCurrencyFormat} from "@/shared/hooks";
  * @author Zholaman Zhumanov
  * @created 12.10.2023
  * @param props
+ * @todo
  * @returns {Element}
  * @constructor
  */
@@ -49,6 +50,14 @@ function ObjectDetailHeadInfo(props) {
                     <li className={styles['characters_item']}>
                         <span className={styles['key']}>{i18n?.["characters"]?.["area"]}</span>
                         <span className={styles['value']}>{data?.["district"]?.["name"]}</span>
+                    </li>
+                }
+
+                {
+                    data?.["rooms"] &&
+                    <li className={styles['characters_item']}>
+                        <span className={styles['key']}>Rooms</span>
+                        <span className={styles['value']}>{data?.["rooms"]?.["name"]}</span>
                     </li>
                 }
 

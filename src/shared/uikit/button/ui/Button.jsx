@@ -12,7 +12,7 @@ import styles from '@/styles/ui-button.module.sass'
  * @constructor
  */
 function Button(props) {
-    const {type = 'button', title, children, style, onClick, url, animateActive} = props
+    const {type = 'button', title, children, style, onClick, url, animateActive, disabled} = props
 
     const buttonAnimateRef = useRef(null)
 
@@ -30,6 +30,7 @@ function Button(props) {
                     style={style}
                     onClick={onClickHandle}
                     type={type}
+                    disabled={disabled}
                 >
                     <span>{children ? children : title}</span>
                 </button>
@@ -41,6 +42,7 @@ function Button(props) {
                 onClick={onClickHandle}
                 type={type}
                 ref={buttonAnimateRef}
+                disabled={disabled}
             >
                 <span>{children ? children : title}</span>
             </button>

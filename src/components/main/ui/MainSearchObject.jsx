@@ -180,7 +180,6 @@ function MainSearchObject(props) {
                                 value: e?.value
                             })
                         }}
-                        onClickContainer={checkDistrictValue}
                     />
                 </div>
 

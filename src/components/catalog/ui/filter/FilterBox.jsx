@@ -21,7 +21,7 @@ function FilterBox(props) {
         assemblyFilter,
         onClickContainer,
         assemblyFilterApi,
-        filterGetData
+        filterGetData,
     } = props
 
     const options = useMemo(() => {

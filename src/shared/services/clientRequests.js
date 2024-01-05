@@ -84,7 +84,7 @@ export const apiGetApartmentsByIdData = async (id, locale) => {
         `${api.apartment.get}/${id}`,
         {
             "id": id,
-            "populate": "attractions,managers,managers.info,managers.contacts,managers.photo.item,photos.item,residence,room,district,property_type,tags,layouts.locates,layouts.images,build_info,payment_plan,locate,locate.photo,attractions.photo,country,*",
+            "populate": "attractions,managers,managers.info,managers.contacts,managers.photo.item,photos.item,residence,rooms,districts,property_type,tags,layouts.locates,layouts.images,build_info,payment_plan,locate,locate.photo,attractions.photo,country,*",
             "locale": locale
         })
 }
@@ -111,7 +111,14 @@ export const apiGetFilterResidenceList = async (params) => {
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
 export const apiGetFilterDistrictList = async (params) => {
-    return await api_client_get(api.filter.district_get, {"pagination[limit]": -1, ...params})
+    return await api_client_get(api.filter.district_get, {
+        "pagination[limit]": -1,
+        "fields[0]": "district",
+        "fields[1]": "type",
+        "fields[2]": "name",
+        "fields[3]": "active",
+        ...params
+    })
 }
 
 /**
@@ -120,7 +127,14 @@ export const apiGetFilterDistrictList = async (params) => {
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
 export const apiGetFilterRoomsList = async (params) => {
-    return await api_client_get(api.filter.rooms_get, {"pagination[limit]": -1, ...params})
+    return await api_client_get(api.filter.rooms_get, {
+        "pagination[limit]": -1,
+        "fields[0]": "room",
+        "fields[1]": "type",
+        "fields[2]": "name",
+        "fields[3]": "active",
+        ...params
+    })
 }
 
 /**
@@ -129,7 +143,14 @@ export const apiGetFilterRoomsList = async (params) => {
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
 export const apiGetFilterPropertyTypeList = async (params) => {
-    return await api_client_get(api.filter.property_types_get, {"pagination[limit]": -1, ...params})
+    return await api_client_get(api.filter.property_types_get, {
+        "pagination[limit]": -1,
+        "fields[0]": "property",
+        "fields[1]": "type",
+        "fields[2]": "name",
+        "fields[3]": "active",
+        ...params
+    })
 }
 
 /**
@@ -138,15 +159,12 @@ export const apiGetFilterPropertyTypeList = async (params) => {
  * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
  */
 export const apiGetFilterTagsList = async (params) => {
-    return await api_client_get(api.filter.tag_get, {"pagination[limit]": -1, ...params})
-}
-
-
-/**
- * @author Zholaman Zhumanov
- * @description method for get prices list
- * @returns {Promise<boolean|{data: *, success: boolean, message_fail: string}|{data: *, success: boolean, message_fail: string, error: *}|undefined>}
- */
-export const apiGetFilterPriceList = async () => {
-    return await api_client_get(api.filter.prices_get, {"pagination[limit]": -1})
+    return await api_client_get(api.filter.tag_get, {
+        "pagination[limit]": -1,
+        "fields[0]": "tag",
+        "fields[1]": "type",
+        "fields[2]": "name",
+        "fields[3]": "active",
+        ...params
+    })
 }
