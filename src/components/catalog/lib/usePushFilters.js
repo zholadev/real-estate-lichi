@@ -69,7 +69,7 @@ function usePushFilters() {
 
     const buildFilters = (filters, residenceFilter) => {
         return Object.entries(filters || {}).map(([key, value]) => {
-            return residenceFilter ? transformResidenceFilter(key, value) : transformFilter(key, value);
+            return transformFilter(key, value);
         });
     };
 

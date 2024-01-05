@@ -4,6 +4,7 @@ import {Breadcrumbs} from "@/shared/breadcrumbs";
 import {CatalogContainer} from "@/components/catalog";
 import {apiGetApartmentsData, apiGetResidentialData} from "@/shared/services/clientRequests";
 import {cookies} from "next/headers";
+import {errorHandler} from "@/entities/errorHandler/errorHandler";
 
 async function getCatalogResidenceData(page, params) {
     return apiGetResidentialData(page, params)
@@ -20,13 +21,32 @@ async function getGetApartmentsDataData(page, params) {
  * @constructor
  */
 export default async function Page(props) {
+    const queryParamsSet = (data) => {
+        try {
+            const newObject = {}
+
+            // Проходимся по всем ключам оригинального объекта
+            Object.keys(data).forEach((key) => {
+                // Создаем новый ключ, добавляя 'apartments'
+                const newKey = key.replace('filters[', 'filters[apartments][');
+                // Устанавливаем новый ключ с оригинальным значением в новый объект
+                newObject[newKey] = data[key];
+            })
+
+            return newObject
+        } catch (error) {
+            errorHandler("catalog/page", "queryParamsSet", error)
+        }
+    }
+
     const residenceListData = await getCatalogResidenceData(
         props?.searchParams?.["page"] || 1,
         {
             "fields[0]": "name",
-            ...props?.searchParams
+            ...queryParamsSet(props?.searchParams)
         }
     )
+
     const apartmentListData = await getGetApartmentsDataData(
         props?.searchParams?.["page"] || 1,
         {
@@ -36,6 +56,7 @@ export default async function Page(props) {
             ...props?.searchParams
         }
     )
+
 
     const cookieStore = cookies()
     const lang = cookieStore.get('dubai_lang')?.value || 'en'

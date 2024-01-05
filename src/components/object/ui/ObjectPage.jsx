@@ -4,6 +4,7 @@ import React, {useMemo} from 'react';
 import ObjectLayout from "./ObjectLayout";
 import {PageMapInfo} from "@/shared/uikit/map";
 import {Breadcrumbs} from "@/shared/breadcrumbs";
+import {extractAttribute} from "@/shared/utilites";
 import ObjectPaymentPlan from "./ObjectPaymentPlan";
 import ObjectDetailPreview from "./ObjectDetailPreview";
 import ObjectDetailDescription from "./ObjectDetailDescription";
@@ -21,20 +22,21 @@ function ObjectPage(props) {
     const objectData = useMemo(() => {
         return {
             "total": apartmentData,
-            "name": apartmentData?.["attributes"]?.["name"],
-            "description": apartmentData?.["attributes"]?.["description"],
-            "photos": apartmentData?.["attributes"]?.["photos"],
-            "price": apartmentData?.["attributes"]?.["price"],
-            "tags": apartmentData?.["attributes"]?.["tags"]?.["data"],
-            "build_info": apartmentData?.["attributes"]?.["build_info"],
-            "residence": apartmentData?.["attributes"]?.["residence"]?.["data"]?.["attributes"],
-            "district": apartmentData?.["attributes"]?.["district"]?.["data"]?.["attributes"],
-            "payment_plan": apartmentData?.["attributes"]?.["payment_plan"],
-            "locate": apartmentData?.["attributes"]?.["locate"],
-            "attractions": apartmentData?.["attributes"]?.["attractions"]?.["data"],
-            "managers": apartmentData?.["attributes"]?.["managers"],
-            "layouts": apartmentData?.["attributes"]?.["layouts"]?.[0],
-            "country": apartmentData?.["attributes"]?.["country"]?.["data"]?.["attributes"],
+            "name": extractAttribute('name', apartmentData),
+            "description": extractAttribute('description', apartmentData),
+            "photos": extractAttribute('photos', apartmentData),
+            "price": extractAttribute('price', apartmentData),
+            "tags": extractAttribute('tags.data', apartmentData),
+            "build_info": extractAttribute('build_info', apartmentData),
+            "residence": extractAttribute('residence.data.attributes', apartmentData),
+            "district": extractAttribute('districts.data.0.attributes', apartmentData),
+            "payment_plan": extractAttribute('payment_plan', apartmentData),
+            "locate": extractAttribute('locate', apartmentData),
+            "attractions": extractAttribute('attractions.data', apartmentData),
+            "managers": extractAttribute('managers', apartmentData),
+            "layouts": extractAttribute('layouts.0', apartmentData),
+            "country": extractAttribute('country.data.attributes', apartmentData),
+            "rooms": extractAttribute('rooms.data.0.attributes', apartmentData),
         }
     }, [apartmentData])
 

@@ -49,7 +49,7 @@ function FormSelect(props) {
         } catch (error) {
             errorHandler("formSelect", "onClickContainerHandle", error)
         }
-    }, [onClick])
+    }, [onClickContainer])
 
     const onClearHandle = useCallback(() => {
         try {
