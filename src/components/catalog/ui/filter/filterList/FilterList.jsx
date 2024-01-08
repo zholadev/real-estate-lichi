@@ -1,15 +1,19 @@
-import React from 'react';
-import FilterDistrict from "@/components/catalog/ui/filter/filterTypes/FilterDistrict";
+import React, {useEffect, useMemo, useState} from 'react';
+import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import {
-    apiGetFilterDistrictList, apiGetFilterPropertyTypeList,
+    apiGetFilterDistrictList,
+    apiGetFilterPropertyTypeList,
     apiGetFilterResidenceList,
-    apiGetFilterRoomsList, apiGetFilterTagsList
+    apiGetFilterRoomsList,
+    apiGetFilterTagsList
 } from "@/shared/services/clientRequests";
-import FilterResidence from "@/components/catalog/ui/filter/filterTypes/FilterResidence";
-import FilterRooms from "@/components/catalog/ui/filter/filterTypes/FilterRooms";
-import FilterPropertyType from "@/components/catalog/ui/filter/filterTypes/FilterPropertyType";
-import FilterTags from "@/components/catalog/ui/filter/filterTypes/FilterTags";
+import {useApiRequest} from "@/shared/hooks";
 import {Input} from "@/shared/uikit/form/input";
+import FilterTags from "../filterTypes/FilterTags";
+import FilterRooms from "../filterTypes/FilterRooms";
+import FilterDistrict from "../filterTypes/FilterDistrict";
+import FilterResidence from "../filterTypes/FilterResidence";
+import FilterPropertyType from "../filterTypes/FilterPropertyType";
 
 /**
  * @author Zholaman Zhumanov
@@ -22,42 +26,168 @@ import {Input} from "@/shared/uikit/form/input";
 function FilterList(props) {
     const {
         i18n,
-        clearSelects,
-        queryFilter,
-        setFilterQueryHandle,
-        setApiFiltersHandle,
-        checkDistrictValue,
-        queryApiFilters,
-        typeCatalog,
-        getMinMaxPrices,
         priceFrom,
-        setPriceFrom,
         priceValue,
+        queryFilter,
+        typeCatalog,
         clearFilters,
-        setPriceValue
+        setPriceFrom,
+        clearSelects,
+        setPriceValue,
+        getMinMaxPrices,
+        queryApiFilters,
+        setFilterAllData,
+        checkDistrictValue,
+        setApiFiltersHandle,
+        setFilterQueryHandle,
     } = props
+
+    const {apiFetchHandler, loading} = useApiRequest()
+
+    const [tagDataFilter, setTagDataFilter] = useState([])
+    const [roomsDataFilter, setRoomsDataFilter] = useState([])
+    const [districtDataFilter, setDistrictDataFilter] = useState([])
+    const [residenceDataFilter, setResidenceFilterData] = useState([])
+    const [propertyTypeDataFilter, setPropertyTypeFilterData] = useState([])
+
+    const residenceApiParams = useMemo(() => {
+        return typeCatalog === 'residential_complex' ? {
+            "filters[apartments][name][$notNull]": true,
+            "filters[apartments][residence][name][$notNull]": true
+        } : {"filters[apartments][name][$notNull]": true}
+    }, [typeCatalog])
+
+    /**
+     * @description Districts Data
+     * @returns {Promise<void>}
+     */
+    const getFilterDistrictData = async () => {
+        await apiFetchHandler(
+            apiGetFilterDistrictList,
+            [residenceApiParams],
+            false,
+            {
+                onGetData: (params) => {
+                    setDistrictDataFilter(params.api_data)
+                }
+            })
+    }
+
+    useEffect(() => {
+        getFilterDistrictData()
+            .catch(error => {
+                errorHandler("filterDistrict", "useEffect", error)
+            })
+    }, [residenceApiParams]);
+
+    /**
+     * @description Residence Data
+     * @returns {Promise<void>}
+     */
+    const getFilterResidenceData = async () => {
+        await apiFetchHandler(apiGetFilterResidenceList, [queryApiFilters], false, {
+            onGetData: (params) => {
+                setResidenceFilterData(params.api_data)
+            }
+        })
+    }
+
+    useEffect(() => {
+        getFilterResidenceData()
+            .catch(error => {
+                errorHandler("filterResidence", "useEffect", error)
+            })
+    }, [queryApiFilters]);
+
+    /**
+     * @description Rooms Data
+     * @returns {Promise<void>}
+     */
+    const getFilterRoomsData = async () => {
+        await apiFetchHandler(apiGetFilterRoomsList, [queryApiFilters], false, {
+            onGetData: (params) => {
+                setRoomsDataFilter(params.api_data)
+            }
+        })
+    }
+
+    useEffect(() => {
+        getFilterRoomsData()
+            .catch(error => {
+                errorHandler("filterDistrict", "useEffect", error)
+            })
+    }, [queryApiFilters]);
+
+    /**
+     * @description Property Type Data
+     * @returns {Promise<void>}
+     */
+    const getFilterPropertyData = async () => {
+        await apiFetchHandler(apiGetFilterPropertyTypeList, [queryApiFilters], false, {
+            onGetData: (params) => {
+                setPropertyTypeFilterData(params.api_data)
+            }
+        })
+    }
+
+    useEffect(() => {
+        getFilterPropertyData()
+            .catch(error => {
+                errorHandler("filterPropertyType", "useEffect", error)
+            })
+    }, [queryApiFilters]);
+
+    /**
+     * @description Tags Data
+     * @returns {Promise<void>}
+     */
+    const getFilterTagsData = async () => {
+        await apiFetchHandler(apiGetFilterTagsList, [queryApiFilters], false, {
+            onGetData: (params) => {
+                setTagDataFilter(params.api_data)
+            }
+        })
+    }
+
+    useEffect(() => {
+        getFilterTagsData()
+            .catch(error => {
+                errorHandler("filterTags", "useEffect", error)
+            })
+    }, [queryApiFilters]);
+
+    useEffect(() => {
+        try {
+            setFilterAllData([...districtDataFilter, ...roomsDataFilter, ...tagDataFilter, ...residenceDataFilter, ...propertyTypeDataFilter])
+        } catch (error) {
+            errorHandler("filterList", "set filters all data", error)
+        }
+    }, [districtDataFilter, roomsDataFilter, tagDataFilter, residenceDataFilter, propertyTypeDataFilter]);
 
     return (
         <>
             <FilterDistrict
                 i18n={i18n}
+                loading={loading}
                 filterType={"districts"}
                 clearSelect={clearSelects}
                 clearFilters={clearFilters}
+                filterData={districtDataFilter}
                 value={queryFilter?.["districts"]}
                 filterApi={apiGetFilterDistrictList}
                 assemblyFilter={setFilterQueryHandle}
                 assemblyFilterApi={setApiFiltersHandle}
                 defaultValue={queryFilter?.["districts"]}
                 placeholder={i18n?.["site.district.title"]}
-                filterApiParams={typeCatalog === 'residential_complex' ? {"filters[apartments][name][$notNull]": true, "filters[apartments][residence][name][$notNull]": true} : {"filters[apartments][name][$notNull]": true}}
             />
 
             {
                 typeCatalog !== 'residential_complex' &&
                 <FilterResidence
                     i18n={i18n}
+                    loading={loading}
                     filterType={"residence"}
+                    filterData={residenceDataFilter}
                     value={queryFilter?.["residence"]}
                     clearSelect={clearSelects}
                     disabled={!queryFilter?.["districts"]}
@@ -72,44 +202,50 @@ function FilterList(props) {
 
             <FilterRooms
                 i18n={i18n}
+                loading={loading}
                 filterType={"rooms"}
                 clearSelect={clearSelects}
+                filterData={roomsDataFilter}
                 value={queryFilter?.["rooms"]}
-                disabled={!queryFilter?.["districts"]}
+                filterApiParams={queryApiFilters}
                 filterApi={apiGetFilterRoomsList}
                 assemblyFilter={setFilterQueryHandle}
                 onClickContainer={checkDistrictValue}
+                disabled={!queryFilter?.["districts"]}
                 assemblyFilterApi={setApiFiltersHandle}
                 placeholder={i18n?.["site.roominess.title"]}
-                filterApiParams={queryApiFilters}
             />
 
             <FilterPropertyType
                 i18n={i18n}
-                filterType={"property_types"}
+                loading={loading}
                 clearSelect={clearSelects}
-                value={queryFilter?.["property_types"]}
-                disabled={!queryFilter?.["districts"]}
-                filterApi={apiGetFilterPropertyTypeList}
+                filterType={"property_types"}
+                filterApiParams={queryApiFilters}
+                filterData={propertyTypeDataFilter}
                 assemblyFilter={setFilterQueryHandle}
                 onClickContainer={checkDistrictValue}
+                disabled={!queryFilter?.["districts"]}
+                value={queryFilter?.["property_types"]}
                 assemblyFilterApi={setApiFiltersHandle}
+                filterApi={apiGetFilterPropertyTypeList}
                 placeholder={i18n?.["site.property.type.title"]}
-                filterApiParams={queryApiFilters}
             />
 
             <FilterTags
                 i18n={i18n}
+                loading={loading}
                 filterType={"tags"}
-                value={queryFilter?.["tags"]}
+                filterData={tagDataFilter}
                 clearSelect={clearSelects}
-                disabled={!queryFilter?.["districts"]}
+                value={queryFilter?.["tags"]}
                 filterApi={apiGetFilterTagsList}
+                filterApiParams={queryApiFilters}
                 assemblyFilter={setFilterQueryHandle}
                 onClickContainer={checkDistrictValue}
+                disabled={!queryFilter?.["districts"]}
                 assemblyFilterApi={setApiFiltersHandle}
                 placeholder={i18n?.["site.tags.title"]}
-                filterApiParams={queryApiFilters}
             />
 
             <Input

@@ -15,8 +15,10 @@ function FilterTags(props) {
     const {
         i18n,
         value,
+        loading,
         disabled,
         filterType,
+        filterData,
         placeholder,
         clearSelect,
         assemblyFilter,
@@ -24,26 +26,6 @@ function FilterTags(props) {
         onClickContainer,
         assemblyFilterApi,
     } = props
-
-    const {apiFetchHandler, loading} = useApiRequest()
-
-    const [tagDataFilter, setTagDataFilter] = useState([])
-
-    const getFilterData = async () => {
-        await apiFetchHandler(apiGetFilterTagsList, [filterApiParams], false, {
-            onGetData: (params) => {
-                setTagDataFilter(params.api_data)
-            }
-        })
-    }
-
-    useEffect(() => {
-        getFilterData()
-            .catch(error => {
-                errorHandler("filterTags", "useEffect", error)
-            })
-    }, [filterApiParams]);
-
 
     return (
         <FilterBox
@@ -54,7 +36,7 @@ function FilterTags(props) {
             filterType={filterType}
             placeholder={placeholder}
             clearSelect={clearSelect}
-            filterGetData={tagDataFilter}
+            filterGetData={filterData}
             assemblyFilter={assemblyFilter}
             filterApiParams={filterApiParams}
             onClickContainer={onClickContainer}
