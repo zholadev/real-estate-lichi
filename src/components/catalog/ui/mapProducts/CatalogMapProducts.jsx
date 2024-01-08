@@ -5,6 +5,8 @@ import styles from '@/styles/catalog-products.module.sass'
 import dynamic from "next/dynamic";
 import {MapCard} from "@/shared/uikit/cards/mapCard";
 import {useMediaMaxState} from "@/shared/hooks";
+import {Spinner} from "@/shared/uikit/template/spinner";
+import Skeleton from "react-loading-skeleton";
 
 const MapListContainer = dynamic(() => import('@/widgets/map/ui/MapListContainer'), {ssr: false})
 
@@ -16,10 +18,12 @@ const MapListContainer = dynamic(() => import('@/widgets/map/ui/MapListContainer
  * @constructor
  */
 function CatalogMapProducts(props) {
-    const {mapData, i18n, redirectTo} = props
+    const {mapData, i18n, redirectTo, loading} = props
 
     const [position, setPosition] = useState(false)
     const [currentListCard, setCurrentListCard] = useState(mapData)
+
+    const mediaQuerySm = useMediaMaxState({screenSize: 768})
 
     useEffect(() => {
         setCurrentListCard(mapData)
@@ -28,6 +32,17 @@ function CatalogMapProducts(props) {
             setCurrentListCard([])
         }
     }, [mapData]);
+
+    if (loading) {
+        return (
+            <div className={styles['loading_container']}>
+                <Skeleton containerClassName={styles['skeleton_flex']} style={{height: "500px", width: mediaQuerySm ? "100%" : "calc(100% - 20px)"}}/>
+                <div className={styles['loading_cards']}>
+                    <Skeleton containerClassName={styles['skeleton_flex']} style={{height: "80px", width: "170px", marginBottom: "20px", marginInlineEnd: mediaQuerySm ? "20px" : 0}} count={5}/>
+                </div>
+            </div>
+        )
+    }
 
     if (Object.values(mapData || {}).length === 0) {
         return <h4>{i18n?.["site.not_found.title"]}</h4>
