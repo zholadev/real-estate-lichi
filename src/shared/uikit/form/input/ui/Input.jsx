@@ -53,7 +53,7 @@ function Input(props) {
                 onFocus={onFocusHandler}
                 onChange={e => onChangeHandler(e)}
                 placeholder={placeholder}
-                className={`${styles['input']}`}
+                className={`${styles['input']} ${disabled ? 'cursor-disabled' : ''}`}
             />
         </div>
     );

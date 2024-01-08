@@ -1,7 +1,7 @@
 function useSetFilter() {
     return (prevFilters, key, value) => {
         try {
-            if (value === null) {
+            if (!value) {
                 const {[key]: deletedValue, ...rest} = prevFilters;
                 return rest;
             } else {

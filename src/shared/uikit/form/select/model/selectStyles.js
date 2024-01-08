@@ -12,6 +12,7 @@ export const customSelectDefaultStyles = (type) => {
             outline: 'none !important',
             color: 'rgba(22, 24, 29, 0.6)',
             width: "100%",
+            cursor: isDisabled ? 'no-drop' : 'pointer',
             boxShadow: 'none !important',
             '@media screen and (max-width: 768px)': {
                 marginBottom: '25px'

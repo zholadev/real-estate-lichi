@@ -33,6 +33,7 @@ function FilterList(props) {
         priceFrom,
         setPriceFrom,
         priceValue,
+        clearFilters,
         setPriceValue
     } = props
 
@@ -42,6 +43,7 @@ function FilterList(props) {
                 i18n={i18n}
                 filterType={"districts"}
                 clearSelect={clearSelects}
+                clearFilters={clearFilters}
                 value={queryFilter?.["districts"]}
                 filterApi={apiGetFilterDistrictList}
                 assemblyFilter={setFilterQueryHandle}
@@ -125,7 +127,7 @@ function FilterList(props) {
                     })
                 }}
                 placeholder={`${i18n?.["site.coast.from.title"]} ${getMinMaxPrices?.["min"]}`}
-                disabled={Object.values(queryFilter || {}).length > 0 && queryFilter?.["districts"]}
+                disabled={getMinMaxPrices?.["min"] === getMinMaxPrices?.["max"] || Object.values(queryFilter || {}).length > 0 && queryFilter?.["districts"]}
             />
 
             <Input
@@ -144,6 +146,7 @@ function FilterList(props) {
                     })
                 }}
                 placeholder={`${i18n?.["site.coast.to.title"]} ${getMinMaxPrices?.["max"]}`}
+                disabled={getMinMaxPrices?.["max"] === getMinMaxPrices?.["min"]}
             />
         </>
     );

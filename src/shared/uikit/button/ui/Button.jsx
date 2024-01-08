@@ -26,7 +26,7 @@ function Button(props) {
         url ?
             <Link href={url}>
                 <button
-                    className={`${styles['ui_button']} ${animateActive && type === 'primary_animate' ? styles['animate_bg_fill'] : ''} ${type === 'secondary' ? styles['ui_button_secondary'] : type === 'outline' ? styles['ui_button_outline'] : type === 'outline_light' ? styles['ui_button_outline_light'] : type === 'primary_animate' ? styles['ui_button_primary_animate'] : type === 'secondary_dark' ? styles['ui_button_secondary_dark'] : ''} `}
+                    className={`${styles['ui_button']} ${disabled ? 'cursor-disabled' : ''} ${animateActive && type === 'primary_animate' ? styles['animate_bg_fill'] : ''} ${type === 'secondary' ? styles['ui_button_secondary'] : type === 'outline' ? styles['ui_button_outline'] : type === 'outline_light' ? styles['ui_button_outline_light'] : type === 'primary_animate' ? styles['ui_button_primary_animate'] : type === 'secondary_dark' ? styles['ui_button_secondary_dark'] : ''} `}
                     style={style}
                     onClick={onClickHandle}
                     type={type}
@@ -37,7 +37,7 @@ function Button(props) {
             </Link>
             :
             <button
-                className={`${styles['ui_button']} ${animateActive && type === 'primary_animate' ? styles['animate_bg_fill'] : ''} ${type === 'secondary' ? styles['ui_button_secondary'] : type === 'outline' ? styles['ui_button_outline'] : type === 'outline_light' ? styles['ui_button_outline_light'] : type === 'primary_animate' ? styles['ui_button_primary_animate'] : type === 'secondary_dark' ? styles['ui_button_secondary_dark'] : ''} `}
+                className={`${styles['ui_button']} ${disabled ? 'cursor-disabled' : ''} ${animateActive && type === 'primary_animate' ? styles['animate_bg_fill'] : ''} ${type === 'secondary' ? styles['ui_button_secondary'] : type === 'outline' ? styles['ui_button_outline'] : type === 'outline_light' ? styles['ui_button_outline_light'] : type === 'primary_animate' ? styles['ui_button_primary_animate'] : type === 'secondary_dark' ? styles['ui_button_secondary_dark'] : ''} `}
                 style={style}
                 onClick={onClickHandle}
                 type={type}

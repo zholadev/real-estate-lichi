@@ -20,6 +20,7 @@ function FilterDistrict(props) {
         filterType,
         placeholder,
         clearSelect,
+        clearFilters,
         assemblyFilter,
         filterApiParams,
         onClickContainer,
@@ -44,7 +45,7 @@ function FilterDistrict(props) {
                 errorHandler("filterDistrict", "useEffect", error)
             })
     }, [filterApiParams]);
-    
+
     return (
         <FilterBox
             i18n={i18n}
@@ -55,6 +56,7 @@ function FilterDistrict(props) {
             filterType={filterType}
             placeholder={placeholder}
             clearSelect={clearSelect}
+            clearFilters={clearFilters}
             assemblyFilter={assemblyFilter}
             filterApiParams={filterApiParams}
             filterGetData={districtDataFilter}

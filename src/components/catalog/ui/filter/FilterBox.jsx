@@ -18,10 +18,11 @@ function FilterBox(props) {
         filterType,
         placeholder,
         clearSelect,
+        clearFilters,
+        filterGetData,
         assemblyFilter,
         onClickContainer,
         assemblyFilterApi,
-        filterGetData,
     } = props
 
     const options = useMemo(() => {
@@ -76,6 +77,9 @@ function FilterBox(props) {
             placeholder={placeholder}
             onClickContainer={onClickContainer}
             onChange={e => {
+                if (filterType === 'districts') {
+                    clearFilters()
+                }
                 if (e) {
                     assemblyFilter(e)
                     assemblyFilterApi({
