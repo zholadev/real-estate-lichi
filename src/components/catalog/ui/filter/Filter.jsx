@@ -176,6 +176,7 @@ function Filter(props) {
                     queryFilter={queryFilter}
                     typeCatalog={typeCatalog}
                     clearSelect={clearSelects}
+                    clearFilters={clearFilters}
                     setPriceFrom={setPriceFrom}
                     setPriceValue={setPriceValue}
                     queryApiFilters={queryApiFilters}
@@ -225,6 +226,7 @@ function Filter(props) {
                             queryFilter={queryFilter}
                             typeCatalog={typeCatalog}
                             clearSelect={clearSelects}
+                            clearFilters={clearFilters}
                             setPriceFrom={setPriceFrom}
                             setPriceValue={setPriceValue}
                             queryApiFilters={queryApiFilters}

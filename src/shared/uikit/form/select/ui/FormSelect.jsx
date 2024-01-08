@@ -68,7 +68,7 @@ function FormSelect(props) {
     }, [clear]);
 
     return (
-        <div className={styles['ui_select']} onClick={onClickContainerHandle}>
+        <div className={`${styles['ui_select']} ${disabled ? 'cursor-disabled' : ''}`} onClick={onClickContainerHandle}>
             {label && <label htmlFor={id} className={styles['label']}>{label}</label>}
 
             <Select
