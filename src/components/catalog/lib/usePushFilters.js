@@ -1,5 +1,5 @@
 import qs from "qs";
-import {useRouter} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import {useToastMessage} from "@/shared/hooks";
 
 /**
@@ -13,7 +13,9 @@ function usePushFilters() {
     const PAGE_FILTER = 'page'
 
     const router = useRouter();
-    const toastMessage = useToastMessage();
+    const params = useSearchParams()
+
+    const isPageParams = params.get("page")
 
     const residenceFilter = (value) => ({name: {$contains: value}});
     const priceFromFilter = (value) => ({price: {$gte: value}});
@@ -49,13 +51,19 @@ function usePushFilters() {
 
     return (url, filters) => {
         if (Object.values(filters || {}).length === 0) {
-            // toastMessage("Please select filter value", "error")
             return
         }
+
+        let paramsObject = {
+            filters: buildFilters(filters),
+        }
+
+        if (isPageParams) {
+            paramsObject["page"] = isPageParams
+        }
+
         const queryString = qs.stringify(
-            {
-                filters: buildFilters(filters),
-            },
+            paramsObject,
             {arrayFormat: "repeat"}
         );
 

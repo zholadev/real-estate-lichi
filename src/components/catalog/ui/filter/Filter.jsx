@@ -63,7 +63,7 @@ function Filter(props) {
     const checkDistrictValue = useCallback(() => {
         // if (typeCatalog === 'residential_complex') return
         if (!queryFilter?.["districts"]) {
-            toastMessage("Please select a district", "error")
+            toastMessage("Please select a district")
         }
     }, [typeCatalog, queryFilter])
 
@@ -90,7 +90,7 @@ function Filter(props) {
         }
     }, [apartmentListData])
 
-    const sendFilterQuery = (filterData) => {
+    const sendFilterQuery = (filterData, filterToggle) => {
         const parsePrice = (key) => parseFloat(queryFilter?.[`price.${key}`]);
 
         const invalidPriceMsg = "You entered incorrect price values.";
@@ -103,17 +103,17 @@ function Filter(props) {
         const maxPrice = getMinMaxPrices?.["max"];
 
         if (fromPrice > toPrice) {
-            toastMessage(invalidPriceMsg, "error")
+            toastMessage(invalidPriceMsg)
             return;
         }
 
         if (fromPrice < minPrice || toPrice < minPrice) {
-            toastMessage(lowerThanMinPriceMsg, "error")
+            toastMessage(lowerThanMinPriceMsg)
             return;
         }
 
         if (toPrice > maxPrice) {
-            toastMessage(exceedsMaxPriceMsg, "error")
+            toastMessage(exceedsMaxPriceMsg)
             return;
         }
 
@@ -129,7 +129,7 @@ function Filter(props) {
             pushFilterHandle(routerPage.catalog, queryFilter);
         }
 
-        if (mediaQuerySm) {
+        if (mediaQuerySm && !filterToggle) {
             toggleFilterHandle()
         }
     };

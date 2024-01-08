@@ -1,6 +1,9 @@
+'use client'
+
 import React from 'react';
 import {Button} from "@/shared/uikit/button";
 import styles from "@/styles/catalog-filter.module.sass";
+import {useMediaMaxState} from "@/shared/hooks";
 
 /**
  * @author Zholaman Zhumanov
@@ -22,34 +25,44 @@ function FilterBottomPanel(props) {
         filterApiClearHandle,
     } = props
 
+    const mediaQuerySm = useMediaMaxState({screenSize: 768})
+
+    const switchBtnOnClick = () => {
+        clearFilters()
+        onClick()
+    }
+
     return (
         <div className={styles['filter_panel']}>
-            <ul className={styles['filter_list_actions']}>
-                {
-                    queryFilterData.map(([key, value], id) => {
-                        return (
-                            <li
-                                key={id}
-                                onClick={async () => {
-                                    if (queryFilterData?.length === 1) {
-                                        await clearFilters();
-                                    }
+            {
+                !mediaQuerySm &&
+                <ul className={styles['filter_list_actions']}>
+                    {
+                        queryFilterData.map(([key, value], id) => {
+                            return (
+                                <li
+                                    key={id}
+                                    onClick={async () => {
+                                        if (queryFilterData?.length === 1) {
+                                            await clearFilters();
+                                        }
 
-                                    filterClearHandle({key: key, value: null})
-                                    filterApiClearHandle({
-                                        key: key === 'residence' ? `filters[apartments][residence][name][$contains]` : `filters[apartments][${key}][type]`,
-                                        value: null
-                                    })
+                                        filterClearHandle({key: key, value: null})
+                                        filterApiClearHandle({
+                                            key: key === 'residence' ? `filters[apartments][residence][name][$contains]` : `filters[apartments][${key}][type]`,
+                                            value: null
+                                        })
 
-                                    sendFilterQuery({key: key, value: null})
-                                }}
-                            >
-                                <span>{key}</span> <i className={styles['icon']}></i>
-                            </li>
-                        )
-                    })
-                }
-            </ul>
+                                        sendFilterQuery({key: key, value: null}, true)
+                                    }}
+                                >
+                                    <span>{key}</span> <i className={styles['icon']}></i>
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+            }
             <div className={styles['filter_switch_actions']}>
                 {
                     queryFilterData.length > 0 || filterData.length > 0 ?
@@ -59,7 +72,7 @@ function FilterBottomPanel(props) {
                                 title={i18n?.["filter.clear.title"]}
                                 onClick={clearFilters}
                                 style={{
-                                    fontSize: "13px",
+                                    fontSize: mediaQuerySm ? "18px" : "13px",
                                     lineHeight: "18.2px"
                                 }}
                             />
@@ -71,7 +84,7 @@ function FilterBottomPanel(props) {
                 <div className={styles['switch_btn']}>
                     <Button
                         type={'primary_animate'}
-                        onClick={onClick}
+                        onClick={switchBtnOnClick}
                         animateActive={typeContent === 'list'}
                         style={{
                             fontSize: "13px",
@@ -83,7 +96,7 @@ function FilterBottomPanel(props) {
 
                     <Button
                         type={'primary_animate'}
-                        onClick={onClick}
+                        onClick={switchBtnOnClick}
                         animateActive={typeContent === 'map'}
                         style={{
                             fontSize: "13px",
