@@ -60,11 +60,29 @@ function CatalogContainer(props) {
         }
     }
 
+    const queryParamsSet = (data) => {
+        try {
+            const newObject = {}
+
+            // Проходимся по всем ключам оригинального объекта
+            Object.keys(data).forEach((key) => {
+                // Создаем новый ключ, добавляя 'apartments'
+                const newKey = key.replace('filters[', 'filters[apartments][');
+                // Устанавливаем новый ключ с оригинальным значением в новый объект
+                newObject[newKey] = data[key];
+            })
+
+            return newObject
+        } catch (error) {
+            errorHandler("CatalogContainer", "queryParamsSet", error)
+        }
+    }
+
     const fetchResidenceData = async () => {
         try {
             await apiFetchHandler(
                 apiGetResidentialData,
-                [pageParams?.["page"], {"pagination[limit]": -1, ...pageParams}],
+                [pageParams?.["page"], {"pagination[limit]": -1, ...queryParamsSet(pageParams)}],
                 false,
                 {
                     onGetData: (params) => {

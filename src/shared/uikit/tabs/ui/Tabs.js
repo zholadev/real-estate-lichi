@@ -13,7 +13,7 @@ import {useRouter} from "next/navigation";
  * @constructor
  */
 function Tabs(props) {
-    const {i18n, onClick, tabData = {}, item, activeSelectName, defaultValue, url, onClickEvent} = props
+    const {onClick, tabData = {}, item, activeSelectName, defaultValue, url, onClickEvent} = props
 
     const router = useRouter()
 
@@ -38,7 +38,7 @@ function Tabs(props) {
         } catch (error) {
             console.log(`page: catalog, event: toggleTab, error: ${error}`)
         }
-    }, [tab, onClick])
+    }, [tab, onClick, onClickEvent, url])
 
     useEffect(() => {
         if (tabDataValues.length === 0) return

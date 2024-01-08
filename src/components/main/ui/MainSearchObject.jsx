@@ -152,7 +152,7 @@ function MainSearchObject(props) {
     const checkDistrictValue = useCallback(() => {
         if (queryFilter?.["districts"]) return
         if (!queryFilter?.["districts"]) {
-            toastMessage("Выберите район (districts)", "error")
+            toastMessage("Please select a district")
         }
     }, [queryFilter])
 

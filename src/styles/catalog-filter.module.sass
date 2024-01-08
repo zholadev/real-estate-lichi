@@ -103,6 +103,14 @@
     grid-template-columns: 1fr
     grid-gap: 10px
 
+  .filter_list_box
+    width: 100%
+    height: auto
+
+    display: flex
+    align-items: center
+    flex-direction: row
+
   .filter_list_actions
     width: 100%
     overflow-y: hidden
@@ -112,17 +120,20 @@
     align-items: center
     gap: 10px
 
+    +md_sm
+      width: calc(100% - 80px)
+
     li
       display: flex
       cursor: pointer
       flex-direction: row
-      align-content: center
+      align-items: center
       text-transform: uppercase
       margin-inline-end: 20px
 
       span
         display: inline-block
-        margin-inline-end: 10px
+        margin-inline-end: 7px
 
       i
         width: 12px
@@ -138,9 +149,15 @@
     justify-content: space-between
     flex-direction: row
 
+    +md_sm
+      justify-content: space-between
+
     button
       width: 80px
       min-width: 36px
+
+      +md_sm
+        width: 120px
 
     .switch_btn
       display: flex
