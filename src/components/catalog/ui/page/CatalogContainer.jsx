@@ -1,11 +1,14 @@
 'use client'
 
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
+import {useApiRequest} from "@/shared/hooks";
+import {StoreProvider} from "@/entities/store";
 import {useSearchParams} from "next/navigation";
 import styles from '@/styles/catalog-products.module.sass'
 import {CatalogProducts, Filter} from "@/components/catalog";
+import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import CatalogMapProducts from "@/components/catalog/ui/mapProducts/CatalogMapProducts";
-import {StoreProvider} from "@/entities/store";
+import {apiGetApartmentsData, apiGetResidentialData} from "@/shared/services/clientRequests";
 
 /**
  * @author Zholaman Zhumanov
@@ -19,10 +22,16 @@ function CatalogContainer(props) {
 
     const query = useSearchParams()
 
+    const {loading, apiFetchHandler} = useApiRequest()
+
     const [typeContent, setTypeContent] = useState('list')
     const [typeCatalog, setTypeCatalog] = useState('object')
 
+    const [objectClientData, setObjectClientData] = useState([])
+    const [residenceClientData, setResidenceClientData] = useState([])
+
     const isResidential = query.get('type') === 'residential_complex' || typeCatalog === 'residential_complex';
+    const isMapContent = typeContent === 'map'
 
     const tabData = useMemo(() => {
         try {
@@ -51,6 +60,48 @@ function CatalogContainer(props) {
         }
     }
 
+    const fetchResidenceData = async () => {
+        try {
+            await apiFetchHandler(
+                apiGetResidentialData,
+                [pageParams?.["page"], {"pagination[limit]": -1, ...pageParams}],
+                false,
+                {
+                    onGetData: (params) => {
+                        setResidenceClientData(params.data?.["data"]?.["data"])
+                    }
+                }
+            )
+        } catch (error) {
+            errorHandler("catalogContainer", "fetchResidenceData", error)
+        }
+    }
+
+    const fetchApartmentData = async () => {
+        try {
+            await apiFetchHandler(
+                apiGetApartmentsData,
+                [pageParams?.["page"], {"pagination[limit]": -1, ...pageParams}],
+                false,
+                {
+                    onGetData: (params) => {
+                        setObjectClientData(params.data?.["data"]?.["data"])
+                    }
+                }
+            )
+
+        } catch (error) {
+            errorHandler("catalogContainer", "fetchResidenceData", error)
+        }
+    }
+
+    useEffect(() => {
+        if (isMapContent) {
+            fetchResidenceData()
+            fetchApartmentData()
+        }
+    }, [isMapContent, pageParams]);
+
     return (
         <StoreProvider>
             <div className={styles['catalog_products_list']}>
@@ -70,9 +121,10 @@ function CatalogContainer(props) {
                     <div className={'container_md_p_sm'}>
                         <CatalogMapProducts
                             i18n={i18n}
+                            loading={loading}
                             pageParams={pageParams}
                             redirectTo={isResidential ? 'residence' : 'apartment'}
-                            mapData={isResidential ? residenceListData : apartmentListData}
+                            mapData={isResidential ? residenceClientData : objectClientData}
                         />
                     </div>
                 ) : (

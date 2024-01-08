@@ -46,3 +46,24 @@
 
 
 
+.loading_container
+  width: 100%
+  height: auto
+  display: flex
+  flex-direction: row
+
+  +md_sm
+    flex-direction: column
+
+  .skeleton_flex
+    flex: 1
+
+  .loading_cards
+    display: flex
+    flex-direction: column
+
+    +md_sm
+      margin-top: 20px
+      flex-direction: row !important
+
+
