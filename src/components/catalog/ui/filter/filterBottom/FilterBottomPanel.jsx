@@ -16,6 +16,7 @@ function FilterBottomPanel(props) {
         filterData,
         typeContent,
         clearFilters,
+        sendFilterQuery,
         queryFilterData,
         filterClearHandle,
         filterApiClearHandle,
@@ -29,12 +30,18 @@ function FilterBottomPanel(props) {
                         return (
                             <li
                                 key={id}
-                                onClick={() => {
-                                    filterClearHandle({key: key, value: null}, true)
+                                onClick={async () => {
+                                    if (queryFilterData?.length === 1) {
+                                        await clearFilters();
+                                    }
+
+                                    filterClearHandle({key: key, value: null})
                                     filterApiClearHandle({
                                         key: key === 'residence' ? `filters[apartments][residence][name][$contains]` : `filters[apartments][${key}][type]`,
                                         value: null
                                     })
+
+                                    sendFilterQuery({key: key, value: null})
                                 }}
                             >
                                 <span>{key}</span> <i className={styles['icon']}></i>

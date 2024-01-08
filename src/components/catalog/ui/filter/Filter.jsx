@@ -3,7 +3,6 @@
 import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {Tabs} from "@/shared/uikit/tabs";
 import {Button} from "@/shared/uikit/button";
-import {useMediaMaxState, useToastMessage} from "@/shared/hooks";
 import {PortalProvider} from "@/shared/portals";
 import useSetFilter from "../../lib/useSetFilter";
 import FilterList from "./filterList/FilterList";
@@ -13,8 +12,10 @@ import styles from '@/styles/catalog-filter.module.sass'
 import {useRouter, useSearchParams} from "next/navigation";
 import FilterIconMenu from "./filterIconMenu/FilterIconMenu";
 import FilterBottomPanel from "./filterBottom/FilterBottomPanel";
+import {useMediaMaxState, useToastMessage} from "@/shared/hooks";
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import useFilterConvertQuery from "../../lib/useFilterConvertQuery";
+import {routerPage} from "@/entities/router/model/pages";
 
 /**
  * @author Zholaman Zhumanov
@@ -26,7 +27,6 @@ function Filter(props) {
     const {i18n, onClick, typeContent, pageParams, typeCatalog, apartmentListData, setTypeCatalog, tabData} = props
 
     const timerClearValue = useRef(null)
-    const timerClearFilterQuery = useRef(null)
 
     const router = useRouter()
     const query = useSearchParams()
@@ -54,21 +54,14 @@ function Filter(props) {
      * Handles setting the filter query based on provided data
      *
      * @param {Object} filterData - The filter data to be set paired with its associated key
-     * @param {Boolean} shouldSendQuery - Indicates whether to send a filter query after setting
      */
-    const setFilterQueryHandle = (filterData, shouldSendQuery) => {
+    const setFilterQueryHandle = (filterData) => {
         const {key, value} = filterData
-
-
         setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value));
-
-        if (shouldSendQuery) {
-            sendFilterQuery();
-        }
     };
 
     const checkDistrictValue = useCallback(() => {
-        if (typeCatalog === 'residential_complex') return
+        // if (typeCatalog === 'residential_complex') return
         if (!queryFilter?.["districts"]) {
             toastMessage("Please select a district", "error")
         }
@@ -97,7 +90,7 @@ function Filter(props) {
         }
     }, [apartmentListData])
 
-    const sendFilterQuery = () => {
+    const sendFilterQuery = (filterData) => {
         const parsePrice = (key) => parseFloat(queryFilter?.[`price.${key}`]);
 
         const invalidPriceMsg = "You entered incorrect price values.";
@@ -124,16 +117,22 @@ function Filter(props) {
             return;
         }
 
-        console.log('query send filter data', queryFilter)
+        if (filterData) {
+            const newObjectFilter = {queryFilter}
 
-        pushFilterHandle('/catalog', queryFilter);
+            const getFilterData = Object.values(newObjectFilter || {}).map((filterItem) => {
+                return getSetFilterHandle(filterItem, filterData.key, null)
+            })
+
+            pushFilterHandle(routerPage.catalog, getFilterData?.[0]);
+        } else {
+            pushFilterHandle(routerPage.catalog, queryFilter);
+        }
 
         if (mediaQuerySm) {
             toggleFilterHandle()
         }
     };
-
-    console.log('filter data', queryFilter)
 
     const clearFilters = useCallback(() => {
         try {
@@ -144,7 +143,7 @@ function Filter(props) {
             setPriceValue(null)
             setPriceFrom(null)
             setClearSelects('clear')
-            router.replace('/catalog')
+            router.replace(routerPage.catalog)
 
             setQueryApiFilters({})
 
@@ -202,6 +201,7 @@ function Filter(props) {
                 filterData={FILTER_DATA}
                 typeContent={typeContent}
                 clearFilters={clearFilters}
+                filterDataQuery={queryFilter}
                 setQueryFilter={setQueryFilter}
                 sendFilterQuery={sendFilterQuery}
                 queryFilterData={FILTER_QUERY_DATA}
