@@ -10,6 +10,7 @@ function usePushFilters() {
     const RESIDENCE_FILTER = "residence";
     const PRICE_FROM_FILTER = "price.from";
     const PRICE_TO_FILTER = "price.to";
+    const PAGE_FILTER = 'page'
 
     const router = useRouter();
     const toastMessage = useToastMessage();
@@ -17,6 +18,7 @@ function usePushFilters() {
     const residenceFilter = (value) => ({name: {$contains: value}});
     const priceFromFilter = (value) => ({price: {$gte: value}});
     const priceToFilter = (value) => ({price: {$lte: value}});
+    const pageFilter = (value) => ({page: value})
     const defaultFilter = (value) => ({type: value});
 
     const transformFilter = (key, value) => {
@@ -30,6 +32,9 @@ function usePushFilters() {
             case PRICE_TO_FILTER:
                 return priceToFilter(value);
 
+            case PAGE_FILTER:
+                return pageFilter(value)
+
             default:
                 return {[key]: defaultFilter(value)};
         }
@@ -42,17 +47,18 @@ function usePushFilters() {
         });
     };
 
-    return (url, filters, residenceFilter) => {
+    return (url, filters) => {
         if (Object.values(filters || {}).length === 0) {
-            toastMessage("Please select filter value", "error")
+            // toastMessage("Please select filter value", "error")
             return
         }
         const queryString = qs.stringify(
             {
-                filters: buildFilters(filters, residenceFilter),
+                filters: buildFilters(filters),
             },
             {arrayFormat: "repeat"}
         );
+
         router.push(`${url}?${queryString}`);
     };
 }
