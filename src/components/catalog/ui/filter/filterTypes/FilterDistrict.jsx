@@ -15,10 +15,12 @@ function FilterDistrict(props) {
     const {
         i18n,
         value,
+        loading,
         disabled,
         filterApi,
         filterType,
         placeholder,
+        filterData,
         clearSelect,
         clearFilters,
         assemblyFilter,
@@ -26,25 +28,6 @@ function FilterDistrict(props) {
         onClickContainer,
         assemblyFilterApi,
     } = props
-
-    const {apiFetchHandler, loading} = useApiRequest()
-
-    const [districtDataFilter, setDistrictDataFilter] = useState([])
-
-    const getFilterData = async () => {
-        await apiFetchHandler(apiGetFilterDistrictList, [filterApiParams], false, {
-            onGetData: (params) => {
-                setDistrictDataFilter(params.api_data)
-            }
-        })
-    }
-
-    useEffect(() => {
-        getFilterData()
-            .catch(error => {
-                errorHandler("filterDistrict", "useEffect", error)
-            })
-    }, [filterApiParams]);
 
     return (
         <FilterBox
@@ -56,10 +39,10 @@ function FilterDistrict(props) {
             filterType={filterType}
             placeholder={placeholder}
             clearSelect={clearSelect}
+            filterGetData={filterData}
             clearFilters={clearFilters}
             assemblyFilter={assemblyFilter}
             filterApiParams={filterApiParams}
-            filterGetData={districtDataFilter}
             onClickContainer={onClickContainer}
             assemblyFilterApi={assemblyFilterApi}
         />

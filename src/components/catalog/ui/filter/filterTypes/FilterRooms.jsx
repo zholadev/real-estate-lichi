@@ -1,8 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useApiRequest} from "@/shared/hooks";
-import {errorHandler} from "@/entities/errorHandler/errorHandler";
+import React from 'react';
 import FilterBox from "@/components/catalog/ui/filter/FilterBox";
-import {apiGetFilterRoomsList} from "@/shared/services/clientRequests";
 
 /**
  * @author Zholaman Zhumanov
@@ -15,8 +12,10 @@ function FilterRooms(props) {
     const {
         i18n,
         value,
+        loading,
         disabled,
         filterApi,
+        filterData,
         filterType,
         placeholder,
         clearSelect,
@@ -26,25 +25,6 @@ function FilterRooms(props) {
         assemblyFilterApi,
         onClickDis
     } = props
-
-    const {apiFetchHandler, loading} = useApiRequest()
-    const [roomsDataFilter, setRoomsDataFilter] = useState([])
-
-    const getFilterData = async () => {
-        await apiFetchHandler(apiGetFilterRoomsList, [filterApiParams], false, {
-            onGetData: (params) => {
-                setRoomsDataFilter(params.api_data)
-            }
-        })
-    }
-
-    useEffect(() => {
-        getFilterData()
-            .catch(error => {
-                errorHandler("filterDistrict", "useEffect", error)
-            })
-    }, [filterApiParams]);
-
 
     return (
         <FilterBox
@@ -57,7 +37,7 @@ function FilterRooms(props) {
             filterType={filterType}
             placeholder={placeholder}
             clearSelect={clearSelect}
-            filterGetData={roomsDataFilter}
+            filterGetData={filterData}
             assemblyFilter={assemblyFilter}
             filterApiParams={filterApiParams}
             onClickContainer={onClickContainer}

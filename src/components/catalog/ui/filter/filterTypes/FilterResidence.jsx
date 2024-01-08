@@ -1,8 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useApiRequest} from "@/shared/hooks";
-import {errorHandler} from "@/entities/errorHandler/errorHandler";
+import React from 'react';
 import FilterBox from "@/components/catalog/ui/filter/FilterBox";
-import {apiGetFilterResidenceList} from "@/shared/services/clientRequests";
 
 /**
  * @author Zholaman Zhumanov
@@ -19,32 +16,14 @@ function FilterResidence(props) {
         filterApi,
         filterType,
         placeholder,
+        filterData,
+        loading,
         clearSelect,
         assemblyFilter,
         filterApiParams,
         onClickContainer,
         assemblyFilterApi,
     } = props
-
-    const {apiFetchHandler, loading} = useApiRequest()
-
-    const [residenceDataFilter, setResidenceFilterData] = useState([])
-
-    const getFilterData = async () => {
-        await apiFetchHandler(apiGetFilterResidenceList, [filterApiParams], false, {
-            onGetData: (params) => {
-                setResidenceFilterData(params.api_data)
-            }
-        })
-    }
-
-    useEffect(() => {
-        getFilterData()
-            .catch(error => {
-                errorHandler("filterResidence", "useEffect", error)
-            })
-    }, [filterApiParams]);
-
 
     return (
         <FilterBox
@@ -56,7 +35,7 @@ function FilterResidence(props) {
             filterType={filterType}
             placeholder={placeholder}
             clearSelect={clearSelect}
-            filterGetData={residenceDataFilter}
+            filterGetData={filterData}
             assemblyFilter={assemblyFilter}
             filterApiParams={filterApiParams}
             onClickContainer={onClickContainer}

@@ -1,9 +1,10 @@
 'use client'
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Button} from "@/shared/uikit/button";
 import styles from "@/styles/catalog-filter.module.sass";
 import {useMediaMaxState} from "@/shared/hooks";
+import {errorHandler} from "@/entities/errorHandler/errorHandler";
 
 /**
  * @author Zholaman Zhumanov
@@ -19,6 +20,7 @@ function FilterBottomPanel(props) {
         filterData,
         typeContent,
         clearFilters,
+        filterAllData = [],
         sendFilterQuery,
         queryFilterData,
         filterClearHandle,
@@ -32,13 +34,40 @@ function FilterBottomPanel(props) {
         onClick()
     }
 
+    /**
+     * @description Получаем данные которые уже активны, нужны полные данные активных фильтров
+     * @type {(*&{key: *})[]}
+     */
+    const filteringAllData = useMemo(() => {
+        try {
+            const getType = (item) => item?.["attributes"]?.["type"];
+
+            const filterDataByType = (data, type) =>
+                data.filter(item => queryFilterData.find(filter => filter?.[1] === getType(item)));
+
+            const mapDataWithKey = (data) =>
+                data.map(item => {
+                    const match = queryFilterData.find(filter => getType(item) === filter?.[1]);
+                    return {
+                        ...item,
+                        key: match?.[0]
+                    }
+                });
+
+            const filteredData = filterDataByType(filterAllData, "type");
+            return mapDataWithKey(filteredData);
+        } catch (error) {
+            errorHandler("FilterBottomPanel", "func - filteringAllData", error)
+        }
+    }, [filterAllData, queryFilterData])
+
     return (
         <div className={styles['filter_panel']}>
             {
                 !mediaQuerySm &&
                 <ul className={styles['filter_list_actions']}>
                     {
-                        queryFilterData.map(([key, value], id) => {
+                        filteringAllData.map((filter, id) => {
                             return (
                                 <li
                                     key={id}
@@ -47,16 +76,16 @@ function FilterBottomPanel(props) {
                                             await clearFilters();
                                         }
 
-                                        filterClearHandle({key: key, value: null})
+                                        filterClearHandle({key: filter?.["key"], value: null})
                                         filterApiClearHandle({
-                                            key: key === 'residence' ? `filters[apartments][residence][name][$contains]` : `filters[apartments][${key}][type]`,
+                                            key: filter?.["key"] === 'residence' ? `filters[apartments][residence][name][$contains]` : `filters[apartments][${filter?.["key"]}][type]`,
                                             value: null
                                         })
 
-                                        sendFilterQuery({key: key, value: null}, true)
+                                        sendFilterQuery({key: filter?.["key"], value: null}, true)
                                     }}
                                 >
-                                    <span>{key}</span> <i className={styles['icon']}></i>
+                                    <span>{filter?.["attributes"]?.["name"]}</span> <i className={styles['icon']}></i>
                                 </li>
                             )
                         })

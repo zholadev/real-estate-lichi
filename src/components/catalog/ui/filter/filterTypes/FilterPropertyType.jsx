@@ -1,8 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useApiRequest} from "@/shared/hooks";
-import {errorHandler} from "@/entities/errorHandler/errorHandler";
+import React from 'react';
 import FilterBox from "@/components/catalog/ui/filter/FilterBox";
-import {apiGetFilterPropertyTypeList} from "@/shared/services/clientRequests";
 
 /**
  * @author Zholaman Zhumanov
@@ -15,35 +12,17 @@ function FilterPropertyType(props) {
     const {
         i18n,
         value,
+        loading,
         disabled,
         filterType,
         placeholder,
+        filterData,
         clearSelect,
         assemblyFilter,
         filterApiParams,
         onClickContainer,
         assemblyFilterApi,
     } = props
-
-    const {apiFetchHandler, loading} = useApiRequest()
-
-    const [propertyTypeDataFilter, setPropertyTypeFilterData] = useState([])
-
-    const getFilterData = async () => {
-        await apiFetchHandler(apiGetFilterPropertyTypeList, [filterApiParams], false, {
-            onGetData: (params) => {
-                setPropertyTypeFilterData(params.api_data)
-            }
-        })
-    }
-
-    useEffect(() => {
-        getFilterData()
-            .catch(error => {
-                errorHandler("filterPropertyType", "useEffect", error)
-            })
-    }, [filterApiParams]);
-
 
     return (
         <FilterBox
@@ -54,11 +33,11 @@ function FilterPropertyType(props) {
             filterType={filterType}
             placeholder={placeholder}
             clearSelect={clearSelect}
+            filterGetData={filterData}
             assemblyFilter={assemblyFilter}
             filterApiParams={filterApiParams}
             onClickContainer={onClickContainer}
             assemblyFilterApi={assemblyFilterApi}
-            filterGetData={propertyTypeDataFilter}
         />
     );
 }

@@ -40,6 +40,7 @@ function Filter(props) {
 
     const [priceFrom, setPriceFrom] = useState(null)
     const [priceValue, setPriceValue] = useState('')
+    const [filterAllData, setFilterAllData] = useState([])
     const [toggleFilter, setToggleFilter] = useState(false)
     const [clearSelects, setClearSelects] = useState('fill')
     const [queryFilter, setQueryFilter] = useState(convertQueryFilter(pageParams) || {})
@@ -61,7 +62,6 @@ function Filter(props) {
     };
 
     const checkDistrictValue = useCallback(() => {
-        // if (typeCatalog === 'residential_complex') return
         if (!queryFilter?.["districts"]) {
             toastMessage("Please select a district")
         }
@@ -121,7 +121,7 @@ function Filter(props) {
             const newObjectFilter = {queryFilter}
 
             const getFilterData = Object.values(newObjectFilter || {}).map((filterItem) => {
-                return getSetFilterHandle(filterItem, filterData.key, null)
+                return getSetFilterHandle(filterItem, filterData.key, filterItem?.key || null)
             })
 
             pushFilterHandle(routerPage.catalog, getFilterData?.[0]);
@@ -181,6 +181,7 @@ function Filter(props) {
                     setPriceValue={setPriceValue}
                     queryApiFilters={queryApiFilters}
                     getMinMaxPrices={getMinMaxPrices}
+                    setFilterAllData={setFilterAllData}
                     checkDistrictValue={checkDistrictValue}
                     setApiFiltersHandle={setApiFiltersHandle}
                     setFilterQueryHandle={setFilterQueryHandle}
@@ -202,6 +203,7 @@ function Filter(props) {
                 filterData={FILTER_DATA}
                 typeContent={typeContent}
                 clearFilters={clearFilters}
+                filterAllData={filterAllData}
                 filterDataQuery={queryFilter}
                 setQueryFilter={setQueryFilter}
                 sendFilterQuery={sendFilterQuery}
@@ -231,6 +233,7 @@ function Filter(props) {
                             setPriceValue={setPriceValue}
                             queryApiFilters={queryApiFilters}
                             getMinMaxPrices={getMinMaxPrices}
+                            setFilterAllData={setFilterAllData}
                             checkDistrictValue={checkDistrictValue}
                             setApiFiltersHandle={setApiFiltersHandle}
                             setFilterQueryHandle={setFilterQueryHandle}
