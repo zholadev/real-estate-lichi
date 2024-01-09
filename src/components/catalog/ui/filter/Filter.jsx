@@ -9,13 +9,13 @@ import FilterList from "./filterList/FilterList";
 import {SidebarContainer} from "@/widgets/sidebar";
 import usePushFilters from "../../lib/usePushFilters";
 import styles from '@/styles/catalog-filter.module.sass'
+import {routerPage} from "@/entities/router/model/pages";
 import {useRouter, useSearchParams} from "next/navigation";
 import FilterIconMenu from "./filterIconMenu/FilterIconMenu";
 import FilterBottomPanel from "./filterBottom/FilterBottomPanel";
 import {useMediaMaxState, useToastMessage} from "@/shared/hooks";
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import useFilterConvertQuery from "../../lib/useFilterConvertQuery";
-import {routerPage} from "@/entities/router/model/pages";
 
 /**
  * @author Zholaman Zhumanov
@@ -55,10 +55,15 @@ function Filter(props) {
      * Handles setting the filter query based on provided data
      *
      * @param {Object} filterData - The filter data to be set paired with its associated key
+     * @param isSendFilters
      */
-    const setFilterQueryHandle = (filterData) => {
+    const setFilterQueryHandle = (filterData, isSendFilters) => {
         const {key, value} = filterData
         setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value));
+
+        if (isSendFilters) {
+             sendFilterQuery(filterData, false, isSendFilters)
+        }
     };
 
     const checkDistrictValue = useCallback(() => {
@@ -90,7 +95,7 @@ function Filter(props) {
         }
     }, [apartmentListData])
 
-    const sendFilterQuery = (filterData, filterToggle) => {
+    const sendFilterQuery = (filterData, filterToggle, filterQuickSend) => {
         const parsePrice = (key) => parseFloat(queryFilter?.[`price.${key}`]);
 
         const invalidPriceMsg = "You entered incorrect price values.";
@@ -117,11 +122,16 @@ function Filter(props) {
             return;
         }
 
-        if (filterData) {
+
+        if (filterQuickSend) {
+            const getFilterData = getSetFilterHandle({[filterData.key]:  filterData.value}, filterData.key,  filterData.value)
+
+            pushFilterHandle(routerPage.catalog, getFilterData);
+        } else if (filterData && !filterQuickSend) {
             const newObjectFilter = {queryFilter}
 
             const getFilterData = Object.values(newObjectFilter || {}).map((filterItem) => {
-                return getSetFilterHandle(filterItem, filterData.key, filterItem?.key || null)
+                return getSetFilterHandle(filterItem, filterData.key,  null)
             })
 
             pushFilterHandle(routerPage.catalog, getFilterData?.[0]);
