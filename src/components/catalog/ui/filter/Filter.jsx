@@ -62,7 +62,7 @@ function Filter(props) {
         setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value));
 
         if (isSendFilters) {
-             sendFilterQuery(filterData, false, isSendFilters)
+             sendFilterQuery(filterData, true, isSendFilters)
         }
     };
 
