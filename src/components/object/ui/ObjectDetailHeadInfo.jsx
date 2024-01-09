@@ -8,68 +8,45 @@ import {useCurrencyFormat} from "@/shared/hooks";
 /**
  * @author Zholaman Zhumanov
  * @created 12.10.2023
+ * @last-updated 09.01.2024
+ * @update-description minor refactoring
+ * @todo refactoring
  * @param props
- * @todo
  * @returns {Element}
  * @constructor
  */
 function ObjectDetailHeadInfo(props) {
     const {i18n, data} = props
-
     const convertCurrency = useCurrencyFormat()
+
+    // Extracted function for generating list items
+    const generateListItem = (key, value) => (
+        <li className={styles['characters_item']}>
+            <span className={styles['key']}>{key}</span>
+            <span className={styles['value']}>{value}</span>
+        </li>
+    );
 
     return (
         <div className={styles['preview_head_info']}>
             <h1 className={styles['title']}>{data?.["name"]}</h1>
-
             <ul className={styles['preview_head_characters']}>
-                <li className={styles['characters_item']}>
-                    <span className={styles['key']}>{i18n?.["characters"]?.["price"]}</span>
-                    <span className={styles['value']}>{convertCurrency(data?.["price"])} $</span>
-                </li>
-                {
-                    Object.values(data?.["build_info"] || {}).map((info, id) => {
-                        return (
-                            <li className={styles['characters_item']} key={id}>
-                                <span className={styles['key']}>{info?.["name"]}</span>
-                                <span className={styles['value']}>{info?.["description"]}</span>
-                            </li>
-                        )
-                    })
-                }
-                {
-                    data?.["residence"]?.["name"] &&
-                    <li className={styles['characters_item']}>
-                        <span className={styles['key']}>{i18n?.["characters"]?.["resident_complex"]}</span>
-                        <span className={styles['value']}>{data?.["residence"]?.["name"]}</span>
-                    </li>
-                }
+                {generateListItem(i18n?.["characters"]?.["price"], `${convertCurrency(data?.["price"])} $`)}
 
                 {
-                    data?.["district"] &&
-                    <li className={styles['characters_item']}>
-                        <span className={styles['key']}>{i18n?.["characters"]?.["area"]}</span>
-                        <span className={styles['value']}>{data?.["district"]?.["name"]}</span>
-                    </li>
+                    Object.values(data?.["build_info"] || {}).map((info, id) =>
+                        generateListItem(info?.["name"], info?.["description"])
+                    )
                 }
 
-                {
-                    data?.["rooms"] &&
-                    <li className={styles['characters_item']}>
-                        <span className={styles['key']}>Rooms</span>
-                        <span className={styles['value']}>{data?.["rooms"]?.["name"]}</span>
-                    </li>
-                }
+                {data?.["residence"]?.["name"] && generateListItem(i18n?.["characters"]?.["resident_complex"], data?.["residence"]?.["name"])}
 
-                {
-                    data?.["country"] &&
-                    <li className={styles['characters_item']}>
-                        <span className={styles['key']}>Country</span>
-                        <span className={styles['value']}>{data?.["country"]?.["country_name"]}</span>
-                    </li>
-                }
+                {data?.["district"] && generateListItem(i18n?.["characters"]?.["area"], data?.["district"]?.["name"])}
+
+                {data?.["rooms"] && generateListItem("Rooms", data?.["rooms"]?.["name"])}
+
+                {data?.["country"] && generateListItem("Country", data?.["country"]?.["country_name"])}
             </ul>
-
             <Button
                 title={i18n?.["object"]?.["sign_up_view"]}
             />

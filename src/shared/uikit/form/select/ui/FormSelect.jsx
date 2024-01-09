@@ -81,7 +81,7 @@ function FormSelect(props) {
                 noOptionsMessage={() => i18n?.["form"]?.["empty"]}
                 options={options}
                 isLoading={loader}
-                isDisabled={disabled || loader}
+                isDisabled={disabled}
                 isMulti={isMulti}
                 onClick={onClickHandle}
                 defaultValue={options?.[0]}

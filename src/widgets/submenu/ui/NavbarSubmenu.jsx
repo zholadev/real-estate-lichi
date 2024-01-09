@@ -10,8 +10,8 @@ import styles from "@/styles/widget-submenu-navbar.module.sass"
 import NavbarMenuItem from "@/widgets/submenu/ui/NavbarMenuItem";
 
 const animFrom = {y: 20, opacity: 0}
-const animConfig = {y: 0, opacity: 1, duration: .1, stagger: 0.02, ease: "power2.inOut"};
 const reverseConfig = {y: 20, opacity: 0, duration: .1, stagger: 0.02};
+const animConfig = {y: 0, opacity: 1, duration: .1, stagger: 0.02, ease: "power2.inOut"};
 
 function gsapAnimation(ref, callback = () => {}) {
     gsap.fromTo(ref.current.children, animFrom, {...animConfig, onComplete: callback});

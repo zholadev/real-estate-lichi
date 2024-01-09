@@ -78,9 +78,6 @@ function FilterBox(props) {
             placeholder={placeholder}
             onClickContainer={onClickContainer}
             onChange={e => {
-                if (filterType === 'districts') {
-                    clearFilters()
-                }
                 if (e) {
                     assemblyFilter(e, filterSendClick)
                     assemblyFilterApi({
