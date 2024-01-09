@@ -40,14 +40,32 @@ function FilterBottomPanel(props) {
      */
     const filteringAllData = useMemo(() => {
         try {
-            const getType = (item) => item?.["attributes"]?.["type"];
+            const getType = (item, type) => {
+                if (type === 'residence') {
+                    return item?.["attributes"]?.["name"];
+                } else {
+                    return item?.["attributes"]?.["type"];
+                }
+            }
 
-            const filterDataByType = (data, type) =>
-                data.filter(item => queryFilterData.find(filter => filter?.[1] === getType(item)));
+            const filterDataByType = (data) => data.filter(item => queryFilterData.find(filter => {
+                if (filter?.[0] === 'residence') {
+                    return filter?.[1] === getType(item, filter?.[0])
+                } else {
+                    return filter?.[1] === getType(item)
+                }
+            }));
 
             const mapDataWithKey = (data) =>
                 data.map(item => {
-                    const match = queryFilterData.find(filter => getType(item) === filter?.[1]);
+                    const match = queryFilterData.find(filter => {
+                        if (filter?.[0] === 'residence') {
+                            return getType(item, filter?.[0]) === filter?.[1]
+                        } else {
+                            return getType(item) === filter?.[1]
+                        }
+                    });
+
                     return {
                         ...item,
                         key: match?.[0]

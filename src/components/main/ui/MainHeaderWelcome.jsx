@@ -6,6 +6,7 @@ import {Button} from "@/shared/uikit/button";
 import MainBottomList from "./MainBottomList";
 import {IMG} from "@/shared/constants/constants";
 import dynamic from "next/dynamic";
+import {useMediaMaxState} from "@/shared/hooks";
 
 const Video = dynamic(() => import('@/shared/uikit/video/ui/Video'), {ssr: false})
 
@@ -21,6 +22,8 @@ const Video = dynamic(() => import('@/shared/uikit/video/ui/Video'), {ssr: false
 function MainHeaderWelcome(props) {
     const {i18n} = props
 
+    const mediaQuerySm = useMediaMaxState({screenSize: 576})
+
     return (
         <section className={styles['preview']}>
             <div className={styles['preview_title']}><h1>{i18n['main']['welcome']}</h1></div>
@@ -28,7 +31,10 @@ function MainHeaderWelcome(props) {
                 <figure>
                     <Video
                         src={'https://player.vimeo.com/progressive_redirect/playback/877839534/rendition/720p/file.mp4?loc=external&signature=789b1251249677aa4c66d5a8f5b83ebe86ec85ad25af29fdb87a696fdd20f74a'}
+                        isBorderRadius
+                        isMobile={mediaQuerySm}
                         poster={IMG.posterDubaiMain['src']}
+                        posterStyle={{borderRadius: '4px'}}
                     />
                 </figure>
                 <div className={styles['preview_btn_place']}>

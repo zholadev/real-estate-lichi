@@ -20,8 +20,6 @@ function NewsPageDetail(props) {
 
     const data = newsData?.["attributes"]
 
-    console.log(newsData)
-
     return (
         <section className={`${styles['news_page_info']} container-lg`}>
             <h2 className={styles['title']}>{data?.["title"]}</h2>
@@ -30,15 +28,17 @@ function NewsPageDetail(props) {
             <article className={styles['news_detail_info']}>
                 {
                     newsData?.["attributes"]?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"] &&
-                    <div>
-                        <Image
-                            src={mediaImgSrc(newsData?.["attributes"]?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"])}
-                            alt={newsData?.["title"]}
-                            priority={true}
-                            width={1024}
-                            height={768}
-                        />
-                        <TagList i18n={i18n} center list={newsData?.["attributes"]?.["tags"]} tagName={"item"}/>
+                    <div className={styles['news_detail_picture']}>
+                       <div className={styles['picture_box_sticky']}>
+                           <Image
+                               src={mediaImgSrc(newsData?.["attributes"]?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"])}
+                               alt={newsData?.["title"]}
+                               priority={true}
+                               width={1024}
+                               height={768}
+                           />
+                           <TagList i18n={i18n} center list={newsData?.["attributes"]?.["tags"]} tagName={"item"}/>
+                       </div>
                     </div>
                 }
 

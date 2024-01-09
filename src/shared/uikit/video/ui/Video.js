@@ -13,14 +13,14 @@ import styles from '@/styles/ui-video.module.sass'
  * @constructor
  */
 function Video(props) {
-    const {src, style, poster, posterStyle} = props
+    const {src, style, poster, posterStyle, isBorderRadius, isMobile} = props
 
     const posterRef = useRef(null)
 
     const [videoIsPlay, setVideoIsPlay] = useState(false)
 
     return (
-        <div className={styles['video_container']}>
+        <div className={`${styles['video_container']} ${isBorderRadius ? styles['video_radial'] : ''}`}>
             {
                 poster &&
                 <div className={`${styles['video_poster_box']} ${videoIsPlay ? styles['hide'] : ''}`} ref={posterRef}>
@@ -38,7 +38,7 @@ function Video(props) {
                 url={src}
                 style={style}
                 width={'100%'}
-                height={'100%'}
+                height={isMobile ? '70vh' :'100%'}
                 loop={true}
                 playsinline={true}
                 controls={false}

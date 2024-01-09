@@ -12,6 +12,13 @@ import {useParams, usePathname} from "next/navigation";
 import {useMediaMaxState, useScrollAction} from "@/shared/hooks";
 import stylesSecondary from "@/styles/widget-submenu-navbar.module.sass";
 
+/**
+ * @author Zholaman Zhumanov
+ * @todo refactoring
+ * @param props
+ * @returns {Element}
+ * @constructor
+ */
 function NavbarContent(props) {
     const {i18n} = props
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import {
     apiGetFilterDistrictList,
@@ -37,7 +37,6 @@ function FilterList(props) {
         getMinMaxPrices,
         queryApiFilters,
         setFilterAllData,
-        checkDistrictValue,
         setApiFiltersHandle,
         setFilterQueryHandle,
     } = props
@@ -50,13 +49,6 @@ function FilterList(props) {
     const [residenceDataFilter, setResidenceFilterData] = useState([])
     const [propertyTypeDataFilter, setPropertyTypeFilterData] = useState([])
 
-    const residenceApiParams = useMemo(() => {
-        return typeCatalog === 'residential_complex' ? {
-            "filters[apartments][name][$notNull]": true,
-            "filters[apartments][residence][name][$notNull]": true
-        } : {"filters[apartments][name][$notNull]": true}
-    }, [typeCatalog])
-
     /**
      * @description Districts Data
      * @returns {Promise<void>}
@@ -64,7 +56,7 @@ function FilterList(props) {
     const getFilterDistrictData = async () => {
         await apiFetchHandler(
             apiGetFilterDistrictList,
-            [residenceApiParams],
+            [queryApiFilters],
             false,
             {
                 onGetData: (params) => {
@@ -78,7 +70,7 @@ function FilterList(props) {
             .catch(error => {
                 errorHandler("filterDistrict", "useEffect", error)
             })
-    }, [residenceApiParams]);
+    }, [queryApiFilters]);
 
     /**
      * @description Residence Data
@@ -168,7 +160,6 @@ function FilterList(props) {
         <>
             <FilterDistrict
                 i18n={i18n}
-                filterSendClick
                 loading={loading}
                 filterType={"districts"}
                 clearSelect={clearSelects}
@@ -191,10 +182,8 @@ function FilterList(props) {
                     filterData={residenceDataFilter}
                     value={queryFilter?.["residence"]}
                     clearSelect={clearSelects}
-                    disabled={!queryFilter?.["districts"]}
                     filterApi={apiGetFilterResidenceList}
                     assemblyFilter={setFilterQueryHandle}
-                    onClickContainer={checkDistrictValue}
                     assemblyFilterApi={setApiFiltersHandle}
                     placeholder={i18n?.["site.residence.title"]}
                     filterApiParams={queryApiFilters}
@@ -211,8 +200,6 @@ function FilterList(props) {
                 filterApiParams={queryApiFilters}
                 filterApi={apiGetFilterRoomsList}
                 assemblyFilter={setFilterQueryHandle}
-                onClickContainer={checkDistrictValue}
-                disabled={!queryFilter?.["districts"]}
                 assemblyFilterApi={setApiFiltersHandle}
                 placeholder={i18n?.["site.roominess.title"]}
             />
@@ -225,8 +212,6 @@ function FilterList(props) {
                 filterApiParams={queryApiFilters}
                 filterData={propertyTypeDataFilter}
                 assemblyFilter={setFilterQueryHandle}
-                onClickContainer={checkDistrictValue}
-                disabled={!queryFilter?.["districts"]}
                 value={queryFilter?.["property_types"]}
                 assemblyFilterApi={setApiFiltersHandle}
                 filterApi={apiGetFilterPropertyTypeList}
@@ -243,8 +228,6 @@ function FilterList(props) {
                 filterApi={apiGetFilterTagsList}
                 filterApiParams={queryApiFilters}
                 assemblyFilter={setFilterQueryHandle}
-                onClickContainer={checkDistrictValue}
-                disabled={!queryFilter?.["districts"]}
                 assemblyFilterApi={setApiFiltersHandle}
                 placeholder={i18n?.["site.tags.title"]}
             />

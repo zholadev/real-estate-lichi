@@ -45,7 +45,7 @@ function MainSearchObject(props) {
     }
 
     const getFilterDistrictData = async () => {
-        await apiFetchHandler(apiGetFilterDistrictList, [{"filters[apartments][name][$notNull]": true}], false, {
+        await apiFetchHandler(apiGetFilterDistrictList, [queryApiFilters], false, {
             onGetData: (params) => {
                 setDistrictDataFilter(params.api_data)
             }
@@ -149,13 +149,6 @@ function MainSearchObject(props) {
         })
     }
 
-    const checkDistrictValue = useCallback(() => {
-        if (queryFilter?.["districts"]) return
-        if (!queryFilter?.["districts"]) {
-            toastMessage("Please select a district")
-        }
-    }, [queryFilter])
-
     const setFilterQueryHandle = (data) => {
         const {key, value} = data
         setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value, false));
@@ -171,6 +164,7 @@ function MainSearchObject(props) {
             <form className={`${styles['form_investing']}`}>
                 <div className={styles['form_box']}>
                     <FormSelect
+                        i18n={i18n}
                         placeholder={i18n?.["site.district.title"]}
                         options={optionsDistrict}
                         onChange={e => {
@@ -185,9 +179,9 @@ function MainSearchObject(props) {
 
                 <div className={styles['form_box']}>
                     <FormSelect
+                        i18n={i18n}
                         placeholder={i18n?.["site.residence.title"]}
                         options={optionsResidence}
-                        disabled={!queryFilter?.["districts"]}
                         onChange={e => {
                             setFilterQueryHandle(e)
                             setApiFiltersHandle({
@@ -195,15 +189,14 @@ function MainSearchObject(props) {
                                 value: e?.value
                             })
                         }}
-                        onClickContainer={checkDistrictValue}
                     />
                 </div>
 
                 <div className={styles['form_box']}>
                     <FormSelect
+                        i18n={i18n}
                         placeholder={i18n?.["site.roominess.title"]}
                         options={optionsRooms}
-                        disabled={!queryFilter?.["districts"]}
                         onChange={e => {
                             setFilterQueryHandle(e)
                             setApiFiltersHandle({
@@ -211,15 +204,14 @@ function MainSearchObject(props) {
                                 value: e?.value
                             })
                         }}
-                        onClickContainer={checkDistrictValue}
                     />
                 </div>
 
                 <div className={styles['form_box']}>
                     <FormSelect
+                        i18n={i18n}
                         placeholder={i18n?.["site.property.type.title"]}
                         options={optionsPropertyType}
-                        disabled={!queryFilter?.["districts"]}
                         onChange={e => {
                             setFilterQueryHandle(e)
                             setApiFiltersHandle({
@@ -227,7 +219,6 @@ function MainSearchObject(props) {
                                 value: e?.value
                             })
                         }}
-                        onClickContainer={checkDistrictValue}
                     />
                 </div>
 

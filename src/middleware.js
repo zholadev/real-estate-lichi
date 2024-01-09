@@ -22,6 +22,7 @@ export const config = {
         '/about',
         '/news',
         '/news/:path*',
+        '/contact',
     ],
 }
 

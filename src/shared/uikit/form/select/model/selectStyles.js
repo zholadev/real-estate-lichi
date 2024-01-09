@@ -3,9 +3,10 @@ export const customSelectDefaultStyles = (type) => {
         control: (styles, {data, isDisabled, isFocused, isSelected}) => ({
             ...styles,
             backgroundColor: '#ffffff',
-            border: type === 'secondary' ? 'none' : '1px solid rgba(22, 24, 29, 0.6)',
-            borderBottom: '1px solid rgba(22, 24, 29, 0.6)',
+            border: type === 'secondary' ? 'none' : isDisabled ? '1px solid #747474' : '1px solid rgba(22, 24, 29, 0.6)',
+            borderBottom: isDisabled ? '1px solid #747474' : '1px solid rgba(22, 24, 29, 0.6)',
             borderRadius: 2,
+            opacity: isDisabled ? .4 : 1,
             height: type === 'secondary' ? '42px' : '66px',
             paddingRight: type === 'secondary' ? 'none' : '15px !important',
             paddingLeft: type === 'secondary' ? 'none' : '15px !important',

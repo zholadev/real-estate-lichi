@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Tabs} from "@/shared/uikit/tabs";
 import {Button} from "@/shared/uikit/button";
 import {PortalProvider} from "@/shared/portals";
@@ -144,6 +144,17 @@ function Filter(props) {
         }
     };
 
+    const residenceApiParams = useMemo(() => {
+        return typeCatalog === 'residential_complex' ? {
+            "filters[apartments][name][$notNull]": true,
+            "filters[apartments][residence][name][$notNull]": true
+        } : {"filters[apartments][name][$notNull]": true}
+    }, [typeCatalog])
+
+    useEffect(() => {
+        setQueryApiFilters(residenceApiParams)
+    }, [typeCatalog]);
+
     const clearFilters = useCallback(() => {
         try {
             if (timerClearValue.current) {
@@ -154,8 +165,7 @@ function Filter(props) {
             setPriceFrom(null)
             setClearSelects('clear')
             router.replace(routerPage.catalog)
-
-            setQueryApiFilters({})
+            setQueryApiFilters(residenceApiParams)
 
             timerClearValue.current = setTimeout(() => {
                 setClearSelects('fill')
@@ -163,7 +173,7 @@ function Filter(props) {
         } catch (error) {
             errorHandler("filters", "clearFilters", error)
         }
-    }, [timerClearValue, router])
+    }, [timerClearValue, router, residenceApiParams])
 
     return (
         <>
