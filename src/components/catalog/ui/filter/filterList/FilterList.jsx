@@ -168,6 +168,7 @@ function FilterList(props) {
         <>
             <FilterDistrict
                 i18n={i18n}
+                filterSendClick
                 loading={loading}
                 filterType={"districts"}
                 clearSelect={clearSelects}

@@ -24,6 +24,7 @@ function FilterDistrict(props) {
         clearSelect,
         clearFilters,
         assemblyFilter,
+        filterSendClick,
         filterApiParams,
         onClickContainer,
         assemblyFilterApi,
@@ -42,6 +43,7 @@ function FilterDistrict(props) {
             filterGetData={filterData}
             clearFilters={clearFilters}
             assemblyFilter={assemblyFilter}
+            filterSendClick={filterSendClick}
             filterApiParams={filterApiParams}
             onClickContainer={onClickContainer}
             assemblyFilterApi={assemblyFilterApi}

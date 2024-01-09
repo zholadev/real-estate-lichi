@@ -21,6 +21,7 @@ function FilterBox(props) {
         clearFilters,
         filterGetData,
         assemblyFilter,
+        filterSendClick,
         onClickContainer,
         assemblyFilterApi,
     } = props
@@ -81,7 +82,7 @@ function FilterBox(props) {
                     clearFilters()
                 }
                 if (e) {
-                    assemblyFilter(e)
+                    assemblyFilter(e, filterSendClick)
                     assemblyFilterApi({
                         key: getFilterKeyQuery,
                         value: e?.value
