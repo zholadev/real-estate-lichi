@@ -2,11 +2,10 @@
 
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Tabs} from "@/shared/uikit/tabs";
+import FilterSm from "./filterSm/FilterSm";
 import {Button} from "@/shared/uikit/button";
-import {PortalProvider} from "@/shared/portals";
 import useSetFilter from "../../lib/useSetFilter";
 import FilterList from "./filterList/FilterList";
-import {SidebarContainer} from "@/widgets/sidebar";
 import usePushFilters from "../../lib/usePushFilters";
 import styles from '@/styles/catalog-filter.module.sass'
 import {routerPage} from "@/entities/router/model/pages";
@@ -20,6 +19,9 @@ import useFilterConvertQuery from "../../lib/useFilterConvertQuery";
 /**
  * @author Zholaman Zhumanov
  * @param props
+ * @last-updated 09.01.2024 - Zholaman Zhumanov
+ * @update-description refactoring
+ * @todo refactoring
  * @returns {Element}
  * @constructor
  */
@@ -144,6 +146,9 @@ function Filter(props) {
         }
     };
 
+    console.log('filter data', queryFilter)
+    console.log('filter api data', queryApiFilters)
+
     const residenceApiParams = useMemo(() => {
         return typeCatalog === 'residential_complex' ? {
             "filters[apartments][name][$notNull]": true,
@@ -238,40 +243,27 @@ function Filter(props) {
                 toggleFilterHandle={toggleFilterHandle}
             />
 
-            <PortalProvider>
-                <SidebarContainer active={toggleFilter} toggle={toggleFilterHandle}>
-                    <div className={styles['catalog_filter']}>
-                        <FilterList
-                            i18n={i18n}
-                            priceFrom={priceFrom}
-                            priceValue={priceValue}
-                            queryFilter={queryFilter}
-                            typeCatalog={typeCatalog}
-                            clearSelect={clearSelects}
-                            clearFilters={clearFilters}
-                            setPriceFrom={setPriceFrom}
-                            setPriceValue={setPriceValue}
-                            queryApiFilters={queryApiFilters}
-                            getMinMaxPrices={getMinMaxPrices}
-                            setFilterAllData={setFilterAllData}
-                            checkDistrictValue={checkDistrictValue}
-                            setApiFiltersHandle={setApiFiltersHandle}
-                            setFilterQueryHandle={setFilterQueryHandle}
-                        />
-
-                        <Button
-                            onClick={sendFilterQuery}
-                            title={i18n?.["site"]?.["search_title"]}
-                            disabled={FILTER_DATA.length === 0}
-                            style={{
-                                opacity: FILTER_DATA.length === 0 ? .3 : 1
-                            }}
-                        />
-
-                        <Button title={i18n?.["filter.clear.title"]} type={'outline'} onClick={clearFilters}/>
-                    </div>
-                </SidebarContainer>
-            </PortalProvider>
+            <FilterSm
+                i18n={i18n}
+                priceFrom={priceFrom}
+                priceValue={priceValue}
+                filterData={FILTER_DATA}
+                queryFilter={queryFilter}
+                typeCatalog={typeCatalog}
+                clearSelect={clearSelects}
+                clearFilters={clearFilters}
+                toggleFilter={toggleFilter}
+                setPriceFrom={setPriceFrom}
+                setPriceValue={setPriceValue}
+                queryApiFilters={queryApiFilters}
+                sendFilterQuery={sendFilterQuery}
+                getMinMaxPrices={getMinMaxPrices}
+                setFilterAllData={setFilterAllData}
+                toggleFilterHandle={toggleFilterHandle}
+                checkDistrictValue={checkDistrictValue}
+                setApiFiltersHandle={setApiFiltersHandle}
+                setFilterQueryHandle={setFilterQueryHandle}
+            />
         </>
 
     );

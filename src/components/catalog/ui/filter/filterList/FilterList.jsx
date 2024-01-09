@@ -62,7 +62,76 @@ function FilterList(props) {
                 onGetData: (params) => {
                     setDistrictDataFilter(params.api_data)
                 }
-            })
+            }
+        )
+    }
+
+    /**
+     * @description Residence Data
+     * @returns {Promise<void>}
+     */
+    const getFilterResidenceData = async () => {
+        await apiFetchHandler(
+            apiGetFilterResidenceList,
+            [queryApiFilters],
+            false,
+            {
+                onGetData: (params) => {
+                    setResidenceFilterData(params.api_data)
+                }
+            }
+        )
+    }
+
+    /**
+     * @description Rooms Data
+     * @returns {Promise<void>}
+     */
+    const getFilterRoomsData = async () => {
+        await apiFetchHandler(
+            apiGetFilterRoomsList,
+            [queryApiFilters],
+            false,
+            {
+                onGetData: (params) => {
+                    setRoomsDataFilter(params.api_data)
+                }
+            }
+        )
+    }
+
+    /**
+     * @description Property Type Data
+     * @returns {Promise<void>}
+     */
+    const getFilterPropertyData = async () => {
+        await apiFetchHandler(
+            apiGetFilterPropertyTypeList,
+            [queryApiFilters],
+            false,
+            {
+                onGetData: (params) => {
+                    setPropertyTypeFilterData(params.api_data)
+                }
+            }
+        )
+    }
+
+    /**
+     * @description Tags Data
+     * @returns {Promise<void>}
+     */
+    const getFilterTagsData = async () => {
+        await apiFetchHandler(
+            apiGetFilterTagsList,
+            [queryApiFilters],
+            false,
+            {
+                onGetData: (params) => {
+                    setTagDataFilter(params.api_data)
+                }
+            }
+        )
     }
 
     useEffect(() => {
@@ -70,81 +139,25 @@ function FilterList(props) {
             .catch(error => {
                 errorHandler("filterDistrict", "useEffect", error)
             })
-    }, [queryApiFilters]);
 
-    /**
-     * @description Residence Data
-     * @returns {Promise<void>}
-     */
-    const getFilterResidenceData = async () => {
-        await apiFetchHandler(apiGetFilterResidenceList, [queryApiFilters], false, {
-            onGetData: (params) => {
-                setResidenceFilterData(params.api_data)
-            }
-        })
-    }
-
-    useEffect(() => {
-        getFilterResidenceData()
-            .catch(error => {
-                errorHandler("filterResidence", "useEffect", error)
-            })
-    }, [queryApiFilters]);
-
-    /**
-     * @description Rooms Data
-     * @returns {Promise<void>}
-     */
-    const getFilterRoomsData = async () => {
-        await apiFetchHandler(apiGetFilterRoomsList, [queryApiFilters], false, {
-            onGetData: (params) => {
-                setRoomsDataFilter(params.api_data)
-            }
-        })
-    }
-
-    useEffect(() => {
-        getFilterRoomsData()
-            .catch(error => {
-                errorHandler("filterDistrict", "useEffect", error)
-            })
-    }, [queryApiFilters]);
-
-    /**
-     * @description Property Type Data
-     * @returns {Promise<void>}
-     */
-    const getFilterPropertyData = async () => {
-        await apiFetchHandler(apiGetFilterPropertyTypeList, [queryApiFilters], false, {
-            onGetData: (params) => {
-                setPropertyTypeFilterData(params.api_data)
-            }
-        })
-    }
-
-    useEffect(() => {
         getFilterPropertyData()
             .catch(error => {
                 errorHandler("filterPropertyType", "useEffect", error)
             })
-    }, [queryApiFilters]);
 
-    /**
-     * @description Tags Data
-     * @returns {Promise<void>}
-     */
-    const getFilterTagsData = async () => {
-        await apiFetchHandler(apiGetFilterTagsList, [queryApiFilters], false, {
-            onGetData: (params) => {
-                setTagDataFilter(params.api_data)
-            }
-        })
-    }
-
-    useEffect(() => {
         getFilterTagsData()
             .catch(error => {
                 errorHandler("filterTags", "useEffect", error)
+            })
+
+        getFilterRoomsData()
+            .catch(error => {
+                errorHandler("filterDistrict", "useEffect", error)
+            })
+
+        getFilterResidenceData()
+            .catch(error => {
+                errorHandler("filterResidence", "useEffect", error)
             })
     }, [queryApiFilters]);
 
