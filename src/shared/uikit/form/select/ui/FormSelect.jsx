@@ -20,7 +20,7 @@ function FormSelect(props) {
         id,
         name,
         loader,
-        search,
+        search = false,
         placeholder,
         i18n,
         type,

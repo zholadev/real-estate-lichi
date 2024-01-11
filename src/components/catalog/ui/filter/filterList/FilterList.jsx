@@ -14,6 +14,7 @@ import FilterRooms from "../filterTypes/FilterRooms";
 import FilterDistrict from "../filterTypes/FilterDistrict";
 import FilterResidence from "../filterTypes/FilterResidence";
 import FilterPropertyType from "../filterTypes/FilterPropertyType";
+import {FormRangeDoubleSlider} from "@/shared/uikit/form/range";
 
 /**
  * @author Zholaman Zhumanov
@@ -34,6 +35,7 @@ function FilterList(props) {
         setPriceFrom,
         clearSelects,
         setPriceValue,
+        getAllPriceList,
         getMinMaxPrices,
         queryApiFilters,
         setFilterAllData,
@@ -262,6 +264,10 @@ function FilterList(props) {
                 placeholder={`${i18n?.["site.coast.from.title"]} ${getMinMaxPrices?.["min"]}`}
                 disabled={getMinMaxPrices?.["min"] === getMinMaxPrices?.["max"] || Object.values(queryFilter || {}).length > 0 && queryFilter?.["districts"]}
             />
+
+            {/*<FormRangeDoubleSlider*/}
+            {/*    data={getAllPriceList}*/}
+            {/*/>*/}
 
             <Input
                 id={"price"}

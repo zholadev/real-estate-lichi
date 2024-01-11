@@ -2,7 +2,7 @@
 
 import React, {useMemo} from 'react';
 import qs from "qs";
-import {PageMapInfo} from "@/shared/uikit/map";
+import {AttractionsLocation} from "@/shared/uikit/map";
 import ResidenceHeader from "./ResidenceHeader";
 import {mediaImgSrc} from "@/shared/constants/options";
 import ResidenceAdvantages from "./ResidenceAdvantages";
@@ -59,10 +59,11 @@ function ResidencePage(props) {
             />
 
             <div className={'container_md'}>
-                <PageMapInfo
+                <AttractionsLocation
                     cluster
                     isPopup
                     i18n={i18n}
+                    sliderCardCountView={3.2}
                     currentData={data?.["locate"]}
                     attractionsData={data?.["attractions"]}
                 />

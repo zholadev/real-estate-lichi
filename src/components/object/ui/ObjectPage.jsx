@@ -2,7 +2,7 @@
 
 import React, {useMemo} from 'react';
 import ObjectLayout from "./ObjectLayout";
-import {PageMapInfo} from "@/shared/uikit/map";
+import {AttractionsLocation} from "@/shared/uikit/map";
 import {Breadcrumbs} from "@/shared/breadcrumbs";
 import {extractAttribute} from "@/shared/utilites";
 import ObjectPaymentPlan from "./ObjectPaymentPlan";
@@ -68,11 +68,12 @@ function ObjectPage(props) {
                 data={objectData?.["layouts"]}
             />
 
-            <PageMapInfo
+            <AttractionsLocation
                 cluster
                 isPopup
                 i18n={i18n}
                 type={'apartments'}
+                sliderCardCountView={4.2}
                 currentData={objectData?.["locate"]}
                 attractionsData={objectData?.["attractions"]}
             />

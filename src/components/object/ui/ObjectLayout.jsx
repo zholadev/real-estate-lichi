@@ -26,7 +26,7 @@ function ObjectLayout(props) {
         <div className={styles['object_layout']}>
             <h2>{i18n?.["object"]?.["layout_title"]}</h2>
 
-            <div className={`${styles['layout_board_info']} container_md`}>
+            <div className={`${styles['layout_board_info']}`}>
                 <ZoomContainer>
                     <Image
                         height={768}

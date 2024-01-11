@@ -1,3 +1,3 @@
-import PageMapInfo from "./ui/PageMapInfo";
+import AttractionsLocation from "./ui/AttractionsLocation";
 
-export {PageMapInfo}
+export {AttractionsLocation}

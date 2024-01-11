@@ -1,18 +1,20 @@
 'use client'
 
 import React, {useEffect, useState} from 'react';
-import styles from '@/styles/catalog-products.module.sass'
 import dynamic from "next/dynamic";
-import {MapCard} from "@/shared/uikit/cards/mapCard";
-import {useMediaMaxState} from "@/shared/hooks";
-import {Spinner} from "@/shared/uikit/template/spinner";
 import Skeleton from "react-loading-skeleton";
+import {useMediaMaxState} from "@/shared/hooks";
+import CatalogMapCardLists from "./CatalogMapCardLists";
+import styles from '@/styles/catalog-products.module.sass'
 
 const MapListContainer = dynamic(() => import('@/widgets/map/ui/MapListContainer'), {ssr: false})
 
 /**
  * @author Zholaman Zhumanov
  * @creted 26.10.2023
+ * @last-updated 11.01.2024 - Zholaman Zhumanov
+ * @update-description refactoring and redesign
+ * @update
  * @param props
  * @returns {Element}
  * @constructor
@@ -20,25 +22,30 @@ const MapListContainer = dynamic(() => import('@/widgets/map/ui/MapListContainer
 function CatalogMapProducts(props) {
     const {mapData, i18n, redirectTo, loading} = props
 
-    const [position, setPosition] = useState(false)
-    const [currentListCard, setCurrentListCard] = useState(mapData)
+    const [position, setPosition] = useState(false);
+    const [currentCardList, setCurrentCardList] = useState(mapData);
 
-    const mediaQuerySm = useMediaMaxState({screenSize: 768})
+    const isSmallScreen = useMediaMaxState({screenSize: 768});
 
     useEffect(() => {
-        setCurrentListCard(mapData)
-
-        return () => {
-            setCurrentListCard([])
-        }
+        setCurrentCardList(mapData)
+        return () => setCurrentCardList([])
     }, [mapData]);
 
     if (loading) {
         return (
             <div className={styles['loading_container']}>
-                <Skeleton containerClassName={styles['skeleton_flex']} style={{height: "500px", width: mediaQuerySm ? "100%" : "calc(100% - 20px)"}}/>
+                <Skeleton
+                    containerClassName={styles['skeleton_flex']}
+                    style={{height: "800px", width: isSmallScreen ? "100%" : "calc(100% - 20px)"}}
+                />
                 <div className={styles['loading_cards']}>
-                    <Skeleton containerClassName={styles['skeleton_flex']} style={{height: "80px", width: "170px", marginBottom: "20px", marginInlineEnd: mediaQuerySm ? "20px" : 0}} count={5}/>
+                    <Skeleton containerClassName={styles['skeleton_flex']} style={{
+                        height: "80px",
+                        width: "170px",
+                        marginBottom: "20px",
+                        marginInlineEnd: isSmallScreen ? "20px" : 0
+                    }} count={5}/>
                 </div>
             </div>
         )
@@ -50,6 +57,12 @@ function CatalogMapProducts(props) {
 
     return (
         <div className={styles['catalog_map_container']}>
+            <CatalogMapCardLists
+                i18n={i18n}
+                redirectTo={redirectTo}
+                getPositionHandle={setPosition}
+                currentListCardData={currentCardList}
+            />
             <MapListContainer
                 isBtn
                 isPopup
@@ -60,27 +73,8 @@ function CatalogMapProducts(props) {
                 data={mapData}
                 position={position}
                 url={`/catalog/${redirectTo}`}
-                getViewMarkers={setCurrentListCard}
+                getViewMarkers={setCurrentCardList}
             />
-            <div className={styles['map_address_box']}>
-                {
-                    Object.values(currentListCard || {}).map((position, id) => {
-                        return (
-                            <MapCard
-                                key={id}
-                                i18n={i18n}
-                                redirect={redirectTo}
-                                onGetCoordinates={() => {
-                                    setPosition([position?.["attributes"]?.["locate"]?.["coordinates"]?.["coordinates"]?.["lat"], position?.["attributes"]?.["locate"]?.["coordinates"]?.["coordinates"]?.["lng"]])
-                                }}
-                                page={position?.["id"]}
-                                totalData={position?.["attributes"]}
-                                data={position?.["attributes"]?.["locate"]}
-                            />
-                        )
-                    })
-                }
-            </div>
         </div>
     );
 }

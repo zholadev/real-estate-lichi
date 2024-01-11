@@ -6,11 +6,9 @@
   width: 100%
   padding: 0 0 7px 0
   margin-bottom: 12px
-  border-bottom: 1px solid rgba(22, 24, 29, 0.3)
-
   display: flex
   align-items: flex-start
-  flex-direction: row
+  flex-direction: column
 
   @media (hover: hover)
     &:hover
@@ -19,9 +17,8 @@
 
   +sm
     flex-direction: column
-    border: 1px solid rgba(214, 214, 214, 1)
-    min-width: 156px
-    max-width: 156px
+    min-width: 220px
+    max-width: 220px
     padding: 8px
     justify-content: center
     margin-bottom: $p-size-10
@@ -34,12 +31,12 @@
       .title
         font-size: $size-15
         line-height: $size-18
-        margin-bottom: $p-size-5
+        margin-bottom: $p-size-10
 
         +sm
           font-size: $size-14
           line-height: 16.4px
-          margin-bottom: 7px
+          margin-bottom: $p-size-10
 
       .price
         font-weight: $size-500
@@ -50,27 +47,24 @@
         margin-bottom: 10px
         font-size: 13px
         cursor: pointer
-
         transition: color .2s ease
         will-change: color
 
         &:hover
           color: $text-color-opacity
 
+        +sm
+          margin-bottom: $p-size-10
+
     .info_footer
       button
         font-size: $size-11
 
-  .img
-    margin-inline-end: $p-size-10
+  .image-container
     overflow: hidden
     border-radius: 4px
-    max-width: 150px
-
-    +sm
-      margin-inline-end: 0
+    margin-bottom: 10px
 
     img
       transition: transform .4s ease
       will-change: transform
-

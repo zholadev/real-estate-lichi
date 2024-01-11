@@ -1,9 +1,11 @@
 'use client'
 
-import React from 'react';
+import React, {useState} from 'react';
 import styles from '@/styles/object-page.module.sass'
 import {Button} from "@/shared/uikit/button";
 import {useCurrencyFormat} from "@/shared/hooks";
+import {PortalProvider} from "@/shared/portals";
+import {ModalContainer} from "@/shared/uikit/modal";
 
 /**
  * @author Zholaman Zhumanov
@@ -18,6 +20,10 @@ import {useCurrencyFormat} from "@/shared/hooks";
 function ObjectDetailHeadInfo(props) {
     const {i18n, data} = props
     const convertCurrency = useCurrencyFormat()
+
+    const [modalSignUp, setModalSighUp] = useState(false)
+
+    const toggleModal = () => setModalSighUp(!modalSignUp)
 
     // Extracted function for generating list items
     const generateListItem = (key, value) => (
@@ -49,7 +55,15 @@ function ObjectDetailHeadInfo(props) {
             </ul>
             <Button
                 title={i18n?.["object"]?.["sign_up_view"]}
+                onClick={toggleModal}
             />
+
+            <ModalContainer
+                active={modalSignUp}
+                disabled={toggleModal}
+            >
+                Form
+            </ModalContainer>
         </div>
     );
 }
