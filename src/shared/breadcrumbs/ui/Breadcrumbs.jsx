@@ -136,25 +136,23 @@ function Breadcrumbs(props) {
         return null
     }
 
+    const renderBreadcrumbItem = (breadItem, breadId) => {
+        const {redirect, slash, name} = breadItem;
+
+        const listItem = (
+            <li className={styles['bread_item']} key={breadId}>
+                {slash && <div className={styles['item_slash']}>•</div>}
+                <span>{name}</span>
+            </li>
+        );
+
+        return redirect ? <Link href={redirect}>{listItem}</Link> : listItem;
+    }
+
     return (
-        <ul className={`${styles['ui_breadcrumbs']} ${theme === 'light' ? styles['ui_breadcrumbs__light'] : ''}`}>
+        <ul className={[styles['ui_breadcrumbs'], theme === 'light' ? styles['ui_breadcrumbs__light'] : ''].join(' ')}>
             {
-                breadData[page].map((breadItem, breadId) => {
-                    return (
-                        breadItem?.["redirect"] ?
-                            <Link href={breadItem?.["redirect"]} key={breadId}>
-                                <li className={styles['bread_item']}>
-                                    {breadItem?.["slash"] && <div className={styles['item_slash']}>•</div>}
-                                    <span>{breadItem?.["name"]}</span>
-                                </li>
-                            </Link>
-                            :
-                            <li className={styles['bread_item']} key={breadId}>
-                                {breadItem?.["slash"] && <div className={styles['item_slash']}>•</div>}
-                                <span>{breadItem?.["name"]}</span>
-                            </li>
-                    )
-                })
+                breadData[page]?.map(renderBreadcrumbItem)
             }
         </ul>
     );

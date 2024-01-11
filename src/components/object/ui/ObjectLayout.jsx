@@ -5,12 +5,14 @@ import Image from "next/image";
 import {ZoomContainer} from "@/shared/uikit/zoom";
 import styles from '@/styles/object-page.module.sass'
 import {mediaImgSrc} from "@/shared/constants/options";
-
-// TODO: Сделать общим
+import {extractAttribute} from "@/shared/utilites";
 
 /**
  * @author Zholaman Zhumanov
  * @created 13.10.2023
+ * @last-updated 11.01.2024 - Zholaman Zhumanov
+ * @update-description update locates data
+ * @todo refactoring
  * @param props
  * @returns {Element}
  * @constructor
@@ -33,7 +35,7 @@ function ObjectLayout(props) {
                         width={1024}
                         priority={true}
                         alt={data?.["name"]}
-                        src={mediaImgSrc(`${data?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"]}`)}
+                        src={mediaImgSrc(`${extractAttribute("images.data.0.attributes.url", data, true)}`)}
                     />
                 </ZoomContainer>
 
@@ -45,7 +47,7 @@ function ObjectLayout(props) {
                         {
                             Object.values(data?.["locates"] || {}).map((item, id) => {
                                 return (
-                                    <li className={styles['list_item']} key={id}>{item?.["locate"]}</li>
+                                    <li className={styles['list_item']} key={id}>{item?.["item"]}</li>
                                 )
                             })
                         }
