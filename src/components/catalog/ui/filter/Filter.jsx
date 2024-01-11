@@ -64,7 +64,7 @@ function Filter(props) {
         setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value));
 
         if (isSendFilters) {
-             sendFilterQuery(filterData, true, isSendFilters)
+            sendFilterQuery(filterData, true, isSendFilters)
         }
     };
 
@@ -84,6 +84,14 @@ function Filter(props) {
             }
         })
     }
+
+    const getAllPriceList = useMemo(() => {
+        try {
+            return Object.values(apartmentListData || {}).map((item) => item?.["attributes"]?.["price"])
+        } catch (error) {
+            errorHandler("filter", "getMinMaxPrices", error)
+        }
+    }, [apartmentListData])
 
     const getMinMaxPrices = useMemo(() => {
         try {
@@ -126,14 +134,14 @@ function Filter(props) {
 
 
         if (filterQuickSend) {
-            const getFilterData = getSetFilterHandle({[filterData.key]:  filterData.value}, filterData.key,  filterData.value)
+            const getFilterData = getSetFilterHandle({[filterData.key]: filterData.value}, filterData.key, filterData.value)
 
             pushFilterHandle(routerPage.catalog, getFilterData);
         } else if (filterData && !filterQuickSend) {
             const newObjectFilter = {queryFilter}
 
             const getFilterData = Object.values(newObjectFilter || {}).map((filterItem) => {
-                return getSetFilterHandle(filterItem, filterData.key,  null)
+                return getSetFilterHandle(filterItem, filterData.key, null)
             })
 
             pushFilterHandle(routerPage.catalog, getFilterData?.[0]);
@@ -145,9 +153,6 @@ function Filter(props) {
             toggleFilterHandle()
         }
     };
-
-    console.log('filter data', queryFilter)
-    console.log('filter api data', queryApiFilters)
 
     const residenceApiParams = useMemo(() => {
         return typeCatalog === 'residential_complex' ? {
@@ -204,6 +209,7 @@ function Filter(props) {
                     clearFilters={clearFilters}
                     setPriceFrom={setPriceFrom}
                     setPriceValue={setPriceValue}
+                    getAllPriceList={getAllPriceList}
                     queryApiFilters={queryApiFilters}
                     getMinMaxPrices={getMinMaxPrices}
                     setFilterAllData={setFilterAllData}
@@ -256,6 +262,7 @@ function Filter(props) {
                 setPriceFrom={setPriceFrom}
                 setPriceValue={setPriceValue}
                 queryApiFilters={queryApiFilters}
+                getAllPriceList={getAllPriceList}
                 sendFilterQuery={sendFilterQuery}
                 getMinMaxPrices={getMinMaxPrices}
                 setFilterAllData={setFilterAllData}

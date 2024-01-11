@@ -48,8 +48,8 @@ function NewsPageDetail(props) {
             </article>
 
             <div className={styles['share_place']}>
-                <h4 className={styles['share_text']}>{i18n?.["site"]?.["share_title"]}</h4>
-                <i className={styles['share_icon']}/>
+                {/*<h4 className={styles['share_text']}>{i18n?.["site"]?.["share_title"]}</h4>*/}
+                {/*<i className={styles['share_icon']}/>*/}
             </div>
         </section>
     );

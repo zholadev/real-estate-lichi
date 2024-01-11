@@ -5,6 +5,7 @@ import styles from '@/styles/catalog-products.module.sass'
 import {CatalogCard} from "@/shared/uikit/cards/catalogCard";
 import {PaginationContainer} from "@/shared/uikit/paginate";
 import {usePathname, useRouter} from "next/navigation";
+import {Animation} from "@/shared/uikit/animation";
 
 /**
  * @author Zholaman Zhumanov
@@ -48,15 +49,21 @@ function CatalogProducts(props) {
     return (
         <div className={styles['catalog_product_list']}>
             {
-                Object.values(catalogData || {}).map((cardItem) => {
+                Object.values(catalogData || {}).map((cardItem, index) => {
                     return (
-                        <CatalogCard
-                            key={cardItem?.["id"]}
-                            i18n={i18n}
-                            redirectUrl={redirectTo}
-                            cardData={cardItem}
-                            cardDataInfo={cardItem?.["attributes"]}
-                        />
+                       <Animation
+                           key={cardItem?.["id"]}
+                           isIntersection
+                           dontRepeat
+                           style={{transitionDelay: index * 0.0120 + 's'}}
+                       >
+                           <CatalogCard
+                               i18n={i18n}
+                               redirectUrl={redirectTo}
+                               cardData={cardItem}
+                               cardDataInfo={cardItem?.["attributes"]}
+                           />
+                       </Animation>
                     )
                 })
             }

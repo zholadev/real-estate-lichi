@@ -8,6 +8,9 @@ import {ButtonArrow} from "@/shared/uikit/button";
 /**
  * @author Zholaman Zhumanov
  * @created 10.10.2023 - Zholaman Zhumanov
+ * @last-updated 11.01.2024 - Zholaman Zhumanov
+ * @update-description refactoring
+ * @todo refactoring
  * @param props
  * @returns {Element}
  * @constructor
@@ -15,13 +18,19 @@ import {ButtonArrow} from "@/shared/uikit/button";
 function MainApartmentList(props) {
     const {i18n, col, title, data, url} = props
 
+    const apartmentData = Object.values(data || {})
+
+    if (apartmentData.length === 0) {
+        return null
+    }
+
     return (
         <section className={styles['main_apartment']}>
             <div className={styles['title']}>{title}</div>
 
             <div className={`${styles['list']} ${styles[`list_${col}`]}`}>
                 {
-                    Object.values(data || {}).map((item, id) => {
+                    apartmentData.map((item, id) => {
                         return (
                             <PrimaryCard key={id} cardData={item}/>
                         )

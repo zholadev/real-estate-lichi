@@ -46,7 +46,7 @@ export const apiGetResidentialData = async (page, params) => {
 export const apiGetResidentialByIdData = async (id) => {
     return await api_client_get(`${api.residential_complexes.get}/${id}`,
         {
-            "populate": "residence,room,district,property_type,tags,apartments.photo_preview.item,locations.photos,interior_description,interior_description.images,videos.item,videos.item,photos.item,video_posters.item,attractions.photo,locate,attractions,*"
+            "populate": "residence,room,district,property_type,tags,apartments.photo_preview.item,locations.photos,interior_description,interior_description.images,videos.item,videos.item,photos.item,video_posters.item,attractions.photo,locate.photo,attractions,*"
         }
     )
 }
@@ -84,7 +84,7 @@ export const apiGetApartmentsByIdData = async (id, locale) => {
         `${api.apartment.get}/${id}`,
         {
             "id": id,
-            "populate": "attractions,managers,managers.info,managers.contacts,managers.photo.item,photos.item,residence,rooms,districts,property_type,tags,layouts.locates,layouts.images,build_info,payment_plan,locate,locate.photo,attractions.photo,country,*",
+            "populate": "attractions,managers,managers.info,managers.contacts,managers.photo.item,photos.item,residence,rooms,districts,property_type,tags,layouts.locates,layouts.images,build_info,payment_plan,locate,locate.photo,attractions.photo,attractions.icon,country,*",
             "locale": locale
         })
 }

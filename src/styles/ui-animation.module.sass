@@ -1,0 +1,32 @@
+@import "_var"
+@import "_keyframes"
+@import "_mixins"
+
+.fade_up__init
+  opacity: 0
+  visibility: hidden
+  will-change: opacity, transform
+  transition: opacity .6s cubic-bezier($cubic-bezier) .3s
+
+  &:nth-child(odd)
+    transition: opacity .6s cubic-bezier($cubic-bezier) .3s
+
+  &:nth-child(even)
+    transition: opacity .6s cubic-bezier($cubic-bezier) .6s
+
+  &.fade_up__play
+    opacity: 1
+    visibility: visible
+
+
+.slide_up__init
+  opacity: 0
+  visibility: hidden
+  transform: translateY(100px)
+  will-change: opacity, transform
+  transition: transform .5s cubic-bezier($cubic-bezier), opacity .6s cubic-bezier($cubic-bezier) .3s
+
+  &.slide_up__play
+    opacity: 1
+    visibility: visible
+    transform: translateY(0)
