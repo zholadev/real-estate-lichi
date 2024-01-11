@@ -8,16 +8,19 @@ import {IMG} from "@/shared/constants/constants";
 import {ButtonArrow} from "@/shared/uikit/button";
 import styles from "@/styles/widget-submenu-navbar.module.sass"
 import NavbarMenuItem from "@/widgets/submenu/ui/NavbarMenuItem";
+import {routerPage} from "@/entities/router/model/pages";
 
 const animFrom = {y: 20, opacity: 0}
 const reverseConfig = {y: 20, opacity: 0, duration: .1, stagger: 0.02};
 const animConfig = {y: 0, opacity: 1, duration: .1, stagger: 0.02, ease: "power2.inOut"};
 
-function gsapAnimation(ref, callback = () => {}) {
+function gsapAnimation(ref, callback = () => {
+}) {
     gsap.fromTo(ref.current.children, animFrom, {...animConfig, onComplete: callback});
 }
 
-function gsapReverseAnimation(ref, callback = () => {}) {
+function gsapReverseAnimation(ref, callback = () => {
+}) {
     gsap.to(ref.current.children, {...reverseConfig, onComplete: callback});
 }
 
@@ -52,20 +55,25 @@ function NavbarSubmenu(props) {
             showSubmenuHandle()
             gsapAnimation(listMenuRef, () => setMenuMotion(true))
         } else {
-            gsapReverseAnimation(listPageRef, () => setMenuMotion(false));
+            gsapReverseAnimation(listPageRef, () => {
+                setMenuMotion(false)
+            });
         }
     }, [animateTrigger]);
 
     useEffect(() => {
         menuMotion
             ? gsapAnimation(listPageRef, () => setBottomActionMotion(true))
-            : gsapReverseAnimation(listPageRef, () => setBottomActionMotion(false));
+            : gsapReverseAnimation(listPageRef, () => {
+                setBottomActionMotion(false)
+                hideSubmenuHandle()
+            });
     }, [menuMotion]);
 
     useEffect(() => {
         bottomActionMotion
             ? gsapAnimation(bottomActionRef)
-            : gsapReverseAnimation(bottomActionRef, () => hideSubmenuHandle());
+            : gsapReverseAnimation(bottomActionRef);
     }, [bottomActionMotion]);
 
     const menuList = useMemo(() => (
@@ -74,19 +82,19 @@ function NavbarSubmenu(props) {
                 id: 1,
                 title: i18n?.["footer"]?.["catalog_apartment_title"],
                 img: IMG.templateCatalogCard['src'],
-                url: "/catalog"
+                url: routerPage.catalog
             },
             {
                 id: 2,
                 title: i18n?.["site.residence.title"],
                 img: IMG.templateCatalogCard['src'],
-                url: "/catalog?type=residential_complex"
+                url: `${routerPage.catalog}?type=residential_complex`
             },
             {
                 id: 3,
                 title: i18n?.["site"]?.["apartment_title"],
                 img: IMG.templateCatalogCard['src'],
-                url: "/catalog?filters[property_types][type]=apartment"
+                url: `${routerPage.catalog}?filters[property_types][type]=apartment`
             },
         ]
     ), [i18n]);
@@ -111,17 +119,17 @@ function NavbarSubmenu(props) {
                     <div className={styles['page_content']}>
                         <ul className={styles['menu_list']} ref={listPageRef}>
                             <li className={styles['list_item']} onClick={toggleAnimate}>
-                                <Link href={'/about'}>
+                                <Link href={routerPage.about}>
                                     {i18n?.["footer"]?.["about_us_title"]}
                                 </Link>
                             </li>
                             <li className={styles['list_item']} onClick={toggleAnimate}>
-                                <Link href={'/faq'}>
+                                <Link href={routerPage.faq}>
                                     {i18n?.["footer"]?.["faq_title"]}
                                 </Link>
                             </li>
                             <li className={styles['list_item']} onClick={toggleAnimate}>
-                                <Link href={'/news'}>
+                                <Link href={routerPage.news}>
                                     {i18n?.["site"]?.["news_title"]}
                                 </Link>
                             </li>
@@ -132,10 +140,10 @@ function NavbarSubmenu(props) {
                 <div className={styles['footer_content']}>
                     <div className={styles['footer_box']} ref={bottomActionRef}>
                         <ButtonArrow
-                            title={i18n?.["site"]?.["get_object"]}
-                            url={'/catalog'}
-                            onClick={toggleAnimate}
                             theme={'light'}
+                            onClick={toggleAnimate}
+                            url={routerPage.catalog}
+                            title={i18n?.["site"]?.["get_object"]}
                         />
 
                         <div className={styles['action_content']} onClick={toggleAnimate}>

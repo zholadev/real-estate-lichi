@@ -103,35 +103,44 @@
       list-style: inside
       margin-bottom: 20px
 
-  .feedback
-    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.2)
-    box-shadow: 0px 2px 30px 0px rgba(0, 0, 0, 0.06)
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.03)
-    border-radius: 15px
-    padding: $p-size-40
-    font-size: $size-16
+.feedback
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.2)
+  box-shadow: 0px 2px 30px 0px rgba(0, 0, 0, 0.06)
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.03)
+  border-radius: 15px
+  padding: $p-size-40
+  font-size: $size-16
 
-    +sm
-      padding: 16px
+  &.feedback_sc
+    box-shadow: none !important
+    padding: 0
 
     .title
-      margin-bottom: $p-size-30
-      font-size: $size-24
+      display: none
+      visibility: hidden
+      opacity: 0
 
-      +sm
-        padding-top: $p-size-20
-        text-align: center
-        font-size: $size-20
+  +sm
+    padding: 16px
+
+  .title
+    margin-bottom: $p-size-30
+    font-size: $size-24
+
+    +sm
+      padding-top: $p-size-20
+      text-align: center
+      font-size: $size-20
 
 
-    .feedback_info
-      width: 100%
-      display: grid
+  .feedback_info
+    width: 100%
+    display: grid
+    grid-template-columns: 1fr
+    grid-gap: $p-size-30
+
+    +sm
       grid-template-columns: 1fr
-      grid-gap: $p-size-30
-
-      +sm
-        grid-template-columns: 1fr
 
     .board
       .board_info_list
@@ -376,3 +385,16 @@ $map-height-sm: calc(100vh - 300px)
         font-weight: 500
 
 
+.object_sign_up_modal
+  width: 100%
+  height: 100%
+  padding: 20px
+  display: grid
+  grid-template-columns: 1fr 1fr
+  grid-gap: 40px
+
+  +md_sm
+    grid-template-columns: 1fr
+
+  .form_box
+    margin-bottom: 30px

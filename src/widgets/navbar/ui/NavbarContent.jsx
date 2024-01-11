@@ -14,6 +14,7 @@ import stylesSecondary from "@/styles/widget-submenu-navbar.module.sass";
 
 /**
  * @author Zholaman Zhumanov
+ * @last-updated 11.01.2024 - Zholaman Zhumanov
  * @todo refactoring
  * @param props
  * @returns {Element}
@@ -135,8 +136,11 @@ function NavbarContent(props) {
                     toggleMenu={() => setToggleNavbar(false)}
                     showSubmenuHandle={() => setToggleNavbar(true)}
                     hideSubmenuHandle={() => {
-                        setToggleNavbar(false)
                         setAnimateLogoTrigger(false)
+
+                        setTimeout(() => {
+                            setToggleNavbar(false)
+                        }, 400)
                     }}
                     toggleAnimate={toggleAnimateTrigger}
                 />

@@ -41,7 +41,7 @@ $modal-content-height: 700px
     will-change: opacity
 
     transition: opacity .6s cubic-bezier($cubic-bezier) .4s
-    z-index: 100
+    z-index: 500
 
     &.overlay_active
       opacity: 1
@@ -54,18 +54,20 @@ $modal-content-height: 700px
     cursor: pointer
     display: block
 
-    top: 10px
-    right: 10px
+    top: 20px
+    right: 20px
 
     @include background-image-set-full(20px, center, '/images/icons/close-icon.svg')
 
   .modal_content
     width: 100%
     max-width: $modal-content-width
+    height: auto
 
     background-color: $default-light
     position: relative
-    padding: 20px
+    padding: 35px
+    overflow-y: auto
 
     opacity: 0
     visibility: hidden
@@ -73,7 +75,11 @@ $modal-content-height: 700px
     transition: all .5s cubic-bezier($cubic-bezier), opacity .5s cubic-bezier($cubic-bezier)
 
     will-change: transform, opacity
-    z-index: 101
+    z-index: 501
+
+    +md_sm
+      margin: 10px
+      padding: 20px
 
     &.content_active
       opacity: 1

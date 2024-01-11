@@ -14,7 +14,7 @@ import Image from "next/image";
  * @constructor
  */
 function ObjectDetailFeedback(props) {
-    const {i18n, data} = props
+    const {i18n, data, hideButton, typeCard = 'primary', onClick} = props
 
     const getManagerData = useMemo(() => {
         return {
@@ -31,7 +31,7 @@ function ObjectDetailFeedback(props) {
     }
 
     return (
-        <div className={styles['feedback']}>
+        <div className={`${styles['feedback']} ${typeCard === 'secondary' ? styles['feedback_sc'] : ''}`}>
             <h4 className={styles['title']}>{i18n?.["feedback"]?.["feedback_title"]}</h4>
 
             <div className={styles['feedback_info']}>
@@ -47,7 +47,8 @@ function ObjectDetailFeedback(props) {
                     <ul className={styles['board_info_list']}>
                         <li className={styles['list_item']}>
                             <div className={styles['key']}>{i18n?.["form.contact.title"]}:</div>
-                            <div className={styles['value']}>{getManagerData?.["firstname"]} {getManagerData?.["lastname"]}</div>
+                            <div
+                                className={styles['value']}>{getManagerData?.["firstname"]} {getManagerData?.["lastname"]}</div>
                         </li>
 
                         {
@@ -62,22 +63,29 @@ function ObjectDetailFeedback(props) {
                         }
                     </ul>
 
-                    <ul className={styles['board_media_list']}>
-                        {
-                            Object.values(getManagerData?.["contacts"] || {}).map((infoItem, infoId) => {
-                                return (
-                                    <li className={styles['list_item']} key={infoId}>
-                                        <i className={`${styles['icon']} ${styles[`${infoItem?.["name"]}_icon`]}`}/>
-                                    </li>
-                                )
-                            })
-                        }
-                    </ul>
+                    {
+                        !hideButton &&
+                        <ul className={styles['board_media_list']}>
+                            {
+                                Object.values(getManagerData?.["contacts"] || {}).map((infoItem, infoId) => {
+                                    return (
+                                        <li className={styles['list_item']} key={infoId}>
+                                            <i className={`${styles['icon']} ${styles[`${infoItem?.["name"]}_icon`]}`}/>
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
+                    }
 
-                    <Button
-                        type={'secondary'}
-                        title={i18n?.["feedback"]?.["order_call_title"]}
-                    />
+                    {
+                        !hideButton &&
+                        <Button
+                            type={'secondary'}
+                            onClick={onClick}
+                            title={i18n?.["feedback"]?.["order_call_title"]}
+                        />
+                    }
                 </div>
             </div>
         </div>
