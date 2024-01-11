@@ -1,6 +1,5 @@
 import qs from "qs";
 import {useRouter, useSearchParams} from "next/navigation";
-import {useToastMessage} from "@/shared/hooks";
 
 /**
  * @author Zholaman Zhumanov
@@ -10,7 +9,6 @@ function usePushFilters() {
     const RESIDENCE_FILTER = "residence";
     const PRICE_FROM_FILTER = "price.from";
     const PRICE_TO_FILTER = "price.to";
-    const PAGE_FILTER = 'page'
 
     const router = useRouter();
     const params = useSearchParams()
@@ -34,9 +32,6 @@ function usePushFilters() {
             case PRICE_TO_FILTER:
                 return priceToFilter(value);
 
-            case PAGE_FILTER:
-                return pageFilter(value)
-
             default:
                 return {[key]: defaultFilter(value)};
         }
@@ -56,10 +51,6 @@ function usePushFilters() {
 
         let paramsObject = {
             filters: buildFilters(filters),
-        }
-
-        if (isPageParams) {
-            paramsObject["page"] = isPageParams
         }
 
         const queryString = qs.stringify(
