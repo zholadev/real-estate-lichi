@@ -136,7 +136,7 @@ function CatalogContainer(props) {
                     />
                 </div>
                 {typeContent === 'map' ? (
-                    <div className={'container_md'}>
+                    // <div className={'container_md'}>
                         <CatalogMapProducts
                             i18n={i18n}
                             loading={loading}
@@ -144,7 +144,7 @@ function CatalogContainer(props) {
                             redirectTo={isResidential ? 'residence' : 'apartment'}
                             mapData={isResidential ? residenceClientData : objectClientData}
                         />
-                    </div>
+                    // </div>
                 ) : (
                     <div className={'container_md'}>
                         <CatalogProducts

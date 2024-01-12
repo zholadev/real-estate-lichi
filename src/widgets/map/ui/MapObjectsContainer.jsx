@@ -29,7 +29,7 @@ function MapObjectsContainer(props) {
         if (!position) return
         if (mapConfig.target && position) {
             try {
-                mapConfig.target.flyTo(position, 18, {
+                mapConfig.target.flyTo(position, 15, {
                     animate: false
                 })
             } catch (error) {
@@ -68,6 +68,7 @@ function MapObjectsContainer(props) {
                 whenReady={(map) => {
                     setMapConfig(map)
                 }}
+                scrollWheelZoom={false}
             >
                 <MapTileContainer/>
                 <MapMarkers

@@ -14,7 +14,7 @@ import FilterRooms from "../filterTypes/FilterRooms";
 import FilterDistrict from "../filterTypes/FilterDistrict";
 import FilterResidence from "../filterTypes/FilterResidence";
 import FilterPropertyType from "../filterTypes/FilterPropertyType";
-import {FormRangeDoubleSlider} from "@/shared/uikit/form/range";
+import useDebounce from "@/shared/hooks/model/useDebounce";
 
 /**
  * @author Zholaman Zhumanov
@@ -35,9 +35,9 @@ function FilterList(props) {
         setPriceFrom,
         clearSelects,
         setPriceValue,
-        getAllPriceList,
         getMinMaxPrices,
         queryApiFilters,
+        getApartmentData,
         setFilterAllData,
         setApiFiltersHandle,
         setFilterQueryHandle,
@@ -136,6 +136,17 @@ function FilterList(props) {
         )
     }
 
+    const priceOnChangeDebounce = useDebounce()
+
+    const priceOnChangeHandle = (priceData) => {
+        const {data, name, type} = priceData
+        setFilterQueryHandle({key: name, value: data})
+        setApiFiltersHandle({
+            key: `filters[apartments][price][${type}]`,
+            value: data
+        })
+    }
+
     useEffect(() => {
         getFilterDistrictData()
             .catch(error => {
@@ -181,6 +192,7 @@ function FilterList(props) {
                 clearFilters={clearFilters}
                 filterData={districtDataFilter}
                 value={queryFilter?.["districts"]}
+                getApartmentData={getApartmentData}
                 filterApi={apiGetFilterDistrictList}
                 assemblyFilter={setFilterQueryHandle}
                 assemblyFilterApi={setApiFiltersHandle}
@@ -194,14 +206,15 @@ function FilterList(props) {
                     i18n={i18n}
                     loading={loading}
                     filterType={"residence"}
+                    clearSelect={clearSelects}
+                    filterApiParams={queryApiFilters}
                     filterData={residenceDataFilter}
                     value={queryFilter?.["residence"]}
-                    clearSelect={clearSelects}
-                    filterApi={apiGetFilterResidenceList}
+                    getApartmentData={getApartmentData}
                     assemblyFilter={setFilterQueryHandle}
+                    filterApi={apiGetFilterResidenceList}
                     assemblyFilterApi={setApiFiltersHandle}
                     placeholder={i18n?.["site.residence.title"]}
-                    filterApiParams={queryApiFilters}
                 />
             }
 
@@ -214,6 +227,7 @@ function FilterList(props) {
                 value={queryFilter?.["rooms"]}
                 filterApiParams={queryApiFilters}
                 filterApi={apiGetFilterRoomsList}
+                getApartmentData={getApartmentData}
                 assemblyFilter={setFilterQueryHandle}
                 assemblyFilterApi={setApiFiltersHandle}
                 placeholder={i18n?.["site.roominess.title"]}
@@ -225,6 +239,7 @@ function FilterList(props) {
                 clearSelect={clearSelects}
                 filterType={"property_types"}
                 filterApiParams={queryApiFilters}
+                getApartmentData={getApartmentData}
                 filterData={propertyTypeDataFilter}
                 assemblyFilter={setFilterQueryHandle}
                 value={queryFilter?.["property_types"]}
@@ -242,6 +257,7 @@ function FilterList(props) {
                 value={queryFilter?.["tags"]}
                 filterApi={apiGetFilterTagsList}
                 filterApiParams={queryApiFilters}
+                getApartmentData={getApartmentData}
                 assemblyFilter={setFilterQueryHandle}
                 assemblyFilterApi={setApiFiltersHandle}
                 placeholder={i18n?.["site.tags.title"]}
@@ -253,13 +269,16 @@ function FilterList(props) {
                 type={"number"}
                 value={priceFrom}
                 typeInput={'secondary'}
+                onBlur={(e) => {
+                    priceOnChangeDebounce(priceOnChangeHandle, 0, {"data": priceFrom, "name": "price.from", "type": "$gte"})
+                }}
                 onChange={(e) => {
                     setPriceFrom(e)
-                    setFilterQueryHandle({key: "price.from", value: e})
-                    setApiFiltersHandle({
-                        key: "filters[apartments][price][$gte]",
-                        value: e
-                    })
+                    // setFilterQueryHandle({key: "price.from", value: e})
+                    // setApiFiltersHandle({
+                    //     key: "filters[apartments][price][$gte]",
+                    //     value: e
+                    // })
                 }}
                 placeholder={`${i18n?.["site.coast.from.title"]} ${getMinMaxPrices?.["min"]}`}
                 disabled={getMinMaxPrices?.["min"] === getMinMaxPrices?.["max"] || Object.values(queryFilter || {}).length > 0 && queryFilter?.["districts"]}
@@ -275,14 +294,17 @@ function FilterList(props) {
                 type={"number"}
                 value={priceValue}
                 typeInput={'secondary'}
+                onBlur={(e) => {
+                    priceOnChangeDebounce(priceOnChangeHandle, 0, {"data": priceValue, "name": "price.to", "type": "$lte"})
+                }}
                 onChange={(e) => {
                     setPriceValue(e)
-                    setFilterQueryHandle(e)
-                    setFilterQueryHandle({key: "price.to", value: e})
-                    setApiFiltersHandle({
-                        key: "filters[apartments][price][$lte]",
-                        value: e
-                    })
+                    // priceOnChangeDebounce(priceOnChangeHandle, 500, {"data": e, "name": "price.to", "type": "$lte"})
+                    // setFilterQueryHandle({key: "price.to", value: e})
+                    // setApiFiltersHandle({
+                    //     key: "filters[apartments][price][$lte]",
+                    //     value: e
+                    // })
                 }}
                 placeholder={`${i18n?.["site.coast.to.title"]} ${getMinMaxPrices?.["max"]}`}
                 disabled={getMinMaxPrices?.["max"] === getMinMaxPrices?.["min"]}

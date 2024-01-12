@@ -28,21 +28,21 @@ function ButtonArrow(props) {
                 duration: .4,
                 ease: "power2.inOut",
                 padding: type === "small" ? "10px 10px" : "0 20px",
-                onComplete: args => {
+                onStart: args => {
                     gsap.to(textRef.current,
                         {
                             color: '#ffffff',
-                            duration: .3,
+                            duration: .1,
                         }
                     )
 
                     gsap.to(iconRef.current,
                         {
                             filter: "invert(100%)",
-                            duration: .3,
+                            duration: .1,
                         }
                     )
-                }
+                },
             }
         )
     }
@@ -58,14 +58,14 @@ function ButtonArrow(props) {
                     gsap.to(textRef.current,
                         {
                             color: theme === "light" ? "#ffffff" : 'initial',
-                            duration: .3,
+                            duration: .1,
                         }
                     )
 
                     gsap.to(iconRef.current,
                         {
                             filter: theme === "light" ? "invert(100%)" : "none",
-                            duration: .3,
+                            duration: .1,
                         }
                     )
                 }

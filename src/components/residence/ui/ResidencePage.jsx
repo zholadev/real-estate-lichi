@@ -58,16 +58,16 @@ function ResidencePage(props) {
                 data={data?.["gallery_photos"]}
             />
 
-            <div className={'container_md'}>
-                <AttractionsLocation
-                    cluster
-                    isPopup
-                    i18n={i18n}
-                    sliderCardCountView={3.2}
-                    currentData={data?.["locate"]}
-                    attractionsData={data?.["attractions"]}
-                />
+            <AttractionsLocation
+                cluster
+                isPopup
+                i18n={i18n}
+                sliderCardCountView={6.2}
+                currentData={data?.["locate"]}
+                attractionsData={data?.["attractions"]}
+            />
 
+            <div className={'container_md'}>
                 <ResidenceDesignGallery
                     i18n={i18n}
                     data={data?.["interior_description"]}

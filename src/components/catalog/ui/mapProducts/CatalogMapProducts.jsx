@@ -39,14 +39,14 @@ function CatalogMapProducts(props) {
                     containerClassName={styles['skeleton_flex']}
                     style={{height: "800px", width: isSmallScreen ? "100%" : "calc(100% - 20px)"}}
                 />
-                <div className={styles['loading_cards']}>
-                    <Skeleton containerClassName={styles['skeleton_flex']} style={{
-                        height: "80px",
-                        width: "170px",
-                        marginBottom: "20px",
-                        marginInlineEnd: isSmallScreen ? "20px" : 0
-                    }} count={5}/>
-                </div>
+                {/*<div className={styles['loading_cards']}>*/}
+                {/*    <Skeleton containerClassName={styles['skeleton_flex']} style={{*/}
+                {/*        height: "80px",*/}
+                {/*        width: "170px",*/}
+                {/*        marginBottom: "20px",*/}
+                {/*        marginInlineEnd: isSmallScreen ? "20px" : 0*/}
+                {/*    }} count={5}/>*/}
+                {/*</div>*/}
             </div>
         )
     }
@@ -57,12 +57,12 @@ function CatalogMapProducts(props) {
 
     return (
         <div className={styles['catalog_map_container']}>
-            <CatalogMapCardLists
-                i18n={i18n}
-                redirectTo={redirectTo}
-                getPositionHandle={setPosition}
-                currentListCardData={currentCardList}
-            />
+            {/*<CatalogMapCardLists*/}
+            {/*    i18n={i18n}*/}
+            {/*    redirectTo={redirectTo}*/}
+            {/*    getPositionHandle={setPosition}*/}
+            {/*    currentListCardData={currentCardList}*/}
+            {/*/>*/}
             <MapListContainer
                 isBtn
                 isPopup

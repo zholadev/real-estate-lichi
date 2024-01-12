@@ -18,12 +18,13 @@ function FilterRooms(props) {
         filterData,
         filterType,
         placeholder,
+        onClickDis,
         clearSelect,
         assemblyFilter,
         filterApiParams,
+        getApartmentData,
         onClickContainer,
         assemblyFilterApi,
-        onClickDis
     } = props
 
     return (
@@ -40,6 +41,7 @@ function FilterRooms(props) {
             filterGetData={filterData}
             assemblyFilter={assemblyFilter}
             filterApiParams={filterApiParams}
+            getApartmentData={getApartmentData}
             onClickContainer={onClickContainer}
             assemblyFilterApi={assemblyFilterApi}
         />

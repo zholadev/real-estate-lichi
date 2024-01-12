@@ -28,11 +28,13 @@ function FilterSm(props) {
         setPriceValue,
         sendFilterQuery,
         getMinMaxPrices,
+        getApartmentData,
         queryApiFilters,
         setFilterAllData,
         toggleFilterHandle,
         setApiFiltersHandle,
         setFilterQueryHandle,
+        filterApartmentApiData
     } = props
 
     const mediaQuerySm = useMediaMaxState({screenSize: 576.98})
@@ -55,11 +57,13 @@ function FilterSm(props) {
                         clearFilters={clearFilters}
                         setPriceFrom={setPriceFrom}
                         setPriceValue={setPriceValue}
-                        queryApiFilters={queryApiFilters}
                         getMinMaxPrices={getMinMaxPrices}
+                        queryApiFilters={queryApiFilters}
                         setFilterAllData={setFilterAllData}
+                        getApartmentData={getApartmentData}
                         setApiFiltersHandle={setApiFiltersHandle}
                         setFilterQueryHandle={setFilterQueryHandle}
+                        filterApartmentApiData={filterApartmentApiData}
                     />
 
                     <Button

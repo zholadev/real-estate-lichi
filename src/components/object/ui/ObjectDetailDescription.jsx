@@ -62,7 +62,6 @@ function ObjectDetailDescription(props) {
                         <InputBox label={i18n?.["form.phone.title"]}/>
 
                         <Button
-                            type={'outline'}
                             title={i18n?.["form.send.title"]}
                             style={{
                                 minWidth: "100%"

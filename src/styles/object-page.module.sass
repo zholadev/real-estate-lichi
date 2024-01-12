@@ -230,6 +230,7 @@ $map-height-sm: calc(100vh - 300px)
 
   h2
     margin-bottom: $p-size-60
+    padding-left: $p-size-10
 
   .attractions_content
     width: 100%
@@ -302,6 +303,15 @@ $map-height-sm: calc(100vh - 300px)
           border-radius: 7px
           position: relative
           overflow: hidden
+          transition: opacity .4s cubic-bezier($cubic-bezier)
+          will-change: opacity
+
+          &:not(.card_active_item)
+            opacity: .7
+
+          @media (hover: hover)
+            &:hover
+              opacity: 1
 
           +md_sm
             width: 260px
