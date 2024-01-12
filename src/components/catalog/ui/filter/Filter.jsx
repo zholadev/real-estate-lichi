@@ -149,7 +149,7 @@ function Filter(props) {
         }
     }, [apartmentListFilterData])
 
-    console.log(queryFilter, getMinMaxPrices)
+    // console.log(queryFilter, getMinMaxPrices)
 
     const sendFilterQuery = (filterData, filterToggle, filterQuickSend) => {
         const parsePrice = (key) => parseFloat(queryFilter?.[`price.${key}`]);

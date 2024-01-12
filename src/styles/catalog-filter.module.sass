@@ -132,6 +132,11 @@
       text-transform: uppercase
       margin-inline-end: 16px
       font-size: 13px
+      transition: all .3s cubic-bezier($cubic-bezier)
+
+      @media (hover: hover)
+        &:hover
+          font-weight: 500
 
       span
         display: inline-block
@@ -155,7 +160,7 @@
       justify-content: space-between
 
     button
-      width: 80px
+      width: 60px
       min-width: 36px
 
       +md_sm
@@ -170,15 +175,15 @@
       border-radius: 4px
 
     .icon
-      width: 30px
-      height: 30px
+      width: 20px
+      height: 20px
       display: block
 
       &.invert_icon
         filter: invert(100%)
 
       &.icon_list
-        @include background-image-set-full(30px, center, '/images/icons/list.svg')
+        @include background-image-set-full(20px, center, '/images/icons/list.svg')
 
       &.icon_marker
-        @include background-image-set-full(20px, center, '/images/icons/marker.svg')
+        @include background-image-set-full(10px, center, '/images/icons/marker.svg')
