@@ -113,6 +113,10 @@ function Filter(props) {
             paramsCustomObject[newKey] = filterApartmentApiData[key];
         }
 
+        if (Object.values(filterApartmentApiData).length === 0 && FILTER_DATA.length > 0 ) {
+            return
+        }
+
         await apiFetchHandler(
             apiGetApartmentsData,
             [PAGE_QUERY_PARAM, {"populate": false, "fields[0]": "name", "fields[1]": "price", ...paramsCustomObject}],

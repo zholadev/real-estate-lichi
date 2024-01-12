@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import Image from "next/image";
 import {useMediaQuery} from "react-responsive";
 import {Swiper, SwiperSlide} from "swiper/react";
@@ -21,9 +21,12 @@ function AttractionsCardList(props) {
     const {getPositionHandle, currentData, componentData, sliderCardCountView = 4.2} = props
 
     const [swiper, setSwiper] = useState(null)
+    const [activeIndex, setActiveIndex] = useState(0)
 
     const mediaQuerySm = useMediaQuery({maxWidth: 576.98})
     const mediaQueryMd = useMediaQuery({minWidth: 577, maxWidth: 1024})
+
+    console.log(swiper)
 
     const slideToHandle = useCallback((id) => {
         try {
@@ -33,42 +36,38 @@ function AttractionsCardList(props) {
         }
     }, [swiper])
 
+    const sliderSetData = useMemo(() => {
+        try {
+            return [
+                {
+                    id: 0,
+                    attributes: {
+                        ...currentData,
+                        photo: componentData.defaultCoordinatePhoto
+                    }
+                },
+                ...componentData.attractionsData,
+            ]
+        } catch (error) {
+            errorHandler("attractionsList", "sliderSetData", error)
+        }
+    }, [currentData, componentData])
+
+    console.log(sliderSetData, activeIndex)
+
     return (
         <div className={styles['map_card_container']}>
             <Swiper
-                loop={true}
-                slidesPerView={mediaQuerySm ? 1.2 : mediaQueryMd ? 2.2 : sliderCardCountView}
+                centeredSlides={true}
                 onSwiper={swiper => setSwiper(swiper)}
+                slidesPerView={mediaQuerySm ? 1.2 : mediaQueryMd ? 2.2 : sliderCardCountView}
+                onSlideChange={swiper => {
+                    setSwiper(swiper)
+                    setActiveIndex(swiper.activeIndex)
+                }}
             >
-                <SwiperSlide>
-                    <Animation
-                        isIntersection
-                        dontRepeat
-                        style={{transitionDelay: 1 * 0.0120 + 's'}}
-                    >
-                        <div className={styles['card_box']}
-                             onClick={() => {
-                                 slideToHandle(0)
-                                 getPositionHandle(componentData.defaultCoordinate)
-                             }}
-                        >
-                            <Image
-                                width={200}
-                                height={300}
-                                priority={true}
-                                className={styles['picture_bg']}
-                                alt={extractAttribute("name", currentData, true)}
-                                src={mediaImgSrc(`${extractAttribute("data.0.attributes.url", componentData.defaultCoordinatePhoto, true)}`)}
-                            />
-                            <div className={styles['overlay']}/>
-                            <div className={styles['info']}>
-                                <span>{extractAttribute("name", currentData, true)}</span>
-                            </div>
-                        </div>
-                    </Animation>
-                </SwiperSlide>
                 {
-                    componentData.attractionsData.map((location, index) => {
+                    sliderSetData.map((location, index) => {
                         return (
                             <SwiperSlide key={location?.["id"]}>
                                 <Animation
@@ -77,9 +76,9 @@ function AttractionsCardList(props) {
                                     style={{transitionDelay: index * 0.0124 + 's'}}
                                 >
                                     <div
-                                        className={styles['card_box']}
+                                        className={`${styles['card_box']} ${activeIndex === index ? styles['card_active_item'] : ''}`}
                                         onClick={() => {
-                                            slideToHandle(index + 1)
+                                            slideToHandle(index)
                                             getPositionHandle([extractAttribute("coordinates.coordinates.lat", location), extractAttribute("coordinates.coordinates.lng", location)])
                                         }}
                                     >
@@ -89,7 +88,7 @@ function AttractionsCardList(props) {
                                             priority={true}
                                             className={styles['picture_bg']}
                                             alt={extractAttribute("name", location)}
-                                            src={mediaImgSrc(`${extractAttribute("photo.data.attributes.url", location)}`)}
+                                            src={mediaImgSrc(`${extractAttribute("photo.data.attributes.url", location) || extractAttribute("photo.data.0.attributes.url", location)}`)}
                                         />
                                         <div className={styles['overlay']}/>
                                         <div className={styles['info']}>

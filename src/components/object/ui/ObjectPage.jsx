@@ -41,43 +41,45 @@ function ObjectPage(props) {
     }, [apartmentData])
 
     return (
-        <div className={'container_lg page_top_size'}>
-            <Breadcrumbs
-                i18n={i18n}
-                page={'apartment'}
-                pageName={objectData?.["name"]}
-            />
+        <>
+            <div className={'container_lg page_top_size'}>
+                <Breadcrumbs
+                    i18n={i18n}
+                    page={'apartment'}
+                    pageName={objectData?.["name"]}
+                />
 
-            <ObjectDetailPreview
-                i18n={i18n}
-                data={objectData}
-            />
+                <ObjectDetailPreview
+                    i18n={i18n}
+                    data={objectData}
+                />
 
-            <ObjectDetailDescription
-                i18n={i18n}
-                data={objectData}
-            />
+                <ObjectDetailDescription
+                    i18n={i18n}
+                    data={objectData}
+                />
 
-            <ObjectPaymentPlan
-                i18n={i18n}
-                data={objectData?.["payment_plan"]}
-            />
+                <ObjectPaymentPlan
+                    i18n={i18n}
+                    data={objectData?.["payment_plan"]}
+                />
 
-            <ObjectLayout
-                i18n={i18n}
-                data={objectData?.["layouts"]}
-            />
-
+                <ObjectLayout
+                    i18n={i18n}
+                    data={objectData?.["layouts"]}
+                />
+            </div>
             <AttractionsLocation
                 cluster
                 isPopup
                 i18n={i18n}
                 type={'apartments'}
-                sliderCardCountView={4.2}
+                sliderCardCountView={6.2}
                 currentData={objectData?.["locate"]}
                 attractionsData={objectData?.["attractions"]}
             />
-        </div>
+        </>
+
     );
 }
 
