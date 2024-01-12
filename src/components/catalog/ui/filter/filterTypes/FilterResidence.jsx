@@ -21,6 +21,7 @@ function FilterResidence(props) {
         clearSelect,
         assemblyFilter,
         filterApiParams,
+        getApartmentData,
         onClickContainer,
         assemblyFilterApi,
     } = props
@@ -38,6 +39,7 @@ function FilterResidence(props) {
             filterGetData={filterData}
             assemblyFilter={assemblyFilter}
             filterApiParams={filterApiParams}
+            getApartmentData={getApartmentData}
             onClickContainer={onClickContainer}
             assemblyFilterApi={assemblyFilterApi}
         />

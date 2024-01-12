@@ -10,7 +10,7 @@ async function getCatalogResidenceData(page, params) {
     return apiGetResidentialData(page, params)
 }
 
-async function getGetApartmentsDataData(page, params) {
+async function getGetApartmentsData(page, params) {
     return apiGetApartmentsData(page, params)
 }
 
@@ -47,7 +47,7 @@ export default async function Page(props) {
         }
     )
 
-    const apartmentListData = await getGetApartmentsDataData(
+    const apartmentListData = await getGetApartmentsData(
         props?.searchParams?.["page"] || 1,
         {
             "fields[0]": "name",

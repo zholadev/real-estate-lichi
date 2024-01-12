@@ -2,6 +2,7 @@
 
 import React, {useCallback, useEffect, useState} from 'react';
 import styles from '@/styles/ui-form-input.module.sass'
+import {errorHandler} from "@/entities/errorHandler/errorHandler";
 
 /**
  * @author Zholaman Zhumanov
@@ -11,20 +12,7 @@ import styles from '@/styles/ui-form-input.module.sass'
  * @constructor
  */
 function Input(props) {
-    const {value, onClick, onChange, label, placeholder, id, name, type, typeInput, labelActive, disabled} = props
-
-    const [labelTrigger, setLabelTrigger] = useState(false)
-
-    const toggleLabelTriggerHandle = useCallback(() => {
-        if (value?.length > 0 || labelActive) return
-        setLabelTrigger(!labelTrigger)
-    }, [labelTrigger, value, labelActive])
-
-    useEffect(() => {
-        if (value?.length > 0 || labelActive) {
-            setLabelTrigger(true)
-        }
-    }, [value, labelActive]);
+    const {value, onClick, onChange, label, placeholder, id, name, type, typeInput, disabled, onBlur, onFocus} = props
 
     const onChangeHandler = (e) => {
         if (onChange) {
@@ -32,14 +20,26 @@ function Input(props) {
         }
     }
 
-    const onBlurHandler = () => toggleLabelTriggerHandle()
-    const onFocusHandler = () => toggleLabelTriggerHandle()
+    const onBlurHandler = () => {
+        try {
+            if (onBlur) onBlur()
+        } catch (error) {
+            errorHandler("input", "onBlurHandler", error)
+        }
+    }
+    const onFocusHandler = () => {
+        try {
+            if (onFocus) onFocus()
+        } catch (error) {
+            errorHandler("input", "onFocusHandler", error)
+        }
+    }
 
     return (
         <div className={`${styles['ui_input']} ${typeInput === 'secondary' ? styles['ui_input_sc'] : ""}`}>
             <label
                 htmlFor={id}
-                className={`${styles['label']} ${labelTrigger ? styles['label_trigger_active'] : ''}`}>
+                className={`${styles['label']}`}>
                 {label}
             </label>
             <input

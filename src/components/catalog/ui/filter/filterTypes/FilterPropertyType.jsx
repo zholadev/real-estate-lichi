@@ -21,6 +21,7 @@ function FilterPropertyType(props) {
         assemblyFilter,
         filterApiParams,
         onClickContainer,
+        getApartmentData,
         assemblyFilterApi,
     } = props
 
@@ -36,6 +37,7 @@ function FilterPropertyType(props) {
             filterGetData={filterData}
             assemblyFilter={assemblyFilter}
             filterApiParams={filterApiParams}
+            getApartmentData={getApartmentData}
             onClickContainer={onClickContainer}
             assemblyFilterApi={assemblyFilterApi}
         />

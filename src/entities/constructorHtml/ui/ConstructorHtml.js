@@ -131,6 +131,7 @@ function ConstructorHtml(props) {
                     :
                     jsonHocItem?.["type"] === "list-item" ?
                         <ul
+                            key={jsonHocId}
                             style={{
                                 listStyle: "inside"
                             }}

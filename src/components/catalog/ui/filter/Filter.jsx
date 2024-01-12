@@ -12,9 +12,10 @@ import {routerPage} from "@/entities/router/model/pages";
 import {useRouter, useSearchParams} from "next/navigation";
 import FilterIconMenu from "./filterIconMenu/FilterIconMenu";
 import FilterBottomPanel from "./filterBottom/FilterBottomPanel";
-import {useMediaMaxState, useToastMessage} from "@/shared/hooks";
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import useFilterConvertQuery from "../../lib/useFilterConvertQuery";
+import {apiGetApartmentsData} from "@/shared/services/clientRequests";
+import {useApiRequest, useMediaMaxState, useToastMessage} from "@/shared/hooks";
 
 /**
  * @author Zholaman Zhumanov
@@ -26,12 +27,16 @@ import useFilterConvertQuery from "../../lib/useFilterConvertQuery";
  * @constructor
  */
 function Filter(props) {
-    const {i18n, onClick, typeContent, pageParams, typeCatalog, apartmentListData, setTypeCatalog, tabData} = props
+    const {i18n, onClick, typeContent, pageParams, typeCatalog, setTypeCatalog, tabData} = props
 
     const timerClearValue = useRef(null)
 
     const router = useRouter()
     const query = useSearchParams()
+
+    const PAGE_QUERY_PARAM = query.get("page") ?? 1
+
+    const {apiFetchHandler, loading} = useApiRequest()
 
     const toastMessage = useToastMessage()
     const pushFilterHandle = usePushFilters()
@@ -45,6 +50,8 @@ function Filter(props) {
     const [filterAllData, setFilterAllData] = useState([])
     const [toggleFilter, setToggleFilter] = useState(false)
     const [clearSelects, setClearSelects] = useState('fill')
+    const [filterApartmentApiData, setFilterApartmentApiData] = useState({})
+    const [apartmentListFilterData, setApartmentListFilterData] = useState([])
     const [queryFilter, setQueryFilter] = useState(convertQueryFilter(pageParams) || {})
     const [queryApiFilters, setQueryApiFilters] = useState({"filters[apartments][name][$notNull]": true})
 
@@ -83,19 +90,52 @@ function Filter(props) {
                 [key]: value,
             }
         })
+
+        setFilterApartmentApiData(
+            prevFilter => {
+                return {
+                    ...prevFilter,
+                    [key]: value,
+                }
+            }
+        )
     }
 
-    const getAllPriceList = useMemo(() => {
-        try {
-            return Object.values(apartmentListData || {}).map((item) => item?.["attributes"]?.["price"])
-        } catch (error) {
-            errorHandler("filter", "getMinMaxPrices", error)
+    /**
+     * @description Tags Data
+     * @returns {Promise<void>}
+     */
+    const getApartmentData = async () => {
+        let paramsCustomObject = {}
+
+        for (let key in filterApartmentApiData) {
+            const newKey = key.replace("[apartments]", "");
+            paramsCustomObject[newKey] = filterApartmentApiData[key];
         }
-    }, [apartmentListData])
+
+        await apiFetchHandler(
+            apiGetApartmentsData,
+            [PAGE_QUERY_PARAM, {"populate": false, "fields[0]": "name", "fields[1]": "price", ...paramsCustomObject}],
+            false,
+            {
+                onGetData: (params) => {
+                    setApartmentListFilterData(params.data?.["data"]?.["data"])
+                }
+            }
+        )
+    }
 
     const getMinMaxPrices = useMemo(() => {
         try {
-            const prices = Object.values(apartmentListData || {}).map((item) => item?.["attributes"]?.["price"])
+            const prices = Object.values(apartmentListFilterData || {}).map((item) => item?.["attributes"]?.["price"])
+
+            if (prices.length === 0) {
+                return {
+                    "min": 0,
+                    "max": 0
+                }
+            }
+
             return {
                 "min": Math.min(...prices),
                 "max": Math.max(...prices)
@@ -103,7 +143,9 @@ function Filter(props) {
         } catch (error) {
             errorHandler("filter", "getMinMaxPrices", error)
         }
-    }, [apartmentListData])
+    }, [apartmentListFilterData])
+
+    console.log(queryFilter, getMinMaxPrices)
 
     const sendFilterQuery = (filterData, filterToggle, filterQuickSend) => {
         const parsePrice = (key) => parseFloat(queryFilter?.[`price.${key}`]);
@@ -165,6 +207,13 @@ function Filter(props) {
         setQueryApiFilters(residenceApiParams)
     }, [typeCatalog]);
 
+    useEffect(() => {
+        getApartmentData()
+            .catch(error => {
+                errorHandler("filterDistrict", "useEffect", error)
+            })
+    }, [PAGE_QUERY_PARAM, filterApartmentApiData]);
+
     const clearFilters = useCallback(() => {
         try {
             if (timerClearValue.current) {
@@ -175,6 +224,7 @@ function Filter(props) {
             setPriceFrom(null)
             setClearSelects('clear')
             router.replace(routerPage.catalog)
+            setFilterApartmentApiData({})
             setQueryApiFilters(residenceApiParams)
 
             timerClearValue.current = setTimeout(() => {
@@ -209,13 +259,14 @@ function Filter(props) {
                     clearFilters={clearFilters}
                     setPriceFrom={setPriceFrom}
                     setPriceValue={setPriceValue}
-                    getAllPriceList={getAllPriceList}
-                    queryApiFilters={queryApiFilters}
                     getMinMaxPrices={getMinMaxPrices}
+                    queryApiFilters={queryApiFilters}
                     setFilterAllData={setFilterAllData}
+                    getApartmentData={getApartmentData}
                     checkDistrictValue={checkDistrictValue}
                     setApiFiltersHandle={setApiFiltersHandle}
                     setFilterQueryHandle={setFilterQueryHandle}
+                    filterApartmentApiData={filterApartmentApiData}
                 />
 
                 <Button
@@ -261,15 +312,16 @@ function Filter(props) {
                 toggleFilter={toggleFilter}
                 setPriceFrom={setPriceFrom}
                 setPriceValue={setPriceValue}
-                queryApiFilters={queryApiFilters}
-                getAllPriceList={getAllPriceList}
-                sendFilterQuery={sendFilterQuery}
                 getMinMaxPrices={getMinMaxPrices}
+                queryApiFilters={queryApiFilters}
+                sendFilterQuery={sendFilterQuery}
+                getApartmentData={getApartmentData}
                 setFilterAllData={setFilterAllData}
                 toggleFilterHandle={toggleFilterHandle}
                 checkDistrictValue={checkDistrictValue}
                 setApiFiltersHandle={setApiFiltersHandle}
                 setFilterQueryHandle={setFilterQueryHandle}
+                filterApartmentApiData={filterApartmentApiData}
             />
         </>
 

@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import styles from '@/styles/catalog-products.module.sass'
 import {CatalogCard} from "@/shared/uikit/cards/catalogCard";
 import {PaginationContainer} from "@/shared/uikit/paginate";
-import {usePathname, useRouter} from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {Animation} from "@/shared/uikit/animation";
 
 /**
@@ -19,8 +19,11 @@ function CatalogProducts(props) {
 
     const router = useRouter()
     const pathname = usePathname()
+    const params = useSearchParams()
 
-    const [page, setPage] = useState(1)
+    const PAGE_DEFAULT_VALUE = parseFloat(params.get('page')) || 1
+
+    const [page, setPage] = useState(PAGE_DEFAULT_VALUE)
 
     const nextToPage = () => {
         setPage(page => page + 1)

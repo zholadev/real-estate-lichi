@@ -31,7 +31,7 @@ function ObjectDetailHeadInfo(props) {
 
     // Extracted function for generating list items
     const generateListItem = (key, value) => (
-        <li className={styles['characters_item']}>
+        <li className={styles['characters_item']} key={value}>
             <span className={styles['key']}>{key}</span>
             <span className={styles['value']}>{value}</span>
         </li>
@@ -46,7 +46,6 @@ function ObjectDetailHeadInfo(props) {
             />
         </div>
     );
-
 
     return (
         <div className={styles['preview_head_info']}>

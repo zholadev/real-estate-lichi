@@ -136,17 +136,17 @@ function Breadcrumbs(props) {
         return null
     }
 
-    const renderBreadcrumbItem = (breadItem, breadId) => {
+    const renderBreadcrumbItem = (breadItem) => {
         const {redirect, slash, name} = breadItem;
 
         const listItem = (
-            <li className={styles['bread_item']} key={breadId}>
+            <li className={styles['bread_item']} key={breadItem?.["id"]}>
                 {slash && <div className={styles['item_slash']}>•</div>}
                 <span>{name}</span>
             </li>
         );
 
-        return redirect ? <Link href={redirect}>{listItem}</Link> : listItem;
+        return redirect ? <Link key={breadItem?.["id"]} href={redirect}>{listItem}</Link> : listItem;
     }
 
     return (
