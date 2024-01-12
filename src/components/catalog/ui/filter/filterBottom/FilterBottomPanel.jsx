@@ -1,10 +1,11 @@
 'use client'
 
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Button} from "@/shared/uikit/button";
 import styles from "@/styles/catalog-filter.module.sass";
 import {useMediaMaxState} from "@/shared/hooks";
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
+import {Animation} from "@/shared/uikit/animation";
 
 /**
  * @author Zholaman Zhumanov
@@ -27,7 +28,11 @@ function FilterBottomPanel(props) {
         filterApiClearHandle,
     } = props
 
+    const timerAnimateTriggerRef = useRef(null)
+
     const mediaQuerySm = useMediaMaxState({screenSize: 768})
+
+    const [filterTabAnimateTrigger, setFilterTabAnimateTrigger] = useState(false)
 
     const switchBtnOnClick = () => {
         clearFilters()
@@ -79,6 +84,21 @@ function FilterBottomPanel(props) {
         }
     }, [filterAllData, queryFilterData])
 
+    useEffect(() => {
+        if (queryFilterData.length > 0) {
+            timerAnimateTriggerRef.current = setTimeout(() => {
+                setFilterTabAnimateTrigger(true)
+            }, 400)
+        } else {
+            setFilterTabAnimateTrigger(false)
+        }
+
+        return () => {
+            setFilterTabAnimateTrigger(false)
+            clearTimeout(timerAnimateTriggerRef.current)
+        }
+    }, [queryFilterData]);
+
     return (
         <div className={styles['filter_panel']}>
             {
@@ -87,8 +107,13 @@ function FilterBottomPanel(props) {
                     {
                         filteringAllData.map((filter, id) => {
                             return (
-                                <li
+                                <Animation
                                     key={id}
+                                    tag={'li'}
+                                    style={{
+                                        transitionDelay: id * 0.104 + 's'
+                                    }}
+                                    triggerAnimate={filterTabAnimateTrigger}
                                     onClick={async () => {
                                         if (queryFilterData?.length === 1) {
                                             await clearFilters();
@@ -104,7 +129,7 @@ function FilterBottomPanel(props) {
                                     }}
                                 >
                                     <span>{filter?.["attributes"]?.["name"]}</span> <i className={styles['icon']}></i>
-                                </li>
+                                </Animation>
                             )
                         })
                     }
@@ -120,7 +145,8 @@ function FilterBottomPanel(props) {
                                 onClick={clearFilters}
                                 style={{
                                     fontSize: mediaQuerySm ? "18px" : "13px",
-                                    lineHeight: "18.2px"
+                                    lineHeight: "18.2px",
+                                    height: '33px'
                                 }}
                             />
                         ) : (
@@ -135,7 +161,8 @@ function FilterBottomPanel(props) {
                         animateActive={typeContent === 'list'}
                         style={{
                             fontSize: "13px",
-                            lineHeight: "18.2px"
+                            lineHeight: "18.2px",
+                            height: '33px'
                         }}
                     >
                         <i className={`${styles['icon']} ${typeContent === "list" ? styles['invert_icon'] : ''} ${styles['icon_list']}`}/>
@@ -147,7 +174,8 @@ function FilterBottomPanel(props) {
                         animateActive={typeContent === 'map'}
                         style={{
                             fontSize: "13px",
-                            lineHeight: "18.2px"
+                            lineHeight: "18.2px",
+                            height: '33px'
                         }}
                     >
                         <i className={`${styles['icon']} ${typeContent === "map" ? styles['invert_icon'] : ''} ${styles['icon_marker']}`}/>

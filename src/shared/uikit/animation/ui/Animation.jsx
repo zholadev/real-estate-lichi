@@ -18,6 +18,7 @@ function Animation(props) {
         threshold = 0.1,
         triggerAnimate,
         style,
+        onClick,
         dontRepeat = false
     } = props
 
@@ -36,6 +37,7 @@ function Animation(props) {
             ref={intersectionRef}
             className={`${styles[`${animateType}__init`]} ${isPlayAnimate ? styles[`${animateType}__play`] : ''}`}
             style={style}
+            onClick={onClick}
         >
             {children}
         </tagSet.tag>
