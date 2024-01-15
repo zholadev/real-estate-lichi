@@ -18,8 +18,8 @@ function FilterSm(props) {
         i18n,
         priceFrom,
         priceValue,
-        queryFilter,
         filterData,
+        queryFilter,
         typeCatalog,
         toggleFilter,
         clearFilters,
@@ -27,6 +27,7 @@ function FilterSm(props) {
         clearSelects,
         setPriceValue,
         sendFilterQuery,
+        buttonMainTitle,
         getMinMaxPrices,
         getApartmentData,
         queryApiFilters,
@@ -34,7 +35,8 @@ function FilterSm(props) {
         toggleFilterHandle,
         setApiFiltersHandle,
         setFilterQueryHandle,
-        filterApartmentApiData
+        filterApartmentApiData,
+        buttonEventClickDisabled
     } = props
 
     const mediaQuerySm = useMediaMaxState({screenSize: 576.98})
@@ -68,10 +70,10 @@ function FilterSm(props) {
 
                     <Button
                         onClick={sendFilterQuery}
-                        title={i18n?.["site"]?.["search_title"]}
-                        disabled={filterData.length === 0}
+                        title={buttonMainTitle}
+                        disabled={buttonEventClickDisabled}
                         style={{
-                            opacity: filterData.length === 0 ? .3 : 1
+                            opacity: buttonEventClickDisabled ? .3 : 1
                         }}
                     />
 

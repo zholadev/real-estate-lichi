@@ -254,6 +254,10 @@ function Filter(props) {
         return !!(FILTER_DATA.length === 0 || apartmentListFilterData.length === 0 || residenceListFilterData.length === 0)
     }, [FILTER_DATA, apartmentListFilterData, residenceListFilterData])
 
+    const buttonMainTitle = useMemo(() => {
+        return `${i18n?.["site"]?.["search_title"]} (${typeCatalog === 'residential_complex' ? residenceListFilterData.length : apartmentListFilterData.length})`
+    }, [i18n, typeCatalog, residenceListFilterData, apartmentListFilterData])
+
     return (
         <>
             <div className={styles['filter_tab']}>
@@ -292,7 +296,7 @@ function Filter(props) {
 
                 <Button
                     onClick={sendFilterQuery}
-                    title={`${i18n?.["site"]?.["search_title"]} (${typeCatalog === 'residential_complex' ? residenceListFilterData.length : apartmentListFilterData.length})`}
+                    title={buttonMainTitle}
                     disabled={buttonEventClickDisabled}
                     style={{
                         opacity: buttonEventClickDisabled ? .3 : 1
@@ -335,6 +339,7 @@ function Filter(props) {
                 setPriceValue={setPriceValue}
                 getMinMaxPrices={getMinMaxPrices}
                 queryApiFilters={queryApiFilters}
+                buttonMainTitle={buttonMainTitle}
                 sendFilterQuery={sendFilterQuery}
                 getApartmentData={getApartmentData}
                 setFilterAllData={setFilterAllData}
@@ -343,6 +348,7 @@ function Filter(props) {
                 setApiFiltersHandle={setApiFiltersHandle}
                 setFilterQueryHandle={setFilterQueryHandle}
                 filterApartmentApiData={filterApartmentApiData}
+                buttonEventClickDisabled={buttonEventClickDisabled}
             />
         </>
 
