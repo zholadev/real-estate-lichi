@@ -66,10 +66,12 @@ function CatalogCard(props) {
                             }
                         </ul>
                     </div>
-                    <ButtonArrow
-                        title={i18n?.["site"]?.["more"]}
-                        url={cardUrl}
-                    />
+                   <div className={styles['redirect_btn']}>
+                       <ButtonArrow
+                           title={i18n?.["site"]?.["more"]}
+                           url={cardUrl}
+                       />
+                   </div>
                 </div>
             </div>
         </div>

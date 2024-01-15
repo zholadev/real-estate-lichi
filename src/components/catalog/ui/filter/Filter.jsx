@@ -252,16 +252,18 @@ function Filter(props) {
 
     return (
         <>
-            <Tabs
-                i18n={i18n}
-                item={"title"}
-                url={'/catalog'}
-                tabData={tabData}
-                onClick={setTypeCatalog}
-                onClickEvent={clearFilters}
-                activeSelectName={"value"}
-                defaultValue={query.get('type') || tabData?.[0]?.["value"]}
-            />
+            <div className={styles['filter_tab']}>
+                <Tabs
+                    i18n={i18n}
+                    item={"title"}
+                    url={'/catalog'}
+                    tabData={tabData}
+                    onClick={setTypeCatalog}
+                    onClickEvent={clearFilters}
+                    activeSelectName={"value"}
+                    defaultValue={query.get('type') || tabData?.[0]?.["value"]}
+                />
+            </div>
 
             <div className={styles['catalog_filter_lg']}>
                 <FilterList

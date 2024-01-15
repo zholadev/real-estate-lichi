@@ -51,8 +51,6 @@ function AttractionsCardList(props) {
         }
     }, [currentData, componentData])
 
-    console.log(sliderSetData, activeIndex)
-
     return (
         <div className={styles['map_card_container']}>
             <Swiper

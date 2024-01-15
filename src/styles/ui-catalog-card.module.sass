@@ -74,8 +74,14 @@
           margin-bottom: $p-size-30
           width: 100%
 
+      .redirect_btn
+        display: flex
+        justify-content: flex-end
+
+        @media screen and (max-width: 576px)
+          justify-content: flex-start
+
       @media screen and (max-width: 576px)
-        flex-direction: column
-        align-items: flex-start
+        grid-template-columns: 1fr
 
 
