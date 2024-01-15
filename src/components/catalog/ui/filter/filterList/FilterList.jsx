@@ -51,6 +51,12 @@ function FilterList(props) {
     const [residenceDataFilter, setResidenceFilterData] = useState([])
     const [propertyTypeDataFilter, setPropertyTypeFilterData] = useState([])
 
+    const [tagStaticDataFilter, setTagStaticDataFilter] = useState([])
+    const [roomsStaticDataFilter, setRoomsStaticDataFilter] = useState([])
+    const [districtStaticDataFilter, setDistrictStaticDataFilter] = useState([])
+    const [residenceStaticDataFilter, setResidenceStaticFilterData] = useState([])
+    const [propertyStaticTypeDataFilter, setPropertyTypeStaticFilterData] = useState([])
+
     /**
      * @description Districts Data
      * @returns {Promise<void>}
@@ -62,6 +68,10 @@ function FilterList(props) {
             false,
             {
                 onGetData: (params) => {
+                    if (districtStaticDataFilter.length === 0) {
+                        setDistrictStaticDataFilter(params.api_data)
+                        return
+                    }
                     setDistrictDataFilter(params.api_data)
                 }
             }
@@ -79,6 +89,10 @@ function FilterList(props) {
             false,
             {
                 onGetData: (params) => {
+                    if (residenceStaticDataFilter.length === 0) {
+                        setResidenceStaticFilterData(params.api_data)
+                        return
+                    }
                     setResidenceFilterData(params.api_data)
                 }
             }
@@ -96,6 +110,10 @@ function FilterList(props) {
             false,
             {
                 onGetData: (params) => {
+                    if (roomsStaticDataFilter.length === 0) {
+                        setRoomsStaticDataFilter(params.api_data)
+                        return
+                    }
                     setRoomsDataFilter(params.api_data)
                 }
             }
@@ -113,6 +131,10 @@ function FilterList(props) {
             false,
             {
                 onGetData: (params) => {
+                    if (propertyStaticTypeDataFilter.length === 0) {
+                        setPropertyTypeStaticFilterData(params.api_data)
+                        return
+                    }
                     setPropertyTypeFilterData(params.api_data)
                 }
             }
@@ -130,6 +152,9 @@ function FilterList(props) {
             false,
             {
                 onGetData: (params) => {
+                    if (tagStaticDataFilter.length === 0) {
+                        setTagStaticDataFilter(params.api_data)
+                    }
                     setTagDataFilter(params.api_data)
                 }
             }
@@ -176,11 +201,17 @@ function FilterList(props) {
 
     useEffect(() => {
         try {
-            setFilterAllData([...districtDataFilter, ...roomsDataFilter, ...tagDataFilter, ...residenceDataFilter, ...propertyTypeDataFilter])
+            setFilterAllData([...districtStaticDataFilter, ...roomsStaticDataFilter, ...tagStaticDataFilter, ...residenceStaticDataFilter, ...propertyStaticTypeDataFilter])
         } catch (error) {
             errorHandler("filterList", "set filters all data", error)
         }
-    }, [districtDataFilter, roomsDataFilter, tagDataFilter, residenceDataFilter, propertyTypeDataFilter]);
+    }, [
+        districtStaticDataFilter,
+        roomsStaticDataFilter,
+        tagStaticDataFilter,
+        residenceStaticDataFilter,
+        propertyStaticTypeDataFilter
+    ]);
 
     return (
         <>
@@ -190,10 +221,10 @@ function FilterList(props) {
                 filterType={"districts"}
                 clearSelect={clearSelects}
                 clearFilters={clearFilters}
-                filterData={districtDataFilter}
                 value={queryFilter?.["districts"]}
                 getApartmentData={getApartmentData}
                 filterApi={apiGetFilterDistrictList}
+                filterData={districtStaticDataFilter}
                 assemblyFilter={setFilterQueryHandle}
                 assemblyFilterApi={setApiFiltersHandle}
                 defaultValue={queryFilter?.["districts"]}
@@ -208,11 +239,11 @@ function FilterList(props) {
                     filterType={"residence"}
                     clearSelect={clearSelects}
                     filterApiParams={queryApiFilters}
-                    filterData={residenceDataFilter}
                     value={queryFilter?.["residence"]}
                     getApartmentData={getApartmentData}
                     assemblyFilter={setFilterQueryHandle}
                     filterApi={apiGetFilterResidenceList}
+                    filterData={residenceStaticDataFilter}
                     assemblyFilterApi={setApiFiltersHandle}
                     placeholder={i18n?.["site.residence.title"]}
                 />
@@ -223,10 +254,10 @@ function FilterList(props) {
                 loading={loading}
                 filterType={"rooms"}
                 clearSelect={clearSelects}
-                filterData={roomsDataFilter}
                 value={queryFilter?.["rooms"]}
                 filterApiParams={queryApiFilters}
                 filterApi={apiGetFilterRoomsList}
+                filterData={roomsStaticDataFilter}
                 getApartmentData={getApartmentData}
                 assemblyFilter={setFilterQueryHandle}
                 assemblyFilterApi={setApiFiltersHandle}
@@ -240,11 +271,11 @@ function FilterList(props) {
                 filterType={"property_types"}
                 filterApiParams={queryApiFilters}
                 getApartmentData={getApartmentData}
-                filterData={propertyTypeDataFilter}
                 assemblyFilter={setFilterQueryHandle}
                 value={queryFilter?.["property_types"]}
                 assemblyFilterApi={setApiFiltersHandle}
                 filterApi={apiGetFilterPropertyTypeList}
+                filterData={propertyStaticTypeDataFilter}
                 placeholder={i18n?.["site.property.type.title"]}
             />
 
@@ -252,10 +283,10 @@ function FilterList(props) {
                 i18n={i18n}
                 loading={loading}
                 filterType={"tags"}
-                filterData={tagDataFilter}
                 clearSelect={clearSelects}
                 value={queryFilter?.["tags"]}
                 filterApi={apiGetFilterTagsList}
+                filterData={tagStaticDataFilter}
                 filterApiParams={queryApiFilters}
                 getApartmentData={getApartmentData}
                 assemblyFilter={setFilterQueryHandle}
@@ -270,7 +301,11 @@ function FilterList(props) {
                 value={priceFrom}
                 typeInput={'secondary'}
                 onBlur={(e) => {
-                    priceOnChangeDebounce(priceOnChangeHandle, 0, {"data": priceFrom, "name": "price.from", "type": "$gte"})
+                    priceOnChangeDebounce(priceOnChangeHandle, 0, {
+                        "data": priceFrom,
+                        "name": "price.from",
+                        "type": "$gte"
+                    })
                 }}
                 onChange={(e) => {
                     setPriceFrom(e)
@@ -284,10 +319,6 @@ function FilterList(props) {
                 disabled={getMinMaxPrices?.["min"] === getMinMaxPrices?.["max"] || Object.values(queryFilter || {}).length > 0 && queryFilter?.["districts"]}
             />
 
-            {/*<FormRangeDoubleSlider*/}
-            {/*    data={getAllPriceList}*/}
-            {/*/>*/}
-
             <Input
                 id={"price"}
                 i18n={i18n}
@@ -295,7 +326,11 @@ function FilterList(props) {
                 value={priceValue}
                 typeInput={'secondary'}
                 onBlur={(e) => {
-                    priceOnChangeDebounce(priceOnChangeHandle, 0, {"data": priceValue, "name": "price.to", "type": "$lte"})
+                    priceOnChangeDebounce(priceOnChangeHandle, 0, {
+                        "data": priceValue,
+                        "name": "price.to",
+                        "type": "$lte"
+                    })
                 }}
                 onChange={(e) => {
                     setPriceValue(e)

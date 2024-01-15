@@ -26,8 +26,6 @@ function AttractionsCardList(props) {
     const mediaQuerySm = useMediaQuery({maxWidth: 576.98})
     const mediaQueryMd = useMediaQuery({minWidth: 577, maxWidth: 1024})
 
-    console.log(swiper)
-
     const slideToHandle = useCallback((id) => {
         try {
             swiper.slideTo(id)
