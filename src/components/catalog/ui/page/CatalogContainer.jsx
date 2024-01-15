@@ -136,15 +136,13 @@ function CatalogContainer(props) {
                     />
                 </div>
                 {typeContent === 'map' ? (
-                    // <div className={'container_md'}>
-                        <CatalogMapProducts
-                            i18n={i18n}
-                            loading={loading}
-                            pageParams={pageParams}
-                            redirectTo={isResidential ? 'residence' : 'apartment'}
-                            mapData={isResidential ? residenceClientData : objectClientData}
-                        />
-                    // </div>
+                    <CatalogMapProducts
+                        i18n={i18n}
+                        loading={loading}
+                        pageParams={pageParams}
+                        redirectTo={isResidential ? 'residence' : 'apartment'}
+                        mapData={isResidential ? residenceClientData : objectClientData}
+                    />
                 ) : (
                     <div className={'container_md'}>
                         <CatalogProducts

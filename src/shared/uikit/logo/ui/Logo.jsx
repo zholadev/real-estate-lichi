@@ -3,6 +3,8 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import styles from "@/styles/ui-logo.module.sass";
 import {gsap} from "gsap";
+import Link from "next/link";
+import {routerPage} from "@/entities/router/model/pages";
 
 const animationsPath = [
     {
@@ -42,6 +44,7 @@ const easingPowerInOut = "power2.inOut"
 /**
  * @author Zholaman Zhumanov
  * @created 09.10.2023
+ * @todo refactoring
  * @param props
  * @returns {JSX.Element}
  * @constructor
@@ -279,11 +282,10 @@ function Logo(props) {
     return (
         <div
             className={`${styles['ui_logo']} ${theme === 'light' ? styles['ui_logo_light'] : ''}`}
-            onClick={onClick}
         >
             {
                 type === 'secondary' ?
-                    <div className={`${styles['icon_box']} ${styles['icon_box_row']}`}>
+                    <div className={`${styles['icon_box']} ${styles['icon_box_row']}`} onClick={onClick}>
                         <svg width="5" height="22" viewBox="0 0 5 22" fill="none" style={{marginRight: '6px'}}
                              xmlns="http://www.w3.org/2000/svg">
                             <path d="M2.12275e-06 5.50904L0 19.5002V22.0002H5L5 19.5002L5 0.587891L2.12275e-06 5.50904Z"
@@ -302,7 +304,7 @@ function Logo(props) {
                         </svg>
                     </div>
                     :
-                    <div ref={contentLogoBox} className={`${styles['icon_box']} icon`}>
+                    <div ref={contentLogoBox} className={`${styles['icon_box']} icon`} onClick={onClick}>
                         <svg
                             ref={contentLogoBoxF}
                             width="24"
@@ -336,8 +338,10 @@ function Logo(props) {
             }
 
             <div className={styles['ui_logo_text']}>
-                <div>Meta</div>
-                <div>Trust</div>
+                <Link href={routerPage.main} onClick={onClick}>
+                    <div>Meta</div>
+                    <div>Trust</div>
+                </Link>
             </div>
         </div>
     )
@@ -345,56 +349,3 @@ function Logo(props) {
 }
 
 export default Logo;
-
-
-// <div className={styles['icon_box']} ref={contentRotateRef}>
-//     <svg width="24" height="2" viewBox="0 0 24 2" fill="none"
-//          xmlns="http://www.w3.org/2000/svg" style={{marginBottom: '10px'}}>
-//         <path d="M1 1L23 1" stroke="#16181D" strokeWidth="2" strokeLinecap="square"/>
-//     </svg>
-//
-//     <svg width="36" height="2" viewBox="0 0 36 2" fill="none"
-//          xmlns="http://www.w3.org/2000/svg" style={{marginBottom: '10px'}}>
-//         <path d="M1 1H35" stroke="#16181D" strokeWidth="2" strokeLinecap="square"/>
-//     </svg>
-//
-//     <svg width="24" height="2" viewBox="0 0 24 2" fill="none"
-//          xmlns="http://www.w3.org/2000/svg">
-//         <path d="M1 1L23 1" stroke="#16181D" strokeWidth="2" strokeLinecap="square"/>
-//     </svg>
-// </div>
-
-
-// <div>
-//
-//     <svg width="5" height="22" viewBox="0 0 5 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-//         <path fill-rule="evenodd" clip-rule="evenodd" d="M2.12275e-06 5.50904L0 19.5002V22.0002H5L5 19.5002L5 0.587891L2.12275e-06 5.50904Z" fill="#16181D"/>
-//     </svg>
-//
-//     <svg width="5" height="34" viewBox="0 0 5 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-//         <path fill-rule="evenodd" clip-rule="evenodd" d="M1.73847e-06 0.510254L0 31.4998V33.9998H5V31.4998L5 5.66824L5 5.66824L1.73847e-06 0.510254Z" fill="#16181D"/>
-//     </svg>
-//
-//     <svg width="5" height="17" viewBox="0 0 5 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-//         <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5.61632V14.5V17H5V14.5L5 0.522461L0 5.61632Z" fill="#16181D"/>
-//     </svg>
-//
-// </div>
-
-//
-// <div>
-//     <svg width="17" height="5" viewBox="0 0 17 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-//         <path d="M5.10656 5L13.9902 5L16.4902 5L16.4902 -1.67393e-06L13.9902 -1.56465e-06L0.0126951 0L5.10656 5Z" fill="#16181D"/>
-//     </svg>
-//
-//
-//     <svg width="34" height="5" viewBox="0 0 34 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-//         <path d="M0 5L30.9895 5L33.4895 5L33.4895 -1.94071e-06L30.9895 -1.83143e-06L5.15798 -1.65597e-06L5.15799 2.63556e-06L0 5Z" fill="#16181D"/>
-//     </svg>
-//
-//
-//     <svg width="22" height="5" viewBox="0 0 22 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-//         <path d="M4.99927 5L18.9904 5L21.4904 5L21.4904 -9.35962e-07L18.9904 -1.30352e-06L0.0781248 -2.86102e-06L4.99927 5Z" fill="#16181D"/>
-//     </svg>
-//
-// </div>

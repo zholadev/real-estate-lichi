@@ -14,13 +14,21 @@ function useFilterConvertQuery() {
                 const matches = key.match(/filters\[(.*?)\]\[type\]/);
 
                 // Check for the special case key
-                const specialKey = 'filters[residence][name][$contains]';
+                const specialResidenceKey = 'filters[residence][name][$contains]';
+                const specialPriceFromKey = 'filters[price][$gte]'
+                const specialPriceToKey = 'filters[price][$lte]'
 
                 if (matches && matches[1]) {
                     result[matches[1]] = value;
-                } else if (key === specialKey) {
+                } else if (key === specialResidenceKey) {
                     // If the key is the special key, add it as it is to the resulting object
                     result['residence'] = value;
+                } else if (key === specialPriceFromKey) {
+                    // If the key is the special key, add it as it is to the resulting object
+                    result['price.from'] = value;
+                } else if (key === specialPriceToKey) {
+                    // If the key is the special key, add it as it is to the resulting object
+                    result['price.to'] = value;
                 }
 
                 return result;

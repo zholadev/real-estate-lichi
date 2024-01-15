@@ -1,5 +1,5 @@
 import qs from "qs";
-import {useRouter, useSearchParams} from "next/navigation";
+import {useRouter} from "next/navigation";
 
 /**
  * @author Zholaman Zhumanov
@@ -11,14 +11,10 @@ function usePushFilters() {
     const PRICE_TO_FILTER = "price.to";
 
     const router = useRouter();
-    const params = useSearchParams()
-
-    const isPageParams = params.get("page")
 
     const residenceFilter = (value) => ({name: {$contains: value}});
     const priceFromFilter = (value) => ({price: {$gte: value}});
     const priceToFilter = (value) => ({price: {$lte: value}});
-    const pageFilter = (value) => ({page: value})
     const defaultFilter = (value) => ({type: value});
 
     const transformFilter = (key, value) => {
@@ -44,7 +40,7 @@ function usePushFilters() {
         });
     };
 
-    return (url, filters) => {
+    return async (url, filters) => {
         if (Object.values(filters || {}).length === 0) {
             return
         }
@@ -58,7 +54,7 @@ function usePushFilters() {
             {arrayFormat: "repeat"}
         );
 
-        router.push(`${url}?${queryString}`);
+        await router.push(`${url}?${queryString}`);
     };
 }
 

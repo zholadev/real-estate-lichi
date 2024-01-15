@@ -6,6 +6,7 @@ import styles from "@/styles/catalog-filter.module.sass";
 import {useMediaMaxState} from "@/shared/hooks";
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import {Animation} from "@/shared/uikit/animation";
+import useFilterGetKey from "@/components/catalog/lib/useFilterGetKey";
 
 /**
  * @author Zholaman Zhumanov
@@ -30,6 +31,7 @@ function FilterBottomPanel(props) {
 
     const timerAnimateTriggerRef = useRef(null)
 
+    const filterGetCurrentKey = useFilterGetKey()
     const mediaQuerySm = useMediaMaxState({screenSize: 768})
 
     const [filterTabAnimateTrigger, setFilterTabAnimateTrigger] = useState(false)
@@ -54,20 +56,45 @@ function FilterBottomPanel(props) {
             }
 
             const filterDataByType = (data) => data.filter(item => queryFilterData.find(filter => {
-                if (filter?.[0] === 'residence') {
-                    return filter?.[1] === getType(item, filter?.[0])
+                const FILTER_KEY_VALUE = filter?.[0]
+                const FILTER_CHILD_VALUE = filter?.[1]
+                const FILTER_CHILD_VALUE_MAP = Object.values(filter?.[1] || {})
+
+                if (FILTER_KEY_VALUE === 'residence') {
+                    if (Array.isArray(FILTER_CHILD_VALUE)) {
+                        return FILTER_CHILD_VALUE_MAP.some((filterChild) => filterChild === getType(item, FILTER_KEY_VALUE))
+                    } else {
+                        return FILTER_CHILD_VALUE === getType(item, FILTER_KEY_VALUE)
+                    }
                 } else {
-                    return filter?.[1] === getType(item)
+                    if (Array.isArray(FILTER_CHILD_VALUE)) {
+                        return FILTER_CHILD_VALUE_MAP.some((filterChild) => filterChild === getType(item))
+                    } else {
+                        return FILTER_CHILD_VALUE === getType(item)
+                    }
                 }
             }));
 
             const mapDataWithKey = (data) =>
                 data.map(item => {
                     const match = queryFilterData.find(filter => {
-                        if (filter?.[0] === 'residence') {
-                            return getType(item, filter?.[0]) === filter?.[1]
+                        const FILTER_KEY_VALUE = filter?.[0]
+                        const FILTER_CHILD_VALUE = filter?.[1]
+                        const FILTER_CHILD_VALUE_MAP = Object.values(filter?.[1] || {})
+
+
+                        if (FILTER_KEY_VALUE === 'residence') {
+                            if (Array.isArray(FILTER_CHILD_VALUE)) {
+                                return FILTER_CHILD_VALUE_MAP.some((filterChild) => getType(item, FILTER_KEY_VALUE) === filterChild)
+                            } else {
+                                return getType(item, FILTER_KEY_VALUE) === FILTER_CHILD_VALUE
+                            }
                         } else {
-                            return getType(item) === filter?.[1]
+                            if (Array.isArray(FILTER_CHILD_VALUE)) {
+                                return FILTER_CHILD_VALUE_MAP.some((filterChild) => getType(item) === filterChild)
+                            } else {
+                                return getType(item) === FILTER_CHILD_VALUE
+                            }
                         }
                     });
 
@@ -77,8 +104,44 @@ function FilterBottomPanel(props) {
                     }
                 });
 
+            const priceFromValue = 'price.from'
+            const priceToValue = 'price.to'
+
+            const priceFrom = queryFilterData.find((filter) => filter?.[0] === priceFromValue)
+            const priceTo = queryFilterData.find((filter) => filter?.[0] === priceToValue)
+
+
             const filteredData = filterDataByType(filterAllData, "type");
-            return mapDataWithKey(filteredData);
+
+            const generatePriceItem = (price, priceValue) => {
+                return {
+                    attributes: {
+                        "name": price?.[1],
+                        "value": price?.[1],
+                    },
+                    key: priceValue
+                };
+            };
+
+            if (priceTo && !priceFrom) {
+                return [
+                    generatePriceItem(priceTo, priceToValue),
+                    ...mapDataWithKey(filteredData)
+                ]
+            } else if (priceFrom && !priceTo) {
+                return [
+                    generatePriceItem(priceFrom, priceFromValue),
+                    ...mapDataWithKey(filteredData)
+                ]
+            } else if (priceTo && priceFrom) {
+                return [
+                    generatePriceItem(priceTo, priceToValue),
+                    generatePriceItem(priceFrom, priceFromValue),
+                    ...mapDataWithKey(filteredData)
+                ]
+            } else {
+                return mapDataWithKey(filteredData)
+            }
         } catch (error) {
             errorHandler("FilterBottomPanel", "func - filteringAllData", error)
         }
@@ -94,7 +157,6 @@ function FilterBottomPanel(props) {
         }
 
         return () => {
-            setFilterTabAnimateTrigger(false)
             clearTimeout(timerAnimateTriggerRef.current)
         }
     }, [queryFilterData]);
@@ -105,27 +167,36 @@ function FilterBottomPanel(props) {
                 !mediaQuerySm &&
                 <ul className={styles['filter_list_actions']}>
                     {
-                        filteringAllData.map((filter, id) => {
+                        Object.values(filteringAllData || {}).map((filter, id) => {
                             return (
                                 <Animation
-                                    key={id}
+                                    key={filter?.["id"]}
                                     tag={'li'}
                                     style={{
                                         transitionDelay: id * 0.104 + 's'
                                     }}
                                     triggerAnimate={filterTabAnimateTrigger}
                                     onClick={async () => {
-                                        if (queryFilterData?.length === 1) {
-                                            await clearFilters();
-                                        }
+                                        const filterKey = filter?.["key"];
+                                        const filterValue = filter?.["attributes"]?.["type"];
 
-                                        filterClearHandle({key: filter?.["key"], value: null})
+                                        filterClearHandle({
+                                            key: filterKey,
+                                            value: filterValue
+                                        })
                                         filterApiClearHandle({
-                                            key: filter?.["key"] === 'residence' ? `filters[apartments][residence][name][$contains]` : `filters[apartments][${filter?.["key"]}][type]`,
-                                            value: null
+                                            key: filterGetCurrentKey(filterKey),
+                                            value: filterValue
                                         })
 
-                                        sendFilterQuery({key: filter?.["key"], value: null}, true)
+                                        // if (queryFilterData?.length === 1) {
+                                        //     await clearFilters();
+                                        // }
+
+                                        sendFilterQuery({
+                                            key: filterKey,
+                                            value: filterValue
+                                        }, true)
                                     }}
                                 >
                                     <span>{filter?.["attributes"]?.["name"]}</span> <i className={styles['icon']}></i>

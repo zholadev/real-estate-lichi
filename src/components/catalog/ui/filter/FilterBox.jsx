@@ -1,6 +1,7 @@
 import React, {useMemo} from 'react';
 import {FormSelect} from "@/shared/uikit/form/select";
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
+import useFilterGetKey from "@/components/catalog/lib/useFilterGetKey";
 
 /**
  * @author Zholaman Zhumanov
@@ -26,6 +27,8 @@ function FilterBox(props) {
         assemblyFilterApi,
     } = props
 
+    const filterGetCurrentKey = useFilterGetKey()
+
     const options = useMemo(() => {
         try {
             if (filterType === 'residence') {
@@ -49,39 +52,34 @@ function FilterBox(props) {
         }
     }, [filterGetData])
 
-    const getFilterKeyQuery = useMemo(() => {
-        try {
-            let key = `filters[apartments][${filterType}][type]`
-
-            if (filterType === 'residence') {
-                key = `filters[apartments][residence][name][$contains]`
-            }
-
-            return key
-        } catch (error) {
-            errorHandler("filterSelectContent", "getFilterKeyQuery", error)
+    const currentValue = options?.filter((item) => {
+        if (Array.isArray(value)) {
+            return value.some((valueItem) => {
+                return item.value === valueItem
+            })
+        } else {
+            return item.value === value
         }
-    }, [filterType])
-
-    const currentValue = options?.filter((item) => item.value === value)
+    })
 
     return (
         <FormSelect
+            isMulti={false}
             i18n={i18n}
             id={filterType}
             loader={loading}
             name={filterType}
             options={options}
-            disabled={disabled || options?.length === 0}
             clear={clearSelect}
             value={currentValue}
             placeholder={placeholder}
             onClickContainer={onClickContainer}
+            disabled={disabled || options?.length === 0}
             onChange={e => {
                 if (e) {
                     assemblyFilter(e, filterSendClick)
                     assemblyFilterApi({
-                        key: getFilterKeyQuery,
+                        key: filterGetCurrentKey(filterType),
                         value: e?.value
                     })
                 }

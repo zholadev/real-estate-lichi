@@ -14,7 +14,7 @@ import FilterIconMenu from "./filterIconMenu/FilterIconMenu";
 import FilterBottomPanel from "./filterBottom/FilterBottomPanel";
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import useFilterConvertQuery from "../../lib/useFilterConvertQuery";
-import {apiGetApartmentsData} from "@/shared/services/clientRequests";
+import {apiGetApartmentsData, apiGetResidentialData} from "@/shared/services/clientRequests";
 import {useApiRequest, useMediaMaxState, useToastMessage} from "@/shared/hooks";
 
 /**
@@ -36,7 +36,7 @@ function Filter(props) {
 
     const PAGE_QUERY_PARAM = query.get("page") ?? 1
 
-    const {apiFetchHandler, loading} = useApiRequest()
+    const {apiFetchHandler} = useApiRequest()
 
     const toastMessage = useToastMessage()
     const pushFilterHandle = usePushFilters()
@@ -52,6 +52,7 @@ function Filter(props) {
     const [clearSelects, setClearSelects] = useState('fill')
     const [filterApartmentApiData, setFilterApartmentApiData] = useState({})
     const [apartmentListFilterData, setApartmentListFilterData] = useState([])
+    const [residenceListFilterData, setResidenceListFilterData] = useState([])
     const [queryFilter, setQueryFilter] = useState(convertQueryFilter(pageParams) || {})
     const [queryApiFilters, setQueryApiFilters] = useState({"filters[apartments][name][$notNull]": true})
 
@@ -68,7 +69,8 @@ function Filter(props) {
      */
     const setFilterQueryHandle = (filterData, isSendFilters) => {
         const {key, value} = filterData
-        setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value));
+
+        setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value, true));
 
         if (isSendFilters) {
             sendFilterQuery(filterData, true, isSendFilters)
@@ -83,22 +85,7 @@ function Filter(props) {
 
     const setApiFiltersHandle = (data) => {
         const {key, value} = data
-
-        setQueryApiFilters(prevFilter => {
-            return {
-                ...prevFilter,
-                [key]: value,
-            }
-        })
-
-        setFilterApartmentApiData(
-            prevFilter => {
-                return {
-                    ...prevFilter,
-                    [key]: value,
-                }
-            }
-        )
+        setFilterApartmentApiData(prevFilter => getSetFilterHandle(prevFilter, key, value, true))
     }
 
     /**
@@ -113,10 +100,6 @@ function Filter(props) {
             paramsCustomObject[newKey] = filterApartmentApiData[key];
         }
 
-        if (Object.values(filterApartmentApiData).length === 0 && FILTER_DATA.length > 0 ) {
-            return
-        }
-
         await apiFetchHandler(
             apiGetApartmentsData,
             [PAGE_QUERY_PARAM, {"populate": false, "fields[0]": "name", "fields[1]": "price", ...paramsCustomObject}],
@@ -124,6 +107,23 @@ function Filter(props) {
             {
                 onGetData: (params) => {
                     setApartmentListFilterData(params.data?.["data"]?.["data"])
+                }
+            }
+        )
+    }
+
+    const getResidenceListData = async () => {
+        await apiFetchHandler(
+            apiGetResidentialData,
+            [PAGE_QUERY_PARAM, {
+                "populate": false,
+                "fields[0]": "name",
+                "fields[1]": "price", ...filterApartmentApiData
+            }],
+            false,
+            {
+                onGetData: (params) => {
+                    setResidenceListFilterData(params.data?.["data"]?.["data"])
                 }
             }
         )
@@ -149,9 +149,7 @@ function Filter(props) {
         }
     }, [apartmentListFilterData])
 
-    // console.log(queryFilter, getMinMaxPrices)
-
-    const sendFilterQuery = (filterData, filterToggle, filterQuickSend) => {
+    const sendFilterQuery = async (filterData, filterToggle) => {
         const parsePrice = (key) => parseFloat(queryFilter?.[`price.${key}`]);
 
         const invalidPriceMsg = "You entered incorrect price values.";
@@ -163,31 +161,27 @@ function Filter(props) {
         const minPrice = getMinMaxPrices?.["min"];
         const maxPrice = getMinMaxPrices?.["max"];
 
-        if (fromPrice > toPrice) {
-            toastMessage(invalidPriceMsg)
-            return;
-        }
+        // if (fromPrice > toPrice) {
+        //     toastMessage(invalidPriceMsg)
+        //     return;
+        // }
+        //
+        // if (fromPrice < minPrice || toPrice < minPrice) {
+        //     toastMessage(lowerThanMinPriceMsg)
+        //     return;
+        // }
+        //
+        // if (toPrice > maxPrice) {
+        //     toastMessage(exceedsMaxPriceMsg)
+        //     return;
+        // }
 
-        if (fromPrice < minPrice || toPrice < minPrice) {
-            toastMessage(lowerThanMinPriceMsg)
-            return;
-        }
 
-        if (toPrice > maxPrice) {
-            toastMessage(exceedsMaxPriceMsg)
-            return;
-        }
-
-
-        if (filterQuickSend) {
-            const getFilterData = getSetFilterHandle({[filterData.key]: filterData.value}, filterData.key, filterData.value)
-
-            pushFilterHandle(routerPage.catalog, getFilterData);
-        } else if (filterData && !filterQuickSend) {
+        if (filterData) {
             const newObjectFilter = {queryFilter}
 
             const getFilterData = Object.values(newObjectFilter || {}).map((filterItem) => {
-                return getSetFilterHandle(filterItem, filterData.key, null)
+                return getSetFilterHandle(filterItem, filterData.key, filterData.value, true)
             })
 
             pushFilterHandle(routerPage.catalog, getFilterData?.[0]);
@@ -218,6 +212,19 @@ function Filter(props) {
             })
     }, [PAGE_QUERY_PARAM, filterApartmentApiData]);
 
+    useEffect(() => {
+        getResidenceListData()
+            .catch(error => {
+                errorHandler("filterDistrict", "useEffect", error)
+            })
+    }, [PAGE_QUERY_PARAM, filterApartmentApiData]);
+
+    useEffect(() => {
+        if (pageParams) {
+            setQueryFilter(convertQueryFilter(pageParams))
+        }
+    }, [pageParams]);
+
     const clearFilters = useCallback(() => {
         try {
             if (timerClearValue.current) {
@@ -238,6 +245,10 @@ function Filter(props) {
             errorHandler("filters", "clearFilters", error)
         }
     }, [timerClearValue, router, residenceApiParams])
+
+    // console.log('queryFilter', queryFilter)
+    // console.log('filterApartmentApi', filterApartmentApiData)
+    // console.log('queryApiFilters', queryApiFilters)
 
     return (
         <>
@@ -275,10 +286,10 @@ function Filter(props) {
 
                 <Button
                     onClick={sendFilterQuery}
-                    title={i18n?.["site"]?.["search_title"]}
-                    disabled={FILTER_DATA.length === 0}
+                    title={`${i18n?.["site"]?.["search_title"]} (${typeCatalog === 'residential_complex' ? residenceListFilterData.length : apartmentListFilterData.length})`}
+                    disabled={FILTER_DATA.length === 0 || apartmentListFilterData.length === 0}
                     style={{
-                        opacity: FILTER_DATA.length === 0 ? .3 : 1
+                        opacity: FILTER_DATA.length === 0 || apartmentListFilterData.length === 0 ? .3 : 1
                     }}
                 />
             </div>
