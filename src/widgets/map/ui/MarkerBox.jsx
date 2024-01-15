@@ -78,8 +78,6 @@ function MarkerBox(props) {
 
                 const marker = markerRef.current
 
-                console.log(equalArrayCoordinates(currentMarker))
-
                 if (marker) {
                     if (equalArrayCoordinates(currentMarker)) {
                         marker.openPopup()
