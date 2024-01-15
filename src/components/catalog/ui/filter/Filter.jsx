@@ -152,29 +152,29 @@ function Filter(props) {
     const sendFilterQuery = async (filterData, filterToggle) => {
         const parsePrice = (key) => parseFloat(queryFilter?.[`price.${key}`]);
 
-        const invalidPriceMsg = "You entered incorrect price values.";
-        const lowerThanMinPriceMsg = "The total should not be lower than the minimum price.";
-        const exceedsMaxPriceMsg = "The total should not exceed the maximum price.";
+        const invalidPriceMsg = "You entered incorrect price values";
+        const lowerThanMinPriceMsg = "The total should not be lower than the minimum price";
+        const exceedsMaxPriceMsg = "The total should not exceed the maximum price";
 
         const fromPrice = parsePrice('from');
         const toPrice = parsePrice('to');
         const minPrice = getMinMaxPrices?.["min"];
         const maxPrice = getMinMaxPrices?.["max"];
 
-        // if (fromPrice > toPrice) {
-        //     toastMessage(invalidPriceMsg)
-        //     return;
-        // }
-        //
-        // if (fromPrice < minPrice || toPrice < minPrice) {
-        //     toastMessage(lowerThanMinPriceMsg)
-        //     return;
-        // }
-        //
-        // if (toPrice > maxPrice) {
-        //     toastMessage(exceedsMaxPriceMsg)
-        //     return;
-        // }
+        if (fromPrice > toPrice) {
+            toastMessage(`${invalidPriceMsg}, ${minPrice}`)
+            return;
+        }
+
+        if (fromPrice < minPrice || toPrice < minPrice) {
+            toastMessage(`${lowerThanMinPriceMsg}, ${minPrice}`)
+            return;
+        }
+
+        if (toPrice > maxPrice) {
+            toastMessage(`${exceedsMaxPriceMsg}, ${maxPrice}`)
+            return;
+        }
 
 
         if (filterData) {
@@ -250,6 +250,10 @@ function Filter(props) {
     // console.log('filterApartmentApi', filterApartmentApiData)
     // console.log('queryApiFilters', queryApiFilters)
 
+    const buttonEventClickDisabled = useMemo(() => {
+        return !!(FILTER_DATA.length === 0 || apartmentListFilterData.length === 0 || residenceListFilterData.length === 0)
+    }, [FILTER_DATA, apartmentListFilterData, residenceListFilterData])
+
     return (
         <>
             <div className={styles['filter_tab']}>
@@ -289,9 +293,9 @@ function Filter(props) {
                 <Button
                     onClick={sendFilterQuery}
                     title={`${i18n?.["site"]?.["search_title"]} (${typeCatalog === 'residential_complex' ? residenceListFilterData.length : apartmentListFilterData.length})`}
-                    disabled={FILTER_DATA.length === 0 || apartmentListFilterData.length === 0}
+                    disabled={buttonEventClickDisabled}
                     style={{
-                        opacity: FILTER_DATA.length === 0 || apartmentListFilterData.length === 0 ? .3 : 1
+                        opacity: buttonEventClickDisabled ? .3 : 1
                     }}
                 />
             </div>

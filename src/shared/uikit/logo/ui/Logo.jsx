@@ -41,6 +41,9 @@ const easeIconBox = "slow(0.7,0.7,false)"
 const easeElastic = "elastic.inOut"
 const easingPowerInOut = "power2.inOut"
 
+const darkColor = '#16181D'
+const defaultColor = '#ffffff'
+
 /**
  * @author Zholaman Zhumanov
  * @created 09.10.2023
@@ -50,7 +53,7 @@ const easingPowerInOut = "power2.inOut"
  * @constructor
  */
 function Logo(props) {
-    const {theme, onClick, type, active, activeColor} = props
+    const {theme, onClick, type, active, activeColor, onClose} = props
 
     const contentLogoBox = useRef(null)
 
@@ -67,9 +70,11 @@ function Logo(props) {
 
     const [motionIsOn, setMotionIsOn] = useState(false)
 
-    const svgFillColor = useMemo(() => {
-        return activeColor ? "#fff" : "#16181D"
-    }, [motionIsOn, activeColor])
+    const motionAnimateDarkFill = {
+        attr: {
+            fill: darkColor,
+        }
+    }
 
     const motionAnimateInitial = () => {
         gsap.to(contentLogoBox.current,
@@ -89,17 +94,13 @@ function Logo(props) {
                         },
                         onComplete: () => {
                             gsap.fromTo(contentLogoF.current,
-                                {
-                                    attr: {
-                                        fill: '#16181D',
-                                    }
-                                },
+                                motionAnimateDarkFill,
                                 {
                                     ease: easeIcon,
                                     duration: 1,
                                     delay: .3,
                                     attr: {
-                                        fill: '#fff',
+                                        fill: defaultColor,
                                     },
                                 })
                             gsap.fromTo(contentLogoF.current,
@@ -129,11 +130,7 @@ function Logo(props) {
                         },
                         onComplete: () => {
                             gsap.fromTo(contentLogoS.current,
-                                {
-                                    attr: {
-                                        fill: '#16181D',
-                                    }
-                                },
+                                motionAnimateDarkFill,
                                 {
                                     ease: easeIcon,
                                     duration: .4,
@@ -141,8 +138,8 @@ function Logo(props) {
                                     x: 0,
                                     attr: {
                                         d: animationsPath[1]["p"],
-                                        fill: '#fff',
-                                        ['stroke-width']: 0
+                                        fill: defaultColor,
+                                        ['stroke-width']: 0,
                                     },
                                 })
                         }
@@ -159,11 +156,7 @@ function Logo(props) {
                         },
                         onComplete: () => {
                             gsap.fromTo(contentLogoT.current,
-                                {
-                                    attr: {
-                                        fill: '#16181D',
-                                    }
-                                },
+                                motionAnimateDarkFill,
                                 {
                                     ease: easeIcon,
                                     duration: .2,
@@ -171,7 +164,7 @@ function Logo(props) {
                                     x: 0,
                                     attr: {
                                         d: animationsPath[2]["p"],
-                                        fill: '#fff',
+                                        fill: defaultColor,
                                         ['stroke-width']: 0
                                     },
                                 })
@@ -187,11 +180,11 @@ function Logo(props) {
             {
                 rotate: 0,
                 ease: easingPowerInOut,
-                duration: .5,
+                duration: .7,
                 onComplete: () => {
                     gsap.to(contentLogoBoxF.current, {
                         ease: easeIconBox,
-                        duration: 0,
+                        duration: .1,
                         attr: {
                             width: 24,
                             height: 2,
@@ -204,7 +197,7 @@ function Logo(props) {
                                 duration: .2,
                                 attr: {
                                     d: animationsPathDefault[0]["p"],
-                                    fill: '#16181D',
+                                    fill: darkColor,
                                     ['stroke-width']: 2
                                 },
                             })
@@ -213,7 +206,7 @@ function Logo(props) {
 
                     gsap.to(contentLogoBoxS.current, {
                         ease: easeIconBox,
-                        duration: 0,
+                        duration: .2,
                         attr: {
                             width: 36,
                             height: 2,
@@ -223,10 +216,10 @@ function Logo(props) {
                         onComplete: () => {
                             gsap.to(contentLogoS.current, {
                                 ease: easeIcon,
-                                duration: .2,
+                                duration: .3,
                                 attr: {
                                     d: animationsPathDefault[1]["p"],
-                                    fill: '#16181D',
+                                    fill: darkColor,
                                     ['stroke-width']: 2
                                 },
                             })
@@ -235,7 +228,7 @@ function Logo(props) {
 
                     gsap.to(contentLogoBoxT.current, {
                         ease: easeIconBox,
-                        duration: 0,
+                        duration: .3,
                         attr: {
                             width: 24,
                             height: 2,
@@ -245,10 +238,10 @@ function Logo(props) {
                         onComplete: () => {
                             gsap.to(contentLogoT.current, {
                                 ease: easeIcon,
-                                duration: .2,
+                                duration: .4,
                                 attr: {
                                     d: animationsPathDefault[2]["p"],
-                                    fill: '#16181D',
+                                    fill: darkColor,
                                     ['stroke-width']: 2
                                 },
                             })
@@ -338,7 +331,7 @@ function Logo(props) {
             }
 
             <div className={styles['ui_logo_text']}>
-                <Link href={routerPage.main} onClick={onClick}>
+                <Link href={routerPage.main} onClick={onClose}>
                     <div>Meta</div>
                     <div>Trust</div>
                 </Link>
