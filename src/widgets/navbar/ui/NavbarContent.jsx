@@ -116,6 +116,12 @@ function NavbarContent(props) {
                                 toggleAnimateTrigger()
                             }, 200)
                         }}
+                        onClose={() => {
+                            toggleLogoAnimateTrigger()
+                            setTimeout(() => {
+                                toggleAnimateTrigger()
+                            }, 200)
+                        }}
                         active={animateLogoTrigger}
                         theme={toggleNavbar ? "light" : ''}
                     />
