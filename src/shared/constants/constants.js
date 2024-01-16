@@ -22,6 +22,7 @@ import templateBasicImg1 from  '../../../public/images/template/image 20.png'
 import templateBasicImg2 from  '../../../public/images/template/image 15.png'
 import templateBasicImg3 from  '../../../public/images/template/image 19.png'
 import posterDubaiMain from '../../../public/images/posters/poster-main-dubai.jpg'
+import posterDubaiMainSm from '../../../public/images/posters/poster-main-dubai-sm.png'
 import posterDubaiApartmentPage from '../../../public/images/posters/poster-apartment-page.jpg'
 import posterAboutPage from '../../../public/images/posters/poster-about-page.jpg'
 import templateMapCard from '../../../public/images/template/template-map-card.png'
@@ -49,7 +50,8 @@ export const IMG = {
     "posterDubaiApartmentPage": posterDubaiApartmentPage,
     "posterAboutPage": posterAboutPage,
     "templateMapCard": templateMapCard,
-    "templateMapPopup": templateMapPopup
+    "templateMapPopup": templateMapPopup,
+    "posterDubaiMainSm": posterDubaiMainSm
 }
 
 import swiperArrowLeftIcon from '../../../public/images/icons/swiper-arrow-left.svg'
