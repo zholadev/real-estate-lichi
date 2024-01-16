@@ -1,11 +1,12 @@
 'use client'
 
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import styles from '@/styles/main.module.sass'
 import {FormSelect} from "@/shared/uikit/form/select";
 import {Button} from "@/shared/uikit/button";
-import {useApiRequest, useToastMessage} from "@/shared/hooks";
+import {useApiRequest} from "@/shared/hooks";
 import {
+    apiGetApartmentsData,
     apiGetFilterDistrictList,
     apiGetFilterPropertyTypeList,
     apiGetFilterResidenceList,
@@ -13,6 +14,7 @@ import {
 } from "@/shared/services/clientRequests";
 import useSetFilter from "@/components/catalog/lib/useSetFilter";
 import usePushFilters from "@/components/catalog/lib/usePushFilters";
+import {errorHandler} from "@/entities/errorHandler/errorHandler";
 
 /**
  * @author Zholaman Zhumanov
@@ -24,7 +26,6 @@ import usePushFilters from "@/components/catalog/lib/usePushFilters";
 function MainSearchObject(props) {
     const {i18n} = props
 
-    const toastMessage = useToastMessage()
     const pushFilterHandle = usePushFilters()
     const getSetFilterHandle = useSetFilter()
     const {apiFetchHandler} = useApiRequest()
@@ -34,10 +35,38 @@ function MainSearchObject(props) {
     const [districtDataFilter, setDistrictDataFilter] = useState([])
     const [residenceDataFilter, setResidenceFilterData] = useState([])
     const [propertyTypeDataFilter, setPropertyTypeFilterData] = useState([])
-    const [queryApiFilters, setQueryApiFilters] = useState({"filters[apartments][name][$notNull]": true})
+    const [filterApartmentApiData, setFilterApartmentApiData] = useState({})
+    const [apartmentListFilterData, setApartmentListFilterData] = useState([])
+
+    const getApartmentData = async () => {
+        let paramsCustomObject = {}
+
+        for (let key in filterApartmentApiData) {
+            const newKey = key.replace("[apartments]", "");
+            paramsCustomObject[newKey] = filterApartmentApiData[key];
+        }
+
+        await apiFetchHandler(
+            apiGetApartmentsData,
+            [1, {"populate": false, "fields[0]": "name", "fields[1]": "price", ...paramsCustomObject}],
+            false,
+            {
+                onGetData: (params) => {
+                    setApartmentListFilterData(params.data?.["data"]?.["data"])
+                }
+            }
+        )
+    }
+
+    useEffect(() => {
+        getApartmentData()
+            .catch(error => {
+                errorHandler("filterDistrict", "useEffect", error)
+            })
+    }, [filterApartmentApiData]);
 
     const getFilterResidenceData = async () => {
-        await apiFetchHandler(apiGetFilterResidenceList, [queryApiFilters], false, {
+        await apiFetchHandler(apiGetFilterResidenceList, [{"filters[apartments][name][$notNull]": true}], false, {
             onGetData: (params) => {
                 setResidenceFilterData(params.api_data)
             }
@@ -45,7 +74,7 @@ function MainSearchObject(props) {
     }
 
     const getFilterDistrictData = async () => {
-        await apiFetchHandler(apiGetFilterDistrictList, [queryApiFilters], false, {
+        await apiFetchHandler(apiGetFilterDistrictList, [{"filters[apartments][name][$notNull]": true}], false, {
             onGetData: (params) => {
                 setDistrictDataFilter(params.api_data)
             }
@@ -53,7 +82,7 @@ function MainSearchObject(props) {
     }
 
     const getFilterRoomsData = async () => {
-        await apiFetchHandler(apiGetFilterRoomsList, [queryApiFilters], false, {
+        await apiFetchHandler(apiGetFilterRoomsList, [{"filters[apartments][name][$notNull]": true}], false, {
             onGetData: (params) => {
                 setRoomsDataFilter(params.api_data)
             }
@@ -61,7 +90,7 @@ function MainSearchObject(props) {
     }
 
     const getFilterPropertyData = async () => {
-        await apiFetchHandler(apiGetFilterPropertyTypeList, [queryApiFilters], false, {
+        await apiFetchHandler(apiGetFilterPropertyTypeList, [{"filters[apartments][name][$notNull]": true}], false, {
             onGetData: (params) => {
                 setPropertyTypeFilterData(params.api_data)
             }
@@ -80,7 +109,7 @@ function MainSearchObject(props) {
             setRoomsDataFilter([])
             setPropertyTypeFilterData([])
         }
-    }, [queryApiFilters]);
+    }, []);
 
     const optionsResidence = useMemo(() => {
         try {
@@ -138,23 +167,65 @@ function MainSearchObject(props) {
         }
     }, [propertyTypeDataFilter])
 
-    const setApiFiltersHandle = (data) => {
-        const {key, value} = data
-
-        setQueryApiFilters(prevFilter => {
-            return {
-                ...prevFilter,
-                [key]: value,
-            }
-        })
-    }
-
     const setFilterQueryHandle = (data) => {
         const {key, value} = data
-        setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value, false));
+        setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value, true));
+    };
+
+    const setFilterApiHandle = (data) => {
+        const {key, value} = data
+        setFilterApartmentApiData((prevFilters) => getSetFilterHandle(prevFilters, key, value, true));
     };
 
     const sendFilterQuery = () => pushFilterHandle('/catalog', queryFilter)
+
+    const currentValueDistrict = optionsDistrict?.filter((item) => {
+        if (Array.isArray(queryFilter?.['districts'])) {
+            return queryFilter?.['districts'].some((valueItem) => {
+                return item.value === valueItem
+            })
+        } else {
+            return item.value === queryFilter?.['districts']
+        }
+    })
+
+    const currentValueResidence = optionsResidence?.filter((item) => {
+        if (Array.isArray(queryFilter?.['residence'])) {
+            return queryFilter?.['residence'].some((valueItem) => {
+                return item.value === valueItem
+            })
+        } else {
+            return item.value === queryFilter?.['residence']
+        }
+    })
+
+    const currentValueRooms = optionsRooms?.filter((item) => {
+        if (Array.isArray(queryFilter?.['rooms'])) {
+            return queryFilter?.['rooms'].some((valueItem) => {
+                return item.value === valueItem
+            })
+        } else {
+            return item.value === queryFilter?.['rooms']
+        }
+    })
+
+    const currentValueProperty = optionsPropertyType?.filter((item) => {
+        if (Array.isArray(queryFilter?.['property_types'])) {
+            return queryFilter?.['property_types'].some((valueItem) => {
+                return item.value === valueItem
+            })
+        } else {
+            return item.value === queryFilter?.['property_types']
+        }
+    })
+
+    const currentButtonTitle = useMemo(() => {
+        if (Object.values(queryFilter || {}).length > 0) {
+            return `${i18n?.["site"]?.["search_title"]} (${apartmentListFilterData.length})`
+        } else {
+            return i18n?.["site"]?.["search_title"]
+        }
+    }, [i18n, queryFilter, apartmentListFilterData])
 
     return (
         <div className={styles['main_form_investing']}>
@@ -167,9 +238,10 @@ function MainSearchObject(props) {
                         i18n={i18n}
                         placeholder={i18n?.["site.district.title"]}
                         options={optionsDistrict}
+                        value={currentValueDistrict}
                         onChange={e => {
                             setFilterQueryHandle(e)
-                            setApiFiltersHandle({
+                            setFilterApiHandle({
                                 key: 'filters[apartments][districts][type]',
                                 value: e?.value
                             })
@@ -182,9 +254,10 @@ function MainSearchObject(props) {
                         i18n={i18n}
                         placeholder={i18n?.["site.residence.title"]}
                         options={optionsResidence}
+                        value={currentValueResidence}
                         onChange={e => {
                             setFilterQueryHandle(e)
-                            setApiFiltersHandle({
+                            setFilterApiHandle({
                                 key: 'filters[apartments][residence][name][$contains]',
                                 value: e?.value
                             })
@@ -197,9 +270,10 @@ function MainSearchObject(props) {
                         i18n={i18n}
                         placeholder={i18n?.["site.roominess.title"]}
                         options={optionsRooms}
+                        value={currentValueRooms}
                         onChange={e => {
                             setFilterQueryHandle(e)
-                            setApiFiltersHandle({
+                            setFilterApiHandle({
                                 key: 'filters[apartments][rooms][type]',
                                 value: e?.value
                             })
@@ -212,9 +286,10 @@ function MainSearchObject(props) {
                         i18n={i18n}
                         placeholder={i18n?.["site.property.type.title"]}
                         options={optionsPropertyType}
+                        value={currentValueProperty}
                         onChange={e => {
                             setFilterQueryHandle(e)
-                            setApiFiltersHandle({
+                            setFilterApiHandle({
                                 key: 'filters[apartments][property_types][type]',
                                 value: e?.value
                             })
@@ -225,7 +300,7 @@ function MainSearchObject(props) {
             </form>
 
             <Button
-                title={i18n?.["site"]?.["search_title"]}
+                title={currentButtonTitle}
                 style={{minWidth: "303px"}}
                 onClick={sendFilterQuery}
             />
