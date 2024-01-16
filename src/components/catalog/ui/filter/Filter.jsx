@@ -251,7 +251,8 @@ function Filter(props) {
     // console.log('queryApiFilters', queryApiFilters)
 
     const buttonEventClickDisabled = useMemo(() => {
-        return !!(FILTER_DATA.length === 0 || apartmentListFilterData.length === 0 || residenceListFilterData.length === 0)
+        if (FILTER_DATA.length === 0) return false
+        return !!(typeCatalog === 'residential_complex' ?  residenceListFilterData.length > 0 : apartmentListFilterData.length > 0)
     }, [FILTER_DATA, apartmentListFilterData, residenceListFilterData])
 
     const buttonMainTitle = useMemo(() => {
@@ -297,9 +298,9 @@ function Filter(props) {
                 <Button
                     onClick={sendFilterQuery}
                     title={buttonMainTitle}
-                    disabled={buttonEventClickDisabled}
+                    disabled={!buttonEventClickDisabled}
                     style={{
-                        opacity: buttonEventClickDisabled ? .3 : 1
+                        opacity: !buttonEventClickDisabled ? .3 : 1
                     }}
                 />
             </div>
