@@ -51,7 +51,7 @@ function CatalogMapProducts(props) {
         )
     }
 
-    if (Object.values(mapData || {}).length === 0) {
+    if (Object.values(mapData || {}).length === 0 && !loading) {
         return <h4>{i18n?.["site.not_found.title"]}</h4>
     }
 

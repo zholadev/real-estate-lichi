@@ -73,8 +73,9 @@ function MapListContainer(props) {
     return (
         <MapContainer
             zoom={zoom}
-            bounds={getBoundsSet}
+            preferCanvas
             style={style}
+            bounds={getBoundsSet}
             whenReady={(map) => {
                 setMapConfig(map)
             }}

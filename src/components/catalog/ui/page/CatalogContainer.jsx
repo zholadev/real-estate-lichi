@@ -114,11 +114,9 @@ function CatalogContainer(props) {
     }
 
     useEffect(() => {
-        if (isMapContent) {
-            fetchResidenceData()
-            fetchApartmentData()
-        }
-    }, [isMapContent, pageParams]);
+        fetchResidenceData()
+        fetchApartmentData()
+    }, [pageParams]);
 
     return (
         <StoreProvider>

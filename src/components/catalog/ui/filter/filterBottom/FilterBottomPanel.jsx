@@ -179,6 +179,7 @@ function FilterBottomPanel(props) {
                                     onClick={async () => {
                                         const filterKey = filter?.["key"];
                                         const filterValue = filter?.["attributes"]?.["type"];
+                                        const filterValueNameType = filter?.["attributes"]?.["name"]
 
                                         filterClearHandle({
                                             key: filterKey,
@@ -195,7 +196,7 @@ function FilterBottomPanel(props) {
 
                                         sendFilterQuery({
                                             key: filterKey,
-                                            value: filterValue
+                                            value: filterValue || filterValueNameType
                                         }, true)
                                     }}
                                 >
