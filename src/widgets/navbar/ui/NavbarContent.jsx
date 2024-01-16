@@ -122,6 +122,7 @@ function NavbarContent(props) {
                                 toggleAnimateTrigger()
                             }, 200)
                         }}
+                        isOpenMenu={toggleNavbar}
                         active={animateLogoTrigger}
                         theme={toggleNavbar ? "light" : ''}
                     />

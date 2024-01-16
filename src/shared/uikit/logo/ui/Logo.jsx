@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from "@/styles/ui-logo.module.sass";
 import {gsap} from "gsap";
 import Link from "next/link";
@@ -53,7 +53,7 @@ const defaultColor = '#ffffff'
  * @constructor
  */
 function Logo(props) {
-    const {theme, onClick, type, active, activeColor, onClose} = props
+    const {theme, onClick, type, active, activeColor, onClose, isOpenMenu} = props
 
     const contentLogoBox = useRef(null)
 
@@ -331,7 +331,12 @@ function Logo(props) {
             }
 
             <div className={styles['ui_logo_text']}>
-                <Link href={routerPage.main} onClick={onClose}>
+                <Link
+                    href={routerPage.main}
+                    onClick={() => {
+                        if (isOpenMenu) onClose()
+                    }}
+                >
                     <div>Meta</div>
                     <div>Trust</div>
                 </Link>
