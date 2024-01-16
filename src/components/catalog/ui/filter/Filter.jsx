@@ -349,7 +349,7 @@ function Filter(props) {
                 setApiFiltersHandle={setApiFiltersHandle}
                 setFilterQueryHandle={setFilterQueryHandle}
                 filterApartmentApiData={filterApartmentApiData}
-                buttonEventClickDisabled={buttonEventClickDisabled}
+                buttonEventClickDisabled={!buttonEventClickDisabled}
             />
         </>
 
