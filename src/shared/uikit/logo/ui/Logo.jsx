@@ -1,10 +1,12 @@
 'use client'
 
 import React, {useEffect, useRef, useState} from 'react';
-import styles from "@/styles/ui-logo.module.sass";
 import {gsap} from "gsap";
-import Link from "next/link";
-import {routerPage} from "@/entities/router/model/pages";
+import LogoTitle from "./LogoTitle";
+import LogoIconPrimary from "./LogoIconPrimary";
+import {easings} from "@/shared/constants/easings";
+import styles from "@/styles/ui-logo.module.sass";
+import LogoIconSecondary from "./LogoIconSecondary";
 
 const animationsPath = [
     {
@@ -36,230 +38,196 @@ const animationsPathDefault = [
     },
 ];
 
-const easeIcon = "expoScale(0.5,7,none)"
-const easeIconBox = "slow(0.7,0.7,false)"
-const easeElastic = "elastic.inOut"
-const easingPowerInOut = "power2.inOut"
-
 const darkColor = '#16181D'
 const defaultColor = '#ffffff'
 
 /**
  * @author Zholaman Zhumanov
  * @created 09.10.2023
+ * @last-updated 16.01.2024 - Zholaman Zhumanov
+ * @upate-description refactoring
  * @todo refactoring
  * @param props
  * @returns {JSX.Element}
  * @constructor
  */
 function Logo(props) {
-    const {theme, onClick, type, active, activeColor, onClose, isOpenMenu} = props
+    const {theme, onClick, type, active, isOpenMenu} = props
 
-    const contentLogoBox = useRef(null)
-
-    const contentLogoF = useRef(null)
-    const contentLogoBoxF = useRef(null)
-
-
-    const contentLogoS = useRef(null)
-    const contentLogoBoxS = useRef(null)
-
-
-    const contentLogoT = useRef(null)
-    const contentLogoBoxT = useRef(null)
+    const logoIcon1 = useRef(null)
+    const logoIcon2 = useRef(null)
+    const logoIcon3 = useRef(null)
+    const logoIconPath1 = useRef(null)
+    const logoIconPath2 = useRef(null)
+    const logoIconPath3 = useRef(null)
+    const logoContainerRef = useRef(null)
+    const timerMotionAnimate = useRef(null)
 
     const [motionIsOn, setMotionIsOn] = useState(false)
 
-    const motionAnimateDarkFill = {
-        attr: {
-            fill: darkColor,
-        }
-    }
-
-    const motionAnimateInitial = () => {
-        gsap.to(contentLogoBox.current,
+    /**
+     * @description container logo animate
+     * @param onComplete
+     * @param duration
+     */
+    const logoContainerMotion = (onComplete, duration = .3) => {
+        gsap.to(logoContainerRef.current,
             {
-                rotate: 90,
-                ease: easingPowerInOut,
-                duration: .3,
-                onComplete: () => {
-                    gsap.to(contentLogoBoxF.current, {
-                        ease: easeIconBox,
-                        duration: 0,
-                        attr: {
-                            width: 17,
-                            height: 5,
-                            fill: "none",
-                            viewBox: "0 0 17 5"
-                        },
-                        onComplete: () => {
-                            gsap.fromTo(contentLogoF.current,
-                                motionAnimateDarkFill,
-                                {
-                                    ease: easeIcon,
-                                    duration: 1,
-                                    delay: .3,
-                                    attr: {
-                                        fill: defaultColor,
-                                    },
-                                })
-                            gsap.fromTo(contentLogoF.current,
-                                {},
-                                {
-                                    ease: easeIcon,
-                                    duration: .8,
-                                    delay: .3,
-                                    x: 0,
-                                    attr: {
-                                        d: animationsPath[0]["p"],
-                                        ['stroke-width']: 0
-                                    },
-                                })
-
-                        }
-                    })
-
-                    gsap.to(contentLogoBoxS.current, {
-                        ease: easeIconBox,
-                        duration: 0,
-                        attr: {
-                            width: 34,
-                            height: 5,
-                            fill: "none",
-                            viewBox: "0 0 34 5"
-                        },
-                        onComplete: () => {
-                            gsap.fromTo(contentLogoS.current,
-                                motionAnimateDarkFill,
-                                {
-                                    ease: easeIcon,
-                                    duration: .4,
-                                    delay: .2,
-                                    x: 0,
-                                    attr: {
-                                        d: animationsPath[1]["p"],
-                                        fill: defaultColor,
-                                        ['stroke-width']: 0,
-                                    },
-                                })
-                        }
-                    })
-
-                    gsap.to(contentLogoBoxT.current, {
-                        ease: easeIconBox,
-                        duration: 0,
-                        attr: {
-                            width: 22,
-                            height: 5,
-                            fill: "none",
-                            viewBox: "0 0 22 5"
-                        },
-                        onComplete: () => {
-                            gsap.fromTo(contentLogoT.current,
-                                motionAnimateDarkFill,
-                                {
-                                    ease: easeIcon,
-                                    duration: .2,
-                                    delay: .1,
-                                    x: 0,
-                                    attr: {
-                                        d: animationsPath[2]["p"],
-                                        fill: defaultColor,
-                                        ['stroke-width']: 0
-                                    },
-                                })
-                        }
-                    })
-                }
+                rotate: !motionIsOn ? 0 : 90,
+                ease: easings.easingPowerInOut,
+                duration: duration,
+                onComplete: () => onComplete()
             },
         )
     }
 
-    const motionReverseAnimate = () => {
-        gsap.to(contentLogoBox.current,
-            {
-                rotate: 0,
-                ease: easingPowerInOut,
-                duration: .7,
-                onComplete: () => {
-                    gsap.to(contentLogoBoxF.current, {
-                        ease: easeIconBox,
-                        duration: .1,
+    /**
+     * @description Start animation for icons
+     * @param logoIcon
+     * @param logoIconPath
+     * @param width
+     * @param height
+     * @param viewBox
+     * @param animationPathIndex
+     * @param initialDuration
+     * @param initialDelay
+     * @param finalDuration
+     * @param finalDelay
+     * @param playSecond
+     */
+    const animateLogoIcon = (logoIcon, logoIconPath, width, height, viewBox, animationPathIndex, {
+        initialDuration,
+        initialDelay,
+        finalDuration,
+        finalDelay,
+        playSecond
+    }) => {
+        gsap.to(logoIcon.current, {
+            ease: easings.easeIconBox,
+            duration: 0,
+            attr: {
+                width,
+                height,
+                fill: "none",
+                viewBox,
+            },
+            onComplete: args => {
+                playSecond &&
+                gsap.fromTo(logoIconPath.current,
+                    {
                         attr: {
-                            width: 24,
-                            height: 2,
-                            fill: "none",
-                            viewBox: "0 0 24 2"
-                        },
-                        onComplete: () => {
-                            gsap.to(contentLogoF.current, {
-                                ease: easeIcon,
-                                duration: .2,
-                                attr: {
-                                    d: animationsPathDefault[0]["p"],
-                                    fill: darkColor,
-                                    ['stroke-width']: 2
-                                },
-                            })
+                            fill: darkColor,
                         }
+                    },
+                    {
+                        ease: easings.easeIcon,
+                        duration: initialDuration,
+                        delay: initialDelay,
+                        attr: {
+                            fill: defaultColor,
+                        },
                     })
 
-                    gsap.to(contentLogoBoxS.current, {
-                        ease: easeIconBox,
-                        duration: .2,
+                gsap.fromTo(logoIconPath.current,
+                    {},
+                    {
+                        ease: easings.easeIcon,
+                        duration: finalDuration,
+                        delay: finalDelay,
+                        x: 0,
                         attr: {
-                            width: 36,
-                            height: 2,
-                            fill: "none",
-                            viewBox: "0 0 36 2"
+                            d: animationsPath[animationPathIndex]["p"],
+                            fill: defaultColor,
+                            ['stroke-width']: 0,
                         },
-                        onComplete: () => {
-                            gsap.to(contentLogoS.current, {
-                                ease: easeIcon,
-                                duration: .3,
-                                attr: {
-                                    d: animationsPathDefault[1]["p"],
-                                    fill: darkColor,
-                                    ['stroke-width']: 2
-                                },
-                            })
-                        }
                     })
-
-                    gsap.to(contentLogoBoxT.current, {
-                        ease: easeIconBox,
-                        duration: .3,
-                        attr: {
-                            width: 24,
-                            height: 2,
-                            fill: "none",
-                            viewBox: "0 0 24 2"
-                        },
-                        onComplete: () => {
-                            gsap.to(contentLogoT.current, {
-                                ease: easeIcon,
-                                duration: .4,
-                                attr: {
-                                    d: animationsPathDefault[2]["p"],
-                                    fill: darkColor,
-                                    ['stroke-width']: 2
-                                },
-                            })
-                        }
-                    })
-                }
-            })
-
-
+            }
+        })
     }
+
+    /**
+     * @description start animate
+     */
+    const logoInitIconMotion = () => {
+        animateLogoIcon(logoIcon1, logoIconPath1, 17, 5, "0 0 17 5", 0,
+            {initialDuration: 1, initialDelay: .3, finalDuration: .8, finalDelay: .3, playSecond: true});
+        animateLogoIcon(logoIcon2, logoIconPath2, 34, 5, "0 0 34 5", 1,
+            {initialDuration: .4, initialDelay: .2, finalDuration: .4, finalDelay: .2, playSecond: false});
+        animateLogoIcon(logoIcon3, logoIconPath3, 22, 5, "0 0 22 5", 2,
+            {initialDuration: .2, initialDelay: .1, finalDuration: .2, finalDelay: .1, playSecond: false});
+    }
+
+    /**
+     * @description reverse animate for icons path
+     * @param logoIcon
+     * @param logoIconPath
+     * @param width
+     * @param height
+     * @param viewBox
+     * @param animationPathIndex
+     * @param duration
+     * @param initialDuration
+     */
+    const reverseLogoIcon = (logoIcon, logoIconPath, width, height, viewBox, animationPathIndex, duration, initialDuration) => {
+        gsap.to(logoIcon.current, {
+            ease: easings.easeIconBox,
+            duration: duration,
+            attr: {
+                width,
+                height,
+                fill: "none",
+                viewBox,
+            },
+            onComplete: args => {
+                gsap.fromTo(logoIconPath.current,
+                    {},
+                    {
+                        ease: easings.easeIcon,
+                        duration: initialDuration,
+                        attr: {
+                            d: animationsPathDefault[animationPathIndex]["p"],
+                            fill: darkColor,
+                            ['stroke-width']: 2,
+                        },
+                    })
+            }
+        })
+    }
+
+    /**
+     * @description finish animate for icons
+     */
+    const logoIconReverseMotion = () => {
+        reverseLogoIcon(logoIcon1, logoIconPath1, 24, 2, "0 0 24 2", 0, .1, .2)
+        reverseLogoIcon(logoIcon2, logoIconPath2, 36, 2, "0 0 36 2", 1, .2, .3)
+        reverseLogoIcon(logoIcon3, logoIconPath3, 24, 2, "0 0 24 2", 2, .3, .4)
+    }
+
+    /**
+     * @description animation events
+     */
+    const motionAnimateInitial = () => logoContainerMotion(logoInitIconMotion, .3)
+    const motionReverseAnimate = () => logoContainerMotion(logoIconReverseMotion, .7)
 
     useEffect(() => {
         if (motionIsOn) {
             motionAnimateInitial()
         } else {
-            setTimeout(() => {
+            timerMotionAnimate.current = setTimeout(() => {
                 motionReverseAnimate()
             }, 400)
+        }
+
+        return () => {
+            clearTimeout(timerMotionAnimate.current)
+
+            // if (logoContainerRef.current) logoContainerRef.current.kill()
+            // if (logoIconPath1.current) logoIconPath1.current.kill()
+            // if (logoIcon1.current) logoIcon1.current.kill()
+            // if (logoIconPath2.current) logoIconPath2.current.kill()
+            // if (logoIcon2.current) logoIcon2.current.kill()
+            // if (logoIconPath3.current) logoIconPath3.current.kill()
+            // if (logoIcon3.current) logoIcon3.current.kill()
         }
     }, [motionIsOn]);
 
@@ -278,69 +246,21 @@ function Logo(props) {
         >
             {
                 type === 'secondary' ?
-                    <div className={`${styles['icon_box']} ${styles['icon_box_row']}`} onClick={onClick}>
-                        <svg width="5" height="22" viewBox="0 0 5 22" fill="none" style={{marginRight: '6px'}}
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2.12275e-06 5.50904L0 19.5002V22.0002H5L5 19.5002L5 0.587891L2.12275e-06 5.50904Z"
-                                  fill="#16181D"/>
-                        </svg>
-
-                        <svg width="5" height="34" viewBox="0 0 5 34" fill="none" style={{marginRight: '6px'}}
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M1.73847e-06 0.510254L0 31.4998V33.9998H5V31.4998L5 5.66824L5 5.66824L1.73847e-06 0.510254Z"
-                                fill="#16181D"/>
-                        </svg>
-
-                        <svg width="5" height="17" viewBox="0 0 5 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 5.61632V14.5V17H5V14.5L5 0.522461L0 5.61632Z" fill="#16181D"/>
-                        </svg>
-                    </div>
+                    <LogoIconSecondary onClick={onClick}/>
                     :
-                    <div ref={contentLogoBox} className={`${styles['icon_box']} icon`} onClick={onClick}>
-                        <svg
-                            ref={contentLogoBoxF}
-                            width="24"
-                            height="2"
-                            viewBox="0 0 24 2"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M1 1L23 1" stroke="#16181D" strokeWidth={2} ref={contentLogoF}/>
-                        </svg>
-
-                        <svg
-                            ref={contentLogoBoxS}
-                            width="36"
-                            height="2"
-                            viewBox="0 0 36 2"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M1 1H35" stroke="#16181D" strokeWidth={2} ref={contentLogoS}/>
-                        </svg>
-
-                        <svg
-                            ref={contentLogoBoxT}
-                            width="24"
-                            height="2"
-                            viewBox="0 0 24 2"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M1 1L23 1" stroke="#16181D" strokeWidth={2} ref={contentLogoT}/>
-                        </svg>
-                    </div>
+                    <LogoIconPrimary
+                        onClick={onClick}
+                        refIcon1={logoIcon1}
+                        refIcon2={logoIcon2}
+                        refIcon3={logoIcon3}
+                        refIconPath1={logoIconPath1}
+                        refIconPath2={logoIconPath2}
+                        refIconPath3={logoIconPath3}
+                        refContainer={logoContainerRef}
+                    />
             }
 
-            <div className={styles['ui_logo_text']}>
-                <Link
-                    href={routerPage.main}
-                    onClick={() => {
-                        if (isOpenMenu) onClose()
-                    }}
-                >
-                    <div>Meta</div>
-                    <div>Trust</div>
-                </Link>
-            </div>
+            <LogoTitle onClick={onClick} isOpenMenu={isOpenMenu}/>
         </div>
     )
 

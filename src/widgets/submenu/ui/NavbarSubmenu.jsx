@@ -9,6 +9,7 @@ import {ButtonArrow} from "@/shared/uikit/button";
 import styles from "@/styles/widget-submenu-navbar.module.sass"
 import NavbarMenuItem from "@/widgets/submenu/ui/NavbarMenuItem";
 import {routerPage} from "@/entities/router/model/pages";
+import useContentSize from "@/widgets/navbar/lib/useContentSize";
 
 const animFrom = {y: 20, opacity: 0}
 const reverseConfig = {y: 20, opacity: 0, duration: .1, stagger: 0.02};
@@ -36,7 +37,6 @@ function NavbarSubmenu(props) {
     const {
         i18n,
         active,
-        fullWidth,
         toggleAnimate,
         animateTrigger,
         hideSubmenuHandle,
@@ -46,6 +46,8 @@ function NavbarSubmenu(props) {
     const listMenuRef = useRef(null);
     const listPageRef = useRef(null)
     const bottomActionRef = useRef(null);
+
+    const contentIsMin = useContentSize()
 
     const [menuMotion, setMenuMotion] = useState(false);
     const [bottomActionMotion, setBottomActionMotion] = useState(false);
@@ -101,7 +103,7 @@ function NavbarSubmenu(props) {
 
     return (
         <div
-            className={`${styles['navbar_submenu']} ${fullWidth ? styles['submenu_full_wd'] : ''} ${active ? styles['navbar_submenu__active'] : ''}`}>
+            className={`${styles['navbar_submenu']} ${!contentIsMin ? styles['submenu_full_wd'] : ''} ${active ? styles['navbar_submenu__active'] : ''}`}>
             <div className={styles['navbar_content']}>
                 <div className={styles['main_content']}>
                     <div className={styles['menu_content']}>

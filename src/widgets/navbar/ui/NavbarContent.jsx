@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {gsap} from "gsap"
 import Cookies from "js-cookie";
 import {Logo} from "@/shared/uikit/logo";
@@ -8,13 +8,14 @@ import {PhoneAction} from "@/shared/site";
 import {PortalProvider} from "@/shared/portals";
 import {NavbarSubmenu} from "@/widgets/submenu";
 import styles from "@/styles/navbar.module.sass";
-import {useParams, usePathname} from "next/navigation";
 import {useMediaMaxState, useScrollAction} from "@/shared/hooks";
 import stylesSecondary from "@/styles/widget-submenu-navbar.module.sass";
+import useContentSize from "@/widgets/navbar/lib/useContentSize";
 
 /**
  * @author Zholaman Zhumanov
- * @last-updated 11.01.2024 - Zholaman Zhumanov
+ * @last-updated 16.01.2024 - Zholaman Zhumanov
+ * @update-description minor improvements
  * @todo refactoring
  * @param props
  * @returns {Element}
@@ -25,30 +26,41 @@ function NavbarContent(props) {
 
     const scrollNavbar = useRef(null)
 
-    const pathname = usePathname()
-    const routerParams = useParams()
+    const contentIsMin = useContentSize()
 
     const scrollBottom = useScrollAction({"position": 20})
     const mediaSmQuery = useMediaMaxState({"screenSize": 768})
 
-    const [toggleNavbar, setToggleNavbar] = useState(false)
-    const [animateTrigger, setAnimateTrigger] = useState(false)
-    const [animateLogoTrigger, setAnimateLogoTrigger] = useState(false)
+    const [submenuToggle, setSubmenuToggle] = useState(false)
+    const [logoAnimateToggle, setLogoAnimateToggle] = useState(false)
+    const [submenuAnimateToggle, setSubmenuAnimateToggle] = useState(false)
 
-    const contentIsMin = useMemo(() => {
-        return pathname == `/${routerParams['lang']}` || pathname == `/${routerParams['lang']}/catalog` || pathname == `/${routerParams['lang']}/news` || pathname == `/${routerParams['lang']}/news/${routerParams['id']}`
-    }, [routerParams, pathname])
+    const submenuToggleHandle = (value) => setSubmenuToggle(value)
+    const logoAnimateToggleHandle = () => setLogoAnimateToggle(!logoAnimateToggle)
+    const logoAnimateCloseHandle = () => setLogoAnimateToggle(false)
+    const submenuAnimateToggleHandle = () => setSubmenuAnimateToggle(!submenuAnimateToggle)
 
-    const toggleAnimateTrigger = () => {
-        setAnimateTrigger(!animateTrigger)
+    const logoOnClickEventHandle = () => {
+        logoAnimateToggleHandle()
+        setTimeout(() => {
+            startAnimateSubmenuToggleHandle()
+        }, 200)
+    }
+
+    const closeSubmenuAndAnimateToggleHandle = () => {
+        logoAnimateCloseHandle()
+
+        setTimeout(() => {
+            submenuToggleHandle(false)
+        }, 400)
+    }
+
+    const startAnimateSubmenuToggleHandle = () => {
+        submenuAnimateToggleHandle()
 
         if (scrollBottom) {
             navbarDefaultMotion()
         }
-    }
-
-    const toggleLogoAnimateTrigger = () => {
-        setAnimateLogoTrigger(!animateLogoTrigger)
     }
 
     const navbarFillMotion = () => {
@@ -93,14 +105,14 @@ function NavbarContent(props) {
     }, [])
 
     useEffect(() => {
-        if (animateTrigger) return
+        if (submenuAnimateToggle) return
 
         if (scrollBottom) {
             navbarFillMotion()
         } else {
             navbarDefaultMotion()
         }
-    }, [scrollBottom, animateTrigger, mediaSmQuery])
+    }, [scrollBottom, submenuAnimateToggle, mediaSmQuery])
 
     return (
         <>
@@ -110,46 +122,31 @@ function NavbarContent(props) {
                 <div
                     className={`${styles['navbar_content']} ${contentIsMin ? 'container_md' : 'container_lg'}`}>
                     <Logo
-                        onClick={() => {
-                            toggleLogoAnimateTrigger()
-                            setTimeout(() => {
-                                toggleAnimateTrigger()
-                            }, 200)
-                        }}
-                        onClose={() => {
-                            toggleLogoAnimateTrigger()
-                            setTimeout(() => {
-                                toggleAnimateTrigger()
-                            }, 200)
-                        }}
-                        isOpenMenu={toggleNavbar}
-                        active={animateLogoTrigger}
-                        theme={toggleNavbar ? "light" : ''}
+                        isOpenMenu={submenuToggle}
+                        active={logoAnimateToggle}
+                        onClick={logoOnClickEventHandle}
+                        theme={submenuToggle ? "light" : ''}
                     />
-                    {toggleNavbar ?
-                        <i className={stylesSecondary['menu_closed']} onClick={() => {
-                            toggleAnimateTrigger()
-                            setAnimateLogoTrigger(false)
-                        }}/>
-                        : <PhoneAction i18n={i18n} type={'secondary'} hideContent/>}
+                    {submenuToggle ? (
+                        <i className={stylesSecondary['menu_closed']}
+                           onClick={() => {
+                               startAnimateSubmenuToggleHandle()
+                               logoAnimateCloseHandle()
+                           }}
+                        />) : (
+                        <PhoneAction i18n={i18n} type={'secondary'} hideContent/>)
+                    }
                 </div>
             </header>
             <PortalProvider>
                 <NavbarSubmenu
-                    fullWidth={!contentIsMin}
                     i18n={i18n}
-                    active={toggleNavbar}
-                    animateTrigger={animateTrigger}
-                    toggleMenu={() => setToggleNavbar(false)}
-                    showSubmenuHandle={() => setToggleNavbar(true)}
-                    hideSubmenuHandle={() => {
-                        setAnimateLogoTrigger(false)
-
-                        setTimeout(() => {
-                            setToggleNavbar(false)
-                        }, 400)
-                    }}
-                    toggleAnimate={toggleAnimateTrigger}
+                    active={submenuToggle}
+                    animateTrigger={submenuAnimateToggle}
+                    toggleAnimate={startAnimateSubmenuToggleHandle}
+                    toggleMenu={() => submenuToggleHandle(false)}
+                    hideSubmenuHandle={closeSubmenuAndAnimateToggleHandle}
+                    showSubmenuHandle={() => submenuToggleHandle(true)}
                 />
             </PortalProvider>
         </>

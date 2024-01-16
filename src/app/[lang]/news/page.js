@@ -1,6 +1,6 @@
 import React from 'react';
 import {getDictionary} from "@/dictionaries";
-import {Breadcrumbs} from "@/shared/breadcrumbs";
+import {Breadcrumbs} from "src/entities/breadcrumbs";
 import {NewsContainer} from "@/components/news";
 import {apiGetNewsData} from "@/shared/services/clientRequests";
 import {cookies} from "next/headers";

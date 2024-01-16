@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Video} from "@/shared/uikit/video";
-import {Breadcrumbs} from "@/shared/breadcrumbs";
+import {Breadcrumbs} from "src/entities/breadcrumbs";
 import styles from '@/styles/customer_content.module.sass'
 
 function CustomHeaderVideo(props) {
