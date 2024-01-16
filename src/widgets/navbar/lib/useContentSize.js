@@ -13,11 +13,9 @@ function useContentSize() {
     const routerParams = useParams()
 
     const isMinimumContent = (pathname, routerParams) => {
-        const basePaths = ['', 'catalog', 'news', `news/${routerParams['id']}`];
-        return basePaths.some(basePath => pathname === `/${routerParams['lang']}/${basePath}`);
+        const basePaths = ['', '/catalog', '/news', `/news/${routerParams['id']}`];
+        return basePaths.some(basePath => pathname === `/${routerParams['lang']}${basePath}`);
     }
-
-    console.log(isMinimumContent('', routerParams))
 
     return useMemo(
         () => isMinimumContent(pathname, routerParams),

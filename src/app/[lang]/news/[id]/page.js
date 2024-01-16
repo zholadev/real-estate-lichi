@@ -2,7 +2,7 @@ import React from 'react';
 import {cookies} from "next/headers";
 import {getDictionary} from "@/dictionaries";
 import {NewsPageDetail} from "@/components/news";
-import {Breadcrumbs} from "@/shared/breadcrumbs";
+import {Breadcrumbs} from "src/entities/breadcrumbs";
 import {CustomerNewsContent} from "@/components/customerContent";
 import {apiGetNewsByIdData} from "@/shared/services/clientRequests";
 

@@ -3,7 +3,7 @@
 import React, {useMemo} from 'react';
 import ObjectLayout from "./ObjectLayout";
 import {AttractionsLocation} from "@/shared/uikit/map";
-import {Breadcrumbs} from "@/shared/breadcrumbs";
+import {Breadcrumbs} from "src/entities/breadcrumbs";
 import {extractAttribute} from "@/shared/utilites";
 import ObjectPaymentPlan from "./ObjectPaymentPlan";
 import ObjectDetailPreview from "./ObjectDetailPreview";

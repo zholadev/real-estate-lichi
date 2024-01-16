@@ -1,6 +1,6 @@
 import React from 'react';
 import {getDictionary} from "@/dictionaries";
-import {Breadcrumbs} from "@/shared/breadcrumbs";
+import {Breadcrumbs} from "src/entities/breadcrumbs";
 import {CatalogContainer} from "@/components/catalog";
 import {apiGetApartmentsData, apiGetResidentialData} from "@/shared/services/clientRequests";
 import {cookies} from "next/headers";

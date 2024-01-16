@@ -4,7 +4,7 @@ import React from 'react';
 import dynamic from "next/dynamic";
 import {useRouter} from "next/navigation";
 import {Button} from "@/shared/uikit/button";
-import {Breadcrumbs} from "@/shared/breadcrumbs";
+import {Breadcrumbs} from "src/entities/breadcrumbs";
 import {ICON} from "@/shared/constants/constants";
 import styles from '@/styles/apartments-page.module.sass'
 
