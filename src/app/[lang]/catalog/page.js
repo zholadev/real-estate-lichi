@@ -43,6 +43,7 @@ export default async function Page(props) {
         props?.searchParams?.["page"] || 1,
         {
             "fields[0]": "name",
+            "sort[0]": "createdAt:desc",
             ...queryParamsSet(props?.searchParams)
         }
     )
@@ -53,10 +54,10 @@ export default async function Page(props) {
             "fields[0]": "name",
             "fields[1]": "price",
             "fields[2]": "an_initial_fee",
+            "sort[0]": "createdAt:desc",
             ...props?.searchParams
         }
     )
-
 
     const cookieStore = cookies()
     const lang = cookieStore.get('dubai_lang')?.value || 'en'

@@ -82,7 +82,15 @@ function CatalogContainer(props) {
         try {
             await apiFetchHandler(
                 apiGetResidentialData,
-                [pageParams?.["page"], {"pagination[limit]": -1, ...queryParamsSet(pageParams)}],
+                [
+                    pageParams?.["page"],
+                    {
+                        "pagination[limit]": -1,
+                        "fields[0]": "name",
+                        "sort[0]": "createdAt:desc",
+                        ...queryParamsSet(pageParams)
+                    }
+                ],
                 false,
                 {
                     onGetData: (params) => {
@@ -99,7 +107,17 @@ function CatalogContainer(props) {
         try {
             await apiFetchHandler(
                 apiGetApartmentsData,
-                [pageParams?.["page"], {"pagination[limit]": -1, ...pageParams}],
+                [
+                    pageParams?.["page"],
+                    {
+                        "pagination[limit]": -1,
+                        "fields[0]": "name",
+                        "fields[1]": "price",
+                        "fields[2]": "an_initial_fee",
+                        "sort[0]": "createdAt:desc",
+                        ...pageParams
+                    }
+                ],
                 false,
                 {
                     onGetData: (params) => {
