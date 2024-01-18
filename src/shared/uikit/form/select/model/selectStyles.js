@@ -16,12 +16,14 @@ export const customSelectDefaultStyles = (type) => {
             cursor: isDisabled ? 'no-drop' : 'pointer',
             boxShadow: 'none !important',
             '@media screen and (max-width: 768px)': {
-                marginBottom: '25px'
+                marginBottom: '15px',
+                height: "42px",
+                fontSize: "14px"
             },
             '&hover': {
                 borderColor: 'none !important',
                 boxShadow: 'none !important'
-            }
+            },
         }),
         option: (styles, {data, isDisabled, isFocused, isSelected}) => {
             return {
