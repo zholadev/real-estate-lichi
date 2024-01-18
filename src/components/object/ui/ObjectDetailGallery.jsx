@@ -8,10 +8,13 @@ import {ZoomContainer} from "@/shared/uikit/zoom";
 import styles from '@/styles/object-page.module.sass'
 import {mediaImgSrc} from "@/shared/constants/options";
 import {Autoplay, FreeMode, Navigation, Pagination, Thumbs} from 'swiper/modules';
+import {useMediaMaxState} from "@/shared/hooks";
 
 /**
  * @author Zholaman Zhumanov
  * @created 12.10.2023
+ * @last-updated 18.01.2024 - Zholaman Zhumanov
+ * @update-description
  * @param props
  * @returns {Element}
  * @constructor
@@ -20,6 +23,8 @@ function ObjectDetailGallery(props) {
     const {galleryImages, name} = props
 
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
+    const mediaQuerySm = useMediaMaxState({screenSize: 768})
 
     return (
         <div className={styles['preview_gallery']} style={{display: "block"}}>
@@ -59,7 +64,7 @@ function ObjectDetailGallery(props) {
                 onSwiper={setThumbsSwiper}
                 loop={true}
                 spaceBetween={10}
-                slidesPerView={4.5}
+                slidesPerView={mediaQuerySm ? 3.5 : 4.5}
                 freeMode={true}
                 autoHeight={true}
                 watchSlidesProgress={true}
