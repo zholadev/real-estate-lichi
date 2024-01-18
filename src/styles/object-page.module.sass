@@ -68,6 +68,9 @@
           margin-inline-end: 15px
           color: $text-color-opacity
 
+        .value
+          text-align: right
+
 .object_description
   width: 100%
   height: auto
@@ -145,7 +148,10 @@
     .board
       .board_info_list
         .list_item
-          margin-bottom: $p-size-30
+          margin-bottom: $p-size-20
+
+          +md_sm
+            margin-bottom: $p-size-15
 
           .key
             color: $text-color-opacity
@@ -153,8 +159,11 @@
             margin-bottom: $p-size-15
 
           .value
-            font-size: $size-20
+            font-size: $size-18
             font-weight: $size-500
+
+            +md_sm
+              font-size: $size-16
 
           .value_bold
             font-weight: $size-600

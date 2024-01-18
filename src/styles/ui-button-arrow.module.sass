@@ -4,19 +4,23 @@
 
 .ui_button_arrow
   width: auto
-  height: 66px
+  height: 50px
   background-color: transparent
   border: none
   display: flex
   align-items: center
   justify-content: center
   text-transform: uppercase
-  font-size: $size-18
+  font-size: $size-16
   font-weight: $size-400
 
   &.ui_button_arrow__small
     padding: 10px 0
     height: auto
+
+  +md_sm
+    height: 42px !important
+    font-size: $size-14
 
   span
     display: inline-block
