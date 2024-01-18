@@ -79,7 +79,7 @@ function MapListContainer(props) {
             whenReady={(map) => {
                 setMapConfig(map)
             }}
-            className={'map-list-container'}
+            className="map-list-container"
         >
             <MapTileContainer/>
             <MapMarkers
