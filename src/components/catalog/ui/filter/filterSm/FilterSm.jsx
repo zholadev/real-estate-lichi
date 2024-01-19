@@ -48,36 +48,40 @@ function FilterSm(props) {
     return (
         <PortalProvider>
             <SidebarContainer active={toggleFilter} toggle={toggleFilterHandle}>
-                <div className={styles['catalog_filter']}>
-                    <FilterList
-                        i18n={i18n}
-                        priceFrom={priceFrom}
-                        priceValue={priceValue}
-                        queryFilter={queryFilter}
-                        typeCatalog={typeCatalog}
-                        clearSelect={clearSelects}
-                        clearFilters={clearFilters}
-                        setPriceFrom={setPriceFrom}
-                        setPriceValue={setPriceValue}
-                        getMinMaxPrices={getMinMaxPrices}
-                        queryApiFilters={queryApiFilters}
-                        setFilterAllData={setFilterAllData}
-                        getApartmentData={getApartmentData}
-                        setApiFiltersHandle={setApiFiltersHandle}
-                        setFilterQueryHandle={setFilterQueryHandle}
-                        filterApartmentApiData={filterApartmentApiData}
-                    />
+                <div className={styles['filter_mobile_list']}>
+                    <div className={styles['filter_list_content_scroll']}>
+                        <FilterList
+                            i18n={i18n}
+                            priceFrom={priceFrom}
+                            priceValue={priceValue}
+                            queryFilter={queryFilter}
+                            typeCatalog={typeCatalog}
+                            clearSelect={clearSelects}
+                            clearFilters={clearFilters}
+                            setPriceFrom={setPriceFrom}
+                            setPriceValue={setPriceValue}
+                            getMinMaxPrices={getMinMaxPrices}
+                            queryApiFilters={queryApiFilters}
+                            setFilterAllData={setFilterAllData}
+                            getApartmentData={getApartmentData}
+                            setApiFiltersHandle={setApiFiltersHandle}
+                            setFilterQueryHandle={setFilterQueryHandle}
+                            filterApartmentApiData={filterApartmentApiData}
+                        />
+                    </div>
 
-                    <Button
-                        onClick={sendFilterQuery}
-                        title={buttonMainTitle}
-                        disabled={buttonEventClickDisabled}
-                        style={{
-                            opacity: buttonEventClickDisabled ? .3 : 1
-                        }}
-                    />
+                   <div className={styles['filter_sm_action_btn']}>
+                       <Button
+                           onClick={sendFilterQuery}
+                           title={buttonMainTitle}
+                           disabled={buttonEventClickDisabled}
+                           style={{
+                               opacity: buttonEventClickDisabled ? .3 : 1
+                           }}
+                       />
 
-                    <Button title={i18n?.["filter.clear.title"]} type={'outline'} onClick={clearFilters}/>
+                       <Button title={i18n?.["filter.clear.title"]} type={'outline'} onClick={clearFilters}/>
+                   </div>
                 </div>
             </SidebarContainer>
         </PortalProvider>

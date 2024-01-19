@@ -1,6 +1,7 @@
 import {cookies} from 'next/headers'
 import {MainPage} from "@/components/main";
 import {getDictionary} from "@/dictionaries";
+import {cookiesName} from "@/shared/constants/options";
 import {apiGetApartmentsData, apiGetFilterResidenceList, apiGetNewsData} from "@/shared/services/clientRequests";
 
 async function getPropertyData(type) {
@@ -52,7 +53,7 @@ export default async function Home({params}) {
     ]);
 
     const cookieStore = cookies();
-    const lang = cookieStore.get('dubai_lang')?.value || 'en';
+    const lang = cookieStore.get(cookiesName.lang)?.value || 'en';
     const i18n = await getDictionary(lang);
 
     return (

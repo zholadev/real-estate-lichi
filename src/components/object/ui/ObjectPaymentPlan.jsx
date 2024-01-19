@@ -11,9 +11,9 @@ import styles from '@/styles/object-page.module.sass'
  * @constructor
  */
 function ObjectPaymentPlan(props) {
-    const {i18n, data} = props
+    const {i18n, data = []} = props
 
-    if (Object.values(data || {}).length === 0) {
+    if (data.length === 0) {
         return null
     }
 
@@ -23,7 +23,7 @@ function ObjectPaymentPlan(props) {
 
             <ul className={styles['list']}>
                 {
-                    Object.values(data || {}).map((item, id) => {
+                    data.map((item, id) => {
                         return (
                             <li key={id}>
                                 <h3>{item?.["name"]}</h3>

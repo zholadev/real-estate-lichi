@@ -33,7 +33,7 @@ function NewsContainer(props) {
                                 key={newsItem?.["id"]}
                                 animateType={'fade_up'}
                                 style={{
-                                    transitionDelay: newsId * 0.100 + 's'
+                                    transitionDelay: newsId * 0.025 + 's'
                                 }}
                             >
                                 <NewsCard

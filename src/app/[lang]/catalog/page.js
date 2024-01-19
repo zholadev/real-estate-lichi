@@ -1,10 +1,11 @@
 import React from 'react';
+import {cookies} from "next/headers";
 import {getDictionary} from "@/dictionaries";
 import {Breadcrumbs} from "src/entities/breadcrumbs";
 import {CatalogContainer} from "@/components/catalog";
-import {apiGetApartmentsData, apiGetResidentialData} from "@/shared/services/clientRequests";
-import {cookies} from "next/headers";
+import {cookiesName} from "@/shared/constants/options";
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
+import {apiGetApartmentsData, apiGetResidentialData} from "@/shared/services/clientRequests";
 
 async function getCatalogResidenceData(page, params) {
     return apiGetResidentialData(page, params)
@@ -60,7 +61,7 @@ export default async function Page(props) {
     )
 
     const cookieStore = cookies()
-    const lang = cookieStore.get('dubai_lang')?.value || 'en'
+    const lang = cookieStore.get(cookiesName.lang)?.value || 'en'
 
     const i18n = await getDictionary(lang)
 

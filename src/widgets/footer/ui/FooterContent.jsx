@@ -4,8 +4,8 @@ import React from 'react';
 import {Logo} from "@/shared/uikit/logo";
 import FooterContact from "./FooterContact";
 import FooterPageList from "./FooterPageList";
-import {useParams, usePathname} from "next/navigation";
 import styles from "@/styles/widget-footer.module.sass";
+import useContentSize from "@/widgets/navbar/lib/useContentSize";
 
 /**
  * @author Zholaman Zhumanov
@@ -15,10 +15,9 @@ import styles from "@/styles/widget-footer.module.sass";
  * @constructor
  */
 function FooterContent(props) {
-    const {i18n, footerData} = props
+    const {i18n} = props
 
-    const pathname = usePathname()
-    const routerParams = useParams()
+    const contentIsMin = useContentSize()
 
     const footerPageListData = [
         {
@@ -37,17 +36,13 @@ function FooterContent(props) {
             id: 4,
             title: i18n?.["footer"]?.["get_object_title"],
             link: "/catalog"
-        }, {
-            id: 5,
-            title: i18n?.["footer"]?.["contact_title"],
-            link: "/contact"
-        },
+        }
     ]
 
     return (
         <footer className={styles['footer']}>
             <div
-                className={`${styles['footer_content']} ${pathname == `/${routerParams['lang']}` || pathname == `/${routerParams['lang']}/catalog` || pathname == `/${routerParams['lang']}/news` || pathname == `/${routerParams['lang']}/news/${routerParams['id']}` ? 'container_md' : 'container_lg'}`}>
+                className={`${styles['footer_content']} ${contentIsMin ? 'container_md' : 'container_lg'}`}>
                 <div className={styles['footer_top_content']}>
                     <div className={styles['top_content']}>
                         <Logo type={'secondary'}/>
