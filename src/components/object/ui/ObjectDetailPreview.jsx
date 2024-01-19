@@ -4,7 +4,7 @@ import React from 'react';
 import Link from "next/link";
 import stylesTag from '@/styles/main.module.sass'
 import styles from '@/styles/object-page.module.sass'
-import ObjectDetailGallery from "./ObjectDetailGallery";
+import DetailGallery from "./DetailGallery";
 import ObjectDetailHeadInfo from "./ObjectDetailHeadInfo";
 import {routerPage} from "@/entities/router/model/pages";
 
@@ -35,7 +35,7 @@ function ObjectDetailPreview(props) {
         <>
             <div className={styles['object_page_preview']}>
                 <h1 className={styles['title_sm']}>{data?.name}</h1>
-                <ObjectDetailGallery
+                <DetailGallery
                     galleryImages={data?.photos ?? []}
                     name={data?.name}
                 />

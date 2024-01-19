@@ -30,16 +30,16 @@
     top: 0
     z-index: 1
 
-    +sm
+    +md
       width: 100%
-      height: calc(100% - 250px)
+      height: 50%
       bottom: 0
       top: inherit
 
   .info_sm
     @include content-hide
 
-    +sm
+    +md
       left: inherit
       padding: 0 17px
       top: 40px
@@ -47,25 +47,25 @@
       @include content-show
 
   .info, .info_sm
-    max-width: 610px
+    max-width: 670px
 
-    +sm
+    +md
       @include content-hide
 
     h1
       margin-bottom: $p-size-30
       color: $default-light
 
-      +sm
-        font-size: $size-20 !important
+      +md
+        font-size: $size-18 !important
 
     p
       margin-bottom: $p-size-70
-      font-size: $size-20
+      font-size: $size-18
       line-height: 30px
       color: rgba(255, 255, 255, 0.6)
 
-      +sm
+      +md
         font-size: $size-14
         line-height: 21px
 
@@ -95,7 +95,7 @@
         align-items: flex-end
         flex-direction: column
 
-        +md_sm
+        +md
           @include content-hide
 
         button

@@ -7,7 +7,7 @@ import {useCurrencyFormat, useMediaMaxState} from "@/shared/hooks";
 import {ModalContainer} from "@/shared/uikit/modal";
 import {Input} from "@/shared/uikit/form/input";
 import {extractAttribute} from "@/shared/utilites";
-import ObjectDetailFeedback from "@/components/object/ui/ObjectDetailFeedback";
+import DetailFeedback from "@/components/object/ui/DetailFeedback";
 
 /**
  * @author Zholaman Zhumanov
@@ -93,7 +93,7 @@ function ObjectDetailHeadInfo(props) {
                     </form>
                     {
                         !mediaQuerySm &&
-                        <ObjectDetailFeedback
+                        <DetailFeedback
                             hideButton
                             i18n={i18n}
                             typeCard={'secondary'}

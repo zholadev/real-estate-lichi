@@ -1,3 +1,3 @@
-import ObjectPage from "./ui/ObjectPage";
+import ObjectPage from "./ui/container/ObjectPage";
 
 export {ObjectPage}

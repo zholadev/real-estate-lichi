@@ -1,3 +1,3 @@
-import ResidencePage from './ui/ResidencePage'
+import ResidencePage from './ui/container/ResidencePage'
 
 export {ResidencePage}

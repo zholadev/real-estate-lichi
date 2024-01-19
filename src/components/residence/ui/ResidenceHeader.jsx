@@ -13,6 +13,7 @@ const Video = dynamic(() => import('@/shared/uikit/video/ui/Video'), {ssr: false
 /**
  * @author Zholaman Zhumanov
  * @created 15.10.2023
+ * @todo refactoring
  * @param props
  * @returns {Element}
  * @constructor
