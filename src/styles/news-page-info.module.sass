@@ -25,13 +25,14 @@
     width: 100%
     display: grid
     grid-template-columns: 1fr 1fr
-    grid-gap: 70px
+    grid-gap: 50px
     margin-top: 30px
     margin-bottom: 40px
 
-    @media screen and (max-width: 768px)
+    +md_sm
       grid-template-columns: 1fr
       margin-bottom: $p-size-40
+      grid-gap: $p-size-20
 
     .text_content
       h4
@@ -81,5 +82,4 @@
       display: block
 
       @include background-image-set-full(cover, center, '/images/icons/share_icon.svg')
-
 

@@ -5,7 +5,7 @@ import {StoreProvider} from "@/entities/store";
 import styles from '@/styles/about-page.module.sass'
 import AboutFaq from "@/components/about/ui/AboutFaq";
 import AboutTopContent from "@/components/about/ui/AboutTopContent";
-import {CustomerObjectContent, CustomHeaderVideo} from "@/components/customerContent";
+import {CustomerObjectContent, CustomHeaderVideo} from "src/shared/customerContent";
 
 /**
  * @author Zholaman Zhumanov
