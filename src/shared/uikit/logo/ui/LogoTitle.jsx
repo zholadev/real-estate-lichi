@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import styles from "@/styles/ui-logo.module.sass";
 import {routerPage} from "@/entities/router/model/pages";

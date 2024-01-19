@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import {PhoneLink} from "@/shared/uikit/links";
 import styles from "@/styles/site-component.module.sass";

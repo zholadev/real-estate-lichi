@@ -9,6 +9,7 @@ import styles from "@/styles/navbar.module.sass";
 /**
  * @author Zholaman Zhumanov
  * @created 17.10.2023
+ * @todo refactoring and styles file changed
  * @param props
  * @returns {Element}
  * @constructor
