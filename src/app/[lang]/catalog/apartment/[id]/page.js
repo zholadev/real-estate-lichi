@@ -3,6 +3,7 @@ import {cookies} from "next/headers";
 import {getDictionary} from "@/dictionaries";
 import {ObjectPage} from "@/components/object";
 import {apiGetApartmentsByIdData} from "@/shared/services/clientRequests";
+import {cookiesName} from "@/shared/constants/options";
 
 async function getGetApartmentsByIdData(id, locale) {
     return apiGetApartmentsByIdData(id, locale)
@@ -17,9 +18,9 @@ async function getGetApartmentsByIdData(id, locale) {
  */
 export default async function Page({params}) {
     const cookieStore = cookies()
-    const apartmentData = await getGetApartmentsByIdData(params.id, cookieStore.get('dubai_lang')?.value)
+    const apartmentData = await getGetApartmentsByIdData(params.id, cookieStore.get(cookiesName.lang)?.value)
 
-    const lang = cookieStore.get('dubai_lang')?.value || 'en'
+    const lang = cookieStore.get(cookiesName.lang)?.value || 'en'
 
     const i18n = await getDictionary(lang)
 

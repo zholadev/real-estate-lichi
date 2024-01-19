@@ -1,6 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import {apiErrorHandler} from "./lib/apiErrorHandler";
+import {cookiesName} from "@/shared/constants/options";
 
 /**
  * @author Zholaman Zhumanov
@@ -22,7 +23,7 @@ export const api_client_get = async (method, params = {}) => {
         let response = await AxiosInstance.get(`${method}`, {
             params: {
                 populate: "*",
-                locale: Cookies.get('dubai_lang') || "en",
+                locale: Cookies.get(cookiesName.lang) || "en",
                 ...params,
             }
         })

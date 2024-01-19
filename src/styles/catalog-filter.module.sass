@@ -17,6 +17,25 @@
   display: grid !important
   opacity: 1 !important
   visibility: visible !important
+  height: 100%
+
+.filter_mobile_list
+  width: 100%
+  height: 100%
+
+.filter_list_content_scroll
+  width: 100%
+  height: 80%
+  overflow-y: auto
+  overflow-x: hidden
+
+.filter_sm_action_btn
+  overflow: hidden
+  width: 100%
+  height: 20%
+
+  button
+    margin-bottom: 20px
 
 .catalog_filter_lg, .catalog_filter_sm, .catalog_filter
   width: 100%
@@ -26,8 +45,7 @@
   grid-row-gap: 20px
   margin-bottom: 20px
 
-
-  @media screen and (max-width: 768px)
+  @media screen and (max-width: 1024px)
     grid-template-columns: 1fr 1fr
 
   @media screen and (max-width: 576px)

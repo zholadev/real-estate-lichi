@@ -5,6 +5,7 @@ import styles from "@/styles/widget-switch-local.module.sass";
 import {useMediaMaxState} from "@/shared/hooks";
 import Cookies from "js-cookie";
 import {useRouter} from "next/navigation";
+import {cookiesName} from "@/shared/constants/options";
 
 /**
  * @author Zholaman Zhumanov
@@ -18,7 +19,7 @@ function SwitchLocalization(props) {
 
     const router = useRouter()
 
-    const langCookie = Cookies.get('dubai_lang')
+    const langCookie = Cookies.get(cookiesName.lang)
 
     const [lang, setLang] = useState('ru')
 
@@ -26,7 +27,7 @@ function SwitchLocalization(props) {
 
     const toggleLangHandle = useCallback(() => {
         const getCurrentLangValue = lang === 'ru' ? 'en' : 'ru'
-        Cookies.set('dubai_lang', getCurrentLangValue, {expires: 7})
+        Cookies.set(cookiesName.lang, getCurrentLangValue, {expires: 7})
         setLang(getCurrentLangValue)
     }, [lang])
 

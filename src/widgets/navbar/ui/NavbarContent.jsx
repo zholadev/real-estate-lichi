@@ -11,6 +11,7 @@ import styles from "@/styles/navbar.module.sass";
 import {useMediaMaxState, useScrollAction} from "@/shared/hooks";
 import stylesSecondary from "@/styles/widget-submenu-navbar.module.sass";
 import useContentSize from "@/widgets/navbar/lib/useContentSize";
+import {cookiesName} from "@/shared/constants/options";
 
 /**
  * @author Zholaman Zhumanov
@@ -97,10 +98,10 @@ function NavbarContent(props) {
     }
 
     useEffect(() => {
-        const langCookie = Cookies.get('dubai_lang')
+        const langCookie = Cookies.get(cookiesName.lang)
 
         if (!langCookie) {
-            Cookies.set('dubai_lang', 'en', {expires: 7})
+            Cookies.set(cookiesName.lang, 'en', {expires: 7})
         }
     }, [])
 
