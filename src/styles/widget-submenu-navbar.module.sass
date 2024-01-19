@@ -30,7 +30,6 @@
       .footer_box
         max-width: 1528px
 
-
   &.navbar_submenu__active
     opacity: 1
     visibility: visible
@@ -61,7 +60,6 @@
     width: 100%
     max-width: 1240px
     margin: 40px auto
-    //padding: 0 16px
 
     @media screen and (max-width: 1600px)
       padding: 0 16px
@@ -92,17 +90,17 @@
       width: auto
       position: relative
 
-      +md_sm
-        font-size: $size-20
+      +lg_md
         line-height: 24px
+        font-size: $size-20
 
       .list_item
+        width: 100%
         cursor: pointer
         position: relative
+        color: $default-light
         margin-bottom: $p-size-40
         z-index: 1
-        width: max-content
-        color: $default-light
 
         @media (hover: hover)
           &:hover
@@ -142,7 +140,7 @@
     width: auto
     margin-bottom: 130px
 
-    +md_sm
+    +lg_md
       margin-bottom: $p-size-40
 
     .menu_list
@@ -150,7 +148,7 @@
       line-height: 42px
       color: rgba(255, 255, 255, 0.8)
 
-      +md_sm
+      +lg_md
         font-size: $size-15
         line-height: 21px
 
@@ -173,7 +171,7 @@
     left: 0
     bottom: 120px
 
-    +md_sm
+    +lg_md
       left: 16px
 
     .footer_box
@@ -184,7 +182,7 @@
       align-items: center
       justify-content: space-between
 
-      +md_sm
+      +lg_md
         flex-direction: column-reverse
         align-items: flex-start
 
@@ -197,7 +195,7 @@
 
       .action_content
 
-        +md_sm
+        +lg_md
           margin-bottom: $p-size-40
 
 
