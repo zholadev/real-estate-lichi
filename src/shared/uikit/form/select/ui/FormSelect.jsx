@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef, useId} from 'react';
 import Select from "react-select";
 import {ICON} from "@/shared/constants/constants";
 import styles from '@/styles/ui-form-select.module.sass'
@@ -73,7 +73,7 @@ function FormSelect(props) {
 
             <Select
                 name={name}
-                instanceId={id}
+                instanceId={useId()}
                 value={value}
                 ref={selectInputRef}
                 styles={customSelectDefaultStyles(type)}

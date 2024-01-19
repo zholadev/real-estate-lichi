@@ -28,7 +28,7 @@ export default async function RootLayout({children}) {
     return (
         <html lang={lang}>
 
-        <body>
+        <body suppressHydrationWarning={true}>
         <NextTopLoader
             color="#000"
             showSpinner={false}
