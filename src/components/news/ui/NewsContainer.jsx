@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react';
+import {Animation} from "@/shared/uikit/animation";
 import styles from '@/styles/news-page.module.sass'
 import {NewsCard} from "@/shared/uikit/cards/newsCard";
 
@@ -12,9 +13,9 @@ import {NewsCard} from "@/shared/uikit/cards/newsCard";
  * @constructor
  */
 function NewsContainer(props) {
-    const {i18n, newsData} = props
+    const {i18n, newsData = []} = props
 
-    if (Object.values(newsData || {}).length === 0) {
+    if (newsData.length === 0) {
         return <h4>{i18n?.["site.not_found.title"]}</h4>
     }
 
@@ -24,15 +25,24 @@ function NewsContainer(props) {
 
             <article className={`${styles['news_list']} container_md_pn`}>
                 {
-                    Object.values(newsData || {}).map((newsItem, newsId) => {
+                    newsData.map((newsItem, newsId) => {
                         return (
-                            <NewsCard
-                                i18n={i18n}
-                                key={newsId}
-                                descripOff
-                                id={newsItem?.["id"]}
-                                newsData={newsItem?.["attributes"]}
-                            />
+                            <Animation
+                                dontRepeat
+                                isIntersection
+                                key={newsItem?.["id"]}
+                                animateType={'fade_up'}
+                                style={{
+                                    transitionDelay: newsId * 0.100 + 's'
+                                }}
+                            >
+                                <NewsCard
+                                    i18n={i18n}
+                                    descripOff
+                                    id={newsItem?.["id"]}
+                                    newsData={newsItem?.["attributes"]}
+                                />
+                            </Animation>
                         )
                     })
                 }

@@ -9,7 +9,7 @@ import ResidenceAdvantages from "./ResidenceAdvantages";
 import styles from '@/styles/apartments-page.module.sass'
 import ResidenceAboutProject from "./ResidenceAboutProject";
 import ResidenceDesignGallery from "./ResidenceDesignGallery";
-import {CustomerObjectContent} from "@/components/customerContent";
+import {CustomerObjectContent} from "src/shared/customerContent";
 
 /**
  * @author Zholaman Zhumanov

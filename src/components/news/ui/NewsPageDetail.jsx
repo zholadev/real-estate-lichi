@@ -1,15 +1,19 @@
 'use client'
 
 import React from 'react';
-import styles from '@/styles/news-page-info.module.sass'
+import Image from "next/image";
 import {TagList} from "@/shared/uikit/tags";
 import {mediaImgSrc} from "@/shared/constants/options";
+import styles from '@/styles/news-page-info.module.sass'
 import {ConstructorHtml} from "@/entities/constructorHtml";
-import Image from "next/image";
+import {extractAttribute} from "@/shared/utilites";
 
 /**
  * @author Zholaman Zhumanov
  * @name NewsPageDetail
+ * @last-updated 19.01.2024 - Zholaman Zhumanov
+ * @update-descripion refactoring
+ * @todo refactoring
  * @created 20.09.2023
  * @param props
  * @returns {Element}
@@ -18,39 +22,32 @@ import Image from "next/image";
 function NewsPageDetail(props) {
     const {newsData, i18n} = props
 
-    const data = newsData?.["attributes"]
-
     return (
         <section className={`${styles['news_page_info']} container-lg`}>
-            <h2 className={styles['title']}>{data?.["title"]}</h2>
-            <div className={styles['date']}>{data?.["date"]}</div>
+            <h2 className={styles['title']}>{extractAttribute("title", newsData)}</h2>
+            <div className={styles['date']}>{extractAttribute("date", newsData)}</div>
 
             <article className={styles['news_detail_info']}>
                 {
-                    newsData?.["attributes"]?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"] &&
+                    extractAttribute("images.data.0.attributes.url", newsData) &&
                     <div className={styles['news_detail_picture']}>
-                       <div className={styles['picture_box_sticky']}>
-                           <Image
-                               src={mediaImgSrc(newsData?.["attributes"]?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"])}
-                               alt={newsData?.["title"]}
-                               priority={true}
-                               width={1024}
-                               height={768}
-                           />
-                           <TagList i18n={i18n} center list={newsData?.["attributes"]?.["tags"]} tagName={"item"}/>
-                       </div>
+                        <div className={styles['picture_box_sticky']}>
+                            <Image
+                                width={1024}
+                                height={768}
+                                priority={true}
+                                alt={extractAttribute("title", newsData)}
+                                src={mediaImgSrc(extractAttribute("images.data.0.attributes.url", newsData))}
+                            />
+                            <TagList i18n={i18n} center list={extractAttribute("tags", newsData)} tagName={"item"}/>
+                        </div>
                     </div>
                 }
 
                 <div className={styles['text_content']}>
-                    <ConstructorHtml jsonHtmlData={newsData?.["attributes"]?.["content"]}/>
+                    <ConstructorHtml jsonHtmlData={extractAttribute("content", newsData)}/>
                 </div>
             </article>
-
-            <div className={styles['share_place']}>
-                {/*<h4 className={styles['share_text']}>{i18n?.["site"]?.["share_title"]}</h4>*/}
-                {/*<i className={styles['share_icon']}/>*/}
-            </div>
         </section>
     );
 }

@@ -5,7 +5,6 @@ import {NewsContainer} from "@/components/news";
 import {apiGetNewsData} from "@/shared/services/clientRequests";
 import {cookies} from "next/headers";
 
-
 async function getNewsData() {
     return apiGetNewsData(10, 1, {
         "fields[0]": "title",
@@ -31,8 +30,11 @@ export default async function Page(props) {
 
     return (
         <div className={'container_md page_top_size'}>
-            <Breadcrumbs i18n={i18n} page={'news'} />
-            <NewsContainer i18n={i18n} newsData={newsData?.["data"]?.["data"]}/>
+            <Breadcrumbs i18n={i18n} page={'news'}/>
+            <NewsContainer
+                i18n={i18n}
+                newsData={newsData?.["data"]?.["data"]}
+            />
         </div>
     );
 }

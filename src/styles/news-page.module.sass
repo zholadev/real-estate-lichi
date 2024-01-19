@@ -14,5 +14,15 @@
 
     grid-gap: 20px
 
-    @media screen and (max-width: 768px)
+    +md
+      grid-template-columns: 1fr 1fr
+
+    +md_sm
       grid-template-columns: 1fr
+
+.loading
+  .loading_cards
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    gap: 30px

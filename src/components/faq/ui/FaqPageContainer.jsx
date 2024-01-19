@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '@/styles/faq-page.module.sass'
-import {CustomHeaderVideo} from "@/components/customerContent";
+import {CustomHeaderVideo} from "src/shared/customerContent";
 import FaqContent from "@/components/faq/ui/FaqContent";
 import {PAGE} from "@/shared/constants/constants";
 
