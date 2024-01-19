@@ -8,6 +8,7 @@ import styles from '@/styles/ui-video.module.sass'
 /**
  * @author Zholaman Zhumanov
  * @created 09.10.2023
+ * @todo refactoring
  * @param props
  * @returns {JSX.Element}
  * @constructor

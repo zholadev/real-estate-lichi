@@ -29,7 +29,7 @@ function NavbarContent(props) {
     const contentIsMin = useContentSize()
 
     const scrollBottom = useScrollAction({"position": 20})
-    const mediaSmQuery = useMediaMaxState({"screenSize": 768})
+    const mediaSmQuery = useMediaMaxState({"screenSize": 1024})
 
     const [submenuToggle, setSubmenuToggle] = useState(false)
     const [logoAnimateToggle, setLogoAnimateToggle] = useState(false)

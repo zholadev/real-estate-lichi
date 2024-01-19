@@ -5,9 +5,14 @@
 .main
   width: 100%
 
+$page-bottom-divide: 120px
+
++md
+  $page-bottom-divide: 70px
+
 .preview
   width: 100%
-  margin-bottom: 180px
+  margin-bottom: $page-bottom-divide
 
   .preview_title
     text-align: center
@@ -33,17 +38,17 @@
     margin-bottom: 80px
     position: relative
 
-    height: 38vw
+    height: 100%
 
-    @media screen and (max-width: 1024px)
-      height: 67vw
+    +sm
+      height: 70vh
 
-    @media screen and (max-width: 768px)
-      height: 65vh
+    figure
+      height: 100%
 
     .preview_btn_place
       position: absolute
-      bottom: 100px
+      bottom: 10%
       margin: 0 auto
       width: 100%
       display: flex
@@ -59,6 +64,7 @@
   flex-wrap: wrap
   justify-content: center
   align-items: center
+  margin-bottom: $page-bottom-divide
 
   .list_item
     margin-inline-end: 15px
@@ -77,14 +83,14 @@
   flex-direction: column
   justify-content: center
   align-items: center
-  margin-bottom: 176px
+  margin-bottom: $page-bottom-divide
 
   .title, .subtitle
     text-align: center
     font-size: $size-32
     line-height: 44.8px
 
-    @media screen and (max-width: 768px)
+    +md
       font-size: $size-18
       line-height: 25.2px
 
@@ -101,20 +107,23 @@
     grid-gap: 9px
     margin-bottom: 40px
 
-    @media screen and (max-width: 768px)
-      grid-template-columns: 1fr !important
+    +md
+      grid-template-columns: 1fr 1fr
+      grid-gap: 15px
+
+    +md_sm
+      grid-template-columns: 1fr
       grid-gap: 15px
 
     .form_box
       width: 100%
-      //max-width: 250px
 
-      @media screen and (max-width: 768px)
+      +md_sm
         max-width: 100%
 
 .main_apartment
   max-width: 1270px
-  margin: 0 auto 120px auto
+  margin: 0 auto $page-bottom-divide auto
 
   .more_btn_place
     width: 100%
@@ -126,7 +135,7 @@
     font-size: $size-32
     margin-bottom: 60px
 
-    @media screen and (max-width: 768px)
+    +md_sm
       font-size: $size-20
       text-align: center
 
@@ -139,24 +148,30 @@
     &.list_2
       grid-template-columns: 1fr 1fr
 
-      @media screen and (max-width: 768px)
+      +md_sm
         grid-template-columns: 1fr
 
     &.list_3
       grid-template-columns: 1fr 1fr 1fr
 
-      @media screen and (max-width: 768px)
+      +md
+        grid-template-columns: 1fr 1fr
+
+      +md_sm
         grid-template-columns: 1fr
 
     &.list_4
       grid-template-columns: 1fr 1fr 1fr 1fr
 
-      @media screen and (max-width: 768px)
+      +md
+        grid-template-columns: 1fr 1fr
+
+      +md_sm
         grid-template-columns: 1fr
 
 .main_about_us
   width: 100%
-  margin-bottom: 120px
+  margin-bottom: $page-bottom-divide
 
   .title
     margin-bottom: 60px
@@ -175,17 +190,17 @@
     &.article_item_left
       grid-template-columns: 5fr 3fr
 
-      @media screen and (max-width: 768px)
+      +md_sm
         grid-template-columns: 1fr
 
     &.article_item_right
       grid-template-columns: 3fr 5fr
 
-      @media screen and (max-width: 768px)
+      +md_sm
         grid-template-columns: 1fr
 
       img
-        @media screen and (max-width: 768px)
+        +md_sm
           display: none
           visibility: hidden
 
@@ -197,7 +212,7 @@
 .main_consultation
   width: 100%
   height: auto
-  margin-bottom: 120px
+  margin-bottom: $page-bottom-divide
 
   display: grid
   grid-template-columns: 1fr 1fr
@@ -208,21 +223,21 @@
     grid-template-columns: 1fr 2fr
     grid-gap: 20px
 
-  @media screen and (max-width: 768px)
+  +md_sm
     grid-template-columns: 1fr
     grid-gap: 20px
 
   h3
     line-height: 53.4px
 
-    @media screen and (max-width: 768px)
+    +md_sm
       text-align: center
 
   .request_form
     width: 100%
     max-width: 610px
 
-    @media screen and (max-width: 768px)
+    +md_sm
       max-width: 100%
 
     .form_single, .form_double

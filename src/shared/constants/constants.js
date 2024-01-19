@@ -1,9 +1,3 @@
-// import videoFaqBgPage from '../../../public/videos/pages/faq-bg.mp4'
-//
-// export const VIDEO = {
-//     'videoFaqBgPage': videoFaqBgPage
-// }
-
 import templateCardPreview from '../../../public/images/template/template-card.png'
 import templateCardPreview2 from '../../../public/images/template/template-card-2.png'
 import previewDubaiImg from '../../../public/images/main/pexels-aleksandar-pasaric-618079 (1).jpg'
