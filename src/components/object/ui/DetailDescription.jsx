@@ -2,13 +2,9 @@
 
 import React, {useState} from 'react';
 import styles from '@/styles/object-page.module.sass'
+import {ModalPickUpObject} from "@/shared/uikit/modal";
 import DetailInfo from "@/components/object/ui/DetailInfo";
 import DetailFeedback from "@/components/object/ui/DetailFeedback";
-import {ModalContainer} from "@/shared/uikit/modal";
-import {extractAttribute} from "@/shared/utilites";
-import {Button} from "@/shared/uikit/button";
-import {Input} from "@/shared/uikit/form/input";
-import {useMediaMaxState} from "@/shared/hooks";
 
 /**
  * @author Zholaman Zhumanov
@@ -23,63 +19,33 @@ import {useMediaMaxState} from "@/shared/hooks";
 function DetailDescription(props) {
     const {i18n, data} = props
 
-    const mediaQuerySm = useMediaMaxState({screenSize: 768})
-
     const [modalSignUp, setModalSighUp] = useState(false)
 
     const toggleModal = () => setModalSighUp(!modalSignUp)
 
-    const InputBox = ({label, value, disabled}) => (
-        <div className={styles['form_box']}>
-            <Input
-                label={label}
-                value={value}
-                disabled={disabled}
-            />
-        </div>
-    );
-
     return (
-        <div className={styles['object_description']}>
-            <DetailInfo
-                data={data?.["description"]}
-            />
-            <DetailFeedback
-                i18n={i18n}
-                onClick={toggleModal}
-                data={data?.["managers"]}
-            />
+        <>
+            <div className={styles['object_description']}>
+                <DetailInfo
+                    data={data?.["description"]}
+                />
 
-            <ModalContainer
-                active={modalSignUp}
-                disabled={toggleModal}
-            >
-                <div className={styles['object_sign_up_modal']}>
-                    <form className={styles['request_form']}>
-                        <InputBox label={'First name'}/>
-                        <InputBox label={'Last name'}/>
-                        <InputBox label={i18n?.["form.email.title"]}/>
-                        <InputBox label={i18n?.["form.phone.title"]}/>
-
-                        <Button
-                            title={i18n?.["form.send.title"]}
-                            style={{
-                                minWidth: "100%"
-                            }}
-                        />
-                    </form>
-                    {
-                        !mediaQuerySm &&
+                <div className={styles['object_feedback_content']}>
+                    <div className={styles['feedback_content_sticky']}>
                         <DetailFeedback
-                            hideButton
                             i18n={i18n}
-                            typeCard={'secondary'}
+                            onClick={toggleModal}
                             data={data?.["managers"]}
                         />
-                    }
+                    </div>
                 </div>
-            </ModalContainer>
-        </div>
+            </div>
+            <ModalPickUpObject
+                active={modalSignUp}
+                disabled={toggleModal}
+                managerData={data?.["managers"]}
+            />
+        </>
     );
 }
 
