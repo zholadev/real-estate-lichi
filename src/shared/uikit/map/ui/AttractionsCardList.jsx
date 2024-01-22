@@ -54,9 +54,9 @@ function AttractionsCardList(props) {
     return (
         <div className={styles['map_card_container']}>
             <Swiper
-                centeredSlides={true}
+                centeredSlides={!mediaQuerySm}
                 onSwiper={swiper => setSwiper(swiper)}
-                slidesPerView={mediaQuerySm ? 1.2 : mediaQueryMd ? 2.2 : sliderCardCountView}
+                slidesPerView={mediaQuerySm ? 1.5 : mediaQueryMd ? 2.5 : sliderCardCountView}
                 onSlideChange={swiper => {
                     setSwiper(swiper)
                     setActiveIndex(swiper.activeIndex)
