@@ -34,13 +34,36 @@ function ResidenceHeader(props) {
 
             <div className={styles['overlay_box']}>
                 <div className={styles['info_sm']}>
-                    <h1>{title}</h1>
-                    <p>{description}</p>
+                    <div className={styles['info_article']}>
+                        <h1>{title}</h1>
+                        <p>{description}</p>
+                    </div>
 
-                    <Button
-                        type={'outline_light'}
-                        title={i18n?.["button.book.title"]}
-                    />
+                   <div className={styles['button_info_action']}>
+                       <Button
+                           type={'outline_light'}
+                           title={i18n?.["button.book.title"]}
+                       />
+
+                       <Button
+                           type={'secondary_dark'}
+                           onClick={() => router.push('https://3dtours.floorplanimaging.com/p/PXeX80XX')}
+                       >
+                           <div className={'button-children-icon'}>
+                               <span>{i18n?.["button.3d.title"]}</span>
+                               <img src={ICON.repeatIcon['src']} alt=""/>
+                           </div>
+                       </Button>
+
+                       <Button
+                           type={'secondary_dark'}
+                       >
+                           <div className={'button-children-icon'}>
+                               <span>{i18n?.["button.video.about.title"]}</span>
+                               <img src={ICON.startIcon['src']} alt=""/>
+                           </div>
+                       </Button>
+                   </div>
                 </div>
             </div>
 
