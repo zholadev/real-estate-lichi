@@ -46,7 +46,7 @@ export const apiGetResidentialData = async (page, params) => {
 export const apiGetResidentialByIdData = async (id) => {
     return await api_client_get(`${api.residential_complexes.get}/${id}`,
         {
-            "populate": "residence,room,district,property_type,tags,apartments.photo_preview.item,locations.photos,interior_description,interior_description.images,videos.item,videos.item,photos.item,video_posters.item,attractions.photo,locate.photo,attractions,*"
+            "populate": "residence,managers,managers.info,managers.contacts,managers.photo.item,room,district,property_type,tags,apartments.photo_preview.item,locations.photos,interior_description,interior_description.images,videos.item,videos.item,photos.item,video_posters.item,attractions.photo,locate.photo,attractions,*"
         }
     )
 }
