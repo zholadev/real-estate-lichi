@@ -1,11 +1,11 @@
 'use client'
 
-import React, {useState} from 'react';
+import React from 'react';
 import {Button} from "@/shared/uikit/button";
-import {useCurrencyFormat} from "@/shared/hooks";
+import {extractAttribute} from "@/shared/utilites";
 import styles from '@/styles/object-page.module.sass'
 import {ModalPickUpObject} from "@/shared/uikit/modal";
-import {extractAttribute} from "@/shared/utilites";
+import {useCurrencyFormat, useDispatchHandler} from "@/shared/hooks";
 
 /**
  * @author Zholaman Zhumanov
@@ -19,11 +19,11 @@ import {extractAttribute} from "@/shared/utilites";
  */
 function ObjectDetailHeadInfo(props) {
     const {i18n, data} = props
+
+    const events = useDispatchHandler()
     const convertCurrency = useCurrencyFormat()
 
-    const [modalSignUp, setModalSighUp] = useState(false)
-
-    const toggleModal = () => setModalSighUp(!modalSignUp)
+    const openModal = () => events.openModalPickUpHandler()
 
     // Extracted function for generating list items
     const generateListItem = (key, value) => (
@@ -55,13 +55,11 @@ function ObjectDetailHeadInfo(props) {
             </ul>
             <Button
                 title={i18n?.["object"]?.["sign_up_view"]}
-                onClick={toggleModal}
+                onClick={openModal}
             />
 
             <ModalPickUpObject
                 i18n={i18n}
-                active={modalSignUp}
-                disabled={toggleModal}
                 managerData={data?.["managers"]}
                 objectName={extractAttribute("name", data, true)}
             />

@@ -89,8 +89,8 @@ function Breadcrumbs(props) {
                     },
                     {
                         "id": 2,
-                        "name": i18n?.["site.residence.title"],
-                        "redirect": "/catalog?type=residential_complex",
+                        "name": i18n?.["site"]?.["catalogs"],
+                        "redirect": "/catalog",
                         "slash": true
                     },
                     {

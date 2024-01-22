@@ -12,6 +12,7 @@ import {Footer} from "@/widgets/footer";
 import NextTopLoader from "nextjs-toploader";
 import {cookies} from "next/headers";
 import {Slide, ToastContainer} from "react-toastify";
+import {StoreProvider} from "@/entities/store";
 
 
 export const metadata = {
@@ -26,35 +27,37 @@ export default async function RootLayout({children}) {
     const i18n = await getDictionary(lang)
 
     return (
-        <html lang={lang}>
+        <StoreProvider>
+            <html lang={lang}>
 
-        <body suppressHydrationWarning={true}>
-        <NextTopLoader
-            color="#000"
-            showSpinner={false}
-            zIndex={10010}
-        />
-        <ToastContainer
-            position={'top-right'}
-            autoClose={3000}
-            hideProgressBar={true}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss={false}
-            draggable={false}
-            pauseOnHover={false}
-            className="toast-container"
-            theme={"colored"}
-            transition={Slide}
-        />
+            <body suppressHydrationWarning={true}>
+            <NextTopLoader
+                color="#000"
+                showSpinner={false}
+                zIndex={10010}
+            />
+            <ToastContainer
+                position={'top-right'}
+                autoClose={3000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={false}
+                className="toast-container"
+                theme={"colored"}
+                transition={Slide}
+            />
 
-        <Navbar i18n={i18n}/>
-        <main>
-            {children}
-        </main>
-        <Footer i18n={i18n}/>
-        </body>
-        </html>
+            <Navbar i18n={i18n}/>
+            <main>
+                {children}
+            </main>
+            <Footer i18n={i18n}/>
+            </body>
+            </html>
+        </StoreProvider>
     )
 }
