@@ -1,32 +1,23 @@
-'use client'
-
 import React from 'react';
+import {useSelector} from "react-redux";
 import {Button} from "@/shared/uikit/button";
-import {Input} from "@/shared/uikit/form/input";
 import {useMediaMaxState} from "@/shared/hooks";
+import {Input} from "@/shared/uikit/form/input";
 import styles from "@/styles/object-page.module.sass";
 import ModalContainer from "./container/ModalContainer";
 import DetailFeedback from "@/components/object/ui/DetailFeedback";
-import {useSelector} from "react-redux";
-import useDispatchHandler from "@/shared/hooks/model/useDispatchHandler";
+import useDispatchHandler from "../../../hooks/model/useDispatchHandler";
 
-/**
- * @author Zholaman Zhumanov
- * @created 22.01.2024
- * @param props
- * @returns {Element}
- * @constructor
- */
-function ModalPickUpObject(props) {
-    const {objectName, i18n, managerData} = props
+function ModalSignUpViewing(props) {
+    const {i18n, managerData} = props
 
     const events = useDispatchHandler()
 
-    const modalPickUpObject = useSelector(state => state?.events?.modalPickUpObject)
+    const modalSignUpViewing = useSelector(state => state?.events?.modalSignUpViewing)
 
     const mediaQuerySm = useMediaMaxState({screenSize: 768})
 
-    const disabledModalHandle = () => events.closeModalPickUpHandler()
+    const disabledModalHandle = () => events.closeModalSignUpViewingHandler()
 
     const InputBox = ({label, value, disabled}) => (
         <div className={styles['form_box']}>
@@ -40,12 +31,11 @@ function ModalPickUpObject(props) {
 
     return (
         <ModalContainer
-            active={modalPickUpObject}
+            active={modalSignUpViewing}
             disabled={disabledModalHandle}
         >
             <div className={styles['object_sign_up_modal']}>
                 <form className={styles['request_form']}>
-                    {objectName && <InputBox label={i18n?.["form.name.title"]} value={objectName} disabled={true}/>}
                     <InputBox label={'First name'}/>
                     <InputBox label={'Last name'}/>
                     <InputBox label={i18n?.["form.email.title"]}/>
@@ -72,4 +62,4 @@ function ModalPickUpObject(props) {
     );
 }
 
-export default ModalPickUpObject;
+export default ModalSignUpViewing;

@@ -6,6 +6,7 @@ import FooterContact from "./FooterContact";
 import FooterPageList from "./FooterPageList";
 import styles from "@/styles/widget-footer.module.sass";
 import useContentSize from "@/widgets/navbar/lib/useContentSize";
+import {routerPage} from "@/entities/router/model/pages";
 
 /**
  * @author Zholaman Zhumanov
@@ -23,19 +24,19 @@ function FooterContent(props) {
         {
             id: 1,
             title: i18n?.["footer"]?.["about_us_title"],
-            link: "/about"
+            link: routerPage.about
         }, {
             id: 2,
             title: i18n?.["footer"]?.["catalog_apartment_title"],
-            link: "/catalog"
+            link: routerPage.catalog
         }, {
             id: 3,
             title: i18n?.["footer"]?.["faq_title"],
-            link: "/faq"
+            link: routerPage.faq
         }, {
             id: 4,
-            title: i18n?.["footer"]?.["get_object_title"],
-            link: "/catalog"
+            title: i18n?.["site"]?.["news_title"],
+            link: routerPage.news
         }
     ]
 

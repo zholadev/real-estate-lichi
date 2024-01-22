@@ -1,9 +1,10 @@
 'use client'
 
-import React, {useState} from 'react';
+import React from 'react';
 import dynamic from "next/dynamic";
 import {useRouter} from "next/navigation";
 import {Button} from "@/shared/uikit/button";
+import {useDispatchHandler} from "@/shared/hooks";
 import {ICON} from "@/shared/constants/constants";
 import {Breadcrumbs} from "src/entities/breadcrumbs";
 import {ModalPickUpObject} from "@/shared/uikit/modal";
@@ -24,9 +25,9 @@ function ResidenceHeader(props) {
 
     const router = useRouter()
 
-    const [modalSignUp, setModalSighUp] = useState(false)
+    const events = useDispatchHandler()
 
-    const toggleModal = () => setModalSighUp(!modalSignUp)
+    const openModal = () => events.openModalPickUpHandler()
 
     return (
         <div className={styles['apartment_header']}>
@@ -48,6 +49,7 @@ function ResidenceHeader(props) {
                         <Button
                             type={'outline_light'}
                             title={i18n?.["button.book.title"]}
+                            onClick={openModal}
                         />
 
                         <Button
@@ -84,7 +86,7 @@ function ResidenceHeader(props) {
 
                             <Button
                                 type={'outline_light'}
-                                onClick={toggleModal}
+                                onClick={openModal}
                                 title={i18n?.["button.book.title"]}
                             />
                         </div>
@@ -116,8 +118,6 @@ function ResidenceHeader(props) {
             <ModalPickUpObject
                 i18n={i18n}
                 objectName={title}
-                active={modalSignUp}
-                disabled={toggleModal}
                 managerData={managerData}
             />
         </div>

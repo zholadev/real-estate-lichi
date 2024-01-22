@@ -5,17 +5,20 @@ import {ButtonArrow} from "@/shared/uikit/button";
 import styles from '@/styles/customer_content.module.sass'
 import {PrimaryCard} from "@/shared/uikit/cards/primaryCard";
 
-// TODO: style file update
-
 /**
  * @author Zholaman Zhumanov
  * @created 13.10.2023
+ * @todo refactoring and styles update
  * @param props
  * @returns {Element}
  * @constructor
  */
 function CustomerObjectContent(props) {
-    const {i18n, title, col = 3, container = 'container_sm_pn', button, buttonTitle, data, redirectTo} = props
+    const {i18n, title, col = 3, container = 'container_sm_pn', button, buttonTitle, data = [], redirectTo} = props
+
+    if (!data || data.length === 0) {
+        return null
+    }
 
     return (
         <div className={'container_md_pn'}>
@@ -25,7 +28,7 @@ function CustomerObjectContent(props) {
                 <div className={container}>
                     <div className={styles[`content_list_${col}`]}>
                         {
-                            Object.values(data || {}).map((item, id) => {
+                            data.map((item, id) => {
                                 return (
                                     <PrimaryCard key={id} cardData={item}/>
                                 )

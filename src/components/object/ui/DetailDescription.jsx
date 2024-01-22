@@ -1,10 +1,11 @@
 'use client'
 
-import React, {useState} from 'react';
+import React from 'react';
+import {useDispatchHandler} from "@/shared/hooks";
 import styles from '@/styles/object-page.module.sass'
-import {ModalPickUpObject} from "@/shared/uikit/modal";
 import DetailInfo from "@/components/object/ui/DetailInfo";
 import DetailFeedback from "@/components/object/ui/DetailFeedback";
+import ModalSignUpViewing from "@/shared/uikit/modal/ui/ModalSignUpViewing";
 
 /**
  * @author Zholaman Zhumanov
@@ -19,9 +20,7 @@ import DetailFeedback from "@/components/object/ui/DetailFeedback";
 function DetailDescription(props) {
     const {i18n, data} = props
 
-    const [modalSignUp, setModalSighUp] = useState(false)
-
-    const toggleModal = () => setModalSighUp(!modalSignUp)
+    const events = useDispatchHandler()
 
     return (
         <>
@@ -34,15 +33,14 @@ function DetailDescription(props) {
                     <div className={styles['feedback_content_sticky']}>
                         <DetailFeedback
                             i18n={i18n}
-                            onClick={toggleModal}
+                            onClick={events.openModalSignUpViewingHandler}
                             data={data?.["managers"]}
                         />
                     </div>
                 </div>
             </div>
-            <ModalPickUpObject
-                active={modalSignUp}
-                disabled={toggleModal}
+            <ModalSignUpViewing
+                i18n={i18n}
                 managerData={data?.["managers"]}
             />
         </>
