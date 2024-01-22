@@ -11,7 +11,7 @@
   margin-bottom: $p-size-120
   overflow: hidden
 
-  @media screen and (max-width: 768px)
+  +md_sm
     margin-bottom: $p-size-60
 
   .video_box
@@ -32,19 +32,25 @@
 
     +md
       width: 100%
-      height: 50%
+      height: 60%
       bottom: 0
       top: inherit
+      overflow-y: auto
+      padding: 0 17px
+      overflow-x: hidden
 
   .info_sm
     @include content-hide
+    height: 100%
+    overflow-y: auto
+    overflow-x: hidden
 
     +md
-      left: inherit
       padding: 0 17px
-      top: 40px
-      position: absolute
       @include content-show
+
+      button
+        margin-bottom: 10px
 
   .info, .info_sm
     max-width: 670px
@@ -68,6 +74,13 @@
       +md
         font-size: $size-14
         line-height: 21px
+
+      +md_sm
+        overflow: hidden
+        -webkit-box-orient: vertical
+        text-overflow: ellipsis
+        display: -webkit-box
+        -webkit-line-clamp: 5
 
   .breadcrumbs_box
     position: relative
