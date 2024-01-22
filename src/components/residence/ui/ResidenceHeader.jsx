@@ -1,11 +1,12 @@
 'use client'
 
-import React from 'react';
+import React, {useState} from 'react';
 import dynamic from "next/dynamic";
 import {useRouter} from "next/navigation";
 import {Button} from "@/shared/uikit/button";
-import {Breadcrumbs} from "src/entities/breadcrumbs";
 import {ICON} from "@/shared/constants/constants";
+import {Breadcrumbs} from "src/entities/breadcrumbs";
+import {ModalPickUpObject} from "@/shared/uikit/modal";
 import styles from '@/styles/apartments-page.module.sass'
 
 const Video = dynamic(() => import('@/shared/uikit/video/ui/Video'), {ssr: false})
@@ -19,9 +20,13 @@ const Video = dynamic(() => import('@/shared/uikit/video/ui/Video'), {ssr: false
  * @constructor
  */
 function ResidenceHeader(props) {
-    const {i18n, videoSrc, title, description, poster} = props
+    const {i18n, videoSrc, title, description, poster, managerData} = props
 
     const router = useRouter()
+
+    const [modalSignUp, setModalSighUp] = useState(false)
+
+    const toggleModal = () => setModalSighUp(!modalSignUp)
 
     return (
         <div className={styles['apartment_header']}>
@@ -39,31 +44,31 @@ function ResidenceHeader(props) {
                         <p>{description}</p>
                     </div>
 
-                   <div className={styles['button_info_action']}>
-                       <Button
-                           type={'outline_light'}
-                           title={i18n?.["button.book.title"]}
-                       />
+                    <div className={styles['button_info_action']}>
+                        <Button
+                            type={'outline_light'}
+                            title={i18n?.["button.book.title"]}
+                        />
 
-                       <Button
-                           type={'secondary_dark'}
-                           onClick={() => router.push('https://3dtours.floorplanimaging.com/p/PXeX80XX')}
-                       >
-                           <div className={'button-children-icon'}>
-                               <span>{i18n?.["button.3d.title"]}</span>
-                               <img src={ICON.repeatIcon['src']} alt=""/>
-                           </div>
-                       </Button>
+                        <Button
+                            type={'secondary_dark'}
+                            onClick={() => router.push('https://3dtours.floorplanimaging.com/p/PXeX80XX')}
+                        >
+                            <div className={'button-children-icon'}>
+                                <span>{i18n?.["button.3d.title"]}</span>
+                                <img src={ICON.repeatIcon['src']} alt=""/>
+                            </div>
+                        </Button>
 
-                       <Button
-                           type={'secondary_dark'}
-                       >
-                           <div className={'button-children-icon'}>
-                               <span>{i18n?.["button.video.about.title"]}</span>
-                               <img src={ICON.startIcon['src']} alt=""/>
-                           </div>
-                       </Button>
-                   </div>
+                        <Button
+                            type={'secondary_dark'}
+                        >
+                            <div className={'button-children-icon'}>
+                                <span>{i18n?.["button.video.about.title"]}</span>
+                                <img src={ICON.startIcon['src']} alt=""/>
+                            </div>
+                        </Button>
+                    </div>
                 </div>
             </div>
 
@@ -79,6 +84,7 @@ function ResidenceHeader(props) {
 
                             <Button
                                 type={'outline_light'}
+                                onClick={toggleModal}
                                 title={i18n?.["button.book.title"]}
                             />
                         </div>
@@ -106,6 +112,14 @@ function ResidenceHeader(props) {
                     </div>
                 </div>
             </div>
+
+            <ModalPickUpObject
+                i18n={i18n}
+                objectName={title}
+                active={modalSignUp}
+                disabled={toggleModal}
+                managerData={managerData}
+            />
         </div>
     );
 }

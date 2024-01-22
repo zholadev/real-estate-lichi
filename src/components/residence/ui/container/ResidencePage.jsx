@@ -10,6 +10,7 @@ import styles from '@/styles/apartments-page.module.sass'
 import ResidenceAboutProject from "../ResidenceAboutProject";
 import ResidenceDesignGallery from "../ResidenceDesignGallery";
 import {CustomerObjectContent} from "@/shared/customerContent";
+import {extractAttribute} from "@/shared/utilites";
 
 /**
  * @author Zholaman Zhumanov
@@ -23,16 +24,17 @@ function ResidencePage(props) {
 
     const data = useMemo(() => {
         return {
-            "id": residenceData?.["id"],
-            "name": residenceData?.["attributes"]?.["name"],
-            "locate": residenceData?.["attributes"]?.["locate"],
-            "about_project": residenceData?.["attributes"]?.["about_project"],
-            "attractions": residenceData?.["attributes"]?.["attractions"]?.["data"],
-            "apartments": residenceData?.["attributes"]?.["apartments"]?.["data"] || [],
-            "interior_description": residenceData?.["attributes"]?.["interior_description"],
-            "gallery_photos": residenceData?.["attributes"]?.["photos"]?.["item"]?.["data"],
-            "videoSrc": residenceData?.["attributes"]?.["videos"]?.["item"]?.["data"]?.[0]?.["attributes"]?.["url"] || "",
-            "poster": residenceData?.["attributes"]?.["video_posters"]?.["item"]?.["data"]?.["attributes"]?.["url"] || "",
+            "id": extractAttribute("id", residenceData, true),
+            "name":extractAttribute("name", residenceData),
+            "locate": extractAttribute("locate", residenceData),
+            "about_project": extractAttribute("about_project", residenceData),
+            "attractions": extractAttribute("attractions.data", residenceData),
+            "apartments": extractAttribute("apartments.data", residenceData) || [],
+            "interior_description": extractAttribute("interior_description", residenceData) || [],
+            "gallery_photos": extractAttribute("photos.item.data", residenceData) || [],
+            "manager": extractAttribute("managers", residenceData),
+            "videoSrc": extractAttribute("videos.item.data.0.attributes.url", residenceData) || "",
+            "poster": extractAttribute("video_posters.item.data.attributes.url", residenceData) || "",
         }
     }, [residenceData])
 
@@ -41,6 +43,7 @@ function ResidencePage(props) {
             <ResidenceHeader
                 i18n={i18n}
                 title={data?.["name"]}
+                managerData={data?.["manager"]}
                 poster={mediaImgSrc(data?.["poster"])}
                 videoSrc={mediaImgSrc(data?.["videoSrc"])}
                 description={residenceData?.["attributes"]?.["description"]}

@@ -1,13 +1,11 @@
 'use client'
 
 import React, {useState} from 'react';
-import styles from '@/styles/object-page.module.sass'
 import {Button} from "@/shared/uikit/button";
-import {useCurrencyFormat, useMediaMaxState} from "@/shared/hooks";
-import {ModalContainer} from "@/shared/uikit/modal";
-import {Input} from "@/shared/uikit/form/input";
+import {useCurrencyFormat} from "@/shared/hooks";
+import styles from '@/styles/object-page.module.sass'
+import {ModalPickUpObject} from "@/shared/uikit/modal";
 import {extractAttribute} from "@/shared/utilites";
-import DetailFeedback from "@/components/object/ui/DetailFeedback";
 
 /**
  * @author Zholaman Zhumanov
@@ -23,8 +21,6 @@ function ObjectDetailHeadInfo(props) {
     const {i18n, data} = props
     const convertCurrency = useCurrencyFormat()
 
-    const mediaQuerySm = useMediaMaxState({screenSize: 768})
-
     const [modalSignUp, setModalSighUp] = useState(false)
 
     const toggleModal = () => setModalSighUp(!modalSignUp)
@@ -35,16 +31,6 @@ function ObjectDetailHeadInfo(props) {
             <span className={styles['key']}>{key}</span>
             <span className={styles['value']}>{value}</span>
         </li>
-    );
-
-    const InputBox = ({ label, value, disabled }) => (
-        <div className={styles['form_box']}>
-            <Input
-                label={label}
-                value={value}
-                disabled={disabled}
-            />
-        </div>
     );
 
     return (
@@ -72,36 +58,13 @@ function ObjectDetailHeadInfo(props) {
                 onClick={toggleModal}
             />
 
-            <ModalContainer
+            <ModalPickUpObject
+                i18n={i18n}
                 active={modalSignUp}
                 disabled={toggleModal}
-            >
-                <div className={styles['object_sign_up_modal']}>
-                    <form className={styles['request_form']}>
-                        <InputBox label={i18n?.["form.name.title"]} value={extractAttribute("name", data, true)} disabled={true} />
-                        <InputBox label={'First name'} />
-                        <InputBox label={'Last name'} />
-                        <InputBox label={i18n?.["form.email.title"]} />
-                        <InputBox label={i18n?.["form.phone.title"]} />
-
-                        <Button
-                            title={i18n?.["form.send.title"]}
-                            style={{
-                                minWidth: "100%"
-                            }}
-                        />
-                    </form>
-                    {
-                        !mediaQuerySm &&
-                        <DetailFeedback
-                            hideButton
-                            i18n={i18n}
-                            typeCard={'secondary'}
-                            data={data?.["managers"]}
-                        />
-                    }
-                </div>
-            </ModalContainer>
+                managerData={data?.["managers"]}
+                objectName={extractAttribute("name", data, true)}
+            />
         </div>
     );
 }
