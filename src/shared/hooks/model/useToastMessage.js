@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react';
 import {Slide, toast} from "react-toastify";
 import {useMediaQuery} from "react-responsive";
 
@@ -16,27 +15,27 @@ function useToastMessage() {
 
     return (message, type) => {
         if (type) {
-            toast[type](message, {
-                position: isTypeDevice ? 'top-center' : 'top-right',
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                transition: Slide,
-            })
+            // toast[type](message, {
+            //     position: isTypeDevice ? 'top-center' : 'top-right',
+            //     autoClose: 3000,
+            //     hideProgressBar: true,
+            //     closeOnClick: true,
+            //     pauseOnHover: false,
+            //     draggable: true,
+            //     progress: undefined,
+            //     transition: Slide,
+            // })
         } else {
-            toast(message, {
-                position: isTypeDevice ? 'top-center' : 'top-right',
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                transition: Slide,
-            })
+            // toast(message, {
+            //     position: isTypeDevice ? 'top-center' : 'top-right',
+            //     autoClose: 3000,
+            //     hideProgressBar: true,
+            //     closeOnClick: true,
+            //     pauseOnHover: false,
+            //     draggable: true,
+            //     progress: undefined,
+            //     transition: Slide,
+            // })
         }
 
     }

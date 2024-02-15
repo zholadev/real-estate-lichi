@@ -11,8 +11,8 @@ import {getDictionary} from "@/dictionaries";
 import {Footer} from "@/widgets/footer";
 import NextTopLoader from "nextjs-toploader";
 import {cookies} from "next/headers";
-import {Slide, ToastContainer} from "react-toastify";
 import {StoreProvider} from "@/entities/store";
+import {Slide, ToastContainer} from "react-toastify";
 
 
 export const metadata = {
@@ -36,20 +36,20 @@ export default async function RootLayout({children}) {
                 showSpinner={false}
                 zIndex={10010}
             />
-            <ToastContainer
-                position={'top-right'}
-                autoClose={3000}
-                hideProgressBar={true}
-                newestOnTop={false}
-                closeOnClick={false}
-                rtl={false}
-                pauseOnFocusLoss={false}
-                draggable={false}
-                pauseOnHover={false}
-                className="toast-container"
-                theme={"colored"}
-                transition={Slide}
-            />
+            {/*<ToastContainer*/}
+            {/*    position={'top-right'}*/}
+            {/*    autoClose={3000}*/}
+            {/*    hideProgressBar={true}*/}
+            {/*    newestOnTop={false}*/}
+            {/*    closeOnClick={false}*/}
+            {/*    rtl={false}*/}
+            {/*    pauseOnFocusLoss={false}*/}
+            {/*    draggable={false}*/}
+            {/*    pauseOnHover={false}*/}
+            {/*    className="toast-container"*/}
+            {/*    theme={"colored"}*/}
+            {/*    transition={Slide}*/}
+            {/*/>*/}
 
             <Navbar i18n={i18n}/>
             <main>
