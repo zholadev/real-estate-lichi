@@ -6,7 +6,7 @@ import {useRouter} from "next/navigation";
 import {Button} from "@/shared/uikit/button";
 import {useDispatchHandler} from "@/shared/hooks";
 import {ICON} from "@/shared/constants/constants";
-import {Breadcrumbs} from "src/entities/breadcrumbs";
+import {Breadcrumbs} from "@/entities/breadcrumbs";
 import {ModalPickUpObject} from "@/shared/uikit/modal";
 import styles from '@/styles/apartments-page.module.sass'
 

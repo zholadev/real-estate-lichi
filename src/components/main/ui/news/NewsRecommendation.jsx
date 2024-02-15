@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import {CustomerNewsContent} from "src/shared/customerContent";
+import {CustomerNewsContent} from "@/shared/customerContent";
 
 /**
  * @author Zholaman Zhumanov
@@ -16,7 +16,7 @@ function NewsRecommendation(props) {
     return (
         Object.values(newsData || {}).length > 0 &&
         <CustomerNewsContent
-            i18n={i18n} 
+            i18n={i18n}
             newsData={newsData}
             title={i18n?.["site"]?.["news_title"]}
         />
