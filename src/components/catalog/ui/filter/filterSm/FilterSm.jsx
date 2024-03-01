@@ -16,26 +16,15 @@ import {useMediaMaxState} from "@/shared/hooks";
 function FilterSm(props) {
     const {
         i18n,
-        priceFrom,
-        priceValue,
-        filterData,
-        queryFilter,
-        typeCatalog,
         toggleFilter,
         clearFilters,
-        setPriceFrom,
-        clearSelects,
-        setPriceValue,
         sendFilterQuery,
         buttonMainTitle,
         getMinMaxPrices,
         getApartmentData,
-        queryApiFilters,
-        setFilterAllData,
         toggleFilterHandle,
         setApiFiltersHandle,
         setFilterQueryHandle,
-        filterApartmentApiData,
         buttonEventClickDisabled
     } = props
 
@@ -52,21 +41,11 @@ function FilterSm(props) {
                     <div className={styles['filter_list_content_scroll']}>
                         <FilterList
                             i18n={i18n}
-                            priceFrom={priceFrom}
-                            priceValue={priceValue}
-                            queryFilter={queryFilter}
-                            typeCatalog={typeCatalog}
-                            clearSelect={clearSelects}
                             clearFilters={clearFilters}
-                            setPriceFrom={setPriceFrom}
-                            setPriceValue={setPriceValue}
                             getMinMaxPrices={getMinMaxPrices}
-                            queryApiFilters={queryApiFilters}
-                            setFilterAllData={setFilterAllData}
                             getApartmentData={getApartmentData}
                             setApiFiltersHandle={setApiFiltersHandle}
                             setFilterQueryHandle={setFilterQueryHandle}
-                            filterApartmentApiData={filterApartmentApiData}
                         />
                     </div>
 

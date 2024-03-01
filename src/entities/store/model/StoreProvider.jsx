@@ -1,4 +1,4 @@
-'use client'
+
 import {useRef} from 'react'
 import {makeStore} from './store'
 import {Provider} from 'react-redux'

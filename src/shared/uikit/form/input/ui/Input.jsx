@@ -1,4 +1,4 @@
-'use client'
+
 
 import React, {useCallback, useEffect, useState} from 'react';
 import styles from '@/styles/ui-form-input.module.sass'

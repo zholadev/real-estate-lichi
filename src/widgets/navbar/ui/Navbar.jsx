@@ -1,4 +1,4 @@
-'use client'
+
 
 import React from 'react';
 import NavbarContent from "@/widgets/navbar/ui/NavbarContent";

@@ -1,4 +1,4 @@
-'use client'
+
 
 import React from 'react';
 import dynamic from "next/dynamic";
@@ -27,7 +27,7 @@ function Header(props) {
     return (
         <section className={styles['preview']}>
             <div className={styles['preview_title']}>
-                <h1>{i18n['main']['welcome']}</h1>
+                <h1>{i18n?.['main']?.['welcome']}</h1>
             </div>
 
             <div className={styles['preview_start']}>

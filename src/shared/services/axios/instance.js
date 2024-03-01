@@ -29,7 +29,7 @@ export const api_client_get = async (method, params = {}) => {
         })
 
         if (response) {
-            api_data = response
+            api_data = response?.["data"]
         } else {
             new Error('Error Getting Data.');
         }

@@ -1,4 +1,4 @@
-'use client'
+
 
 import React, {useCallback, useMemo, useState} from 'react';
 import {Swiper, SwiperSlide} from "swiper/react";

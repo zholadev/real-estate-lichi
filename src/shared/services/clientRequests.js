@@ -79,7 +79,7 @@ export const apiGetApartmentsData = async (page, params) => {
  * @param id
  * @param locale
  */
-export const apiGetApartmentsByIdData = async (id, locale) => {
+export const apiGetApartmentsByIdData = async (id, locale = 'en') => {
     return await api_client_get(
         `${api.apartment.get}/${id}`,
         {

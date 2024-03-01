@@ -1,5 +1,9 @@
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
 
+/**
+ * @author Zholaman Zhumanov
+ * @return {(function(*, *, *, *): (Omit<*, never>|undefined))|*}
+ */
 function useSetFilter() {
     return (prevFilters, key, value, isMultiple) => {
         try {

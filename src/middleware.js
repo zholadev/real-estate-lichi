@@ -1,29 +1,21 @@
-let locales = ['en', 'ru']
+import {NextResponse} from 'next/server'
 
-export function middleware(request) {
-    const {pathname} = request.nextUrl
-    const pathnameHasLocale = locales.some(
-        (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-    )
+const PUBLIC_FILE = /\.(.*)$/
 
-    if (pathnameHasLocale) return
+export async function middleware(req) {
+    if (
+        req.nextUrl.pathname.startsWith('/_next') ||
+        req.nextUrl.pathname.includes('/api/') ||
+        PUBLIC_FILE.test(req.nextUrl.pathname)
+    ) {
+        return
+    }
 
-    const locale = request?.cookies?.get('dubai_lang')?.value || "en"
-    request.nextUrl.pathname = `/${locale}${pathname}`
-    return Response.redirect(request.nextUrl)
+    if (req.nextUrl.locale === 'default') {
+        const locale = req.cookies.get('dubai_lang')?.value || 'en'
+
+        return NextResponse.redirect(
+            new URL(`/${locale}${req.nextUrl.pathname}${req.nextUrl.search}`, req.url)
+        )
+    }
 }
-
-export const config = {
-    matcher: [
-        '/',
-        '/catalog',
-        '/catalog/:path*',
-        '/faq',
-        '/about',
-        '/news',
-        '/news/:path*',
-        '/contact',
-    ],
-}
-
-

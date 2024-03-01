@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import {errorHandler} from "@/entities/errorHandler/errorHandler";
+import React, {useEffect} from 'react';
 import {
     apiGetFilterDistrictList,
     apiGetFilterPropertyTypeList,
@@ -7,14 +6,16 @@ import {
     apiGetFilterRoomsList,
     apiGetFilterTagsList
 } from "@/shared/services/clientRequests";
-import {useApiRequest} from "@/shared/hooks";
 import {Input} from "@/shared/uikit/form/input";
 import FilterTags from "../filterTypes/FilterTags";
 import FilterRooms from "../filterTypes/FilterRooms";
 import FilterDistrict from "../filterTypes/FilterDistrict";
-import FilterResidence from "../filterTypes/FilterResidence";
-import FilterPropertyType from "../filterTypes/FilterPropertyType";
 import useDebounce from "@/shared/hooks/model/useDebounce";
+import {useAppSelector} from "@/entities/store/hooks/hooks";
+import FilterResidence from "../filterTypes/FilterResidence";
+import {useApiRequest, useDispatchHandler} from "@/shared/hooks";
+import {errorHandler} from "@/entities/errorHandler/errorHandler";
+import FilterPropertyType from "../filterTypes/FilterPropertyType";
 
 /**
  * @author Zholaman Zhumanov
@@ -27,35 +28,34 @@ import useDebounce from "@/shared/hooks/model/useDebounce";
 function FilterList(props) {
     const {
         i18n,
-        priceFrom,
-        priceValue,
-        queryFilter,
-        typeCatalog,
-        clearFilters,
-        setPriceFrom,
         clearSelects,
-        setPriceValue,
         getMinMaxPrices,
-        queryApiFilters,
         getApartmentData,
-        setFilterAllData,
         setApiFiltersHandle,
         setFilterQueryHandle,
     } = props
 
+    const app = useDispatchHandler()
+
     const {apiFetchHandler, loading} = useApiRequest()
 
-    const [tagDataFilter, setTagDataFilter] = useState([])
-    const [roomsDataFilter, setRoomsDataFilter] = useState([])
-    const [districtDataFilter, setDistrictDataFilter] = useState([])
-    const [residenceDataFilter, setResidenceFilterData] = useState([])
-    const [propertyTypeDataFilter, setPropertyTypeFilterData] = useState([])
+    const {
+        catalogType
+    } = useAppSelector(state => state?.catalog)
 
-    const [tagStaticDataFilter, setTagStaticDataFilter] = useState([])
-    const [roomsStaticDataFilter, setRoomsStaticDataFilter] = useState([])
-    const [districtStaticDataFilter, setDistrictStaticDataFilter] = useState([])
-    const [residenceStaticDataFilter, setResidenceStaticFilterData] = useState([])
-    const [propertyStaticTypeDataFilter, setPropertyTypeStaticFilterData] = useState([])
+    const {
+        filterCtgPriceFrom,
+        filterCtgPriceValue,
+        filterCtgQueriesData,
+    } = useAppSelector(state => state?.filterCatalog)
+
+    const {
+        filterTagStaticData,
+        filterRoomsStaticData,
+        filterDistrictStaticData,
+        filterResidenceStaticData,
+        filterPropertyTypeStaticData,
+    } = useAppSelector(state => state?.filterData)
 
     /**
      * @description Districts Data
@@ -64,15 +64,13 @@ function FilterList(props) {
     const getFilterDistrictData = async () => {
         await apiFetchHandler(
             apiGetFilterDistrictList,
-            [queryApiFilters],
+            [filterCtgQueriesData],
             false,
             {
                 onGetData: (params) => {
-                    if (districtStaticDataFilter.length === 0) {
-                        setDistrictStaticDataFilter(params.api_data)
-                        return
+                    if (filterDistrictStaticData.length === 0) {
+                        app.filterDistrictStaticDataAction(params.api_data)
                     }
-                    setDistrictDataFilter(params.api_data)
                 }
             }
         )
@@ -85,15 +83,13 @@ function FilterList(props) {
     const getFilterResidenceData = async () => {
         await apiFetchHandler(
             apiGetFilterResidenceList,
-            [queryApiFilters],
+            [filterCtgQueriesData],
             false,
             {
                 onGetData: (params) => {
-                    if (residenceStaticDataFilter.length === 0) {
-                        setResidenceStaticFilterData(params.api_data)
-                        return
+                    if (filterResidenceStaticData.length === 0) {
+                        app.filterResidenceStaticDataAction(params.api_data)
                     }
-                    setResidenceFilterData(params.api_data)
                 }
             }
         )
@@ -106,15 +102,13 @@ function FilterList(props) {
     const getFilterRoomsData = async () => {
         await apiFetchHandler(
             apiGetFilterRoomsList,
-            [queryApiFilters],
+            [filterCtgQueriesData],
             false,
             {
                 onGetData: (params) => {
-                    if (roomsStaticDataFilter.length === 0) {
-                        setRoomsStaticDataFilter(params.api_data)
-                        return
+                    if (filterRoomsStaticData.length === 0) {
+                        app.filterRoomsStaticDataAction(params.api_data)
                     }
-                    setRoomsDataFilter(params.api_data)
                 }
             }
         )
@@ -127,15 +121,13 @@ function FilterList(props) {
     const getFilterPropertyData = async () => {
         await apiFetchHandler(
             apiGetFilterPropertyTypeList,
-            [queryApiFilters],
+            [filterCtgQueriesData],
             false,
             {
                 onGetData: (params) => {
-                    if (propertyStaticTypeDataFilter.length === 0) {
-                        setPropertyTypeStaticFilterData(params.api_data)
-                        return
+                    if (filterPropertyTypeStaticData.length === 0) {
+                        app.filterPropertyTypeStaticDataAction(params.api_data)
                     }
-                    setPropertyTypeFilterData(params.api_data)
                 }
             }
         )
@@ -148,14 +140,13 @@ function FilterList(props) {
     const getFilterTagsData = async () => {
         await apiFetchHandler(
             apiGetFilterTagsList,
-            [queryApiFilters],
+            [filterCtgQueriesData],
             false,
             {
                 onGetData: (params) => {
-                    if (tagStaticDataFilter.length === 0) {
-                        setTagStaticDataFilter(params.api_data)
+                    if (filterTagStaticData.length === 0) {
+                        app.filterTagStaticDataAction(params.api_data)
                     }
-                    setTagDataFilter(params.api_data)
                 }
             }
         )
@@ -197,20 +188,20 @@ function FilterList(props) {
             .catch(error => {
                 errorHandler("filterResidence", "useEffect", error)
             })
-    }, [queryApiFilters]);
+    }, []);
 
     useEffect(() => {
         try {
-            setFilterAllData([...districtStaticDataFilter, ...roomsStaticDataFilter, ...tagStaticDataFilter, ...residenceStaticDataFilter, ...propertyStaticTypeDataFilter])
+            app.filterCtgAllDataAction([...filterDistrictStaticData, ...filterRoomsStaticData, ...filterTagStaticData, ...filterResidenceStaticData, ...filterPropertyTypeStaticData])
         } catch (error) {
             errorHandler("filterList", "set filters all data", error)
         }
     }, [
-        districtStaticDataFilter,
-        roomsStaticDataFilter,
-        tagStaticDataFilter,
-        residenceStaticDataFilter,
-        propertyStaticTypeDataFilter
+        filterDistrictStaticData,
+        filterRoomsStaticData,
+        filterTagStaticData,
+        filterResidenceStaticData,
+        filterPropertyTypeStaticData
     ]);
 
     return (
@@ -220,30 +211,29 @@ function FilterList(props) {
                 loading={loading}
                 filterType={"districts"}
                 clearSelect={clearSelects}
-                clearFilters={clearFilters}
-                value={queryFilter?.["districts"]}
                 getApartmentData={getApartmentData}
                 filterApi={apiGetFilterDistrictList}
-                filterData={districtStaticDataFilter}
+                filterData={filterDistrictStaticData}
                 assemblyFilter={setFilterQueryHandle}
                 assemblyFilterApi={setApiFiltersHandle}
-                defaultValue={queryFilter?.["districts"]}
+                value={filterCtgQueriesData?.["districts"]}
                 placeholder={i18n?.["site.district.title"]}
+                defaultValue={filterCtgQueriesData?.["districts"]}
             />
 
             {
-                typeCatalog !== 'residential_complex' &&
+                catalogType !== 'residential_complex' &&
                 <FilterResidence
                     i18n={i18n}
                     loading={loading}
                     filterType={"residence"}
                     clearSelect={clearSelects}
-                    filterApiParams={queryApiFilters}
-                    value={queryFilter?.["residence"]}
+                    filterApiParams={filterCtgQueriesData}
+                    value={filterCtgQueriesData?.["residence"]}
                     getApartmentData={getApartmentData}
                     assemblyFilter={setFilterQueryHandle}
                     filterApi={apiGetFilterResidenceList}
-                    filterData={residenceStaticDataFilter}
+                    filterData={filterResidenceStaticData}
                     assemblyFilterApi={setApiFiltersHandle}
                     placeholder={i18n?.["site.residence.title"]}
                 />
@@ -254,10 +244,10 @@ function FilterList(props) {
                 loading={loading}
                 filterType={"rooms"}
                 clearSelect={clearSelects}
-                value={queryFilter?.["rooms"]}
-                filterApiParams={queryApiFilters}
+                value={filterCtgQueriesData?.["rooms"]}
+                filterApiParams={filterCtgQueriesData}
                 filterApi={apiGetFilterRoomsList}
-                filterData={roomsStaticDataFilter}
+                filterData={filterRoomsStaticData}
                 getApartmentData={getApartmentData}
                 assemblyFilter={setFilterQueryHandle}
                 assemblyFilterApi={setApiFiltersHandle}
@@ -269,13 +259,13 @@ function FilterList(props) {
                 loading={loading}
                 clearSelect={clearSelects}
                 filterType={"property_types"}
-                filterApiParams={queryApiFilters}
+                filterApiParams={filterCtgQueriesData}
                 getApartmentData={getApartmentData}
                 assemblyFilter={setFilterQueryHandle}
-                value={queryFilter?.["property_types"]}
+                value={filterCtgQueriesData?.["property_types"]}
                 assemblyFilterApi={setApiFiltersHandle}
                 filterApi={apiGetFilterPropertyTypeList}
-                filterData={propertyStaticTypeDataFilter}
+                filterData={filterPropertyTypeStaticData}
                 placeholder={i18n?.["site.property.type.title"]}
             />
 
@@ -284,10 +274,10 @@ function FilterList(props) {
                 loading={loading}
                 filterType={"tags"}
                 clearSelect={clearSelects}
-                value={queryFilter?.["tags"]}
+                value={filterCtgQueriesData?.["tags"]}
                 filterApi={apiGetFilterTagsList}
-                filterData={tagStaticDataFilter}
-                filterApiParams={queryApiFilters}
+                filterData={filterTagStaticData}
+                filterApiParams={filterCtgQueriesData}
                 getApartmentData={getApartmentData}
                 assemblyFilter={setFilterQueryHandle}
                 assemblyFilterApi={setApiFiltersHandle}
@@ -298,49 +288,34 @@ function FilterList(props) {
                 id={"price"}
                 i18n={i18n}
                 type={"number"}
-                value={priceFrom}
+                value={filterCtgPriceFrom}
                 typeInput={'secondary'}
                 onBlur={(e) => {
                     priceOnChangeDebounce(priceOnChangeHandle, 0, {
-                        "data": priceFrom,
+                        "data": filterCtgPriceFrom,
                         "name": "price.from",
                         "type": "$gte"
                     })
                 }}
-                onChange={(e) => {
-                    setPriceFrom(e)
-                    // setFilterQueryHandle({key: "price.from", value: e})
-                    // setApiFiltersHandle({
-                    //     key: "filters[apartments][price][$gte]",
-                    //     value: e
-                    // })
-                }}
+                onChange={(e) => app.filterCtgPriceFromAction(e)}
                 placeholder={`${i18n?.["site.coast.from.title"]} ${getMinMaxPrices?.["min"]}`}
-                disabled={getMinMaxPrices?.["min"] === getMinMaxPrices?.["max"] || Object.values(queryFilter || {}).length > 0 && queryFilter?.["districts"]}
+                disabled={getMinMaxPrices?.["min"] === getMinMaxPrices?.["max"] || Object.values(filterCtgQueriesData || {}).length > 0 && filterCtgQueriesData?.["districts"]}
             />
 
             <Input
                 id={"price"}
                 i18n={i18n}
                 type={"number"}
-                value={priceValue}
+                value={filterCtgPriceValue}
                 typeInput={'secondary'}
                 onBlur={(e) => {
                     priceOnChangeDebounce(priceOnChangeHandle, 0, {
-                        "data": priceValue,
+                        "data": filterCtgPriceValue,
                         "name": "price.to",
                         "type": "$lte"
                     })
                 }}
-                onChange={(e) => {
-                    setPriceValue(e)
-                    // priceOnChangeDebounce(priceOnChangeHandle, 500, {"data": e, "name": "price.to", "type": "$lte"})
-                    // setFilterQueryHandle({key: "price.to", value: e})
-                    // setApiFiltersHandle({
-                    //     key: "filters[apartments][price][$lte]",
-                    //     value: e
-                    // })
-                }}
+                onChange={(e) => app.filterCtgPriceValueAction(e)}
                 placeholder={`${i18n?.["site.coast.to.title"]} ${getMinMaxPrices?.["max"]}`}
                 disabled={getMinMaxPrices?.["max"] === getMinMaxPrices?.["min"]}
             />

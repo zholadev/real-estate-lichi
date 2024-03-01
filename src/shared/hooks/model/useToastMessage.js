@@ -1,4 +1,4 @@
-'use client'
+
 
 import {Slide, toast} from "react-toastify";
 import {useMediaQuery} from "react-responsive";
