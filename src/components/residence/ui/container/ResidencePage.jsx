@@ -1,4 +1,4 @@
-'use client'
+
 
 import React, {useMemo} from 'react';
 import qs from "qs";

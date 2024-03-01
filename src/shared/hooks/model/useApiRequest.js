@@ -1,4 +1,4 @@
-'use client'
+
 
 import {useState} from 'react';
 // import {errorHandler} from "@/shared/plugins/sentry";
@@ -26,7 +26,7 @@ function useApiRequest() {
             await apiFetchFunc(...params)
                 .then(res => {
                     const data = res
-                    const api_data = res?.["data"]?.["data"]
+                    const api_data = res?.["data"]
                     const messages = res?.["data"]?.["api_messages"]
                     const exceptions = res?.["data"]?.["api_exception"]
                     const success = res?.["data"]?.["api_data_success"]

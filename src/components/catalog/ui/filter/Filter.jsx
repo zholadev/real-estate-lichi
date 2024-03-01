@@ -1,6 +1,4 @@
-'use client'
-
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import {Tabs} from "@/shared/uikit/tabs";
 import FilterSm from "./filterSm/FilterSm";
 import {Button} from "@/shared/uikit/button";
@@ -10,12 +8,13 @@ import usePushFilters from "../../lib/usePushFilters";
 import styles from '@/styles/catalog-filter.module.sass'
 import {routerPage} from "@/entities/router/model/pages";
 import {useRouter, useSearchParams} from "next/navigation";
+import {useAppSelector} from "@/entities/store/hooks/hooks";
 import FilterIconMenu from "./filterIconMenu/FilterIconMenu";
 import FilterBottomPanel from "./filterBottom/FilterBottomPanel";
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import useFilterConvertQuery from "../../lib/useFilterConvertQuery";
 import {apiGetApartmentsData, apiGetResidentialData} from "@/shared/services/clientRequests";
-import {useApiRequest, useMediaMaxState, useToastMessage} from "@/shared/hooks";
+import {useApiRequest, useDispatchHandler, useMediaMaxState, useToastMessage} from "@/shared/hooks";
 
 /**
  * @author Zholaman Zhumanov
@@ -27,12 +26,14 @@ import {useApiRequest, useMediaMaxState, useToastMessage} from "@/shared/hooks";
  * @constructor
  */
 function Filter(props) {
-    const {i18n, onClick, typeContent, pageParams, typeCatalog, setTypeCatalog, tabData} = props
+    const {i18n, pageParams, tabData} = props
 
     const timerClearValue = useRef(null)
 
     const router = useRouter()
     const query = useSearchParams()
+
+    const app = useDispatchHandler()
 
     const PAGE_QUERY_PARAM = query.get("page") ?? 1
 
@@ -45,21 +46,28 @@ function Filter(props) {
 
     const mediaQuerySm = useMediaMaxState({screenSize: 576})
 
-    const [priceFrom, setPriceFrom] = useState(null)
-    const [priceValue, setPriceValue] = useState('')
-    const [filterAllData, setFilterAllData] = useState([])
-    const [toggleFilter, setToggleFilter] = useState(false)
-    const [clearSelects, setClearSelects] = useState('fill')
-    const [filterApartmentApiData, setFilterApartmentApiData] = useState({})
-    const [apartmentListFilterData, setApartmentListFilterData] = useState([])
-    const [residenceListFilterData, setResidenceListFilterData] = useState([])
-    const [queryFilter, setQueryFilter] = useState(convertQueryFilter(pageParams) || {})
-    const [queryApiFilters, setQueryApiFilters] = useState({"filters[apartments][name][$notNull]": true})
+    const {
+        catalogType
+    } = useAppSelector(state => state?.catalog)
 
-    const FILTER_DATA = Object.values(queryFilter || {})
+    const {
+        filterCtgAllData,
+        filterCtgSidebar,
+        filterCtgObjectQueries,
+        filterCtgObjectData,
+        filterCtgResidenceData,
+        filterCtgQueriesData,
+    } = useAppSelector(state => state?.filterCatalog)
+
+    const FILTER_DATA = Object.values(filterCtgQueriesData || {})
     const FILTER_QUERY_DATA = Object.entries(convertQueryFilter(pageParams) || {})
 
-    const toggleFilterHandle = () => setToggleFilter(!toggleFilter);
+    /**
+     * @author Zholaman Zhumanov
+     * @description Переключение мобильной версий
+     * @return {*}
+     */
+    const toggleFilterSidebarHandle = () => app.filterCtgSidebarAction(!filterCtgSidebar);
 
     /**
      * Handles setting the filter query based on provided data
@@ -68,25 +76,19 @@ function Filter(props) {
      * @param isSendFilters
      */
     const setFilterQueryHandle = (filterData, isSendFilters) => {
-        const {key, value} = filterData
-
-        setQueryFilter((prevFilters) => getSetFilterHandle(prevFilters, key, value, true));
+        app.filterCtgQueriesDataAction(filterData)
 
         if (isSendFilters) {
             sendFilterQuery(filterData, true, isSendFilters)
         }
     };
 
-    const checkDistrictValue = useCallback(() => {
-        if (!queryFilter?.["districts"]) {
-            toastMessage("Please select a district")
-        }
-    }, [typeCatalog, queryFilter])
-
-    const setApiFiltersHandle = (data) => {
-        const {key, value} = data
-        setFilterApartmentApiData(prevFilter => getSetFilterHandle(prevFilter, key, value, true))
-    }
+    /**
+     * @author Zholaman Zhumanov
+     * @param data
+     * @return {*}
+     */
+    const setApiFiltersHandle = (data) => app.filterCtgObjectQueriesAction(data)
 
     /**
      * @description Tags Data
@@ -95,18 +97,21 @@ function Filter(props) {
     const getApartmentData = async () => {
         let paramsCustomObject = {}
 
-        for (let key in filterApartmentApiData) {
+        for (let key in filterCtgObjectQueries) {
             const newKey = key.replace("[apartments]", "");
-            paramsCustomObject[newKey] = filterApartmentApiData[key];
+            paramsCustomObject[newKey] = filterCtgObjectQueries[key];
         }
 
         await apiFetchHandler(
             apiGetApartmentsData,
-            [PAGE_QUERY_PARAM, {"populate": false, "fields[0]": "name", "fields[1]": "price", ...paramsCustomObject}],
+            [
+                PAGE_QUERY_PARAM,
+                {"populate": false, "fields[0]": "name", "fields[1]": "price", ...paramsCustomObject}
+            ],
             false,
             {
                 onGetData: (params) => {
-                    setApartmentListFilterData(params.data?.["data"]?.["data"])
+                    app.filterCtgObjectDataAction(params.api_data)
                 }
             }
         )
@@ -118,12 +123,12 @@ function Filter(props) {
             [PAGE_QUERY_PARAM, {
                 "populate": false,
                 "fields[0]": "name",
-                "fields[1]": "price", ...filterApartmentApiData
+                "fields[1]": "price", ...filterCtgObjectQueries
             }],
             false,
             {
                 onGetData: (params) => {
-                    setResidenceListFilterData(params.data?.["data"]?.["data"])
+                    app.filterCtgResidenceDataAction(params.api_data)
                 }
             }
         )
@@ -131,7 +136,7 @@ function Filter(props) {
 
     const getMinMaxPrices = useMemo(() => {
         try {
-            const prices = Object.values(apartmentListFilterData || {}).map((item) => item?.["attributes"]?.["price"])
+            const prices = Object.values(filterCtgObjectData || {}).map((item) => item?.["attributes"]?.["price"])
 
             if (prices.length === 0) {
                 return {
@@ -147,10 +152,10 @@ function Filter(props) {
         } catch (error) {
             errorHandler("filter", "getMinMaxPrices", error)
         }
-    }, [apartmentListFilterData])
+    }, [filterCtgObjectData])
 
     const sendFilterQuery = async (filterData, filterToggle) => {
-        const parsePrice = (key) => parseFloat(queryFilter?.[`price.${key}`]);
+        const parsePrice = (key) => parseFloat(filterCtgQueriesData?.[`price.${key}`]);
 
         const invalidPriceMsg = "You entered incorrect price values";
         const lowerThanMinPriceMsg = "The total should not be lower than the minimum price";
@@ -178,7 +183,7 @@ function Filter(props) {
 
 
         if (filterData) {
-            const newObjectFilter = {queryFilter}
+            const newObjectFilter = {filterCtgQueriesData}
 
             const getFilterData = Object.values(newObjectFilter || {}).map((filterItem) => {
                 return getSetFilterHandle(filterItem, filterData.key, filterData.value, true)
@@ -186,42 +191,42 @@ function Filter(props) {
 
             pushFilterHandle(routerPage.catalog, getFilterData?.[0]);
         } else {
-            pushFilterHandle(routerPage.catalog, queryFilter);
+            pushFilterHandle(routerPage.catalog, filterCtgQueriesData);
         }
 
         if (mediaQuerySm && !filterToggle) {
-            toggleFilterHandle()
+            toggleFilterSidebarHandle()
         }
     };
 
     const residenceApiParams = useMemo(() => {
-        return typeCatalog === 'residential_complex' ? {
+        return catalogType === 'residential_complex' ? {
             "filters[apartments][name][$notNull]": true,
             "filters[apartments][residence][name][$notNull]": true
         } : {"filters[apartments][name][$notNull]": true}
-    }, [typeCatalog])
+    }, [catalogType])
 
     useEffect(() => {
-        setQueryApiFilters(residenceApiParams)
-    }, [typeCatalog]);
+        app.filterCtgApiQueriesDataAction(residenceApiParams)
+    }, [catalogType]);
 
     useEffect(() => {
         getApartmentData()
             .catch(error => {
                 errorHandler("filterDistrict", "useEffect", error)
             })
-    }, [PAGE_QUERY_PARAM, filterApartmentApiData]);
+    }, [PAGE_QUERY_PARAM, filterCtgObjectQueries]);
 
     useEffect(() => {
         getResidenceListData()
             .catch(error => {
                 errorHandler("filterDistrict", "useEffect", error)
             })
-    }, [PAGE_QUERY_PARAM, filterApartmentApiData]);
+    }, [PAGE_QUERY_PARAM, filterCtgObjectQueries]);
 
     useEffect(() => {
         if (pageParams) {
-            setQueryFilter(convertQueryFilter(pageParams))
+            app.filterCtgQueriesDataFillAction(convertQueryFilter(pageParams))
         }
     }, [pageParams]);
 
@@ -230,16 +235,16 @@ function Filter(props) {
             if (timerClearValue.current) {
                 clearTimeout(timerClearValue.current)
             }
-            setQueryFilter({})
-            setPriceValue(null)
-            setPriceFrom(null)
-            setClearSelects('clear')
+            app.filterCtgQueriesDataAction({})
+            app.filterCtgPriceFromAction(null)
+            app.filterCtgPriceValueAction(null)
+            app.filterCtgClearAction('clear')
             router.replace(routerPage.catalog)
-            setFilterApartmentApiData({})
-            setQueryApiFilters(residenceApiParams)
+            app.filterCtgObjectQueriesAction({})
+            app.filterCtgQueriesDataFillAction(residenceApiParams)
 
             timerClearValue.current = setTimeout(() => {
-                setClearSelects('fill')
+                app.filterCtgClearAction('fill')
             }, 500)
         } catch (error) {
             errorHandler("filters", "clearFilters", error)
@@ -247,17 +252,25 @@ function Filter(props) {
     }, [timerClearValue, router, residenceApiParams])
 
     // console.log('queryFilter', queryFilter)
-    // console.log('filterApartmentApi', filterApartmentApiData)
+    // console.log('filterApartmentApi', filterCtgObjectQueries)
     // console.log('queryApiFilters', queryApiFilters)
 
     const buttonEventClickDisabled = useMemo(() => {
-        if (FILTER_DATA.length === 0) return false
-        return !!(typeCatalog === 'residential_complex' ?  residenceListFilterData.length > 0 : apartmentListFilterData.length > 0)
-    }, [FILTER_DATA, apartmentListFilterData, residenceListFilterData])
+        try {
+            if (FILTER_DATA.length === 0) return false
+            return !!(catalogType === 'residential_complex' ? filterCtgResidenceData.length > 0 : filterCtgObjectData.length > 0)
+        } catch (error) {
+            console.log(error)
+        }
+    }, [FILTER_DATA, filterCtgObjectData, filterCtgResidenceData])
 
     const buttonMainTitle = useMemo(() => {
-        return `${i18n?.["site"]?.["search_title"]} (${typeCatalog === 'residential_complex' ? residenceListFilterData.length : apartmentListFilterData.length})`
-    }, [i18n, typeCatalog, residenceListFilterData, apartmentListFilterData])
+        try {
+            return `${i18n?.["site"]?.["search_title"]} (${catalogType === 'residential_complex' ? filterCtgResidenceData.length : filterCtgObjectData.length})`
+        } catch (error) {
+            console.log(error)
+        }
+    }, [i18n, catalogType, filterCtgResidenceData, filterCtgObjectData])
 
     return (
         <>
@@ -267,9 +280,9 @@ function Filter(props) {
                     item={"title"}
                     url={'/catalog'}
                     tabData={tabData}
-                    onClick={setTypeCatalog}
-                    onClickEvent={clearFilters}
                     activeSelectName={"value"}
+                    onClickEvent={clearFilters}
+                    onClick={app.catalogContentAction}
                     defaultValue={query.get('type') || tabData?.[0]?.["value"]}
                 />
             </div>
@@ -277,22 +290,11 @@ function Filter(props) {
             <div className={styles['catalog_filter_lg']}>
                 <FilterList
                     i18n={i18n}
-                    priceFrom={priceFrom}
-                    priceValue={priceValue}
-                    queryFilter={queryFilter}
-                    typeCatalog={typeCatalog}
-                    clearSelect={clearSelects}
                     clearFilters={clearFilters}
-                    setPriceFrom={setPriceFrom}
-                    setPriceValue={setPriceValue}
                     getMinMaxPrices={getMinMaxPrices}
-                    queryApiFilters={queryApiFilters}
-                    setFilterAllData={setFilterAllData}
                     getApartmentData={getApartmentData}
-                    checkDistrictValue={checkDistrictValue}
                     setApiFiltersHandle={setApiFiltersHandle}
                     setFilterQueryHandle={setFilterQueryHandle}
-                    filterApartmentApiData={filterApartmentApiData}
                 />
 
                 <Button
@@ -307,13 +309,10 @@ function Filter(props) {
 
             <FilterBottomPanel
                 i18n={i18n}
-                onClick={onClick}
                 filterData={FILTER_DATA}
-                typeContent={typeContent}
                 clearFilters={clearFilters}
-                filterAllData={filterAllData}
-                filterDataQuery={queryFilter}
-                setQueryFilter={setQueryFilter}
+                filterAllData={filterCtgAllData}
+                filterDataQuery={filterCtgQueriesData}
                 sendFilterQuery={sendFilterQuery}
                 queryFilterData={FILTER_QUERY_DATA}
                 filterClearHandle={setFilterQueryHandle}
@@ -323,32 +322,20 @@ function Filter(props) {
 
             <FilterIconMenu
                 i18n={i18n}
-                toggleFilterHandle={toggleFilterHandle}
+                toggleFilterHandle={toggleFilterSidebarHandle}
             />
 
             <FilterSm
                 i18n={i18n}
-                priceFrom={priceFrom}
-                priceValue={priceValue}
-                filterData={FILTER_DATA}
-                queryFilter={queryFilter}
-                typeCatalog={typeCatalog}
-                clearSelect={clearSelects}
                 clearFilters={clearFilters}
-                toggleFilter={toggleFilter}
-                setPriceFrom={setPriceFrom}
-                setPriceValue={setPriceValue}
+                toggleFilter={filterCtgSidebar}
                 getMinMaxPrices={getMinMaxPrices}
-                queryApiFilters={queryApiFilters}
                 buttonMainTitle={buttonMainTitle}
                 sendFilterQuery={sendFilterQuery}
                 getApartmentData={getApartmentData}
-                setFilterAllData={setFilterAllData}
-                toggleFilterHandle={toggleFilterHandle}
-                checkDistrictValue={checkDistrictValue}
                 setApiFiltersHandle={setApiFiltersHandle}
                 setFilterQueryHandle={setFilterQueryHandle}
-                filterApartmentApiData={filterApartmentApiData}
+                toggleFilterHandle={toggleFilterSidebarHandle}
                 buttonEventClickDisabled={!buttonEventClickDisabled}
             />
         </>

@@ -1,6 +1,5 @@
-'use client'
-
 import {useMemo} from 'react';
+import {useRouter} from 'next/router'
 import {useParams, usePathname} from "next/navigation";
 
 /**
@@ -9,12 +8,13 @@ import {useParams, usePathname} from "next/navigation";
  * @returns {boolean}
  */
 function useContentSize() {
+    const router = useRouter()
     const pathname = usePathname()
     const routerParams = useParams()
 
     const isMinimumContent = (pathname, routerParams) => {
-        const basePaths = ['', '/catalog', '/news', `/news/${routerParams['id']}`];
-        return basePaths.some(basePath => pathname === `/${routerParams['lang']}${basePath}`);
+        const basePaths = ['/', '/catalog/', '/news/', `/news/${routerParams['id']}/`];
+        return basePaths.some(basePath => pathname === basePath);
     }
 
     return useMemo(

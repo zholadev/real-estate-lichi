@@ -1,12 +1,11 @@
-'use client'
-
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Button} from "@/shared/uikit/button";
 import styles from "@/styles/catalog-filter.module.sass";
-import {useMediaMaxState} from "@/shared/hooks";
+import {useDispatchHandler, useMediaMaxState} from "@/shared/hooks";
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import {Animation} from "@/shared/uikit/animation";
 import useFilterGetKey from "@/components/catalog/lib/useFilterGetKey";
+import {useAppSelector} from "@/entities/store/hooks/hooks";
 
 /**
  * @author Zholaman Zhumanov
@@ -18,9 +17,7 @@ import useFilterGetKey from "@/components/catalog/lib/useFilterGetKey";
 function FilterBottomPanel(props) {
     const {
         i18n,
-        onClick,
         filterData,
-        typeContent,
         clearFilters,
         filterAllData = [],
         sendFilterQuery,
@@ -31,17 +28,41 @@ function FilterBottomPanel(props) {
 
     const timerAnimateTriggerRef = useRef(null)
 
+    const app = useDispatchHandler()
+
     const filterGetCurrentKey = useFilterGetKey()
     const mediaQuerySm = useMediaMaxState({screenSize: 768})
 
+    const {
+        catalogContent,
+    } = useAppSelector(state => state?.catalog)
+
     const [filterTabAnimateTrigger, setFilterTabAnimateTrigger] = useState(false)
 
+    /**
+     * @author Zholaman Zhumanov
+     * @description Переключение вида для каталога
+     * @type {(function(): void)|*}
+     */
+    const toggleContentView = useCallback(() => {
+        if (catalogContent !== 'map') {
+            app.catalogTypeAction('map')
+        } else {
+            app.catalogTypeAction('list')
+        }
+    }, [catalogContent])
+
+    /**
+     * @author Zholaman Zhumanov
+     * @description Очистка фильтра и переключение вида каталога
+     */
     const switchBtnOnClick = () => {
         clearFilters()
-        onClick()
+        toggleContentView()
     }
 
     /**
+     * @author Zholaman Zhumanov
      * @description Получаем данные которые уже активны, нужны полные данные активных фильтров
      * @type {(*&{key: *})[]}
      */
@@ -190,10 +211,6 @@ function FilterBottomPanel(props) {
                                             value: filterValue
                                         })
 
-                                        // if (queryFilterData?.length === 1) {
-                                        //     await clearFilters();
-                                        // }
-
                                         sendFilterQuery({
                                             key: filterKey,
                                             value: filterValue || filterValueNameType
@@ -230,27 +247,27 @@ function FilterBottomPanel(props) {
                     <Button
                         type={'primary_animate'}
                         onClick={switchBtnOnClick}
-                        animateActive={typeContent === 'list'}
+                        animateActive={catalogContent === 'list'}
                         style={{
                             fontSize: "13px",
                             lineHeight: "18.2px",
                             height: '33px'
                         }}
                     >
-                        <i className={`${styles['icon']} ${typeContent === "list" ? styles['invert_icon'] : ''} ${styles['icon_list']}`}/>
+                        <i className={`${styles['icon']} ${catalogContent === "list" ? styles['invert_icon'] : ''} ${styles['icon_list']}`}/>
                     </Button>
 
                     <Button
                         type={'primary_animate'}
                         onClick={switchBtnOnClick}
-                        animateActive={typeContent === 'map'}
+                        animateActive={catalogContent === 'map'}
                         style={{
                             fontSize: "13px",
                             lineHeight: "18.2px",
                             height: '33px'
                         }}
                     >
-                        <i className={`${styles['icon']} ${typeContent === "map" ? styles['invert_icon'] : ''} ${styles['icon_marker']}`}/>
+                        <i className={`${styles['icon']} ${catalogContent === "map" ? styles['invert_icon'] : ''} ${styles['icon_marker']}`}/>
                     </Button>
                 </div>
             </div>

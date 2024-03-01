@@ -1,4 +1,4 @@
-'use client'
+
 
 import React, {useMemo, useState} from 'react';
 import {Range} from 'react-range';

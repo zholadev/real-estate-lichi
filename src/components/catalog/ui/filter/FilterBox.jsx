@@ -19,7 +19,6 @@ function FilterBox(props) {
         filterType,
         placeholder,
         clearSelect,
-        clearFilters,
         filterGetData,
         assemblyFilter,
         filterSendClick,

@@ -1,4 +1,4 @@
-'use client'
+
 
 import React from 'react';
 import {PhoneLink} from "@/shared/uikit/links";

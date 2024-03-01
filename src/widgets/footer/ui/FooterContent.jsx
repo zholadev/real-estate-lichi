@@ -1,4 +1,4 @@
-'use client'
+
 
 import React from 'react';
 import {Logo} from "@/shared/uikit/logo";
