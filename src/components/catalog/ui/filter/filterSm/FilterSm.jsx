@@ -1,10 +1,12 @@
 import React from 'react';
 import {Button} from "@/shared/uikit/button";
 import {PortalProvider} from "@/shared/portals";
+import {useMediaMaxState} from "@/shared/hooks";
 import FilterList from "../filterList/FilterList";
 import {SidebarContainer} from "@/widgets/sidebar";
 import styles from "@/styles/catalog-filter.module.sass";
-import {useMediaMaxState} from "@/shared/hooks";
+import useSendFilters from "../../../lib/useSendFilters";
+import useGetMinMaxPrice from "../../../lib/useGetMinMaxPrice";
 
 /**
  * @author Zholaman Zhumanov
@@ -18,15 +20,16 @@ function FilterSm(props) {
         i18n,
         toggleFilter,
         clearFilters,
-        sendFilterQuery,
         buttonMainTitle,
-        getMinMaxPrices,
         getApartmentData,
         toggleFilterHandle,
         setApiFiltersHandle,
         setFilterQueryHandle,
         buttonEventClickDisabled
     } = props
+
+    const filterSend = useSendFilters()
+    const getMinMaxPrices = useGetMinMaxPrice()
 
     const mediaQuerySm = useMediaMaxState({screenSize: 576.98})
 
@@ -51,7 +54,7 @@ function FilterSm(props) {
 
                    <div className={styles['filter_sm_action_btn']}>
                        <Button
-                           onClick={sendFilterQuery}
+                           onClick={filterSend}
                            title={buttonMainTitle}
                            disabled={buttonEventClickDisabled}
                            style={{

@@ -1,11 +1,15 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {useRouter} from "next/router";
 import {Button} from "@/shared/uikit/button";
-import styles from "@/styles/catalog-filter.module.sass";
-import {useDispatchHandler, useMediaMaxState} from "@/shared/hooks";
-import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import {Animation} from "@/shared/uikit/animation";
-import useFilterGetKey from "@/components/catalog/lib/useFilterGetKey";
+import styles from "@/styles/catalog-filter.module.sass";
+import useSendFilters from "../../../lib/useSendFilters";
+import useClearFilters from "../../../lib/useClearFilters";
+import useFilterGetKey from "../../../lib/useFilterGetKey";
 import {useAppSelector} from "@/entities/store/hooks/hooks";
+import {errorHandler} from "@/entities/errorHandler/errorHandler";
+import {useDispatchHandler, useMediaMaxState} from "@/shared/hooks";
+import useFilterConvertQuery from "../../../lib/useFilterConvertQuery";
 
 /**
  * @author Zholaman Zhumanov
@@ -17,25 +21,37 @@ import {useAppSelector} from "@/entities/store/hooks/hooks";
 function FilterBottomPanel(props) {
     const {
         i18n,
-        filterData,
-        clearFilters,
-        filterAllData = [],
-        sendFilterQuery,
-        queryFilterData,
         filterClearHandle,
         filterApiClearHandle,
     } = props
+
+    const router = useRouter()
+
+    const {query} = router
 
     const timerAnimateTriggerRef = useRef(null)
 
     const app = useDispatchHandler()
 
+    const {clearFilters} = useClearFilters()
+
+    const filterSend = useSendFilters()
     const filterGetCurrentKey = useFilterGetKey()
+    const convertQueryFilter = useFilterConvertQuery()
+
     const mediaQuerySm = useMediaMaxState({screenSize: 768})
 
     const {
-        catalogContent,
+        filterCtgAllData,
+        filterCtgQueriesData,
+    } = useAppSelector(state => state?.filterCatalog)
+
+    const {
+        catalogType,
     } = useAppSelector(state => state?.catalog)
+
+    const filterData = Object.values(filterCtgQueriesData || {})
+    const queryFilterData = Object.entries(convertQueryFilter(query) || {})
 
     const [filterTabAnimateTrigger, setFilterTabAnimateTrigger] = useState(false)
 
@@ -45,12 +61,12 @@ function FilterBottomPanel(props) {
      * @type {(function(): void)|*}
      */
     const toggleContentView = useCallback(() => {
-        if (catalogContent !== 'map') {
+        if (catalogType !== 'map') {
             app.catalogTypeAction('map')
         } else {
             app.catalogTypeAction('list')
         }
-    }, [catalogContent])
+    }, [catalogType])
 
     /**
      * @author Zholaman Zhumanov
@@ -132,7 +148,7 @@ function FilterBottomPanel(props) {
             const priceTo = queryFilterData.find((filter) => filter?.[0] === priceToValue)
 
 
-            const filteredData = filterDataByType(filterAllData, "type");
+            const filteredData = filterDataByType(filterCtgAllData, "type");
 
             const generatePriceItem = (price, priceValue) => {
                 return {
@@ -166,8 +182,12 @@ function FilterBottomPanel(props) {
         } catch (error) {
             errorHandler("FilterBottomPanel", "func - filteringAllData", error)
         }
-    }, [filterAllData, queryFilterData])
+    }, [filterCtgAllData, queryFilterData])
 
+    /**
+     * @author Zholaman Zhumanov
+     * @description Выполнение анимации для список фильтра
+     */
     useEffect(() => {
         if (queryFilterData.length > 0) {
             timerAnimateTriggerRef.current = setTimeout(() => {
@@ -211,7 +231,7 @@ function FilterBottomPanel(props) {
                                             value: filterValue
                                         })
 
-                                        sendFilterQuery({
+                                        filterSend({
                                             key: filterKey,
                                             value: filterValue || filterValueNameType
                                         }, true)
@@ -247,27 +267,27 @@ function FilterBottomPanel(props) {
                     <Button
                         type={'primary_animate'}
                         onClick={switchBtnOnClick}
-                        animateActive={catalogContent === 'list'}
+                        animateActive={catalogType === 'list'}
                         style={{
                             fontSize: "13px",
                             lineHeight: "18.2px",
                             height: '33px'
                         }}
                     >
-                        <i className={`${styles['icon']} ${catalogContent === "list" ? styles['invert_icon'] : ''} ${styles['icon_list']}`}/>
+                        <i className={`${styles['icon']} ${catalogType === "list" ? styles['invert_icon'] : ''} ${styles['icon_list']}`}/>
                     </Button>
 
                     <Button
                         type={'primary_animate'}
                         onClick={switchBtnOnClick}
-                        animateActive={catalogContent === 'map'}
+                        animateActive={catalogType === 'map'}
                         style={{
                             fontSize: "13px",
                             lineHeight: "18.2px",
                             height: '33px'
                         }}
                     >
-                        <i className={`${styles['icon']} ${catalogContent === "map" ? styles['invert_icon'] : ''} ${styles['icon_marker']}`}/>
+                        <i className={`${styles['icon']} ${catalogType === "map" ? styles['invert_icon'] : ''} ${styles['icon_marker']}`}/>
                     </Button>
                 </div>
             </div>

@@ -13,6 +13,7 @@ import FilterDistrict from "../filterTypes/FilterDistrict";
 import useDebounce from "@/shared/hooks/model/useDebounce";
 import {useAppSelector} from "@/entities/store/hooks/hooks";
 import FilterResidence from "../filterTypes/FilterResidence";
+import useGetMinMaxPrice from "../../../lib/useGetMinMaxPrice";
 import {useApiRequest, useDispatchHandler} from "@/shared/hooks";
 import {errorHandler} from "@/entities/errorHandler/errorHandler";
 import FilterPropertyType from "../filterTypes/FilterPropertyType";
@@ -29,13 +30,13 @@ function FilterList(props) {
     const {
         i18n,
         clearSelects,
-        getMinMaxPrices,
-        getApartmentData,
         setApiFiltersHandle,
         setFilterQueryHandle,
     } = props
 
     const app = useDispatchHandler()
+
+    const getMinMaxPrices = useGetMinMaxPrice()
 
     const {apiFetchHandler, loading} = useApiRequest()
 
@@ -211,7 +212,6 @@ function FilterList(props) {
                 loading={loading}
                 filterType={"districts"}
                 clearSelect={clearSelects}
-                getApartmentData={getApartmentData}
                 filterApi={apiGetFilterDistrictList}
                 filterData={filterDistrictStaticData}
                 assemblyFilter={setFilterQueryHandle}
@@ -230,7 +230,6 @@ function FilterList(props) {
                     clearSelect={clearSelects}
                     filterApiParams={filterCtgQueriesData}
                     value={filterCtgQueriesData?.["residence"]}
-                    getApartmentData={getApartmentData}
                     assemblyFilter={setFilterQueryHandle}
                     filterApi={apiGetFilterResidenceList}
                     filterData={filterResidenceStaticData}
@@ -244,13 +243,12 @@ function FilterList(props) {
                 loading={loading}
                 filterType={"rooms"}
                 clearSelect={clearSelects}
-                value={filterCtgQueriesData?.["rooms"]}
-                filterApiParams={filterCtgQueriesData}
                 filterApi={apiGetFilterRoomsList}
                 filterData={filterRoomsStaticData}
-                getApartmentData={getApartmentData}
                 assemblyFilter={setFilterQueryHandle}
+                filterApiParams={filterCtgQueriesData}
                 assemblyFilterApi={setApiFiltersHandle}
+                value={filterCtgQueriesData?.["rooms"]}
                 placeholder={i18n?.["site.roominess.title"]}
             />
 
@@ -259,13 +257,12 @@ function FilterList(props) {
                 loading={loading}
                 clearSelect={clearSelects}
                 filterType={"property_types"}
-                filterApiParams={filterCtgQueriesData}
-                getApartmentData={getApartmentData}
                 assemblyFilter={setFilterQueryHandle}
-                value={filterCtgQueriesData?.["property_types"]}
+                filterApiParams={filterCtgQueriesData}
                 assemblyFilterApi={setApiFiltersHandle}
                 filterApi={apiGetFilterPropertyTypeList}
                 filterData={filterPropertyTypeStaticData}
+                value={filterCtgQueriesData?.["property_types"]}
                 placeholder={i18n?.["site.property.type.title"]}
             />
 
@@ -278,7 +275,6 @@ function FilterList(props) {
                 filterApi={apiGetFilterTagsList}
                 filterData={filterTagStaticData}
                 filterApiParams={filterCtgQueriesData}
-                getApartmentData={getApartmentData}
                 assemblyFilter={setFilterQueryHandle}
                 assemblyFilterApi={setApiFiltersHandle}
                 placeholder={i18n?.["site.tags.title"]}

@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import {ButtonArrow} from "@/shared/uikit/button";
 import {NewsCard} from "@/shared/uikit/cards/newsCard";

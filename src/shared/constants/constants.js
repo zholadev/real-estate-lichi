@@ -45,7 +45,8 @@ export const IMG = {
     "posterAboutPage": posterAboutPage,
     "templateMapCard": templateMapCard,
     "templateMapPopup": templateMapPopup,
-    "posterDubaiMainSm": posterDubaiMainSm
+    "posterDubaiMainSm": posterDubaiMainSm,
+    "template": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzY4IiBoZWlnaHQ9IjEwMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiA8Zz4KICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiA8L2c+Cgo8L3N2Zz4="
 }
 
 import swiperArrowLeftIcon from '../../../public/images/icons/swiper-arrow-left.svg'

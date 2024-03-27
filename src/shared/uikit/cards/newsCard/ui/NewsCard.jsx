@@ -1,10 +1,9 @@
-
-
 import React from 'react';
 import Link from "next/link";
 import styles from '@/styles/ui-card-news.module.sass'
 import {mediaImgSrc} from "@/shared/constants/options";
 import Image from "next/image";
+import {IMG} from "@/shared/constants/constants";
 
 /**
  * @author Zholaman Zhumanov
@@ -16,16 +15,21 @@ import Image from "next/image";
 function NewsCard(props) {
     const {i18n, descripOff, newsData, id} = props
 
+    const photoUrl = newsData?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"]
+    const photoHash = newsData?.["images"]?.["data"]?.["attributes"]?.["hash"];
+
     return (
         <div className={styles['news_card']}>
             <div className={styles['img']}>
                 <Link href={`/news/${id}`}>
                     <Image
-                        src={mediaImgSrc(newsData?.["images"]?.["data"]?.[0]?.["attributes"]?.["url"])}
+                        src={mediaImgSrc(photoUrl)}
                         alt={newsData?.["title"]}
                         priority={true}
                         width={1024}
                         height={768}
+                        placeholder={'blur'}
+                        blurDataURL={IMG.template}
                     />
                 </Link>
             </div>
