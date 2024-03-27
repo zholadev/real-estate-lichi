@@ -37,6 +37,12 @@ export const filterCatalogSlice = createSlice({
         filterCtgResidenceDataReducer: (state, action) => {
             state.filterCtgResidenceData = action.payload;
         },
+        filterCtgObjectQueriesClearReducer: (state, action) => {
+            state.filterCtgObjectQueries = {}
+        },
+        filterCtgQueriesDataClearReducer: (state, action) => {
+            state.filterCtgQueriesData = {}
+        },
         filterCtgObjectQueriesReducer: (state, action) => {
             state.filterCtgObjectQueries = extractSetFilter(state.filterCtgObjectQueries, action.payload?.key, action.payload?.value, true);
         },
@@ -62,5 +68,7 @@ export const {
     filterCtgResidenceDataReducer,
     filterCtgQueriesDataReducer,
     filterCtgApiQueriesDataReducer,
-    filterCtgQueriesDataFillReducer
+    filterCtgQueriesDataFillReducer,
+    filterCtgQueriesDataClearReducer,
+    filterCtgObjectQueriesClearReducer
 } = filterCatalogSlice.actions;

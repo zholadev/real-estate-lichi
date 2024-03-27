@@ -1,5 +1,3 @@
-
-
 import React, {useCallback, useEffect, useState} from 'react';
 import styles from "@/styles/ui-tabs.module.sass";
 import {MotionTextUnderLine} from "@/shared/uikit/motion";
@@ -24,17 +22,9 @@ function Tabs(props) {
     const toggleTab = useCallback((value) => {
         try {
             setTab(value)
-            if (onClick) {
-                onClick(value)
-            }
-
-            if (onClickEvent) {
-                onClickEvent()
-            }
-
-            if (url) {
-                router.replace(url)
-            }
+            if (onClick) onClick(value)
+            if (onClickEvent) onClickEvent()
+            if (url) router.replace(url)
         } catch (error) {
             console.log(`page: catalog, event: toggleTab, error: ${error}`)
         }

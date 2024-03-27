@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo} from 'react';
-import {StoreProvider} from "@/entities/store";
+import {useRouter} from "next/router";
 import {useSearchParams} from "next/navigation";
 import styles from '@/styles/catalog-products.module.sass'
 import {useAppSelector} from "@/entities/store/hooks/hooks";
@@ -23,10 +23,13 @@ function CatalogContainer(props) {
         apartmentListData = [],
         apartmentMetaData = [],
         residenceMetaData = [],
-        pageParams = {}
     } = props
 
-    const query = useSearchParams()
+    const router = useRouter()
+
+    const {query} = router
+
+    const searchQuery = useSearchParams()
 
     const {apiFetchHandler, loading} = useApiRequest()
 
@@ -39,7 +42,10 @@ function CatalogContainer(props) {
         catalogResidenceMapData
     } = useAppSelector(state => state?.catalog)
 
-    const isResidential = query.get('type') === 'residential_complex' || catalogType === 'residential_complex';
+    const isResidential = searchQuery.get('type') === 'residential_complex' || catalogContent === 'residential_complex';
+
+    console.log("catalogContent", catalogContent)
+    console.log("catalogType", catalogType)
 
     const tabData = useMemo(() => {
         try {
@@ -79,15 +85,16 @@ function CatalogContainer(props) {
     }
 
     const fetchResidenceData = async () => {
+        if (catalogType !== 'map') return
         await apiFetchHandler(
             apiGetResidentialData,
             [
-                pageParams?.["page"],
+                query?.["page"],
                 {
                     "pagination[limit]": -1,
                     "fields[0]": "name",
                     "sort[0]": "createdAt:desc",
-                    ...queryParamsSet(pageParams)
+                    ...queryParamsSet(query)
                 }
             ],
             false,
@@ -100,17 +107,18 @@ function CatalogContainer(props) {
     }
 
     const fetchApartmentData = async () => {
+        if (catalogType !== 'map') return
         await apiFetchHandler(
             apiGetApartmentsData,
             [
-                pageParams?.["page"],
+                query?.["page"],
                 {
                     "pagination[limit]": -1,
                     "fields[0]": "name",
                     "fields[1]": "price",
                     "fields[2]": "an_initial_fee",
                     "sort[0]": "createdAt:desc",
-                    ...pageParams
+                    ...query
                 }
             ],
             false,
@@ -125,39 +133,34 @@ function CatalogContainer(props) {
     useEffect(() => {
         fetchResidenceData()
         fetchApartmentData()
-    }, [pageParams]);
+    }, [query]);
 
     return (
-        <StoreProvider>
-            <div className={styles['catalog_products_list']}>
-                <div className={'container_md mb-15'}>
-                    <Filter
+        <div className={styles['catalog_products_list']}>
+            <div className={'container_md mb-15'}>
+                <Filter
+                    i18n={i18n}
+                    tabData={tabData}
+                />
+            </div>
+            {catalogType === 'map' ? (
+                <CatalogMapProducts
+                    i18n={i18n}
+                    loading={loading}
+                    redirectTo={isResidential ? 'residence' : 'apartment'}
+                    mapData={isResidential ? catalogResidenceMapData : catalogObjectMapData}
+                />
+            ) : (
+                <div className={'container_md'}>
+                    <CatalogProducts
                         i18n={i18n}
-                        tabData={tabData}
-                        apartmentListData={apartmentListData}
+                        redirectTo={isResidential ? 'residence' : 'apartment'}
+                        metaData={isResidential ? residenceMetaData : apartmentMetaData}
+                        catalogData={isResidential ? residenceListData : apartmentListData}
                     />
                 </div>
-                {catalogContent === 'map' ? (
-                    <CatalogMapProducts
-                        i18n={i18n}
-                        loading={loading}
-                        pageParams={pageParams}
-                        redirectTo={isResidential ? 'residence' : 'apartment'}
-                        mapData={isResidential ? catalogResidenceMapData : catalogObjectMapData}
-                    />
-                ) : (
-                    <div className={'container_md'}>
-                        <CatalogProducts
-                            i18n={i18n}
-                            pageParams={pageParams}
-                            redirectTo={isResidential ? 'residence' : 'apartment'}
-                            metaData={isResidential ? residenceMetaData : apartmentMetaData}
-                            catalogData={isResidential ? residenceListData : apartmentListData}
-                        />
-                    </div>
-                )}
-            </div>
-        </StoreProvider>
+            )}
+        </div>
     );
 }
 

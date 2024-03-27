@@ -26,17 +26,19 @@ import {
     filterCtgAllDataReducer,
     filterCtgApiQueriesDataReducer,
     filterCtgClearReducer,
-    filterCtgObjectDataReducer,
+    filterCtgObjectDataReducer, filterCtgObjectQueriesClearReducer,
     filterCtgObjectQueriesReducer,
     filterCtgPriceFromReducer,
-    filterCtgPriceValueReducer,
+    filterCtgPriceValueReducer, filterCtgQueriesDataClearReducer,
     filterCtgQueriesDataFillReducer,
     filterCtgQueriesDataReducer,
     filterCtgResidenceDataReducer,
     filterCtgSidebarReducer
 } from "@/entities/store/model/reducers/filterCatalog";
 import {
-    filterDistrictStaticDataReducer, filterPropertyTypeStaticDataReducer, filterResidenceStaticDataReducer,
+    filterDistrictStaticDataReducer,
+    filterPropertyTypeStaticDataReducer,
+    filterResidenceStaticDataReducer,
     filterRoomsStaticDataReducer,
     filterTagStaticDataReducer
 } from "@/entities/store/model/reducers/filterData";
@@ -74,7 +76,7 @@ function useDispatchHandler() {
 
         /**
          * @author Zholaman Zhumanov
-         * @description catalog actions
+         * @description filter actions
          * @return {*}
          * @param value
          */
@@ -89,6 +91,8 @@ function useDispatchHandler() {
         filterCtgQueriesDataAction: (value) => dispatch(filterCtgQueriesDataReducer(value)),
         filterCtgQueriesDataFillAction: (value) => dispatch(filterCtgQueriesDataFillReducer(value)),
         filterCtgApiQueriesDataAction: (value) => dispatch(filterCtgApiQueriesDataReducer(value)),
+        filterCtgQueriesDataClearAction: (value) => dispatch(filterCtgQueriesDataClearReducer(value)),
+        filterCtgObjectQueriesClearAction: (value) => dispatch(filterCtgObjectQueriesClearReducer(value)),
 
         /**
          * @author Zholaman Zhumanov

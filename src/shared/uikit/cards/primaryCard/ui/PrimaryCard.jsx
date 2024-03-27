@@ -5,6 +5,7 @@ import styles from '@/styles/ui-card-primary.module.sass'
 import Link from "next/link";
 import {mediaImgSrc} from "@/shared/constants/options";
 import Image from "next/image";
+import {IMG} from "@/shared/constants/constants";
 
 /**
  * @author Zholaman Zhumanov
@@ -16,16 +17,21 @@ import Image from "next/image";
 function PrimaryCard(props) {
     const {cardData} = props
 
+    const photoUrl = cardData?.["attributes"]?.["photo_preview"]?.["item"]?.["data"]?.["attributes"]?.["url"]
+    const photoHash = cardData?.["attributes"]?.["photo_preview"]?.["item"]?.["data"]?.["attributes"]?.["hash"];
+
     return (
         <div className={styles['ui_card_primary']}>
             <div className={styles['card_photo']}>
                 <Link href={`/catalog/apartment/${cardData?.["id"]}`}>
                     <Image
-                        src={mediaImgSrc(`${cardData?.["attributes"]?.["photo_preview"]?.["item"]?.["data"]?.["attributes"]?.["url"]}`)}
+                        src={mediaImgSrc(photoUrl)}
                         alt={cardData?.["attributes"]?.["name"]}
                         priority={true}
                         width={1024}
                         height={768}
+                        placeholder={'blur'}
+                        blurDataURL={IMG.template}
                     />
                 </Link>
             </div>

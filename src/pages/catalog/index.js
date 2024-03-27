@@ -3,14 +3,9 @@ import {Breadcrumbs} from "@/entities/breadcrumbs";
 import {globalProps} from "@/entities/globalProps";
 import {CatalogContainer} from "@/components/catalog";
 import {apiGetApartmentsData, apiGetResidentialData} from "@/shared/services/clientRequests";
-import {useRouter} from "next/router";
 
 function Catalog(props) {
     const {i18n, residenceListData, apartmentListData} = props
-
-    const router = useRouter()
-
-    const {query} = router
 
     return (
         <div className={"page_top_size"}>
@@ -19,7 +14,6 @@ function Catalog(props) {
             </div>
             <CatalogContainer
                 i18n={i18n}
-                pageParams={query}
                 residenceListData={residenceListData?.["data"]}
                 apartmentListData={apartmentListData?.["data"]}
                 residenceMetaData={residenceListData?.["meta"]}

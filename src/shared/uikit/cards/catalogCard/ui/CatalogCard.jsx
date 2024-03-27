@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import Link from "next/link";
 import Image from "next/image";
@@ -8,6 +6,7 @@ import {ButtonArrow} from "@/shared/uikit/button";
 import stylesTag from "@/styles/ui-tags.module.sass";
 import {mediaImgSrc} from "@/shared/constants/options";
 import styles from '@/styles/ui-catalog-card.module.sass'
+import {IMG} from "@/shared/constants/constants";
 
 /**
  * @author Zholaman Zhumanov
@@ -24,6 +23,7 @@ function CatalogCard(props) {
     const tagsData = cardDataInfo?.["tags"]?.["data"] || {};
     const cardUrl = `/catalog/${redirectUrl}/${cardData?.["id"]}`;
     const photoUrl = cardDataInfo?.["photo_preview"]?.["item"]?.["data"]?.["attributes"]?.["url"];
+    const photoHash = cardDataInfo?.["photo_preview"]?.["item"]?.["data"]?.["attributes"]?.["hash"];
 
     return (
         <div className={styles['ui_catalog_card']}>
@@ -35,6 +35,8 @@ function CatalogCard(props) {
                         priority={true}
                         width={1024}
                         height={768}
+                        placeholder={'blur'}
+                        blurDataURL={IMG.template}
                     />
                 </Link>
             </div>
@@ -66,12 +68,12 @@ function CatalogCard(props) {
                             }
                         </ul>
                     </div>
-                   <div className={styles['redirect_btn']}>
-                       <ButtonArrow
-                           title={i18n?.["site"]?.["more"]}
-                           url={cardUrl}
-                       />
-                   </div>
+                    <div className={styles['redirect_btn']}>
+                        <ButtonArrow
+                            title={i18n?.["site"]?.["more"]}
+                            url={cardUrl}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
