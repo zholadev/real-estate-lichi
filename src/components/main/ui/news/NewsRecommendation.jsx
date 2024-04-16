@@ -11,7 +11,7 @@ import {CustomerNewsContent} from "@/shared/customerContent";
  * @constructor
  */
 function NewsRecommendation(props) {
-    const {i18n, newsData} = props
+    const {i18n, newsData = []} = props
 
     return (
         Object.values(newsData || {}).length > 0 &&

@@ -44,9 +44,6 @@ function CatalogContainer(props) {
 
     const isResidential = searchQuery.get('type') === 'residential_complex' || catalogContent === 'residential_complex';
 
-    console.log("catalogContent", catalogContent)
-    console.log("catalogType", catalogType)
-
     const tabData = useMemo(() => {
         try {
             return [

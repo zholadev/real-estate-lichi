@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import styles from '@/styles/main.module.sass'
 import {PrimaryCard} from "@/shared/uikit/cards/primaryCard";
@@ -16,7 +14,7 @@ import {ButtonArrow} from "@/shared/uikit/button";
  * @constructor
  */
 function PropertyList(props) {
-    const {i18n, col, title, data, url} = props
+    const {i18n = {}, col = 3, title = '', data = {}, url} = props
 
     const apartmentData = Object.values(data || {})
 

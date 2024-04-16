@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import styles from '@/styles/about-page.module.sass'
 
@@ -14,7 +12,7 @@ function AboutTopContent(props) {
     const {i18n} = props
 
     return (
-        <div className={styles['page_top_content']}>
+        <article className={styles['page_top_content']}>
             <p className={styles['left_content']}>
                 <span>{i18n?.["page.about.description.company"]}</span>
             </p>
@@ -22,7 +20,7 @@ function AboutTopContent(props) {
             <p className={styles['right_content']}>
                 <span>{i18n?.["page.about.description.estate"]}</span>
             </p>
-        </div>
+        </article>
     );
 }
 
