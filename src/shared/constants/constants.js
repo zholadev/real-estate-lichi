@@ -80,3 +80,8 @@ export const PAGE = {
         "faqHeaderBg": faqHeaderBg
     }
 }
+
+
+export const VIDEO = {
+    "about": "https://player.vimeo.com/progressive_redirect/playback/874039776/rendition/1080p/file.mp4?loc=external&signature=cc804aaf80eba66e6f6bbd2eed97b146920769d3d4a7d4c1fc002a1e852d0510"
+}
