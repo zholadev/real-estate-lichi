@@ -25,10 +25,18 @@ export const filterDataSlice = createSlice({
         filterPropertyTypeStaticDataReducer: (state, action) => {
             state.filterPropertyTypeStaticData = action.payload;
         },
+        filterDataClearStateReducer: (state) => {
+            state.filterTagStaticData = []
+            state.filterRoomsStaticData = []
+            state.filterDistrictStaticData = []
+            state.filterResidenceStaticData = []
+            state.filterPropertyTypeStaticData = []
+        }
     },
 });
 export const {
     filterTagStaticDataReducer,
+    filterDataClearStateReducer,
     filterRoomsStaticDataReducer,
     filterDistrictStaticDataReducer,
     filterResidenceStaticDataReducer,

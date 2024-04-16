@@ -22,10 +22,17 @@ export const catalogSlice = createSlice({
         catalogResidenceMapDataReducer: (state, action) => {
             state.catalogResidenceMapData = action.payload;
         },
+        catalogStateReducer: (state, action) => {
+            state.catalogType = "list"
+            state.catalogContent = "apartments"
+            state.catalogObjectMapData = []
+            state.catalogResidenceMapData = []
+        }
     },
 });
 export const {
     catalogTypeReducer,
+    catalogStateReducer,
     catalogContentReducer,
     catalogObjectMapDataReducer,
     catalogResidenceMapDataReducer,

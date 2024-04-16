@@ -33,11 +33,10 @@ function Tabs(props) {
     useEffect(() => {
         if (tabDataValues.length === 0) return
         if (!tab) {
-            const defaultName = tabDataValues[0]?.["name"];
-            setTab(defaultName)
-            onClick(defaultName)
+            setTab(defaultValue)
+            onClick(defaultValue)
         }
-    }, [tab]);
+    }, [tab, defaultValue]);
 
     if (tabDataValues.length === 0) {
         return null
