@@ -1,11 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Breadcrumbs} from "@/entities/breadcrumbs";
 import {globalProps} from "@/entities/globalProps";
 import {CatalogContainer} from "@/components/catalog";
 import {apiGetApartmentsData, apiGetResidentialData} from "@/shared/services/clientRequests";
+import {useDispatchHandler} from "@/shared/hooks";
 
 function Catalog(props) {
     const {i18n, residenceListData, apartmentListData} = props
+
+    const app = useDispatchHandler()
+
+    useEffect(() => {
+        return () => {
+            app.catalogStateAction()
+            app.filterCtgClearStatesAction()
+            app.filterDataClearStateAction()
+        }
+    }, []);
 
     return (
         <div className={"page_top_size"}>
@@ -31,11 +42,8 @@ export async function getServerSideProps(context) {
             try {
                 const newObject = {}
 
-                // Проходимся по всем ключам оригинального объекта
                 Object.keys(data).forEach((key) => {
-                    // Создаем новый ключ, добавляя 'apartments'
                     const newKey = key.replace('filters[', 'filters[apartments][');
-                    // Устанавливаем новый ключ с оригинальным значением в новый объект
                     newObject[newKey] = data[key];
                 })
 

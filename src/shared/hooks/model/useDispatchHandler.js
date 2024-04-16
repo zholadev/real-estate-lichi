@@ -19,23 +19,27 @@ import {
 import {
     catalogContentReducer,
     catalogObjectMapDataReducer,
-    catalogResidenceMapDataReducer,
+    catalogResidenceMapDataReducer, catalogStateReducer,
     catalogTypeReducer
 } from "@/entities/store/model/reducers/catalog";
 import {
     filterCtgAllDataReducer,
     filterCtgApiQueriesDataReducer,
     filterCtgClearReducer,
-    filterCtgObjectDataReducer, filterCtgObjectQueriesClearReducer,
+    filterCtgClearStatesReducer,
+    filterCtgObjectDataReducer,
+    filterCtgObjectQueriesClearReducer,
     filterCtgObjectQueriesReducer,
     filterCtgPriceFromReducer,
-    filterCtgPriceValueReducer, filterCtgQueriesDataClearReducer,
+    filterCtgPriceValueReducer,
+    filterCtgQueriesDataClearReducer,
     filterCtgQueriesDataFillReducer,
     filterCtgQueriesDataReducer,
     filterCtgResidenceDataReducer,
     filterCtgSidebarReducer
 } from "@/entities/store/model/reducers/filterCatalog";
 import {
+    filterDataClearStateReducer,
     filterDistrictStaticDataReducer,
     filterPropertyTypeStaticDataReducer,
     filterResidenceStaticDataReducer,
@@ -73,6 +77,7 @@ function useDispatchHandler() {
         filterDistrictStaticDataAction: (data) => dispatch(filterDistrictStaticDataReducer(data)),
         filterResidenceStaticDataAction: (data) => dispatch(filterResidenceStaticDataReducer(data)),
         filterPropertyTypeStaticDataAction: (data) => dispatch(filterPropertyTypeStaticDataReducer(data)),
+        filterDataClearStateAction: (data) => dispatch(filterDataClearStateReducer(data)),
 
         /**
          * @author Zholaman Zhumanov
@@ -93,6 +98,7 @@ function useDispatchHandler() {
         filterCtgApiQueriesDataAction: (value) => dispatch(filterCtgApiQueriesDataReducer(value)),
         filterCtgQueriesDataClearAction: (value) => dispatch(filterCtgQueriesDataClearReducer(value)),
         filterCtgObjectQueriesClearAction: (value) => dispatch(filterCtgObjectQueriesClearReducer(value)),
+        filterCtgClearStatesAction: (value) => dispatch(filterCtgClearStatesReducer(value)),
 
         /**
          * @author Zholaman Zhumanov
@@ -101,6 +107,7 @@ function useDispatchHandler() {
          * @param value
          */
         catalogTypeAction: (value) => dispatch(catalogTypeReducer(value)),
+        catalogStateAction: (value) => dispatch(catalogStateReducer(value)),
         catalogContentAction: (value) => dispatch(catalogContentReducer(value)),
         catalogObjectMapDataAction: (data) => dispatch(catalogObjectMapDataReducer(data)),
         catalogResidenceMapDataAction: (data) => dispatch(catalogResidenceMapDataReducer(data)),

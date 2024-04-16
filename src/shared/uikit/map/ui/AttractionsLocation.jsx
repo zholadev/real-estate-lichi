@@ -65,7 +65,7 @@ function AttractionsLocation(props) {
 
     return (
         <div className={styles['attractions_map_container']}>
-            <h2>{i18n?.["site"]?.["in_map_title"]}</h2>
+            {/*<h2>{i18n?.["site"]?.["in_map_title"]}</h2>*/}
 
             <div className={styles['attractions_content']}>
                 <div className={styles['map_info']}>

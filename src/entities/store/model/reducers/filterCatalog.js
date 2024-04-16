@@ -55,6 +55,18 @@ export const filterCatalogSlice = createSlice({
         filterCtgApiQueriesDataReducer: (state, action) => {
             state.filterCtgApiQueriesData = action.payload;
         },
+        filterCtgClearStatesReducer: (state, action) => {
+            state.filterCtgPriceFrom = null
+            state.filterCtgPriceValue = ''
+            state.filterCtgAllData = []
+            state.filterCtgSidebar = false
+            state.filterCtgClear = "fill"
+            state.filterCtgObjectQueries = {}
+            state.filterCtgObjectData = []
+            state.filterCtgResidenceData = []
+            state.filterCtgQueriesData = {}
+            state.filterCtgApiQueriesData = {"filters[apartments][name][$notNull]": true}
+        }
     },
 });
 export const {
@@ -65,6 +77,7 @@ export const {
     filterCtgClearReducer,
     filterCtgObjectQueriesReducer,
     filterCtgObjectDataReducer,
+    filterCtgClearStatesReducer,
     filterCtgResidenceDataReducer,
     filterCtgQueriesDataReducer,
     filterCtgApiQueriesDataReducer,
